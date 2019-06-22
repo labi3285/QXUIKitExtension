@@ -13,15 +13,6 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        var a = "abc"
-        
-        a = a.qxSubStringWithoutPrefix("a")
-        
-        print(a)
-        
-
-        
-        
         // Do any additional setup after loading the view.
     }
 
