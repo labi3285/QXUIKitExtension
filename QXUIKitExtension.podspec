@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
 s.name         = "QXUIKitExtension"
-s.version      = "0.0.2"
+s.version      = "0.0.1"
 s.summary      = "UKit extensions in swift."
 s.description  = <<-DESC
 UKit extensions in swift. Just enjoy!
