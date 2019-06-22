@@ -15,6 +15,8 @@ public enum QXColor {
     case rgb(_ r: UInt8, _ g: UInt8, _ b: UInt8, _ a: UInt8)
     /// image:(QXImage)
     case image(_ image: QXImage)
+    /// uiColor:(UIColor)
+    case uiColor(_ uiColor: UIColor)
 }
 
 extension QXColor {
@@ -41,6 +43,8 @@ extension QXColor {
             } else {
                 fatalError("Only local image can be used here currently!")
             }
+        case .uiColor(let c):
+            return c
         }
     }
     
