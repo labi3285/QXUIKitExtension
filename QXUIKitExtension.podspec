@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
 s.name         = "QXUIKitExtension"
-s.version      = "0.0.2"
+s.version      = "0.0.3"
 s.summary      = "UKit extensions in swift."
 s.description  = <<-DESC
 UKit extensions in swift. Just enjoy!
@@ -11,7 +11,7 @@ s.license      = "MIT"
 s.author       = { "labi3285" => "766043285@qq.com" }
 s.platform     = :ios, "10.0"
 s.source       = { :git => "https://github.com/labi3285/QXUIKitExtension.git", :tag => "#{s.version}" }
-s.source_files  = "QXUIKitExtension/QXUIKitExtension/*.swift"
+s.source_files  = "QXUIKitExtension/QXUIKitExtension/"
 s.requires_arc = true
 
 end
