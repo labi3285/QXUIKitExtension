@@ -13,9 +13,7 @@
 		75622EBF22BE3DAB0035093D /* UIFont_ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75622EBE22BE3DAB0035093D /* UIFont_ext.swift */; };
 		756A50A522BDF9FD00E692DA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 756A50A422BDF9FD00E692DA /* AppDelegate.swift */; };
 		756A50A722BDF9FD00E692DA /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 756A50A622BDF9FD00E692DA /* ViewController.swift */; };
-		756A50AA22BDF9FD00E692DA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 756A50A822BDF9FD00E692DA /* Main.storyboard */; };
 		756A50AC22BDF9FE00E692DA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 756A50AB22BDF9FE00E692DA /* Assets.xcassets */; };
-		756A50AF22BDF9FE00E692DA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 756A50AD22BDF9FE00E692DA /* LaunchScreen.storyboard */; };
 		756A50B822BDFA3B00E692DA /* QXColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 756A50B722BDFA3B00E692DA /* QXColor.swift */; };
 		756A50BA22BDFABF00E692DA /* QXImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 756A50B922BDFABF00E692DA /* QXImage.swift */; };
 		756A50BC22BDFCB800E692DA /* String_ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 756A50BB22BDFCB800E692DA /* String_ext.swift */; };
@@ -32,9 +30,7 @@
 		756A50A122BDF9FD00E692DA /* QXUIKitExtension.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = QXUIKitExtension.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		756A50A422BDF9FD00E692DA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		756A50A622BDF9FD00E692DA /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		756A50A922BDF9FD00E692DA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		756A50AB22BDF9FE00E692DA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		756A50AE22BDF9FE00E692DA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		756A50B022BDF9FE00E692DA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		756A50B722BDFA3B00E692DA /* QXColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QXColor.swift; sourceTree = "<group>"; };
 		756A50B922BDFABF00E692DA /* QXImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QXImage.swift; sourceTree = "<group>"; };
@@ -87,9 +83,7 @@
 				756A50B622BDFA1600E692DA /* QXUIKitExtension */,
 				756A50A422BDF9FD00E692DA /* AppDelegate.swift */,
 				756A50A622BDF9FD00E692DA /* ViewController.swift */,
-				756A50A822BDF9FD00E692DA /* Main.storyboard */,
 				756A50AB22BDF9FE00E692DA /* Assets.xcassets */,
-				756A50AD22BDF9FE00E692DA /* LaunchScreen.storyboard */,
 				756A50B022BDF9FE00E692DA /* Info.plist */,
 			);
 			path = QXUIKitExtension;
@@ -168,9 +162,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				756A50AF22BDF9FE00E692DA /* LaunchScreen.storyboard in Resources */,
 				756A50AC22BDF9FE00E692DA /* Assets.xcassets in Resources */,
-				756A50AA22BDF9FD00E692DA /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -197,25 +189,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXVariantGroup section */
-		756A50A822BDF9FD00E692DA /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				756A50A922BDF9FD00E692DA /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-		756A50AD22BDF9FE00E692DA /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				756A50AE22BDF9FE00E692DA /* Base */,
-			);
-			name = LaunchScreen.storyboard;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		756A50B122BDF9FE00E692DA /* Debug */ = {
@@ -341,7 +314,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 4S3D2DBDGU;
 				INFOPLIST_FILE = QXUIKitExtension/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -360,7 +333,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 4S3D2DBDGU;
 				INFOPLIST_FILE = QXUIKitExtension/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

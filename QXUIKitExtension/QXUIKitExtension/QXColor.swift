@@ -49,3 +49,20 @@ extension QXColor {
     }
     
 }
+
+
+extension UIView {
+    
+    public var qxColor: QXColor? {
+        set {
+            backgroundColor = newValue?.uiColor
+        }
+        get {
+            if let color = backgroundColor {
+                return QXColor.uiColor(color)
+            }
+            return nil
+        }
+    }
+    
+}

@@ -12,6 +12,8 @@ public enum QXURL {
     
     case url(_ url: String)
     case file(_ path: String)
+    
+    @available(OSX 10.11, iOS 9.0, *)
     case data(_ data: Data)
     
     public var nsUrl: URL? {
@@ -21,7 +23,11 @@ public enum QXURL {
         case .file(let path):
             return URL(fileURLWithPath: path)
         case .data(let data):
-            return URL(dataRepresentation: data, relativeTo: nil)
+            if #available(iOS 9.0, *) {
+                return URL(dataRepresentation: data, relativeTo: nil)
+            } else {
+                fatalError("support 9.0")
+            }
         }
     }
 }
