@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7553C79022CC9C810058239B /* QXRect.Relation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7553C78D22CC9C810058239B /* QXRect.Relation.swift */; };
+		7553C79122CC9C810058239B /* UIKit_ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7553C78E22CC9C810058239B /* UIKit_ext.swift */; };
+		7553C79222CC9C810058239B /* QXRect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7553C78F22CC9C810058239B /* QXRect.swift */; };
 		75622EBF22BE3DAB0035093D /* UIFont_ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75622EBE22BE3DAB0035093D /* UIFont_ext.swift */; };
 		756A50A522BDF9FD00E692DA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 756A50A422BDF9FD00E692DA /* AppDelegate.swift */; };
 		756A50A722BDF9FD00E692DA /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 756A50A622BDF9FD00E692DA /* ViewController.swift */; };
@@ -22,6 +25,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		7553C78D22CC9C810058239B /* QXRect.Relation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QXRect.Relation.swift; sourceTree = "<group>"; };
+		7553C78E22CC9C810058239B /* UIKit_ext.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIKit_ext.swift; sourceTree = "<group>"; };
+		7553C78F22CC9C810058239B /* QXRect.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QXRect.swift; sourceTree = "<group>"; };
 		75622EBE22BE3DAB0035093D /* UIFont_ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIFont_ext.swift; sourceTree = "<group>"; };
 		756A50A122BDF9FD00E692DA /* QXUIKitExtension.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = QXUIKitExtension.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		756A50A422BDF9FD00E692DA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -49,6 +55,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		7553C78C22CC9C640058239B /* QXRect */ = {
+			isa = PBXGroup;
+			children = (
+				7553C78D22CC9C810058239B /* QXRect.Relation.swift */,
+				7553C78F22CC9C810058239B /* QXRect.swift */,
+				7553C78E22CC9C810058239B /* UIKit_ext.swift */,
+			);
+			path = QXRect;
+			sourceTree = "<group>";
+		};
 		756A509822BDF9FD00E692DA = {
 			isa = PBXGroup;
 			children = (
@@ -82,6 +98,7 @@
 		756A50B622BDFA1600E692DA /* QXUIKitExtension */ = {
 			isa = PBXGroup;
 			children = (
+				7553C78C22CC9C640058239B /* QXRect */,
 				756A50B722BDFA3B00E692DA /* QXColor.swift */,
 				756A50B922BDFABF00E692DA /* QXImage.swift */,
 				756A50BD22BE0B1300E692DA /* QXURL.swift */,
@@ -173,6 +190,9 @@
 				756A50B822BDFA3B00E692DA /* QXColor.swift in Sources */,
 				756A50C422BE141E00E692DA /* QXLocation.swift in Sources */,
 				75622EBF22BE3DAB0035093D /* UIFont_ext.swift in Sources */,
+				7553C79122CC9C810058239B /* UIKit_ext.swift in Sources */,
+				7553C79222CC9C810058239B /* QXRect.swift in Sources */,
+				7553C79022CC9C810058239B /* QXRect.Relation.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -20,12 +20,14 @@ class ViewController: UIViewController {
         view.addSubview(label)
         
         label.frame = CGRect(x: 100, y: 100, width: 100, height: 100)
-        label.qxFont = QXFont(size: 40, color: QXColor.hex("#FF0000", 1))
-        label.text = "hello"
-
+        var f = QXFont(size: 40, color: QXColor.hex("#FF0000", 1))
+        f.backColor = QXColor.hex("#ff0000", 1)
+        f.underline = true
+        f.strikethrough = true
+        f.color = QXColor.hex("#0000ff", 1)
         
-        
-        
+        label.qxFont = f
+        label.qxText = "hello"
         
         // Do any additional setup after loading the view.
     }

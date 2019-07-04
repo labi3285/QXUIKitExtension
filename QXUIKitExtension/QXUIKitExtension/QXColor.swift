@@ -32,7 +32,7 @@ extension QXColor {
                 var r: CUnsignedInt = 0, g:CUnsignedInt = 0, b:CUnsignedInt = 0
                 Scanner(string: t.qxSubString(start: 0, end: 1)).scanHexInt32(&r)
                 Scanner(string: t.qxSubString(start: 2, end: 3)).scanHexInt32(&g)
-                Scanner(string: t.qxSubString(start: 4, end: 5)).scanHexInt32(&g)
+                Scanner(string: t.qxSubString(start: 4, end: 5)).scanHexInt32(&b)
                 return UIColor(red: CGFloat(r)/255.0, green: CGFloat(g)/255.0, blue: CGFloat(b)/255.0, alpha: alpha)
             }
         case .rgb(let r, let g, let b, let a):
