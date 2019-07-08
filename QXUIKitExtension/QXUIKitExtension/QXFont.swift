@@ -23,7 +23,7 @@ public struct QXFont {
     /// 字体
     public var fontName: String?
     /// 背景色
-    public var backColor: QXColor?
+    public var backgroundColor: QXColor?
     
     /// 删除线
     public var strikethrough: Bool?
@@ -62,18 +62,41 @@ public struct QXFont {
     /// 段落样式
     public var paragraphStyle: NSParagraphStyle?
     
-    public init(size: CGFloat, color: QXColor, bold: Bool = false, fontName: String? = nil) {
+    public init(size: CGFloat, fontName: String, color: QXColor) {
         self.fontName = fontName
         self.size = size
         self.color = color
+        self.bold = false
+    }
+    
+    public init(size: CGFloat, color: QXColor) {
+        self.size = size
+        self.color = color
+        self.bold = false
+    }
+    
+    public init(_ size: CGFloat, _ bold: Bool, _ formatHex: String) {
+        self.size = size
+        self.color = QXColor.formatHex(formatHex)
         self.bold = bold
+    }
+    
+    /// #ffffff 100%
+    public init(_ size: CGFloat, _ colorFormatHex: String) {
+        self.size = size
+        self.color = QXColor.formatHex(colorFormatHex)
+        self.bold = false
     }
     
     public var uiFont: UIFont? {
         if let fontName = fontName {
             return UIFont(name: fontName, size: size)
         } else {
-            return UIFont.systemFont(ofSize: size)
+            if bold {
+                return UIFont.boldSystemFont(ofSize: size)
+            } else {
+                return UIFont.systemFont(ofSize: size)
+            }
         }
     }
     
@@ -96,7 +119,7 @@ public struct QXFont {
         }
         checkOrAppend(NSAttributedString.Key.font, uiFont)
         checkOrAppend(NSAttributedString.Key.foregroundColor, color.uiColor)
-        checkOrAppend(NSAttributedString.Key.backgroundColor, backColor?.uiColor)
+        checkOrAppend(NSAttributedString.Key.backgroundColor, backgroundColor?.uiColor)
         checkOrAppend(NSAttributedString.Key.obliqueness, bool2Int(obliqueness))
         checkOrAppend(NSAttributedString.Key.strikethroughStyle, bool2Int(strikethrough))
         checkOrAppend(NSAttributedString.Key.strikethroughColor, strikethroughColor?.uiColor)
@@ -118,8 +141,6 @@ public struct QXFont {
     
 }
 
-
-private var kQXFontUILabelAssociateKey:UInt = 3285000001
 extension UILabel {
     
     public var qxText: String? {
@@ -135,23 +156,26 @@ extension UILabel {
         }
     }
     var qxFont: QXFont? {
+        set {
+            objc_setAssociatedObject(self, &UILabel.kQXFontUILabelAssociateKey, newValue, objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+        }
         get {
-            if let qxFont = objc_getAssociatedObject(self, &kQXFontUILabelAssociateKey) as? QXFont {
+            if let qxFont = objc_getAssociatedObject(self, &UILabel.kQXFontUILabelAssociateKey) as? QXFont {
                 return qxFont
             }
             return nil
         }
-        set {
-            objc_setAssociatedObject(self, &kQXFontUILabelAssociateKey, newValue, objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC)
-        }
     }
+    private static var kQXFontUILabelAssociateKey:UInt = 3285000001
 
 }
 
-private var kQXFontUITextViewAssociateKey:UInt = 3285000002
 extension UITextView {
 
     public var qxText: String? {
+        get {
+            return text
+        }
         set {
             if let text = newValue {
                 attributedText = qxFont?.nsAttributtedString(text)
@@ -159,20 +183,19 @@ extension UITextView {
                 attributedText = nil
             }
         }
-        get {
-            return text
-        }
     }
-    var qxFont: QXFont? {
+    
+    public var qxFont: QXFont? {
+        set {
+            objc_setAssociatedObject(self, &UITextView.kQXFontUITextViewAssociateKey, newValue, objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+        }
         get {
-            if let qxFont = objc_getAssociatedObject(self, &kQXFontUITextViewAssociateKey) as? QXFont {
+            if let qxFont = objc_getAssociatedObject(self, &UITextView.kQXFontUITextViewAssociateKey) as? QXFont {
                 return qxFont
             }
             return nil
         }
-        set {
-            objc_setAssociatedObject(self, &kQXFontUITextViewAssociateKey, newValue, objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC)
-        }
     }
+    private static var kQXFontUITextViewAssociateKey:UInt = 3285000002
     
 }

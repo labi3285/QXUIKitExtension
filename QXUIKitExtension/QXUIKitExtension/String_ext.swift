@@ -6,10 +6,42 @@
 //  Copyright © 2019 labi3285_lab. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 extension String {
     
+    public var qxInt: Int? { return Int(self) }
+    public var qxInt8: Int8? { return Int8(self) }
+    public var qxInt16: Int16? { return Int16(self) }
+    public var qxInt32: Int32? { return Int32(self) }
+    public var qxInt64: Int64? { return Int64(self) }
+    
+    public var qxIntValue: Int { return qxInt ?? 0 }
+    public var qxInt8Value: Int8 { return qxInt8 ?? 0 }
+    public var qxInt16Value: Int16 { return qxInt16 ?? 0 }
+    public var qxInt32Value: Int32 { return qxInt32 ?? 0 }
+    public var qxInt64Value: Int64 { return qxInt64 ?? 0 }
+    
+    public var qxUInt: UInt? { return UInt(self) }
+    public var qxUInt8: UInt8? { return UInt8(self) }
+    public var qxUInt16: UInt16? { return UInt16(self) }
+    public var qxUInt32: UInt32? { return UInt32(self) }
+    public var qxUInt64: UInt64? { return UInt64(self) }
+    
+    public var qxUIntValue: UInt { return qxUInt ?? 0 }
+    public var qxUInt8Value: UInt8 { return qxUInt8 ?? 0 }
+    public var qxUInt16Value: UInt16 { return qxUInt16 ?? 0 }
+    public var qxUInt32Value: UInt32 { return qxUInt32 ?? 0 }
+    public var qxUInt64Value: UInt64 { return qxUInt64 ?? 0 }
+    
+    public var qxDouble: Double? { return Double(self) }
+    public var qxFloat: Float? { return Float(self) }
+    public var qxCGFloat: CGFloat? { if let e = Double(self) { return CGFloat(e) }; return nil }
+    
+    public var qxDoubleValue: Double { return qxDouble ?? 0.0 }
+    public var qxFloatValue: Float { return qxFloat ?? 0.0 }
+    public var qxCGFloatValue: CGFloat { return qxCGFloat ?? 0.0 }
+
     public func qxSubStringWithoutPrefix(_ str: String) -> String {
         if hasPrefix(str) {
             return qxSubStringForward(length: count - str.count, jump: str.count)
@@ -42,6 +74,13 @@ extension String {
         let _s = index(startIndex, offsetBy: s)
         let _e = index(startIndex, offsetBy: e)
         return String(self[_s..._e])
+    }
+    
+    public var qxUrlEncodingString: String {
+        var t = self
+        t = t.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed) ?? ""
+        t = t.replacingOccurrences(of: "%23", with: "#")
+        return t
     }
     
 }

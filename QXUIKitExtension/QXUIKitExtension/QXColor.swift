@@ -17,9 +17,46 @@ public enum QXColor {
     case image(_ image: QXImage)
     /// uiColor:(UIColor)
     case uiColor(_ uiColor: UIColor)
+    
+    /// #FFFFFF 100%
+    static func formatHex(_ formatHex: String) -> QXColor {
+        let components = formatHex.components(separatedBy: " ")
+        if components.count == 1 {
+            return .hex(formatHex, 1)
+        } else if components.count == 2 {
+            let hex = components[0]
+            let alpha = components[1].replacingOccurrences(of: "%", with: "").qxCGFloatValue / 100
+            return .hex(hex, alpha)
+        }
+        return QXColor.null
+    }
+    
+    public static var null: QXColor { return QXColor.rgb(0, 0, 0, 0) }
+    public static var red: QXColor { return QXColor.rgb(255, 0, 0, 255) }
+    public static var green: QXColor { return QXColor.rgb(0, 255, 0, 255) }
+    public static var blue: QXColor { return QXColor.rgb(0, 0, 255, 255) }
+    public static var black: QXColor { return QXColor.rgb(0, 0, 0, 255) }
+    public static var white: QXColor { return QXColor.rgb(255, 255, 255, 255) }
+    public static var clear: QXColor { return QXColor.rgb(0, 0, 0, 0) }
+    
+    public static var cyan: QXColor { return QXColor.rgb(0, 255, 255, 255) }
+    public static var yellow: QXColor { return QXColor.rgb(255, 255, 0, 255) }
+    public static var magenta: QXColor { return QXColor.rgb(255, 0, 255, 255) }
+    public static var orange: QXColor { return QXColor.rgb(255, 127, 0, 255) }
+    public static var purple: QXColor { return QXColor.rgb(127, 0, 127, 255) }
+    public static var brown: QXColor { return QXColor.rgb(165, 102, 51, 255) }
+
+    public static var placeHolderGray: QXColor { return QXColor.rgb(187, 187, 187, 255) }
+    public static var backgroundGray: QXColor { return QXColor.rgb(245, 245, 245, 255) }
+    public static var lineGray: QXColor { return QXColor.rgb(238, 238, 238, 255) }
+
 }
 
 extension QXColor {
+    
+    public var uiImage: UIImage {
+        return UIImage.qxCreate(uiColor)
+    }
     
     public var uiColor: UIColor {
         switch self {

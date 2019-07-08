@@ -16,13 +16,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
-        let win = UIWindow(frame: UIScreen.main.bounds)
+        let vc = ViewController()
+        let nav = UINavigationController(rootViewController: vc)
+        let win = UIWindow.qxInitKeyWindow(nav, &window)
         win.backgroundColor = UIColor.white
-        win.rootViewController = ViewController()
-        win.makeKeyAndVisible()
-        window = win
-        
-        // Override point for customization after application launch.
+
         return true
     }
 

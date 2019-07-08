@@ -19,15 +19,16 @@ public enum QXURL {
     public var nsUrl: URL? {
         switch self {
         case .url(let url):
-            return URL(string: url)
+            return URL(string: url.qxUrlEncodingString)
         case .file(let path):
-            return URL(fileURLWithPath: path)
+            return URL(fileURLWithPath: path.qxUrlEncodingString)
         case .data(let data):
             if #available(iOS 9.0, *) {
                 return URL(dataRepresentation: data, relativeTo: nil)
             } else {
-                fatalError("support 9.0")
+                return QXDebugFatalError("support >=9.0", URL(string: ""))
             }
         }
     }
+    
 }

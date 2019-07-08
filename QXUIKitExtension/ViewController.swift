@@ -8,7 +8,36 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class TestVc: QXViewController {
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        title = "xx"
+        view.qxColor = QXColor.backgroundGray
+        navigationBarBackArrowImage = QXImage("icon_back")
+        navigationBarBackItem = QXBarButtonItem.titleItem(title: "x", styles: nil)
+        isNavigationBarLineShow = false
+        navigationBarBackgroundColor = QXColor.green
+        navigationBarTitle = "test"
+        navigationBarTitleFont = QXFont(size: 20, color: QXColor.brown)
+        navigationBarTintColor = QXColor.red
+        isNavigationBarShow = true
+    }
+    
+    @objc func dismiss1() {
+        dismiss(animated: true, completion: nil)
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        navigationController?.qxRemoveViewController(0)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+    }
+}
+
+class ViewController: QXViewController {
 
     lazy var label: UILabel = {
         let one = UILabel()
@@ -17,19 +46,12 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.addSubview(label)
-        
-        label.frame = CGRect(x: 100, y: 100, width: 100, height: 100)
-        var f = QXFont(size: 40, color: QXColor.hex("#FF0000", 1))
-        f.backColor = QXColor.hex("#ff0000", 1)
-        f.underline = true
-        f.strikethrough = true
-        f.color = QXColor.hex("#0000ff", 1)
-        
-        label.qxFont = f
-        label.qxText = "hello"
-        
-        // Do any additional setup after loading the view.
+        navigationBarTitle = "Home"
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        let vc = TestVc()
+        push(vc)
     }
 
 

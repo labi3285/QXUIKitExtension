@@ -10,6 +10,10 @@ import UIKit
 
 extension UIFont {
     
+    public func qxFont(_ color: QXColor) -> QXFont {
+        return QXFont(size: qxSize, color: color)
+    }
+    
     public var qxSize: CGFloat {
         return fontDescriptor.object(forKey: .size) as? CGFloat ?? 0
     }
