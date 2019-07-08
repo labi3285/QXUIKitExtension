@@ -8,7 +8,7 @@
 
 import UIKit
 
-public struct QXFont {
+public class QXFont {
     
     /// 字体大小
     public var size: CGFloat
@@ -19,48 +19,73 @@ public struct QXFont {
     
     /// 是否倾斜
     public var obliqueness: Bool?
-    
+    public func setObliqueness(_ e: Bool?) -> QXFont { obliqueness = e; return self }
+
     /// 字体
     public var fontName: String?
+    public func setFontName(_ e: String?) -> QXFont { fontName = e; return self }
+
     /// 背景色
     public var backgroundColor: QXColor?
-    
+    public func setBackgroundColor(_ e: QXColor?) -> QXFont { backgroundColor = e; return self }
+
     /// 删除线
     public var strikethrough: Bool?
+    public func setStrikethrough(_ e: Bool?) -> QXFont { strikethrough = e; return self }
     /// 删除线颜色
     public var strikethroughColor: QXColor?
+    public func setStrikethroughColor(_ e: QXColor?) -> QXFont { strikethroughColor = e; return self }
 
     /// 下划线颜色
     public var underlineColor: QXColor?
+    public func setUnderlineColor(_ e: QXColor?) -> QXFont { underlineColor = e; return self }
     /// 下划线样式
     public var underline: Bool?
+    public func setUnderline(_ e: Bool?) -> QXFont { underline = e; return self }
 
     /// 描边颜色
     public var strokeColor: QXColor?
+    public func setStrokeColor(_ e: QXColor?) -> QXFont { strokeColor = e; return self }
+
     /// 描边宽度
     public var strokeWidth: CGFloat?
+    public func setStrokeWidth(_ e: CGFloat?) -> QXFont { strokeWidth = e; return self }
+
     /// 字符间隔
     public var kern: CGFloat?
+    public func setKern(_ e: CGFloat?) -> QXFont { kern = e; return self }
+
     /// 基线偏移
     public var baselineOffset: CGFloat?
+    public func setBaselineOffset(_ e: CGFloat?) -> QXFont { baselineOffset = e; return self }
     
     /// 附件
     public var attachment: NSTextAttachment?
+    public func setAttachment(_ e: NSTextAttachment?) -> QXFont { attachment = e; return self }
+
     /// 链接
     public var link: String?
+    public func setLink(_ e: String?) -> QXFont { link = e; return self }
     
     /// 阴影
     public var shadow: NSShadow?
+    public func setShadow(_ e: NSShadow?) -> QXFont { shadow = e; return self }
+    
     /// 特效
     public var textEffect: String?
+    public func setTextEffect(_ e: String?) -> QXFont { textEffect = e; return self }
+
     /// 扁平化
     public var expansion: String?
+    public func setExpansion(_ e: String?) -> QXFont { expansion = e; return self }
     
     /// 是否垂直布局
     public var verticalGlyphForm: Bool?
+    public func setVerticalGlyphForm(_ e: Bool?) -> QXFont { verticalGlyphForm = e; return self }
 
     /// 段落样式
     public var paragraphStyle: NSParagraphStyle?
+    public func setParagraphStyle(_ e: NSParagraphStyle?) -> QXFont { paragraphStyle = e; return self }
     
     public init(size: CGFloat, fontName: String, color: QXColor) {
         self.fontName = fontName
@@ -166,7 +191,7 @@ extension UILabel {
             return nil
         }
     }
-    private static var kQXFontUILabelAssociateKey:UInt = 3285000001
+    private static var kQXFontUILabelAssociateKey:String = "kQXFontUILabelAssociateKey"
 
 }
 
@@ -196,6 +221,6 @@ extension UITextView {
             return nil
         }
     }
-    private static var kQXFontUITextViewAssociateKey:UInt = 3285000002
+    private static var kQXFontUITextViewAssociateKey: String = "kQXFontUITextViewAssociateKey"
     
 }

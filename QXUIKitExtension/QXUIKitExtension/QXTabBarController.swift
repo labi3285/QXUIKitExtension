@@ -10,5 +10,59 @@ import UIKit
 
 public class QXTabBarController: UITabBarController {
     
+    /// 在有tabBarBackgroundImage 的情况下无效
+    public var isTabBarLineShow: Bool?
     
+    public var tabBarBackgroundColor: QXColor?
+    public var tabBarBackgroundImage: QXImage?
+    public var tabBarTintColor: QXColor?
+    public var tabBarStyle: UIBarStyle?
+    
+    public var navigationControllers: [QXNavigationController]?
+    
+    public override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        updateTabBar()
+    }
+    
+    public func updateTabBar() {
+        if let e = tabBarBackgroundImage {
+            let size = view.bounds.size
+            tabBar.backgroundImage = UIImage.qxCreate(size: size) { (ctx, rect) in
+                UIColor.clear.setFill()
+                UIRectFill(CGRect(x: 0, y: 0, width: size.width, height: size.height - 49))
+                UIColor.white.setFill()
+                if let e = tabBarBackgroundColor?.uiColor {
+                    e.setFill()
+                    UIRectFill(CGRect(x: 0, y: size.height - 49, width: size.width, height: 49))
+                }
+                e.uiImage?.draw(in: CGRect(x: 0, y: size.height - 49, width: size.width, height: 49))
+            }
+            tabBar.shadowImage = UIImage()
+        } else if let e = tabBarBackgroundColor {
+            tabBar.backgroundColor = e.uiColor
+            tabBar.backgroundImage = UIImage()
+            if let e = isTabBarLineShow {
+                if !e {
+                    tabBar.shadowImage = UIImage()
+                }
+            }
+        } else {
+            if let e = isTabBarLineShow {
+                if !e {
+                    tabBar.backgroundImage = UIImage()
+                    tabBar.shadowImage = UIImage()
+                }
+            }
+        }
+        if let e = tabBarTintColor?.uiColor {
+            tabBar.tintColor = e
+            tabBar.barStyle = UIBarStyle.black
+            tabBar.barTintColor = e
+        }
+        if let e = tabBarStyle {
+            tabBar.barStyle = e
+        }
+    }
+
 }

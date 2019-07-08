@@ -141,7 +141,7 @@ public class QXViewController: UIViewController {
     public var isAutoDismissItemAtLeft: Bool = true
     public var isAutoSetDismissItem: Bool = true
     public var dismissItem: QXBarButtonItem = QXBarButtonItem.titleItem(title: "取消", styles: nil)
-    
+        
     //MARK:- Other
     public var topViewController: UIViewController? { return qxTopViewController }
     public var isNavigationRootViewController: Bool { return qxIsNavigationRootViewController }

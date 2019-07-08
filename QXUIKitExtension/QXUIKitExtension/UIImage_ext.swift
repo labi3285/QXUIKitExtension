@@ -14,15 +14,15 @@ extension UIImage {
         return QXImage(self)
     }
     
-    public static func qxCreate(_ color: UIColor, _ size: CGSize = CGSize(width: 1, height: 1)) -> UIImage {
-        return qxCreate(size, { (ctx, rect) in
+    public static func qxCreate(color: UIColor, size: CGSize = CGSize(width: 1, height: 1)) -> UIImage {
+        return qxCreate(size: size, render: { (ctx, rect) in
             ctx.setFillColor(color.cgColor)
             ctx.setLineWidth(0)
             ctx.fill(rect)
         })
     }
     
-    public static func qxCreate(_ size: CGSize, _ render: (_ ctx: CGContext, _ rect: CGRect) -> ()) -> UIImage {
+    public static func qxCreate(size: CGSize, render: (_ ctx: CGContext, _ rect: CGRect) -> ()) -> UIImage {
         UIGraphicsBeginImageContext(size)
         let ctx = UIGraphicsGetCurrentContext()!
         let rect = CGRect(x: 0, y: 0, width: size.width, height: size.height)

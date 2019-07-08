@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		7553C79022CC9C810058239B /* QXRect.Relation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7553C78D22CC9C810058239B /* QXRect.Relation.swift */; };
-		7553C79122CC9C810058239B /* UIKit_ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7553C78E22CC9C810058239B /* UIKit_ext.swift */; };
+		7553C79122CC9C810058239B /* QXRect_ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7553C78E22CC9C810058239B /* QXRect_ext.swift */; };
 		7553C79222CC9C810058239B /* QXRect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7553C78F22CC9C810058239B /* QXRect.swift */; };
 		7553C7FD22CEE0CE0058239B /* QXError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7553C7FC22CEE0CE0058239B /* QXError.swift */; };
 		7553C7FF22CEE2A80058239B /* UIImage_ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7553C7FE22CEE2A80058239B /* UIImage_ext.swift */; };
@@ -35,11 +35,13 @@
 		75929C8622D0764C006577AD /* QXNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75929C8522D0764C006577AD /* QXNavigationController.swift */; };
 		75929C8822D0770B006577AD /* QXView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75929C8722D0770B006577AD /* QXView.swift */; };
 		75929C8C22D2CDE7006577AD /* QXTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75929C8B22D2CDE7006577AD /* QXTabBarController.swift */; };
+		75929C9022D2E356006577AD /* tabbar_back.png in Resources */ = {isa = PBXBuildFile; fileRef = 75929C8F22D2E356006577AD /* tabbar_back.png */; };
+		75929C9222D2EA9F006577AD /* icon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 75929C9122D2EA9F006577AD /* icon@3x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		7553C78D22CC9C810058239B /* QXRect.Relation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QXRect.Relation.swift; sourceTree = "<group>"; };
-		7553C78E22CC9C810058239B /* UIKit_ext.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIKit_ext.swift; sourceTree = "<group>"; };
+		7553C78E22CC9C810058239B /* QXRect_ext.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QXRect_ext.swift; sourceTree = "<group>"; };
 		7553C78F22CC9C810058239B /* QXRect.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QXRect.swift; sourceTree = "<group>"; };
 		7553C7FC22CEE0CE0058239B /* QXError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QXError.swift; sourceTree = "<group>"; };
 		7553C7FE22CEE2A80058239B /* UIImage_ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImage_ext.swift; sourceTree = "<group>"; };
@@ -68,6 +70,8 @@
 		75929C8522D0764C006577AD /* QXNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QXNavigationController.swift; sourceTree = "<group>"; };
 		75929C8722D0770B006577AD /* QXView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QXView.swift; sourceTree = "<group>"; };
 		75929C8B22D2CDE7006577AD /* QXTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QXTabBarController.swift; sourceTree = "<group>"; };
+		75929C8F22D2E356006577AD /* tabbar_back.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tabbar_back.png; sourceTree = "<group>"; };
+		75929C9122D2EA9F006577AD /* icon@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon@3x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,16 +85,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		7553C78C22CC9C640058239B /* QXRect */ = {
-			isa = PBXGroup;
-			children = (
-				7553C78D22CC9C810058239B /* QXRect.Relation.swift */,
-				7553C78F22CC9C810058239B /* QXRect.swift */,
-				7553C78E22CC9C810058239B /* UIKit_ext.swift */,
-			);
-			path = QXRect;
-			sourceTree = "<group>";
-		};
 		756A509822BDF9FD00E692DA = {
 			isa = PBXGroup;
 			children = (
@@ -114,7 +108,9 @@
 				756A50A422BDF9FD00E692DA /* AppDelegate.swift */,
 				756A50A622BDF9FD00E692DA /* ViewController.swift */,
 				756A50AB22BDF9FE00E692DA /* Assets.xcassets */,
+				75929C9122D2EA9F006577AD /* icon@3x.png */,
 				7553C81222CF1F130058239B /* icon_back@2x.png */,
+				75929C8F22D2E356006577AD /* tabbar_back.png */,
 				756A50B022BDF9FE00E692DA /* Info.plist */,
 			);
 			path = QXUIKitExtension;
@@ -123,7 +119,9 @@
 		756A50B622BDFA1600E692DA /* QXUIKitExtension */ = {
 			isa = PBXGroup;
 			children = (
-				7553C78C22CC9C640058239B /* QXRect */,
+				7553C78D22CC9C810058239B /* QXRect.Relation.swift */,
+				7553C78F22CC9C810058239B /* QXRect.swift */,
+				7553C78E22CC9C810058239B /* QXRect_ext.swift */,
 				756A50B722BDFA3B00E692DA /* QXColor.swift */,
 				756A50B922BDFABF00E692DA /* QXImage.swift */,
 				756A50BD22BE0B1300E692DA /* QXURL.swift */,
@@ -207,8 +205,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				75929C9222D2EA9F006577AD /* icon@3x.png in Resources */,
 				756A50AC22BDF9FE00E692DA /* Assets.xcassets in Resources */,
 				7553C81322CF1F130058239B /* icon_back@2x.png in Resources */,
+				75929C9022D2E356006577AD /* tabbar_back.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -238,7 +238,7 @@
 				7553C80B22CF0DA90058239B /* DispatchQueue_ext.swift in Sources */,
 				75622EBF22BE3DAB0035093D /* UIFont_ext.swift in Sources */,
 				7553C7FD22CEE0CE0058239B /* QXError.swift in Sources */,
-				7553C79122CC9C810058239B /* UIKit_ext.swift in Sources */,
+				7553C79122CC9C810058239B /* QXRect_ext.swift in Sources */,
 				75929C8822D0770B006577AD /* QXView.swift in Sources */,
 				7553C79222CC9C810058239B /* QXRect.swift in Sources */,
 				7553C79022CC9C810058239B /* QXRect.Relation.swift in Sources */,

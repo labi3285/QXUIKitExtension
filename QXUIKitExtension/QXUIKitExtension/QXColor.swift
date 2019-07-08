@@ -55,7 +55,7 @@ public enum QXColor {
 extension QXColor {
     
     public var uiImage: UIImage {
-        return UIImage.qxCreate(uiColor)
+        return UIImage.qxCreate(color: uiColor)
     }
     
     public var uiColor: UIColor {

@@ -11,37 +11,93 @@ import Photos
 
 public class QXImage {
     
-    public var uiImage: UIImage?
+    public var uiImage: UIImage? {
+        set {
+            _uiImage = newValue
+        }
+        get {
+            if let e = renderingMode {
+                return _uiImage?.withRenderingMode(e)
+            } else {
+                return _uiImage
+            }
+        }
+    }
+    public func setUIImage(_ e: UIImage?) -> QXImage { uiImage = e; return self }
     
-    public var thumbUrl: QXURL?
-    public var url: QXURL?
+    public var thumbUrl: QXURL? {
+        didSet {
+            if url == nil {
+                url = thumbUrl
+            }
+        }
+    }
+    public func setThumbUrl(_ e: QXURL?) -> QXImage { thumbUrl = e; return self }
     
-    public var phAsset: PHAsset?
-    public var data: Data?
-    
-    public var size: CGSize?
-    
-    public var renderingMode: UIImage.RenderingMode?
+    public var url: QXURL? {
+        didSet {
+            if thumbUrl == nil {
+                thumbUrl = url
+            }
+        }
+    }
+    public func setUrl(_ e: QXURL?) -> QXImage { url = e; return self }
 
-    public init(_ named: String, _ size: CGSize? = nil) {
+    public var phAsset: PHAsset?
+    public func setPhAsset(_ e: PHAsset?) -> QXImage { phAsset = e; return self }
+
+    public var data: Data?
+    public func setData(_ e: Data?) -> QXImage { data = e; return self }
+
+    public var size: CGSize? {
+        set {
+            _size = newValue
+        }
+        get {
+            if let e = _size {
+                return e
+            } else {
+                if let e = uiImage {
+                    return e.size
+                }
+            }
+            return nil
+        }
+    }
+    public func setSize(_ e: CGSize?) -> QXImage { size = e; return self }
+
+    public var renderingMode: UIImage.RenderingMode?
+    public func setRenderingMode(_ e: UIImage.RenderingMode?) -> QXImage { renderingMode = e; return self }
+    
+    public init(url: String?) {
+        if let e = url {
+            self.url = QXURL.url(e)
+        }
+    }
+    
+    public init(_ named: String) {
         let image = UIImage(named: named)
-        self.uiImage = image
-        self.size = size ?? image?.size
+        self._uiImage = image
     }
-    
+    public init(_ url: QXURL?) {
+        self.url = url
+    }
     public init(_ uiImage: UIImage?) {
-        self.uiImage = uiImage
-        self.size = uiImage?.size
+        self._uiImage = uiImage
     }
     
-    public init(_ color: QXColor, _ size: CGSize = CGSize(width: 1, height: 1)) {
-        self.uiImage = UIImage.qxCreate(color.uiColor, size)
+    public init(_ color: QXColor, size: CGSize = CGSize(width: 1, height: 1)) {
+        self.uiImage = UIImage.qxCreate(color: color.uiColor, size: size)
         self.size = size
     }
     
-    public init(_ size: CGSize, _ render: (_ ctx: CGContext, _ rect: CGRect) -> ()) {
-        self.uiImage = UIImage.qxCreate(size, render)
+    public init(size: CGSize, render: (_ ctx: CGContext, _ rect: CGRect) -> ()) {
+        self.uiImage = UIImage.qxCreate(size: size, render: render)
         self.size = size
     }
     
+    
+    private var _uiImage: UIImage?
+    private var _size: CGSize?
+
 }

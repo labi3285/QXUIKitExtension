@@ -17,8 +17,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
         let vc = ViewController()
-        let nav = UINavigationController(rootViewController: vc)
-        let win = UIWindow.qxInitKeyWindow(nav, &window)
+        let nav = QXNavigationController(rootViewController: vc)
+        nav.tabBarTitle = "Home"
+        nav.tabBarIcon = QXImage("icon").setRenderingMode(.alwaysOriginal)
+                
+        let tabVc = QXTabBarController()
+        tabVc.isTabBarLineShow = true
+        tabVc.tabBarBackgroundColor = QXColor.yellow
+        tabVc.tabBarTintColor = QXColor.red
+        tabVc.viewControllers = [nav, nav]
+        
+        let win = UIWindow.qxInitKeyWindow(tabVc, &window)
         win.backgroundColor = UIColor.white
 
         return true

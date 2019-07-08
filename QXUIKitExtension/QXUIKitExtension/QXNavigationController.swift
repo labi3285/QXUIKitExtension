@@ -10,11 +10,27 @@ import UIKit
 
 public class QXNavigationController: UINavigationController {
     
-    public required init(rootVc: QXViewController) {
-        super.init(rootViewController: rootVc)
+    public var tabBarTitle: String? {
+        didSet {
+            tabBarItem.title = tabBarTitle
+        }
     }
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+    public var tabBarIcon: QXImage? {
+        didSet {
+            tabBarItem.image = tabBarIcon?.uiImage
+        }
+    }
+    public var tabBarSelectIcon: QXImage? {
+        didSet {
+            tabBarItem.selectedImage = tabBarSelectIcon?.uiImage
+        }
+    }
+    
+    public var rootViewController: QXViewController {
+        if let e = viewControllers.first as? QXViewController {
+            return e
+        }
+        return QXDebugFatalError("QXNavigationController must work with QXViewController", QXViewController())
     }
     
 }
