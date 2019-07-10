@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		7553C79022CC9C810058239B /* QXRect.Relation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7553C78D22CC9C810058239B /* QXRect.Relation.swift */; };
-		7553C79122CC9C810058239B /* QXRect_ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7553C78E22CC9C810058239B /* QXRect_ext.swift */; };
+		7553C79122CC9C810058239B /* QXRect.UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7553C78E22CC9C810058239B /* QXRect.UIView.swift */; };
 		7553C79222CC9C810058239B /* QXRect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7553C78F22CC9C810058239B /* QXRect.swift */; };
 		7553C7FD22CEE0CE0058239B /* QXError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7553C7FC22CEE0CE0058239B /* QXError.swift */; };
 		7553C7FF22CEE2A80058239B /* UIImage_ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7553C7FE22CEE2A80058239B /* UIImage_ext.swift */; };
@@ -41,7 +41,7 @@
 
 /* Begin PBXFileReference section */
 		7553C78D22CC9C810058239B /* QXRect.Relation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QXRect.Relation.swift; sourceTree = "<group>"; };
-		7553C78E22CC9C810058239B /* QXRect_ext.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QXRect_ext.swift; sourceTree = "<group>"; };
+		7553C78E22CC9C810058239B /* QXRect.UIView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QXRect.UIView.swift; sourceTree = "<group>"; };
 		7553C78F22CC9C810058239B /* QXRect.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QXRect.swift; sourceTree = "<group>"; };
 		7553C7FC22CEE0CE0058239B /* QXError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QXError.swift; sourceTree = "<group>"; };
 		7553C7FE22CEE2A80058239B /* UIImage_ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImage_ext.swift; sourceTree = "<group>"; };
@@ -121,7 +121,7 @@
 			children = (
 				7553C78D22CC9C810058239B /* QXRect.Relation.swift */,
 				7553C78F22CC9C810058239B /* QXRect.swift */,
-				7553C78E22CC9C810058239B /* QXRect_ext.swift */,
+				7553C78E22CC9C810058239B /* QXRect.UIView.swift */,
 				756A50B722BDFA3B00E692DA /* QXColor.swift */,
 				756A50B922BDFABF00E692DA /* QXImage.swift */,
 				756A50BD22BE0B1300E692DA /* QXURL.swift */,
@@ -238,7 +238,7 @@
 				7553C80B22CF0DA90058239B /* DispatchQueue_ext.swift in Sources */,
 				75622EBF22BE3DAB0035093D /* UIFont_ext.swift in Sources */,
 				7553C7FD22CEE0CE0058239B /* QXError.swift in Sources */,
-				7553C79122CC9C810058239B /* QXRect_ext.swift in Sources */,
+				7553C79122CC9C810058239B /* QXRect.UIView.swift in Sources */,
 				75929C8822D0770B006577AD /* QXView.swift in Sources */,
 				7553C79222CC9C810058239B /* QXRect.swift in Sources */,
 				7553C79022CC9C810058239B /* QXRect.Relation.swift in Sources */,

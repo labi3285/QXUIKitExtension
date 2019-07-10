@@ -13,7 +13,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
-
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
         let vc = ViewController()
@@ -25,7 +24,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         tabVc.isTabBarLineShow = true
         tabVc.tabBarBackgroundColor = QXColor.yellow
         tabVc.tabBarTintColor = QXColor.red
-        tabVc.viewControllers = [nav, nav]
+        tabVc.navigationControllers = [nav, nav]
         
         let win = UIWindow.qxInitKeyWindow(tabVc, &window)
         win.backgroundColor = UIColor.white

@@ -18,7 +18,11 @@ public class QXTabBarController: UITabBarController {
     public var tabBarTintColor: QXColor?
     public var tabBarStyle: UIBarStyle?
     
-    public var navigationControllers: [QXNavigationController]?
+    public var navigationControllers: [QXNavigationController]? {
+        didSet {
+            viewControllers = navigationControllers
+        }
+    }
     
     public override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()

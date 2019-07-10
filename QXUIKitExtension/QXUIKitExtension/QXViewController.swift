@@ -55,6 +55,10 @@ public class QXViewController: UIViewController {
 
     public var isNavigationBarShow: Bool?
     
+    //MARK:- Present
+    public var isNavigationBarAutoDismissItemAtLeft: Bool = true
+    public var navigationBarAutoDismissItem: QXBarButtonItem? = QXBarButtonItem.titleItem(title: "取消", styles: nil)
+    
     public private(set) weak var viewControllerBefore: QXViewController?
         
     public func push(_ vc: QXViewController, animated: Bool = true, file: StaticString = #file, line: UInt = #line) {
@@ -82,6 +86,10 @@ public class QXViewController: UIViewController {
         } else {
             QXDebugFatalError("vc is not in UINavigationController", file: file, line: line)
         }
+    }
+    
+    public func present(_ vc: QXNavigationController, animated: Bool = true) {
+        super.present(vc, animated: animated)
     }
     
     public func updateNavigationBar() {
@@ -135,12 +143,21 @@ public class QXViewController: UIViewController {
         if let e = isNavigationBarTransparent, e == true {
             navigationController?.qxNavigationBackgroundImage = QXImage(QXColor.clear)
         }
+        if presentingViewController != nil && isNavigationRootViewController {
+            if let e = navigationBarAutoDismissItem {
+                if e.respondClick == nil {
+                    e.respondClick = { [weak self] in
+                        self?.dismiss(animated: true, completion: nil)
+                    }
+                }
+                if isNavigationBarAutoDismissItemAtLeft {
+                    navigationItem.leftBarButtonItem = e
+                } else {
+                    navigationItem.rightBarButtonItem = e
+                }
+            }
+        }
     }
-    
-    //MARK:- Present
-    public var isAutoDismissItemAtLeft: Bool = true
-    public var isAutoSetDismissItem: Bool = true
-    public var dismissItem: QXBarButtonItem = QXBarButtonItem.titleItem(title: "取消", styles: nil)
         
     //MARK:- Other
     public var topViewController: UIViewController? { return qxTopViewController }

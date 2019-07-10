@@ -25,7 +25,6 @@ extension UInt32: QXIsEmpty { public var qxIsEmpty: Bool { return self == 0 } }
 extension UInt64: QXIsEmpty { public var qxIsEmpty: Bool { return self == 0 } }
 extension Double: QXIsEmpty { public var qxIsEmpty: Bool { return self == 0 } }
 extension Float: QXIsEmpty { public var qxIsEmpty: Bool { return self == 0 } }
-extension Float80: QXIsEmpty { public var qxIsEmpty: Bool { return self == 0 } }
 extension CGFloat: QXIsEmpty { public var qxIsEmpty: Bool { return self == 0 } }
 
 public func QXEmpty(_ e: Any?) -> Bool {
@@ -46,5 +45,5 @@ public func QXEmpty(_ e: Any?) -> Bool {
             return QXDebugFatalError("not support yet", false)
         }
     }
-    return false
+    return true
 }

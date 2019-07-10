@@ -21,7 +21,7 @@ class TestVc: QXViewController {
         navigationBarTitle = "test"
         navigationBarTitleFont = QXFont(size: 20, color: QXColor.brown)
         navigationBarTintColor = QXColor.red
-        isNavigationBarShow = true
+        //isNavigationBarShow = true
     }
     
     @objc func dismiss1() {
@@ -29,7 +29,13 @@ class TestVc: QXViewController {
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        navigationController?.qxRemoveViewController(0)
+        let vc = TestVc()
+        push(vc)
+//        let nav = QXNavigationController(rootViewController: vc)
+//        present(nav)
+        
+//        dismiss1()
+//        navigationController?.qxRemoveViewController(0)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -51,7 +57,10 @@ class ViewController: QXViewController {
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         let vc = TestVc()
-        push(vc)
+        let nav = QXNavigationController(rootViewController: vc)
+        present(nav)
+        
+//        push(vc)
     }
 
 
