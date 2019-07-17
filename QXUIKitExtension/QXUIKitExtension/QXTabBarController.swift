@@ -8,7 +8,7 @@
 
 import UIKit
 
-public class QXTabBarController: UITabBarController {
+open class QXTabBarController: UITabBarController {
     
     /// 在有tabBarBackgroundImage 的情况下无效
     public var isTabBarLineShow: Bool?
@@ -24,7 +24,7 @@ public class QXTabBarController: UITabBarController {
         }
     }
     
-    public override func viewDidLayoutSubviews() {
+    open override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         updateTabBar()
     }
@@ -62,7 +62,6 @@ public class QXTabBarController: UITabBarController {
         if let e = tabBarTintColor?.uiColor {
             tabBar.tintColor = e
             tabBar.barStyle = UIBarStyle.black
-            tabBar.barTintColor = e
         }
         if let e = tabBarStyle {
             tabBar.barStyle = e

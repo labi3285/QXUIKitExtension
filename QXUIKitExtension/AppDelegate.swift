@@ -21,11 +21,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         nav.tabBarIcon = QXImage("icon").setRenderingMode(.alwaysOriginal)
                 
         let tabVc = QXTabBarController()
-        tabVc.isTabBarLineShow = true
-        tabVc.tabBarBackgroundColor = QXColor.yellow
+//        tabVc.isTabBarLineShow = true
+//        tabVc.tabBarBackgroundColor = QXColor.yellow
         tabVc.tabBarTintColor = QXColor.red
         tabVc.navigationControllers = [nav, nav]
-        
+
         let win = UIWindow.qxInitKeyWindow(tabVc, &window)
         win.backgroundColor = UIColor.white
 

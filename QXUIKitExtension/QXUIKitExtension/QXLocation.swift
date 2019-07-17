@@ -9,7 +9,7 @@
 import Foundation
 import CoreLocation
 
-public class QXLocation {
+open class QXLocation {
     
     public var adCode: String = ""
 

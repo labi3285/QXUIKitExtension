@@ -8,7 +8,7 @@
 
 import UIKit
 
-public class QXNavigationController: UINavigationController {
+open class QXNavigationController: UINavigationController {
     
     public var tabBarTitle: String? {
         didSet {

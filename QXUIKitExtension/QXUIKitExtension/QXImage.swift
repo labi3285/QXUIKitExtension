@@ -9,7 +9,7 @@
 import UIKit
 import Photos
 
-public class QXImage {
+open class QXImage {
     
     public var uiImage: UIImage? {
         set {
@@ -49,7 +49,7 @@ public class QXImage {
     public var data: Data?
     public func setData(_ e: Data?) -> QXImage { data = e; return self }
 
-    public var size: CGSize? {
+    public var size: QXSize? {
         set {
             _size = newValue
         }
@@ -58,13 +58,13 @@ public class QXImage {
                 return e
             } else {
                 if let e = uiImage {
-                    return e.size
+                    return e.qxSize
                 }
             }
             return nil
         }
     }
-    public func setSize(_ e: CGSize?) -> QXImage { size = e; return self }
+    public func setSize(_ e: QXSize?) -> QXImage { size = e; return self }
 
     public var renderingMode: UIImage.RenderingMode?
     public func setRenderingMode(_ e: UIImage.RenderingMode?) -> QXImage { renderingMode = e; return self }
@@ -86,18 +86,24 @@ public class QXImage {
         self._uiImage = uiImage
     }
     
-    public init(_ color: QXColor, size: CGSize = CGSize(width: 1, height: 1)) {
-        self.uiImage = UIImage.qxCreate(color: color.uiColor, size: size)
+    public init(_ color: QXColor, size: QXSize) {
+        self.uiImage = UIImage.qxCreate(color: color.uiColor, size: size.cgSize)
         self.size = size
     }
     
-    public init(size: CGSize, render: (_ ctx: CGContext, _ rect: CGRect) -> ()) {
-        self.uiImage = UIImage.qxCreate(size: size, render: render)
+    public init(_ color: QXColor) {
+        let size = QXSize(1, 1)
+        self.uiImage = UIImage.qxCreate(color: color.uiColor, size: size.cgSize)
+        self.size = size
+    }
+    
+    public init(size: QXSize, render: (_ ctx: CGContext, _ rect: CGRect) -> ()) {
+        self.uiImage = UIImage.qxCreate(size: size.cgSize, render: render)
         self.size = size
     }
     
     
     private var _uiImage: UIImage?
-    private var _size: CGSize?
+    private var _size: QXSize?
 
 }

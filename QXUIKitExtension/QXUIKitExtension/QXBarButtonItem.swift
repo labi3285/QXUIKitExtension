@@ -8,7 +8,7 @@
 
 import UIKit
 
-public class QXBarButtonItem: UIBarButtonItem {
+open class QXBarButtonItem: UIBarButtonItem {
     
     static func backItem(title: String, styles: QXControlStateStyles?) -> QXBarButtonItem {
         let e = QXBarButtonItem()

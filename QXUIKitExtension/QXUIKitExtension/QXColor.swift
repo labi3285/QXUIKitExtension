@@ -17,12 +17,16 @@ public enum QXColor {
     case image(_ image: QXImage)
     /// uiColor:(UIColor)
     case uiColor(_ uiColor: UIColor)
-    
+    /// cgColor:(CGColor)
+    case cgColor(_ cgColor: CGColor)
+    /// ciColor:(CIColor)
+    case ciColor(_ ciColor: CIColor)
+
     /// #FFFFFF 100%
-    static func formatHex(_ formatHex: String) -> QXColor {
-        let components = formatHex.components(separatedBy: " ")
+    public static func fmtHex(_ fmtHex: String) -> QXColor {
+        let components = fmtHex.components(separatedBy: " ")
         if components.count == 1 {
-            return .hex(formatHex, 1)
+            return .hex(fmtHex, 1)
         } else if components.count == 2 {
             let hex = components[0]
             let alpha = components[1].replacingOccurrences(of: "%", with: "").qxCGFloatValue / 100
@@ -49,6 +53,7 @@ public enum QXColor {
     public static var placeHolderGray: QXColor { return QXColor.rgb(187, 187, 187, 255) }
     public static var backgroundGray: QXColor { return QXColor.rgb(245, 245, 245, 255) }
     public static var lineGray: QXColor { return QXColor.rgb(238, 238, 238, 255) }
+    public static var borderGray: QXColor { return QXColor.rgb(166, 166, 166, 255) }
 
 }
 
@@ -82,6 +87,10 @@ extension QXColor {
             }
         case .uiColor(let c):
             return c
+        case .cgColor(let c):
+            return UIColor(cgColor: c)
+        case .ciColor(let c):
+            return UIColor(ciColor: c)
         }
     }
     
@@ -90,7 +99,7 @@ extension QXColor {
 
 extension UIView {
     
-    public var qxColor: QXColor? {
+    public var qxBackgroundColor: QXColor? {
         set {
             backgroundColor = newValue?.uiColor
         }

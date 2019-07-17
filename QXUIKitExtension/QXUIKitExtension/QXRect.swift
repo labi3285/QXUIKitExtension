@@ -372,52 +372,6 @@ public struct QXRect {
     
     //MARK:-
     
-    /// Size
-    public struct Size {
-        
-        /// width
-        public var width: CGFloat
-        /// height
-        public var height: CGFloat
-        
-        /// default init
-        public init() {
-            self.width = 0
-            self.height = 0
-        }
-        
-        /// init with width/height
-        public init(_ width: CGFloat, _ height: CGFloat) {
-            self.width = width
-            self.height = height
-        }
-        
-    }
-    
-    /// Point
-    public struct Point {
-        
-        /// x
-        public var x: CGFloat
-        /// y
-        public var y: CGFloat
-        
-        /// default init
-        public init() {
-            self.x = 0
-            self.y = 0
-        }
-        
-        /// init with x/y
-        public init(_ x: CGFloat, _ y: CGFloat) {
-            self.x = x
-            self.y = y
-        }
-
-    }
-    
-    //MARK:-
-    
     private var _top: CGFloat?
     private var _left: CGFloat?
     private var _bottom: CGFloat?
@@ -434,166 +388,166 @@ public struct QXRect {
 extension QXRect {
     
     /// point at left-top
-    public var topLeft: QXRect.Point {
+    public var topLeft: QXPoint {
         set {
             left = newValue.x
             top = newValue.y
         }
         get {
-            return QXRect.Point(left, top)
+            return QXPoint(left, top)
         }
     }
     
     /// point at top-center
-    public var topCenter: QXRect.Point {
+    public var topCenter: QXPoint {
         set {
             centerX = newValue.x
             top = newValue.y
         }
         get {
-            return QXRect.Point(centerX, top) }
+            return QXPoint(centerX, top) }
         }
 
     /// point at top-right
-    public var topRight: QXRect.Point {
+    public var topRight: QXPoint {
         set {
             right = newValue.x
             top = newValue.y
         }
         get {
-            return QXRect.Point(right, top)
+            return QXPoint(right, top)
         }
     }
     
     /// point at left-top
-    public var leftTop: QXRect.Point {
+    public var leftTop: QXPoint {
         set {
             left = newValue.x
             top = newValue.y
         }
         get {
-            return QXRect.Point(left, top)
+            return QXPoint(left, top)
         }
     }
     
     /// point at left-center
-    public var leftCenter: QXRect.Point {
+    public var leftCenter: QXPoint {
         set {
             left = newValue.x
             centerY = newValue.y
         }
         get {
-            return QXRect.Point(left, centerY)
+            return QXPoint(left, centerY)
         }
     }
     
     /// point at left-bottom
-    public var leftBottom: QXRect.Point {
+    public var leftBottom: QXPoint {
         set {
             left = newValue.x
             bottom = newValue.y
         }
         get {
-            return QXRect.Point(left, bottom)
+            return QXPoint(left, bottom)
         }
     }
     
     /// point at right-top
-    public var rightTop: QXRect.Point {
+    public var rightTop: QXPoint {
         set {
             right = newValue.x
             top = newValue.y
         }
         get {
-            return QXRect.Point(right, top)
+            return QXPoint(right, top)
         }
     }
     
     /// point at right-center
-    public var rightCenter: QXRect.Point {
+    public var rightCenter: QXPoint {
         set {
             right = newValue.x
             centerY = newValue.y
         }
         get {
-            return QXRect.Point(right, centerY)
+            return QXPoint(right, centerY)
         }
     }
     
     /// point at right-bottom
-    public var rightBottom: QXRect.Point {
+    public var rightBottom: QXPoint {
         set {
             right = newValue.x
             bottom = newValue.y
         }
         get {
-            return QXRect.Point(right, bottom)
+            return QXPoint(right, bottom)
         }
     }
 
     /// point at bottom-left
-    public var bottomLeft: QXRect.Point {
+    public var bottomLeft: QXPoint {
         set {
             left = newValue.x
             bottom = newValue.y
         }
         get {
-            return QXRect.Point(left, bottom)
+            return QXPoint(left, bottom)
         }
     }
     
     /// point at bottom-center
-    public var bottomCenter: QXRect.Point {
+    public var bottomCenter: QXPoint {
         set {
             centerX = newValue.x
             bottom = newValue.y
         }
         get {
-            return QXRect.Point(centerX, bottom)
+            return QXPoint(centerX, bottom)
         }
     }
     
     /// point at bottom-right
-    public var bottomRight: QXRect.Point {
+    public var bottomRight: QXPoint {
         set {
             right = newValue.x
             bottom = newValue.y
         }
         get {
-            return QXRect.Point(right, bottom)
+            return QXPoint(right, bottom)
         }
     }
     
     /// point at center
-    public var center: QXRect.Point {
+    public var center: QXPoint {
         set {
             centerX = newValue.x
             centerY = newValue.y
         }
         get {
-            return QXRect.Point(centerX, centerY)
+            return QXPoint(centerX, centerY)
         }
     }
     
     /// size
-    public var size: Size {
+    public var size: QXSize {
         set {
             width = newValue.width
             height = newValue.height
         }
         get {
-            return Size(width, height)
+            return QXSize(width, height)
         }
     }
     
     /// point at left-top
-    public var origin: Point {
+    public var origin: QXPoint {
         set {
             x = newValue.x
             y = newValue.y
         }
         get {
-            return Point(x, y)
+            return QXPoint(x, y)
         }
     }
     
@@ -619,7 +573,7 @@ extension QXRect: CustomStringConvertible {
     
 }
 
-extension QXRect.Size: CustomStringConvertible {
+extension QXSize: CustomStringConvertible {
     
     public var description: String {
         func string(_ f: CGFloat) -> String {
@@ -634,7 +588,7 @@ extension QXRect.Size: CustomStringConvertible {
     
 }
 
-extension QXRect.Point: CustomStringConvertible {
+extension QXPoint: CustomStringConvertible {
     
     public var description: String {
         func string(_ f: CGFloat) -> String {

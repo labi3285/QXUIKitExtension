@@ -8,22 +8,23 @@
 
 import UIKit
 
-public class QXViewController: UIViewController {
+open class QXViewController: UIViewController {
     
     //MARK:- Init
-    required init() {
+    required public init() {
         super.init(nibName: nil, bundle: nil)
         // make sure view init at start
         _ = view
+        automaticallyAdjustsScrollViewInsets = false
     }
-    required init?(coder aDecoder: NSCoder) {
+    required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     deinit {
         QXDebugPrint("deinit")
     }
     
-    public override var title: String? {
+    open override var title: String? {
         didSet {
             super.title = title
             self.navigationBarTitle = title
@@ -33,8 +34,8 @@ public class QXViewController: UIViewController {
     //MARK:- Data
     
     //MARK:- Life cycle
-    
-    public override func viewWillAppear(_ animated: Bool) {
+
+    open override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         updateNavigationBar()
     }

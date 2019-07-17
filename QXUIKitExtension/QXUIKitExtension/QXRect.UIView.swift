@@ -20,8 +20,18 @@ extension UIView {
         }
     }
     
+    /// QXRect for bounds
+    public var qxBounds: QXRect {
+        set {
+            bounds = newValue.cgRect
+        }
+        get {
+            return bounds.qxRect
+        }
+    }
+    
     /// QXSize for frame.size
-    public var qxSize: QXRect.Size {
+    public var qxSize: QXSize {
         set {
             frame = CGRect(x: frame.minX, y: frame.minY, width: CGFloat(newValue.width), height: CGFloat(newValue.height))
         }
@@ -31,7 +41,7 @@ extension UIView {
     }
     
     /// QXPoint for frame.origin
-    public var qxOrigin: QXRect.Point {
+    public var qxOrigin: QXPoint {
         set {
             frame = CGRect(x: CGFloat(newValue.x), y: CGFloat(newValue.y), width: frame.width, height: frame.height)
         }
@@ -42,25 +52,10 @@ extension UIView {
     
 }
 
-extension CGSize {
-    
-    /// QXSize
-    public var qxSize: QXRect.Size {
-        set {
-            width = CGFloat(newValue.width)
-            height = CGFloat(newValue.height)
-        }
-        get {
-            return QXRect.Size(CGFloat(width), CGFloat(height))
-        }
-    }
-    
-}
-
-extension QXRect.Size {
+extension QXSize {
     
     /// CGSize
-    public var size: CGSize {
+    public var cgSize: CGSize {
         set {
             width = CGFloat(newValue.width)
             height = CGFloat(newValue.height)
@@ -72,22 +67,7 @@ extension QXRect.Size {
     
 }
 
-extension CGPoint {
-    
-    /// QXPoint
-    public var qxPoint: QXRect.Point {
-        set {
-            x = CGFloat(newValue.x)
-            y = CGFloat(newValue.y)
-        }
-        get {
-            return QXRect.Point(CGFloat(x), CGFloat(y))
-        }
-    }
-    
-}
-
-extension QXRect.Point {
+extension QXPoint {
     
     /// CGPoint
     public var cgPoint: CGPoint {
@@ -107,7 +87,7 @@ extension CGRect {
     public var qxRect: QXRect {
         set {
             origin = newValue.origin.cgPoint
-            size = newValue.size.size
+            size = newValue.size.cgSize
         }
         get {
             var rect = QXRect()
