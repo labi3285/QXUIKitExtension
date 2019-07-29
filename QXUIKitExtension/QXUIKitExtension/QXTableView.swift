@@ -159,7 +159,6 @@ extension QXTableView: UITableViewDelegate, UITableViewDataSource {
         }
     }
     open func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        return true
         if let delegate = cellsDelegate {
             let section = sections[indexPath.section]
             let model = section.models[indexPath.row]
