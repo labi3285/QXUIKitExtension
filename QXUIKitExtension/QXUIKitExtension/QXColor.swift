@@ -54,6 +54,9 @@ public enum QXColor {
     public static var backgroundGray: QXColor { return QXColor.rgb(245, 245, 245, 255) }
     public static var lineGray: QXColor { return QXColor.rgb(238, 238, 238, 255) }
     public static var borderGray: QXColor { return QXColor.rgb(166, 166, 166, 255) }
+    
+    public static func random(alpha: CGFloat) -> QXColor { return QXColor.uiColor(UIColor.qxRandom(alpha: alpha)) }
+    public static var random: QXColor { return QXColor.uiColor(UIColor.qxRandom) }
 
 }
 
@@ -96,6 +99,23 @@ extension QXColor {
     
 }
 
+extension UIColor {
+    
+    static func qxRandom(alpha: CGFloat) -> UIColor {
+        return UIColor(red: CGFloat(arc4random_uniform(255)) / 255.0,
+                       green: CGFloat(arc4random_uniform(255)) / 255.0,
+                       blue: CGFloat(arc4random_uniform(255)) / 255.0,
+                       alpha: alpha)
+    }
+    
+    static var qxRandom: UIColor {
+        return UIColor(red: CGFloat(arc4random_uniform(255)) / 255.0,
+                       green: CGFloat(arc4random_uniform(255)) / 255.0,
+                       blue: CGFloat(arc4random_uniform(255)) / 255.0,
+                       alpha: CGFloat(arc4random_uniform(255)) / 255.0)
+    }
+}
+
 
 extension UIView {
     
@@ -104,11 +124,24 @@ extension UIView {
             backgroundColor = newValue?.uiColor
         }
         get {
-            if let color = backgroundColor {
-                return QXColor.uiColor(color)
+            if let e = backgroundColor {
+                return QXColor.uiColor(e)
             }
             return nil
         }
     }
+    
+    public var qxTintColor: QXColor? {
+        set {
+            tintColor = newValue?.uiColor
+        }
+        get {
+            if let e = tintColor {
+                return QXColor.uiColor(e)
+            }
+            return nil
+        }
+    }
+    
     
 }

@@ -27,6 +27,11 @@ extension Double: QXIsEmpty { public var qxIsEmpty: Bool { return self == 0 } }
 extension Float: QXIsEmpty { public var qxIsEmpty: Bool { return self == 0 } }
 extension CGFloat: QXIsEmpty { public var qxIsEmpty: Bool { return self == 0 } }
 
+extension CGSize: QXIsEmpty { public var qxIsEmpty: Bool { return self.width == 0 && self.height == 0 } }
+extension CGPoint: QXIsEmpty { public var qxIsEmpty: Bool { return self.x == 0 && self.y == 0 } }
+extension UIEdgeInsets: QXIsEmpty { public var qxIsEmpty: Bool { return self.top == 0 && self.right == 0 && self.bottom == 0 && self.left == 0 } }
+extension CGRect: QXIsEmpty { public var qxIsEmpty: Bool { return self.width == 0 && self.height == 0 && self.minX == 0 && self.minY == 0 } }
+
 public func QXEmpty(_ e: Any?) -> Bool {
     if let e = e {
         if let e = e as? QXIsEmpty {

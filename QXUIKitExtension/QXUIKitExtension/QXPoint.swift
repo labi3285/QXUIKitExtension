@@ -29,6 +29,10 @@ public struct QXPoint {
         self.y = y
     }
     
+    public var isZero: Bool {
+        return x == 0 && y == 0
+    }
+    
 }
 
 

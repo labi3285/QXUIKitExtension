@@ -1,0 +1,6 @@
+framework module QXMessageView {
+  umbrella header "QXMessageView-umbrella.h"
+
+  export *
+  module * { export * }
+}

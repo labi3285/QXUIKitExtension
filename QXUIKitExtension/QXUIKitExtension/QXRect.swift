@@ -17,11 +17,11 @@ public struct QXRect {
     public init() { }
     
     /// init with x/y/width/height
-    public init(_ x: CGFloat, _ y: CGFloat, _ width: CGFloat, _ height: CGFloat) {
+    public init(_ x: CGFloat, _ y: CGFloat, _ w: CGFloat, _ h: CGFloat) {
         self.x = x
         self.y = y
-        self.width = width
-        self.height = height
+        self.w = w
+        self.h = h
     }
     
     //MARK:-
@@ -47,7 +47,7 @@ public struct QXRect {
     }
     
     /// width
-    public var width: CGFloat {
+    public var w: CGFloat {
         set {
             _width = newValue
             if _centerX != nil {
@@ -101,7 +101,7 @@ public struct QXRect {
     }
     
     /// height
-    public var height: CGFloat {
+    public var h: CGFloat {
         set {
             _height = newValue
             if _centerY != nil {
@@ -532,11 +532,11 @@ extension QXRect {
     /// size
     public var size: QXSize {
         set {
-            width = newValue.width
-            height = newValue.height
+            w = newValue.w
+            h = newValue.h
         }
         get {
-            return QXSize(width, height)
+            return QXSize(w, h)
         }
     }
     
@@ -553,7 +553,7 @@ extension QXRect {
     
     /// absolute rect
     public var absoluteRect: QXRect {
-        return QXRect.init(0, 0, width, height)
+        return QXRect.init(0, 0, w, h)
     }
     
 }
@@ -568,7 +568,7 @@ extension QXRect: CustomStringConvertible {
                 return "\(f)"
             }
         }
-        return "[\(string(x)),\(string(y)),\(string(width)),\(string(height))]"
+        return "[\(string(x)),\(string(y)),\(string(w)),\(string(h))]"
     }
     
 }
@@ -583,7 +583,7 @@ extension QXSize: CustomStringConvertible {
                 return "\(f)"
             }
         }
-        return "[\(string(width)),\(string(height))]"
+        return "[\(string(w)),\(string(h))]"
     }
     
 }

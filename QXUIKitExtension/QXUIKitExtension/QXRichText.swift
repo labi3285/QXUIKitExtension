@@ -45,6 +45,12 @@ public enum QXRichText {
     public static func size(_ arr: [QXRichText]?) -> CGSize? {
         return nsAttributedString(arr)?.qxSize
     }
+    public func size(width: CGFloat) -> CGSize? {
+        return nsAttributedString.qxSize(width: width)
+    }
+    public var size: CGSize {
+        return nsAttributedString.qxSize
+    }
     
     public static func nsAttributedString(_ arr: [QXRichText]?) -> NSAttributedString? {
         if let arr = arr {
@@ -74,6 +80,19 @@ extension NSAttributedString {
 
 extension UILabel {
     
+    public var qxRichText: QXRichText? {
+        set {
+            if let e = newValue {
+                qxRichTexts = [e]
+            } else {
+                qxRichTexts = nil
+            }
+        }
+        get {
+            return qxRichTexts?.first
+        }
+    }
+    
     public var qxRichTexts: [QXRichText]? {
         set {
             objc_setAssociatedObject(self, &UILabel.kUILabelQXRichTextAssociateKey, newValue, objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC)
@@ -92,6 +111,19 @@ extension UILabel {
 }
 
 extension UITextView {
+    
+    public var qxRichText: QXRichText? {
+        set {
+            if let e = newValue {
+                qxRichTexts = [e]
+            } else {
+                qxRichTexts = nil
+            }
+        }
+        get {
+            return qxRichTexts?.first
+        }
+    }
     
     public var qxRichTexts: [QXRichText]? {
         set {

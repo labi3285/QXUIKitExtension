@@ -8,111 +8,164 @@
 
 import UIKit
 
-open class QXButton: UIView {
+open class QXButton: QXView {
     
-    public var isEnabled: Bool =  true { didSet { update() } }
-    public var isSelected: Bool = false { didSet { update() } }
+    open var isEnabled: Bool =  true { didSet { update() } }
+    open var isSelected: Bool = false { didSet { update() } }
 
-    public var respondTouchUpInside: (() -> ())?
-    public var respondTouchUpOutside: (() -> ())?
+    open var respondTouchUpInside: (() -> ())?
+    open var respondTouchUpOutside: (() -> ())?
 
-    public var respondTouchDown: (() -> ())?
-    public var respondTouchMoved: (() -> ())?
-    public var respondTouchEnded: (() -> ())?
-    public var respondTouchCancelled: (() -> ())?
+    open var respondTouchDown: (() -> ())?
+    open var respondTouchMoved: (() -> ())?
+    open var respondTouchEnded: (() -> ())?
+    open var respondTouchCancelled: (() -> ())?
     
-    public var backgroundColorNormal: QXColor? { set { qxBackgroundColor = newValue } get { return qxBackgroundColor } }
-    public var shadowNormal: QXShadow? { set { qxShadow = newValue } get { return qxShadow } }
-    public var borderNormal: QXBorder? { set { qxBorder = newValue } get { return qxBorder } }
+    open var shadow: QXShadow? { set { contentView.qxShadow = newValue } get { return contentView.qxShadow } }
+    open var border: QXBorder? { set { contentView.qxBorder = newValue } get { return contentView.qxBorder } }
 
-    public var backgroundColorHighlighted: QXColor?
-    public var shadowHighlighted: QXShadow?
-    public var borderHighlighted: QXBorder?
+    open override var backgroundColor: UIColor? {
+        didSet {
+            contentView.backgroundColor = backgroundColor
+        }
+    }
+    
+    open var backgroundColorHighlighted: QXColor?
+    open var shadowHighlighted: QXShadow?
+    open var borderHighlighted: QXBorder?
 
-    public var backgroundColorSelected: QXColor?
-    public var shadowSelected: QXShadow?
-    public var borderSelected: QXBorder?
+    open var backgroundColorSelected: QXColor?
+    open var shadowSelected: QXShadow?
+    open var borderSelected: QXBorder?
  
-    public var backgroundColorDisabled: QXColor?
-    public var shadowDisabled: QXShadow?
-    public var borderDisabled: QXBorder?
+    open var backgroundColorDisabled: QXColor?
+    open var shadowDisabled: QXShadow?
+    open var borderDisabled: QXBorder?
     
-    public var respondClick: (() -> ())?
+    open var respondClick: (() -> ())?
     /// 触发点击的容忍距离
-    public var clickMoveTolerance: CGFloat = 20
+    open var clickMoveTolerance: CGFloat = 20
     /// 点击的高光效果持续时间，默认0.3秒, nil 表示不会延时
-    public var clickHighlightDelaySecs: Double? = 0.3
+    open var clickHighlightDelaySecs: Double? = 0.3
     
     /// 高亮的alpha，nil表示不生效
-    public var highlightAlpha: CGFloat?
+    open var highlightAlpha: CGFloat?
     /// 无效的alpha，nil表示不生效
-    public var disableAlpha: CGFloat? = 0.3
+    open var disableAlpha: CGFloat? = 0.3
+    
+    /// 是否高亮
+    public private(set) var isHighlighted: Bool = false
 
+    
+    /// 外间隙
+    open var margin: QXMargin = QXMargin.zero
+    
+    public lazy var contentView: UIView = {
+        let one = UIView()
+        one.isUserInteractionEnabled = false
+        return one
+    }()
+    
+    public init() {
+        super.init(frame: CGRect.zero)
+        addSubview(contentView)
+    }
+    required public init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    open override func layoutSubviews() {
+        super.layoutSubviews()
+        contentView.frame = CGRect(x: margin.left, y: margin.top, width: bounds.width - margin.left - margin.right, height: bounds.height - margin.top - margin.bottom)
+    }
+    
+    open override var intrinsicContentSize: CGSize {
+        if isDisplay {
+            if let e = intrinsicSize {
+                return e.cgSize
+            } else {
+                return CGSize.zero
+            }
+        } else {
+            return CGSize.zero
+        }
+    }
+    
     open func update() {
         if isEnabled {
             isUserInteractionEnabled = true
-            if isSelected {
-                handleSelected()
+            if isHighlighted {
+                handleHighlighted()
             } else {
-                handleNormalize()
+                if isSelected {
+                    handleSelected()
+                } else {
+                    handleNormalize()
+                }
             }
         } else {
             isUserInteractionEnabled = false
             handleDisabled(isSelected: isSelected)
         }
+        invalidateIntrinsicContentSize()
+        setNeedsLayout()
+        setNeedsDisplay()
     }
     
     open func handlePrepareOrigins() {
-        _originBackgoundColor = backgroundColorNormal
-        _originShadow = shadowNormal
-        _originBorder = borderNormal
+        _originBackgoundColor = contentView.qxBackgroundColor
+        _originShadow = shadow
+        _originBorder = border
         _originAlpha = alpha
     }
     open func handleNormalize() {
-        qxBackgroundColor = _originBackgoundColor
-        qxShadow = _originShadow
-        qxBorder = _originBorder
-        alpha = _originAlpha ?? 1
-    }
-    open func handleHighlighted() {
         if !_isOriginPrepared {
             handlePrepareOrigins()
             _isOriginPrepared = true
         }
-        qxBackgroundColor = backgroundColorHighlighted ?? _originBackgoundColor
-        qxShadow = shadowHighlighted ?? _originShadow!
-        qxBorder = borderHighlighted ?? _originBorder!
+        contentView.qxBackgroundColor = _originBackgoundColor
+        contentView.qxShadow = _originShadow
+        contentView.qxBorder = _originBorder
+        contentView.alpha = _originAlpha ?? 1
+    }
+    open func handleHighlighted() {
+        contentView.qxBackgroundColor = backgroundColorHighlighted ?? _originBackgoundColor
+        contentView.qxShadow = shadowHighlighted ?? _originShadow
+        contentView.qxBorder = borderHighlighted ?? _originBorder
         if let a = highlightAlpha {
-            alpha = a
+            contentView.alpha = a
         }
+        invalidateIntrinsicContentSize()
+        setNeedsLayout()
+        setNeedsDisplay()
     }
     open func handleSelected() {
         if !_isOriginPrepared {
             handlePrepareOrigins()
             _isOriginPrepared = true
         }
-        qxBackgroundColor = backgroundColorSelected ?? _originBackgoundColor
-        qxShadow = shadowSelected ?? _originShadow!
-        qxBorder = borderSelected ?? _originBorder!
+        contentView.qxBackgroundColor = backgroundColorSelected ?? _originBackgoundColor
+        contentView.qxShadow = shadowSelected ?? _originShadow
+        contentView.qxBorder = borderSelected ?? _originBorder
     }
     open func handleDisabled(isSelected: Bool) {
         if !_isOriginPrepared {
             handlePrepareOrigins()
             _isOriginPrepared = true
         }
-        qxBackgroundColor = backgroundColorDisabled ?? _originBackgoundColor
-        qxShadow = shadowDisabled ?? _originShadow!
-        qxBorder = borderDisabled ?? _originBorder!
+        contentView.qxBackgroundColor = backgroundColorDisabled ?? _originBackgoundColor
+        contentView.qxShadow = shadowDisabled ?? _originShadow
+        contentView.qxBorder = borderDisabled ?? _originBorder
         if let a = disableAlpha {
-            alpha = a
+            contentView.alpha = a
         } else {
-            alpha = 1
+            contentView.alpha = 1
         }
     }
     
     open override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         respondTouchDown?()
-        handleHighlighted()
+        isHighlighted = true
+        update()
         _touchBeganPoint = touches.first?.location(in: self)
     }
     open override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -130,19 +183,23 @@ open class QXButton: UIView {
                         f()
                     }
                 }
-                respondTouchUpInside?()
                 if isClickTriggered {
                     if let e = clickHighlightDelaySecs {
                         UIView.animate(withDuration: e) {
+                            self.isHighlighted = false
                             self.update()
                         }
                     } else {
+                        isHighlighted = false
                         update()
                     }
                 } else {
+                    isHighlighted = false
                     update()
                 }
+                respondTouchUpInside?()
             } else {
+                isHighlighted = false
                 respondTouchUpOutside?()
                 update()
             }
@@ -157,5 +214,145 @@ open class QXButton: UIView {
     private var _originShadow: QXShadow?
     private var _originBorder: QXBorder?
     private var _originAlpha: CGFloat?
+
+}
+
+open class QXTitleButton: QXButton {
+    
+    open var title: String = "" { didSet { update() } }
+    open var font: QXFont = QXFont(fmt: "14 #333333")
+    open var richTitles: [QXRichText]? { didSet { update() } }
+    open var richTitle: QXRichText? {
+        set {
+            if let e = newValue {
+                richTitles = [e]
+            } else {
+                richTitles = nil
+            }
+        }
+        get {
+            return richTitles?.first
+        }
+    }
+
+    open var titleHighlighted: String?
+    open var fontHighlighted: QXFont?
+    open var richTitlesHighlighted: [QXRichText]?
+    open var richTitleHighlighted: QXRichText? {
+        set {
+            if let e = newValue {
+                richTitlesHighlighted = [e]
+            } else {
+                richTitlesHighlighted = nil
+            }
+        }
+        get {
+            return richTitlesHighlighted?.first
+        }
+    }
+
+    open var titleSelected: String?
+    open var fontSelected: QXFont?
+    open var richTitlesSelected: [QXRichText]?
+    open var richTitleSelected: QXRichText? {
+        set {
+            if let e = newValue {
+                richTitlesSelected = [e]
+            } else {
+                richTitlesSelected = nil
+            }
+        }
+        get {
+            return richTitlesSelected?.first
+        }
+    }
+
+    open var titleDisabled: String?
+    open var fontDisabled: QXFont?
+    open var richTitlesDisabled: [QXRichText]?
+    open var richTitleDisabled: QXRichText? {
+        set {
+            if let e = newValue {
+                richTitlesDisabled = [e]
+            } else {
+                richTitlesDisabled = nil
+            }
+        }
+        get {
+            return richTitlesDisabled?.first
+        }
+    }
+    
+    open var padding: QXPadding = QXPadding.zero
+
+    public lazy var label: UILabel = {
+        let one = UILabel()
+        one.textAlignment = .center
+        one.isUserInteractionEnabled = false
+        return one
+    }()
+    
+    public override init() {
+        super.init()
+        contentView.addSubview(label)
+    }
+    required public init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    override open func layoutSubviews() {
+        super.layoutSubviews()
+        label.frame = CGRect(x: padding.left, y: padding.top, width: contentView.bounds.width - padding.left - padding.right, height: contentView.bounds.height - padding.top - padding.bottom)
+    }
+    open override var intrinsicContentSize: CGSize {
+        if isDisplay {
+            if let e = intrinsicSize {
+                return e.cgSize
+            } else {
+                let size = label.intrinsicContentSize
+                return CGSize(width: margin.left + padding.left + size.width + padding.right + margin.right,
+                              height: margin.top + padding.top + size.height + padding.bottom + margin.bottom)
+            }
+        } else {
+            return CGSize.zero
+        }
+    }
+    
+    override open func handleNormalize() {
+        super.handleNormalize()
+        if let e = richTitles {
+            label.qxRichTexts = e
+        } else {
+            label.qxRichText = QXRichText.text(title, font)
+        }
+    }
+    override open func handleHighlighted() {
+        super.handleHighlighted()
+        if let e = richTitlesHighlighted ?? richTitles {
+            label.qxRichTexts = e
+        } else {
+            let e = titleHighlighted ?? title
+            label.qxRichText = QXRichText.text(e, font)
+        }
+    }
+    override open func handleSelected() {
+        super.handleSelected()
+        if let e = richTitlesSelected ?? richTitles {
+            label.qxRichTexts = e
+        } else {
+            let e = titleSelected ?? title
+            label.qxRichText = QXRichText.text(e, font)
+        }
+    }
+    override open func handleDisabled(isSelected: Bool) {
+        super.handleDisabled(isSelected: isSelected)
+        if let e = richTitlesDisabled ?? richTitles {
+            label.qxRichTexts = e
+        } else {
+            let e = titleDisabled ?? title
+            label.qxRichText = QXRichText.text(e, font)
+        }
+    }
+    
 
 }

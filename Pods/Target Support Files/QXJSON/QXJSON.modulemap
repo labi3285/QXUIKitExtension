@@ -1,0 +1,6 @@
+framework module QXJSON {
+  umbrella header "QXJSON-umbrella.h"
+
+  export *
+  module * { export * }
+}

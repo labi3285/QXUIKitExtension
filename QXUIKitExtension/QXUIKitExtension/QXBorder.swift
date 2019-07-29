@@ -29,7 +29,7 @@ open class QXBorder {
     }
     
     public static var border: QXBorder {
-        return QXBorder().setColor(QXColor.borderGray).setLineWidth(0.6).setCornerRadius(5)
+        return QXBorder().setColor(QXColor.borderGray).setLineWidth(1).setCornerRadius(5)
     }
 }
 
@@ -52,6 +52,9 @@ extension CALayer {
             }
             if borderWidth != 0 {
                 e.lineWidth = CGFloat(borderWidth)
+            }
+            if cornerRadius != 0 {
+                e.cornerRadius = cornerRadius
             }
             return e
         }

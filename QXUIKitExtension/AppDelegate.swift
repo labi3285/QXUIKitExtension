@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import Kingfisher
+
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -14,7 +16,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        
+                
         let vc = ViewController()
         let nav = QXNavigationController(rootViewController: vc)
         nav.tabBarTitle = "Home"

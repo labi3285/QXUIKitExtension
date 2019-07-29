@@ -10,7 +10,7 @@ import UIKit
 
 /**
  * Conflict Priority:
- * width/height > left+right = top+bottom > center/centerX/centerY > top/left/bottom/right
+ * w/h > left+right = top+bottom > center/centerX/centerY > top/left/bottom/right
  */
 
 extension QXRect {
@@ -27,10 +27,10 @@ extension QXRect {
         /// top margin relation
         case top(CGFloat)
         
-        /// width relation
-        case width(CGFloat)
-        /// height relation
-        case height(CGFloat)
+        /// w relation
+        case w(CGFloat)
+        /// h relation
+        case h(CGFloat)
         
         /// center x relation
         case centerX
@@ -39,11 +39,18 @@ extension QXRect {
         /// center x/y relation
         case center
         
-        /// width/height relation
+        /// w/h relation
         case size(CGFloat, CGFloat)
         
         /// offset in any direction relation
         case offset(CGFloat)
+        
+        public static func size(_ size: QXSize) -> Relation {
+            return .size(size.w, size.h)
+        }
+        public static func size(_ size: CGSize) -> Relation {
+            return .size(size.width, size.height)
+        }
         
     }
     
@@ -91,10 +98,10 @@ extension QXRect {
                 helper.isCenterX = true
             }
         }
-        if helper.width == nil {
+        if helper.w == nil {
             if helper.isCenterX {
                 if helper.left == nil && helper.right == nil {
-                    helper.width = width
+                    helper.w = w
                 } else if helper.left != nil && helper.right != nil {
                     helper.isCenterX = false
                 }
@@ -120,10 +127,10 @@ extension QXRect {
                 }
             }
         }
-        if helper.height == nil {
+        if helper.h == nil {
             if helper.isCenterY {
                 if helper.top == nil && helper.bottom == nil {
-                    helper.height = height
+                    helper.h = h
                 } else if helper.top != nil && helper.bottom != nil {
                     helper.isCenterY = false
                 }
@@ -162,11 +169,11 @@ extension QXRect {
         if let _right = helper.right {
             rect.right = right - _right
         }
-        if let _width = helper.width {
-            rect.width = _width
+        if let _w = helper.w {
+            rect.w = _w
         }
-        if let _height = helper.height {
-            rect.height = _height
+        if let _h = helper.h {
+            rect.h = _h
         }
         if helper.isCenterX {
             rect.centerX = centerX
@@ -188,12 +195,12 @@ extension QXRect {
         if helper.isCenter {
             helper.isCenterX = true
         }
-        if helper.height == nil {
-            helper.height = height
+        if helper.h == nil {
+            helper.h = h
         }
-        if helper.width == nil {
+        if helper.w == nil {
             if helper.left == nil && helper.right == nil {
-                helper.width = width
+                helper.w = w
                 helper.isCenterX = true
             } else if helper.left == nil {
                 if !helper.isCenterX {
@@ -237,11 +244,11 @@ extension QXRect {
         } else {
             rect.bottom = top
         }
-        if let _width = helper.width {
-            rect.width = _width
+        if let _w = helper.w {
+            rect.w = _w
         }
-        if let _height = helper.height {
-            rect.height = _height
+        if let _h = helper.h {
+            rect.h = _h
         }
         if helper.isCenterX {
             rect.centerX = centerX
@@ -260,12 +267,12 @@ extension QXRect {
         if helper.isCenter {
             helper.isCenterY = true
         }
-        if helper.width == nil {
-            helper.width = width
+        if helper.w == nil {
+            helper.w = w
         }
-        if helper.height == nil {
+        if helper.h == nil {
             if helper.top == nil && helper.bottom == nil {
-                helper.height = height
+                helper.h = h
                 helper.isCenterY = true
             } else if helper.top == nil {
                 if !helper.isCenterY {
@@ -309,11 +316,11 @@ extension QXRect {
         } else {
             rect.right = left
         }
-        if let _width = helper.width {
-            rect.width = _width
+        if let _w = helper.w {
+            rect.w = _w
         }
-        if let _height = helper.height {
-            rect.height = _height
+        if let _h = helper.h {
+            rect.h = _h
         }
         if helper.isCenterY {
             rect.centerY = centerY
@@ -332,12 +339,12 @@ extension QXRect {
         if helper.isCenter {
             helper.isCenterX = true
         }
-        if helper.height == nil {
-            helper.height = height
+        if helper.h == nil {
+            helper.h = h
         }
-        if helper.width == nil {
+        if helper.w == nil {
             if helper.left == nil && helper.right == nil {
-                helper.width = width
+                helper.w = w
                 helper.isCenterX = true
             } else if helper.left == nil {
                 if !helper.isCenterX {
@@ -381,11 +388,11 @@ extension QXRect {
         } else {
             rect.top = bottom
         }
-        if let _width = helper.width {
-            rect.width = _width
+        if let _w = helper.w {
+            rect.w = _w
         }
-        if let _height = helper.height {
-            rect.height = _height
+        if let _h = helper.h {
+            rect.h = _h
         }
         if helper.isCenterX {
             rect.centerX = centerX
@@ -404,12 +411,12 @@ extension QXRect {
         if helper.isCenter {
             helper.isCenterY = true
         }
-        if helper.width == nil {
-            helper.width = width
+        if helper.w == nil {
+            helper.w = w
         }
-        if helper.height == nil {
+        if helper.h == nil {
             if helper.top == nil && helper.bottom == nil {
-                helper.height = height
+                helper.h = h
                 helper.isCenterY = true
             } else if helper.top == nil {
                 if !helper.isCenterY {
@@ -453,11 +460,11 @@ extension QXRect {
         } else {
             rect.left = right
         }
-        if let _width = helper.width {
-            rect.width = _width
+        if let _w = helper.w {
+            rect.w = _w
         }
-        if let _height = helper.height {
-            rect.height = _height
+        if let _h = helper.h {
+            rect.h = _h
         }
         if helper.isCenterY {
             rect.centerY = centerY
@@ -474,8 +481,8 @@ extension QXRect {
         var left: CGFloat?
         var bottom: CGFloat?
         var right: CGFloat?
-        var width: CGFloat?
-        var height: CGFloat?
+        var w: CGFloat?
+        var h: CGFloat?
         var offset: CGFloat?
         var isCenterX: Bool = false
         var isCenterY: Bool = false
@@ -493,13 +500,13 @@ extension QXRect {
                     top = value
                 case .bottom(let value):
                     bottom = value
-                case .width(let value):
-                    width = value
-                case .height(let value):
-                    height = value
+                case .w(let value):
+                    w = value
+                case .h(let value):
+                    h = value
                 case .size(let value0, let value1):
-                    width = value0
-                    height = value1
+                    w = value0
+                    h = value1
                 case .centerX:
                     isCenterX = true
                 case .centerY:

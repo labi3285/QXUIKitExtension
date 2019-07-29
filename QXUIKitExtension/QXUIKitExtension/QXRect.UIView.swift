@@ -33,7 +33,7 @@ extension UIView {
     /// QXSize for frame.size
     public var qxSize: QXSize {
         set {
-            frame = CGRect(x: frame.minX, y: frame.minY, width: CGFloat(newValue.width), height: CGFloat(newValue.height))
+            frame = CGRect(x: frame.minX, y: frame.minY, width: CGFloat(newValue.w), height: CGFloat(newValue.h))
         }
         get {
             return bounds.size.qxSize
@@ -57,11 +57,11 @@ extension QXSize {
     /// CGSize
     public var cgSize: CGSize {
         set {
-            width = CGFloat(newValue.width)
-            height = CGFloat(newValue.height)
+            w = CGFloat(newValue.width)
+            h = CGFloat(newValue.height)
         }
         get {
-            return CGSize(width: CGFloat(width), height: CGFloat(height))
+            return CGSize(width: CGFloat(w), height: CGFloat(h))
         }
     }
     
@@ -108,8 +108,23 @@ extension QXRect {
             size = newValue.size.qxSize
         }
         get {
-            return CGRect(x: x, y: y, width: width, height: height)
+            return CGRect(x: x, y: y, width: w, height: h)
         }
+    }
+    
+}
+
+extension CGRect {
+    
+    public func qxSubRect(_ edgeInsets: UIEdgeInsets) -> CGRect {
+        return CGRect(x: edgeInsets.left, y: edgeInsets.top, width: width - edgeInsets.left - edgeInsets.right, height: height - edgeInsets.top - edgeInsets.bottom)
+    }
+    
+}
+extension QXRect {
+    
+    public func subRect(_ padding: QXPadding) -> QXRect {
+        return QXRect(padding.left, padding.top, w - padding.left - padding.right, h - padding.top - padding.bottom)
     }
     
 }

@@ -10,19 +10,31 @@ import UIKit
 
 public struct QXSize {
     
-    public var width: CGFloat
-    public var height: CGFloat
+    public var w: CGFloat
+    public var h: CGFloat
     
     public static let zero = QXSize()
     
     public init() {
-        self.width = 0
-        self.height = 0
+        self.w = 0
+        self.h = 0
     }
     
-    init(_ width: CGFloat, _ height: CGFloat) {
-        self.width = width
-        self.height = height
+    public init(_ w: CGFloat, _ h: CGFloat) {
+        self.w = w
+        self.h = h
+    }
+    public init(_ w: Double, _ h: Double) {
+        self.w = CGFloat(w)
+        self.h = CGFloat(h)
+    }
+    public init(_ w: Int, _ h: Int) {
+        self.w = CGFloat(w)
+        self.h = CGFloat(h)
+    }
+    
+    public var isZero: Bool {
+        return w == 0 && h == 0
     }
     
 }
@@ -32,8 +44,8 @@ extension CGSize {
     /// QXSize
     public var qxSize: QXSize {
         set {
-            width = CGFloat(newValue.width)
-            height = CGFloat(newValue.height)
+            width = CGFloat(newValue.w)
+            height = CGFloat(newValue.h)
         }
         get {
             return QXSize(width, height)

@@ -83,4 +83,45 @@ extension String {
         return t
     }
     
+    /// 下划线
+    public var qxUnderline: String {
+        if !self.contains("_") {
+            var str = ""
+            for c in self {
+                let s = "\(c)"
+                if s == s.uppercased() {
+                    str += "_" + s.lowercased()
+                } else {
+                    str += s
+                }
+            }
+            return str
+        }
+        
+        return self
+    }
+    
+    /// 驼峰
+    public var qxHump: String {
+        if self.contains("_") {
+            var str = ""
+            var isPreUnderLine: Bool = false
+            for c in self {
+                let s = "\(c)"
+                if s == "_" {
+                    isPreUnderLine = true
+                } else {
+                    if isPreUnderLine {
+                        str += s.uppercased()
+                        isPreUnderLine = false
+                    } else {
+                        str += s
+                    }
+                }
+            }
+            return str
+        }
+        return self
+    }
+    
 }

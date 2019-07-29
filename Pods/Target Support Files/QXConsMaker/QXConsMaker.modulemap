@@ -1,0 +1,6 @@
+framework module QXConsMaker {
+  umbrella header "QXConsMaker-umbrella.h"
+
+  export *
+  module * { export * }
+}

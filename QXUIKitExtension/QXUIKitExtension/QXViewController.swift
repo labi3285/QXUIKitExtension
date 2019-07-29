@@ -8,8 +8,21 @@
 
 import UIKit
 
+extension UIViewController {
+  
+    
+}
+
 open class QXViewController: UIViewController {
     
+    public var respondRefresh: (() -> ())?
+    
+    public var padding: QXPadding = QXPadding.zero
+    public lazy var contentView: QXView = {
+        let one = QXView()
+        return one
+    }()
+
     //MARK:- Init
     required public init() {
         super.init(nibName: nil, bundle: nil)
@@ -34,10 +47,18 @@ open class QXViewController: UIViewController {
     //MARK:- Data
     
     //MARK:- Life cycle
+    open override func loadView() {
+        super.loadView()
+        view.addSubview(contentView)
+    }
 
     open override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         updateNavigationBar()
+    }
+    open override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        contentView.frame = CGRect(x: padding.left, y: padding.top, width: view.frame.width - padding.left - padding.right, height: view.frame.height - padding.top - padding.bottom)
     }
 
     //MARK:- Navigation

@@ -16,15 +16,21 @@ public enum QXURL {
     @available(OSX 10.11, iOS 9.0, *)
     case data(_ data: Data)
     
+    case nsUrl(_ url: URL)
+    
+    public static let invaild: QXURL = QXURL.url("invalid")
+    
     public var nsUrl: URL? {
         switch self {
-        case .url(let url):
-            return URL(string: url.qxUrlEncodingString)
-        case .file(let path):
-            return URL(fileURLWithPath: path.qxUrlEncodingString)
-        case .data(let data):
+        case .url(let e):
+            return URL(string: e.qxUrlEncodingString)
+        case .file(let e):
+            return URL(fileURLWithPath: e.qxUrlEncodingString)
+        case .nsUrl(let e):
+            return e
+        case .data(let e):
             if #available(iOS 9.0, *) {
-                return URL(dataRepresentation: data, relativeTo: nil)
+                return URL(dataRepresentation: e, relativeTo: nil)
             } else {
                 return QXDebugFatalError("support >=9.0", URL(string: ""))
             }

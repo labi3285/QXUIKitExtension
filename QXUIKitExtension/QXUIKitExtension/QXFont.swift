@@ -86,7 +86,7 @@ open class QXFont {
     /// 段落样式
     open var paragraphStyle: NSParagraphStyle?
     open func setParagraphStyle(_ e: NSParagraphStyle?) -> QXFont { paragraphStyle = e; return self }
-    
+        
     /// "16 #ffffff BU 5,10"
     public init(fmt: String) {
         let comps = fmt.components(separatedBy: " ")

@@ -14,10 +14,20 @@ public struct QXError {
     public var message: String
     public var info: Any?
     
-    init(_ code: Int, _ message: String, _ info: Any? = nil) {
+    public init(_ code: Int, _ message: String, _ info: Any?) {
         self.code = code
         self.message = message
         self.info = info
     }
+    
+    public init(_ code: Int, _ message: String) {
+        self.code = code
+        self.message = message
+        self.info = nil
+    }
+    
+    static let unknown: QXError = QXError(-1, "未知错误")
+    static let parse: QXError = QXError(-1, "解析错误")
+    static let format: QXError = QXError(-1, "格式错误")
     
 }
