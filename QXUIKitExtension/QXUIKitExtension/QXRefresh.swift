@@ -118,7 +118,7 @@ open class QXRefreshHeader: MJRefreshHeader {
             super.state = state
             messageLabel.isDisplay = true
             dateLabel.isDisplay = true
-            let date = QXDate(lastUpdatedTime)
+            let date = QXDate(lastUpdatedTime ?? Date())
             if let a = textDatePrefix, let b = dateHandler.qxRefreshDateToRichText(date) {
                 dateLabel.richTexts = a + b
             }

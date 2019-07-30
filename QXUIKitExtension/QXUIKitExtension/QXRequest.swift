@@ -13,18 +13,18 @@ import QXJSON
 extension QXRequest {
     
     static private let NetworkReachability = NetworkReachabilityManager(host: "http://www.baidu.com")
-    static func startListenNetwork() {
+    public static func startListenNetwork() {
         NetworkReachability?.startListening()
     }
-    static func stopListenNetwork() {
+    public static func stopListenNetwork() {
         NetworkReachability?.stopListening()
     }
     
-    static var isNetworkOn: Bool {
+    public static var isNetworkOn: Bool {
         return NetworkReachability?.isReachable ?? false
     }
     
-    static var isWwan: Bool {
+    public static var isWwan: Bool {
         if let status = NetworkReachability?.networkReachabilityStatus {
             switch status {
             case .reachable(let t):
@@ -139,7 +139,7 @@ open class QXRequest {
     }
     
     /// 上传文件列表
-    func uploadFormDatas(files: [File], done: @escaping (_ respond: Respond<Any>) -> ()) {
+    public func uploadFormDatas(files: [File], done: @escaping (_ respond: Respond<Any>) -> ()) {
         assert(self.url.count > 0, "请填写url")
         let url = self.url
         let method = _makeMethod()
@@ -184,7 +184,7 @@ open class QXRequest {
     }
     
     /// 请求 data
-    func fetchData(done: @escaping (_ respond: Respond<Any>) -> ()) {
+    public func fetchData(done: @escaping (_ respond: Respond<Any>) -> ()) {
         QXDebugAssert(url.count > 0, "请填写url")
         let url = self.url
         let method = _makeMethod()
@@ -217,7 +217,7 @@ open class QXRequest {
     }
     
     /// 请求 arr
-    func fetchArray(done: @escaping (_ respond: Respond<[Any]>) -> ()) {
+    public func fetchArray(done: @escaping (_ respond: Respond<[Any]>) -> ()) {
         fetchData { (respond) in
             switch respond {
             case .succeed(let t):
@@ -233,7 +233,7 @@ open class QXRequest {
     }
     
     /// 请求 dic
-    func fetchDictionary(done: @escaping (_ respond: Respond<[String: Any]>) -> ()) {
+    public func fetchDictionary(done: @escaping (_ respond: Respond<[String: Any]>) -> ()) {
         fetchData { (respond) in
             switch respond {
             case .succeed(let t):

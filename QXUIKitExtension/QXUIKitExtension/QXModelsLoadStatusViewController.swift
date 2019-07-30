@@ -146,10 +146,10 @@ open class QXModelsLoadStatusViewController
     public var pageCount: Int = 10
 
     /// 数据加载方法， 重写这个方法请调用super
-    public func loadModels() { }
+    open func loadModels() { }
     
     /// 拿到分页数据的界面更新
-    func onLoadModelsOk(_ newModels: [Model], isThereMore: Bool? = nil) {
+    open func onLoadModelsOk(_ newModels: [Model], isThereMore: Bool? = nil) {
         let statusBefore = modelsLoadStatus
         if canPage {
             if statusBefore.isRefresh {
@@ -223,7 +223,7 @@ open class QXModelsLoadStatusViewController
         }
     }
     /// 分页报错处理的界面更新
-    func onLoadModelsFailed(_ err: QXError?) {
+    open func onLoadModelsFailed(_ err: QXError?) {
         let statusBefore = modelsLoadStatus
         switch statusBefore {
         case .reload(_):
@@ -259,7 +259,7 @@ open class QXModelsLoadStatusViewController
 
 extension QXModelsLoadStatusViewController where Model: QXModel {
     
-    func onLoadModelsComplete(_ respond: QXRespond<QXPage<Model>>) {
+    public func onLoadModelsComplete(_ respond: QXRespond<QXPage<Model>>) {
         if respond.isOk {
             if let page = respond.data {
                 if let arr = page.models {
