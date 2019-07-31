@@ -9,28 +9,32 @@
 import UIKit
 import Kingfisher
 
-class ViewController: QXTableViewController<QXModel, QXLoadStatusView> {
+class ViewController: QXTableViewController<Any, QXLoadStatusView> {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = UIColor.gray
         canRefresh = true
         canPage = true
+        //        tableView.cellsDelegate = self
         retry()
     }
-    
-    override func qxTableViewCell(_ model: Any?, _ reuseId: String) -> QXTableViewCell {
-        let c = DebugTableViewCell(reuseId: reuseId)
-        c.contentView.qxDebugRandomColor()
-        return c
-    }
+
     override func loadModels() {
-        let r = QXRequest(method: .get, encoding: .url)
-        r.url = "http://www.baidu.com"
-        weak var ws = self
-        r.fetchPage { (page) in
-            ws?.onLoadModelsComplete(page)
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1) {
+            let ms = ["xxxxxxxxxxxxdwqdwqdwqdwqdwqxxxxxxxxxxxxdwqdwqdwqdwqdwqxxxxxxxxxxxxdwqdwqdwqdwqdwqxxxxxxxxxxxxdwqdwqdwqdwqdwqxxxxxxxxxxxxdwqdwqdwqdwqdwqxxxxxxxxxxxxdwqdwqdwqdwqdwqxxxxxxxxxxxxdwqdwqdwqdwqdwqxxxxxxxxxxxxdwqdwqdwqdwqdwq", 2, 3] as [Any]
+            self.onLoadModelsOk(ms)
         }
+        
+//        let r = QXRequest(method: .get, encoding: .url)
+//        r.url = "http://www.baidu.com"
+//        weak var ws = self
+//        r.fetchPage { (page) in
+//            ws?.onLoadModelsComplete(page)
+//        }
     }
 }
+
+
 
 

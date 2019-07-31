@@ -9,7 +9,8 @@
 import UIKit
 import MJRefresh
 
-public let QXTableViewAutoHeight = UITableView.automaticDimension
+public let QXTableViewAutoHeight: CGFloat = UITableView.automaticDimension
+public let QXTableViewNoneHeight: CGFloat = 0.0001
 
 public protocol QXTableViewCellProtocol {
     
@@ -21,8 +22,27 @@ public protocol QXTableViewCellProtocol {
     func qxTableViewCellHeight(_ model: Any?) -> CGFloat
     func qxTableViewCellCanEdit(_ model: Any?) -> Bool
     func qxTableViewCellEditActions(_ model: Any?) -> [UITableViewRowAction]?
+    
+    func qxTableViewHeaderViewReuseId(_ model: Any?) -> String
+    func qxTableViewHeaderViewHeight(_ model: Any?) -> CGFloat
 
-//    func qxTableViewCellCanMove(_ model: Any?) -> Bool
+    func qxTableViewFooterViewReuseId(_ model: Any?) -> String
+    func qxTableViewFooterViewHeight(_ model: Any?) -> CGFloat
+
+    func qxTableViewEstimatedCellHeight(_ model: Any?) -> CGFloat
+    func qxTableViewEstimatedHeaderHeight(_ model: Any?) -> CGFloat
+    func qxTableViewEstimatedFooterHeight(_ model: Any?) -> CGFloat
+
+    func qxTableViewHeaderView(_ model: Any?, _ reuseId: String) -> QXTableViewHeaderFooterView?
+    func qxTableViewFooterView(_ model: Any?, _ reuseId: String) -> QXTableViewHeaderFooterView?
+
+    func qxTableViewWillDisplayCell(_ cell: QXTableViewCell)
+    func qxTableViewWillDisplayHeaderView(_ view: QXTableViewHeaderFooterView)
+    func qxTableViewWillDisplayFooterView(_ view: QXTableViewHeaderFooterView)
+    
+    func qxTableViewDidEndDisplayingCell( _ cell: QXTableViewCell)
+    func qxTableViewDidEndDisplayingHeaderView(_ view: QXTableViewHeaderFooterView)
+    func qxTableViewDidEndDisplayingFooterView(_ view: QXTableViewHeaderFooterView)
     
 }
 
@@ -47,14 +67,88 @@ extension QXTableViewCellProtocol {
     public func qxTableViewCellEditActions(_ model: Any?) -> [UITableViewRowAction]? {
         return nil
     }
+    
+    public func qxTableViewHeaderViewReuseId(_ model: Any?) -> String {
+        if let e = model {
+            return "\(type(of: e))"
+        } else {
+            return "NULL"
+        }
+    }
+    public func qxTableViewHeaderViewHeight(_ model: Any?) -> CGFloat {
+        return QXTableViewNoneHeight
+    }
+    public func qxTableViewFooterViewHeight(_ model: Any?) -> CGFloat {
+        return QXTableViewNoneHeight
+    }
+    
+    public func qxTableViewFooterViewReuseId(_ model: Any?) -> String {
+        if let e = model {
+            return "\(type(of: e))"
+        } else {
+            return "NULL"
+        }
+    }
+    public func qxTableViewEstimatedCellHeight(_ model: Any?) -> CGFloat {
+        return QXTableViewAutoHeight
+    }
+    public func qxTableViewEstimatedHeaderHeight(_ model: Any?) -> CGFloat {
+        return QXTableViewAutoHeight
+    }
+    public func qxTableViewEstimatedFooterHeight(_ model: Any?) -> CGFloat {
+        return QXTableViewAutoHeight
+    }
+    public func qxTableViewHeaderView(_ model: Any?, _ reuseId: String) -> QXTableViewHeaderFooterView? {
+        return QXTableViewHeaderFooterView(reuseId)
+    }
+    public func qxTableViewFooterView(_ model: Any?, _ reuseId: String) -> QXTableViewHeaderFooterView? {
+        return QXTableViewHeaderFooterView(reuseId)
+    }
+    
+    public func qxTableViewWillDisplayCell(_ cell: QXTableViewCell) {
+        
+    }
+    public func qxTableViewWillDisplayHeaderView(_ view: QXTableViewHeaderFooterView) {
+        
+    }
+    public func qxTableViewWillDisplayFooterView(_ view: QXTableViewHeaderFooterView) {
+        
+    }
+    public func qxTableViewDidEndDisplayingCell(_ cell: QXTableViewCell) {
+        
+    }
+    public func qxTableViewDidEndDisplayingHeaderView(_ view: QXTableViewHeaderFooterView) {
+        
+    }
+    public func qxTableViewDidEndDisplayingFooterView(_ view: QXTableViewHeaderFooterView) {
+    }
 }
 
 open class QXTableViewCell: UITableViewCell {
     
     open var model: Any?
     
-    required public init(reuseId: String) {
+    required public init(_ reuseId: String) {
         super.init(style: .default, reuseIdentifier: reuseId)
+        backgroundView = UIView()
+        contentView.backgroundColor = UIColor.clear
+        backgroundColor = UIColor.clear
+    }
+    required public init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+}
+
+open class QXTableViewHeaderFooterView: UITableViewHeaderFooterView {
+    
+    open var model: Any?
+    
+    required public init(_ reuseId: String) {
+        super.init(reuseIdentifier: reuseId)
+        backgroundView = UIView()
+        contentView.backgroundColor = UIColor.clear
+        backgroundColor = UIColor.clear
     }
     required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -194,26 +288,48 @@ extension QXTableView: UITableViewDelegate, UITableViewDataSource {
 //
 //    func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath)
     
-    
-    
-//    @available(iOS 2.0, *)
-//    optional func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath)
-//
-//    @available(iOS 6.0, *)
-//    optional func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int)
-//
-//    @available(iOS 6.0, *)
-//    optional func tableView(_ tableView: UITableView, willDisplayFooterView view: UIView, forSection section: Int)
-//
-//    @available(iOS 6.0, *)
-//    optional func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath)
-//
-//    @available(iOS 6.0, *)
-//    optional func tableView(_ tableView: UITableView, didEndDisplayingHeaderView view: UIView, forSection section: Int)
-//
-//    @available(iOS 6.0, *)
-//    optional func tableView(_ tableView: UITableView, didEndDisplayingFooterView view: UIView, forSection section: Int)
-//
+    open func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if let delegate = cellsDelegate {
+            if let cell = cell as? QXTableViewCell {
+                delegate.qxTableViewWillDisplayCell(cell)
+            }
+        }
+    }
+    open func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+        if let delegate = cellsDelegate {
+            if let view = view as? QXTableViewHeaderFooterView {
+                delegate.qxTableViewWillDisplayHeaderView(view)
+            }
+        }
+    }
+    open func tableView(_ tableView: UITableView, willDisplayFooterView view: UIView, forSection section: Int) {
+        if let delegate = cellsDelegate {
+            if let view = view as? QXTableViewHeaderFooterView {
+                delegate.qxTableViewWillDisplayFooterView(view)
+            }
+        }
+    }
+    open func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if let delegate = cellsDelegate {
+            if let cell = cell as? QXTableViewCell {
+                delegate.qxTableViewDidEndDisplayingCell(cell)
+            }
+        }
+    }
+    open func tableView(_ tableView: UITableView, didEndDisplayingHeaderView view: UIView, forSection section: Int) {
+        if let delegate = cellsDelegate {
+            if let view = view as? QXTableViewHeaderFooterView {
+                delegate.qxTableViewDidEndDisplayingHeaderView(view)
+            }
+        }
+    }
+    open func tableView(_ tableView: UITableView, didEndDisplayingFooterView view: UIView, forSection section: Int) {
+        if let delegate = cellsDelegate {
+            if let view = view as? QXTableViewHeaderFooterView {
+                delegate.qxTableViewDidEndDisplayingFooterView(view)
+            }
+        }
+    }
 
     open func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         let section = sections[indexPath.section]
@@ -224,106 +340,90 @@ extension QXTableView: UITableViewDelegate, UITableViewDataSource {
             return QXDebugFatalError("请设置 cellsDelegate", QXTableViewAutoHeight)
         }
     }
-//
-//    @available(iOS 2.0, *)
-//    optional func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat
-//
-//    @available(iOS 2.0, *)
-//    optional func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat
-//
-//    @available(iOS 7.0, *)
-//    optional func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat
-//
-//    @available(iOS 7.0, *)
-//    optional func tableView(_ tableView: UITableView, estimatedHeightForHeaderInSection section: Int) -> CGFloat
-//
-//    @available(iOS 7.0, *)
-//    optional func tableView(_ tableView: UITableView, estimatedHeightForFooterInSection section: Int) -> CGFloat
-//
-//    @available(iOS 2.0, *)
-//    optional func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView?
-//
-//    @available(iOS 2.0, *)
-//    optional func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView?
-//
-//    @available(iOS 2.0, *)
-//    optional func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath)
-//
-//    @available(iOS 6.0, *)
-//    optional func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool
-//
-//    @available(iOS 6.0, *)
-//    optional func tableView(_ tableView: UITableView, didHighlightRowAt indexPath: IndexPath)
-//
-//    @available(iOS 6.0, *)
-//    optional func tableView(_ tableView: UITableView, didUnhighlightRowAt indexPath: IndexPath)
-//
-//    @available(iOS 2.0, *)
-//    optional func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath?
-//
-//    @available(iOS 3.0, *)
-//    optional func tableView(_ tableView: UITableView, willDeselectRowAt indexPath: IndexPath) -> IndexPath?
-//
-//    @available(iOS 2.0, *)
-//    optional func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath)
-//
-//    @available(iOS 3.0, *)
-//    optional func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath)
-//
-//    @available(iOS 2.0, *)
-//    optional func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle
-//
-//    @available(iOS 3.0, *)
-//    optional func tableView(_ tableView: UITableView, titleForDeleteConfirmationButtonForRowAt indexPath: IndexPath) -> String?
-//
-//    @available(iOS 8.0, *)
-//    optional func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]?
-//
-//    @available(iOS 11.0, *)
-//    optional func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration?
-//
-//    @available(iOS 11.0, *)
-//    optional func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration?
-//
-//    @available(iOS 2.0, *)
-//    optional func tableView(_ tableView: UITableView, shouldIndentWhileEditingRowAt indexPath: IndexPath) -> Bool
-//
-//    @available(iOS 2.0, *)
-//    optional func tableView(_ tableView: UITableView, willBeginEditingRowAt indexPath: IndexPath)
-//
-//    @available(iOS 2.0, *)
-//    optional func tableView(_ tableView: UITableView, didEndEditingRowAt indexPath: IndexPath?)
-//
-//    @available(iOS 2.0, *)
-//    optional func tableView(_ tableView: UITableView, targetIndexPathForMoveFromRowAt sourceIndexPath: IndexPath, toProposedIndexPath proposedDestinationIndexPath: IndexPath) -> IndexPath
-//
-//    @available(iOS 2.0, *)
-//    optional func tableView(_ tableView: UITableView, indentationLevelForRowAt indexPath: IndexPath) -> Int
-//
-//    @available(iOS 5.0, *)
-//    optional func tableView(_ tableView: UITableView, shouldShowMenuForRowAt indexPath: IndexPath) -> Bool
-//
-//    @available(iOS 5.0, *)
-//    optional func tableView(_ tableView: UITableView, canPerformAction action: Selector, forRowAt indexPath: IndexPath, withSender sender: Any?) -> Bool
-//
-//    @available(iOS 5.0, *)
-//    optional func tableView(_ tableView: UITableView, performAction action: Selector, forRowAt indexPath: IndexPath, withSender sender: Any?)
-//
-//    @available(iOS 9.0, *)
-//    optional func tableView(_ tableView: UITableView, canFocusRowAt indexPath: IndexPath) -> Bool
-//
-//    @available(iOS 9.0, *)
-//    optional func tableView(_ tableView: UITableView, shouldUpdateFocusIn context: UITableViewFocusUpdateContext) -> Bool
-//
-//    @available(iOS 9.0, *)
-//    optional func tableView(_ tableView: UITableView, didUpdateFocusIn context: UITableViewFocusUpdateContext, with coordinator: UIFocusAnimationCoordinator)
-//
-//    @available(iOS 9.0, *)
-//    optional func indexPathForPreferredFocusedView(in tableView: UITableView) -> IndexPath?
-//
-//    @available(iOS 11.0, *)
-//    optional func tableView(_ tableView: UITableView, shouldSpringLoadRowAt indexPath: IndexPath, with context: UISpringLoadedInteractionContext) -> Bool
+
+    open func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        let section = sections[section]
+        let model = section.header
+        if let delegate = cellsDelegate {
+            return delegate.qxTableViewHeaderViewHeight(model)
+        } else {
+            return QXDebugFatalError("请设置 cellsDelegate", QXTableViewAutoHeight)
+        }
+    }
     
+    open func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        let section = sections[section]
+        let model = section.footer
+        if let delegate = cellsDelegate {
+            return delegate.qxTableViewFooterViewHeight(model)
+        } else {
+            return QXDebugFatalError("请设置 cellsDelegate", QXTableViewAutoHeight)
+        }
+    }
+
+    open func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        let section = sections[indexPath.section]
+        let model = section.models[indexPath.row]
+        if let delegate = cellsDelegate {
+            return delegate.qxTableViewEstimatedCellHeight(model)
+        } else {
+            return QXDebugFatalError("请设置 cellsDelegate", QXTableViewAutoHeight)
+        }
+    }
+//    open func tableView(_ tableView: UITableView, estimatedHeightForHeaderInSection section: Int) -> CGFloat {
+//        return 30
+//
+//    }
+
+    
+//    open func tableView(_ tableView: UITableView, estimatedHeightForHeaderInSection section: Int) -> CGFloat {
+//        let section = sections[section]
+//        let model = section.header
+//        if let delegate = cellsDelegate {
+//            return delegate.qxTableViewEstimatedHeaderHeight(model)
+//        } else {
+//            return QXDebugFatalError("请设置 cellsDelegate", QXTableViewAutoHeight)
+//        }
+//    }
+//    open func tableView(_ tableView: UITableView, estimatedHeightForFooterInSection section: Int) -> CGFloat {
+//        let section = sections[section]
+//        let model = section.footer
+//        if let delegate = cellsDelegate {
+//            return delegate.qxTableViewEstimatedFooterHeight(model)
+//        } else {
+//            return QXDebugFatalError("请设置 cellsDelegate", QXTableViewAutoHeight)
+//        }
+//    }
+    
+    open func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        if let delegate = cellsDelegate {
+            let section = sections[section]
+            let model = section.header
+            let id = delegate.qxTableViewHeaderViewReuseId(model)
+            let view = delegate.qxTableViewHeaderView(model, id)
+            view?.model = model
+            return view
+        } else {
+            return QXDebugFatalError("请设置 cellsDelegate", UITableViewHeaderFooterView())
+        }
+    }
+
+    open func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        if let delegate = cellsDelegate {
+            let section = sections[section]
+            let model = section.footer
+            let id = delegate.qxTableViewFooterViewReuseId(model)
+            let view = delegate.qxTableViewFooterView(model, id)
+            view?.model = model
+            return view
+        } else {
+            return QXDebugFatalError("请设置 cellsDelegate", UITableViewHeaderFooterView())
+        }
+    }
+
+    open func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
+        return false
+    }
     
 }
 

@@ -58,8 +58,6 @@ public func QXDebugFatalError(_ msg: @autoclosure () -> String, file: StaticStri
     #endif
 }
 
-
-
 @discardableResult public func QXDebugFatalError<T>(_ msg: @autoclosure () -> String, _ t: T, file: StaticString = #file, line: UInt = #line) -> T {
     #if DEBUG
     fatalError(msg(), file: file, line: line)

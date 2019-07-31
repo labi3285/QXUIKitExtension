@@ -59,15 +59,25 @@ open class QXModelsLoadStatusViewController
             }
         }
     }
+    private func updateCanRefresh() {
+        if canRefresh {
+            refreshableView.qxSetRefreshHeader(refreshHeader)
+        } else {
+            refreshableView.qxSetRefreshHeader(nil)
+        }
+    }
 
     /// 是否可以上拉刷新
     public var canPage: Bool = false {
         didSet {
-            if canPage {
-                refreshableView.qxSetRefreshFooter(refreshFooter)
-            } else {
-                refreshableView.qxSetRefreshFooter(nil)
-            }
+           updateCanPage()
+        }
+    }
+    private func updateCanPage() {
+        if canPage {
+            refreshableView.qxSetRefreshFooter(refreshFooter)
+        } else {
+            refreshableView.qxSetRefreshFooter(nil)
         }
     }
     
@@ -99,27 +109,35 @@ open class QXModelsLoadStatusViewController
                 case .refreshing:
                     refreshHeader.beginRefreshing()
                     refreshFooter.resetNoMoreData()
+                    refreshableView.qxSetRefreshFooter(nil)
                 case .refreshOk:
                     refreshHeader.endRefreshing()
+                    updateCanPage()
                 case .refreshError(let err):
                     if let e = err?.message {
                         showFailure(msg: e)
                     }
                     refreshHeader.endRefreshing()
+                    updateCanPage()
                 case .paging:
                     refreshFooter.beginRefreshing()
+                    refreshableView.qxSetRefreshHeader(nil)
                 case .pageError(let err):
                     if let e = err?.message {
                         showFailure(msg: e)
                     }
                     refreshFooter.endRefreshing()
+                    updateCanRefresh()
                 case .pageOk:
                     refreshFooter.endRefreshing()
+                    updateCanRefresh()
                 case .pageEmpty(msg: _):
                     refreshFooter.endRefreshingWithNoMoreData()
+                    updateCanRefresh()
                 case .pageNoMore(_):
                     refreshHeader.endRefreshing()
                     refreshFooter.endRefreshingWithNoMoreData()
+                    updateCanRefresh()
                 }
             }
         }
