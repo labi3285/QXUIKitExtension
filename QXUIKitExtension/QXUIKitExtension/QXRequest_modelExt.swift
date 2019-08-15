@@ -28,4 +28,22 @@ extension QXRequest {
         }
     }
     
+    /// 请求 model
+    open func fetchModel<T>(done: @escaping (_ respond: QXRespond<T>) -> ()) {
+        fetchJSON { (respond) in
+            switch respond {
+            case .succeed(let json):
+                let e = QXRespond<T>()
+                e.update(json)
+                done(e)
+            case .failed(let err):
+                let e = QXRespond<T>()
+                e.data = nil
+                e.error = err
+                done(e)
+            }
+        }
+    }
+    
 }
+

@@ -12,7 +12,7 @@ import MJRefresh
 public let QXTableViewAutoHeight: CGFloat = UITableView.automaticDimension
 public let QXTableViewNoneHeight: CGFloat = 0.0001
 
-public protocol QXTableViewCellProtocol {
+public protocol QXTableViewCellDelegate: class {
     
     /// [Required]
     func qxTableViewCell(_ model: Any?, _ reuseId: String) -> QXTableViewCell
@@ -46,7 +46,7 @@ public protocol QXTableViewCellProtocol {
     
 }
 
-extension QXTableViewCellProtocol {
+extension QXTableViewCellDelegate {
     
     public func qxTableViewCellReuseId(_ model: Any?) -> String {
         if let e = model {
@@ -174,7 +174,7 @@ public struct QXTableViewSection {
 
 open class QXTableView: QXView {
     
-    public var cellsDelegate: QXTableViewCellProtocol?
+    public weak var cellsDelegate: QXTableViewCellDelegate?
     public var sections: [QXTableViewSection] = []
 
     public var padding: QXPadding = QXPadding.zero

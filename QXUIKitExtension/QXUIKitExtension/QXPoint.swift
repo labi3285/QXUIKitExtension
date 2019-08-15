@@ -16,6 +16,9 @@ public struct QXPoint {
     public var y: CGFloat
     
     public static let zero = QXPoint()
+    public var isZero: Bool {
+        return x == 0 && y == 0
+    }
 
     /// default init
     public init() {
@@ -27,10 +30,6 @@ public struct QXPoint {
     public init(_ x: CGFloat, _ y: CGFloat) {
         self.x = x
         self.y = y
-    }
-    
-    public var isZero: Bool {
-        return x == 0 && y == 0
     }
     
 }

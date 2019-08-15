@@ -45,6 +45,10 @@ open class QXView: UIView {
 
 extension UIView {
     
+    public var qxIntrinsicContentSize: QXSize{
+        return intrinsicContentSize.qxSize
+    }
+    
     public func qxCheckOrAddSubview(_ view: UIView) {
         if let superview = view.superview {
             if superview === self {

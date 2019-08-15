@@ -14,6 +14,8 @@
 		751558AC22E8033000EFF37A /* QXRespond.swift in Sources */ = {isa = PBXBuildFile; fileRef = 751558AB22E8033000EFF37A /* QXRespond.swift */; };
 		751558AE22E8255700EFF37A /* QXRequest_jsonExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 751558AD22E8255700EFF37A /* QXRequest_jsonExt.swift */; };
 		751558B022E8258900EFF37A /* QXRequest_modelExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 751558AF22E8258900EFF37A /* QXRequest_modelExt.swift */; };
+		7542FF3D23050EC60079CCD6 /* icon_mine_ask1.png in Resources */ = {isa = PBXBuildFile; fileRef = 7542FF3C23050EC60079CCD6 /* icon_mine_ask1.png */; };
+		7542FF3F23050F990079CCD6 /* icon_mine_recommend.png in Resources */ = {isa = PBXBuildFile; fileRef = 7542FF3E23050F990079CCD6 /* icon_mine_recommend.png */; };
 		7553884622EE969900D5261D /* QXTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7553884522EE969900D5261D /* QXTableViewController.swift */; };
 		7553C79022CC9C810058239B /* QXRect.Relation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7553C78D22CC9C810058239B /* QXRect.Relation.swift */; };
 		7553C79122CC9C810058239B /* QXRect.UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7553C78E22CC9C810058239B /* QXRect.UIView.swift */; };
@@ -67,6 +69,7 @@
 		75944D4522E304EC006FD18E /* QXActivityIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75944D4422E304EC006FD18E /* QXActivityIndicatorView.swift */; };
 		75944D4722E5953F006FD18E /* QXModelsLoadStatusViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75944D4622E5953F006FD18E /* QXModelsLoadStatusViewController.swift */; };
 		75944D4922E59AAE006FD18E /* QXMessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75944D4822E59AAE006FD18E /* QXMessageView.swift */; };
+		75CCBC2A22F7BF68004AD9E1 /* QXTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75CCBC2922F7BF68004AD9E1 /* QXTimer.swift */; };
 		75E214F122E6AD44004A12DB /* QXRefresh.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75E214F022E6AD44004A12DB /* QXRefresh.swift */; };
 		75FE018422EC29C0007646A3 /* QXDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75FE018322EC29C0007646A3 /* QXDate.swift */; };
 		75FE018822EC3E26007646A3 /* QXTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75FE018722EC3E26007646A3 /* QXTableView.swift */; };
@@ -80,6 +83,8 @@
 		751558AB22E8033000EFF37A /* QXRespond.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QXRespond.swift; sourceTree = "<group>"; };
 		751558AD22E8255700EFF37A /* QXRequest_jsonExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QXRequest_jsonExt.swift; sourceTree = "<group>"; };
 		751558AF22E8258900EFF37A /* QXRequest_modelExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QXRequest_modelExt.swift; sourceTree = "<group>"; };
+		7542FF3C23050EC60079CCD6 /* icon_mine_ask1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_mine_ask1.png; sourceTree = "<group>"; };
+		7542FF3E23050F990079CCD6 /* icon_mine_recommend.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_mine_recommend.png; sourceTree = "<group>"; };
 		7553884522EE969900D5261D /* QXTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QXTableViewController.swift; sourceTree = "<group>"; };
 		7553C78D22CC9C810058239B /* QXRect.Relation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QXRect.Relation.swift; sourceTree = "<group>"; };
 		7553C78E22CC9C810058239B /* QXRect.UIView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QXRect.UIView.swift; sourceTree = "<group>"; };
@@ -135,6 +140,7 @@
 		75944D4422E304EC006FD18E /* QXActivityIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QXActivityIndicatorView.swift; sourceTree = "<group>"; };
 		75944D4622E5953F006FD18E /* QXModelsLoadStatusViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QXModelsLoadStatusViewController.swift; sourceTree = "<group>"; };
 		75944D4822E59AAE006FD18E /* QXMessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QXMessageView.swift; sourceTree = "<group>"; };
+		75CCBC2922F7BF68004AD9E1 /* QXTimer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QXTimer.swift; sourceTree = "<group>"; };
 		75E214F022E6AD44004A12DB /* QXRefresh.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QXRefresh.swift; sourceTree = "<group>"; };
 		75FE018322EC29C0007646A3 /* QXDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QXDate.swift; sourceTree = "<group>"; };
 		75FE018722EC3E26007646A3 /* QXTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QXTableView.swift; sourceTree = "<group>"; };
@@ -187,6 +193,8 @@
 				756A50B622BDFA1600E692DA /* QXUIKitExtension */,
 				756A50A422BDF9FD00E692DA /* AppDelegate.swift */,
 				756A50A622BDF9FD00E692DA /* ViewController.swift */,
+				7542FF3C23050EC60079CCD6 /* icon_mine_ask1.png */,
+				7542FF3E23050F990079CCD6 /* icon_mine_recommend.png */,
 				756A50AB22BDF9FE00E692DA /* Assets.xcassets */,
 				757806A422E2A108009DD0DA /* LaunchScreen.storyboard */,
 				756A50B022BDF9FE00E692DA /* Info.plist */,
@@ -239,6 +247,7 @@
 				7553884522EE969900D5261D /* QXTableViewController.swift */,
 				75E214F022E6AD44004A12DB /* QXRefresh.swift */,
 				75FE018322EC29C0007646A3 /* QXDate.swift */,
+				75CCBC2922F7BF68004AD9E1 /* QXTimer.swift */,
 				75FE018722EC3E26007646A3 /* QXTableView.swift */,
 				75929C8522D0764C006577AD /* QXNavigationController.swift */,
 				75929C8B22D2CDE7006577AD /* QXTabBarController.swift */,
@@ -328,8 +337,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				756A50AC22BDF9FE00E692DA /* Assets.xcassets in Resources */,
+				7542FF3D23050EC60079CCD6 /* icon_mine_ask1.png in Resources */,
 				7578069222E1647C009DD0DA /* QXUIKitExtensionResources.bundle in Resources */,
 				757806A522E2A108009DD0DA /* LaunchScreen.storyboard in Resources */,
+				7542FF3F23050F990079CCD6 /* icon_mine_recommend.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -428,6 +439,7 @@
 				7578069822E17100009DD0DA /* QXPadding.swift in Sources */,
 				751558AA22E7FD1500EFF37A /* QXModel.swift in Sources */,
 				751558AE22E8255700EFF37A /* QXRequest_jsonExt.swift in Sources */,
+				75CCBC2A22F7BF68004AD9E1 /* QXTimer.swift in Sources */,
 				75944D4722E5953F006FD18E /* QXModelsLoadStatusViewController.swift in Sources */,
 				75929CB022D82CC3006577AD /* UIView_ext.swift in Sources */,
 				757806A722E2A47B009DD0DA /* QXLabel.swift in Sources */,

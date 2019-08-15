@@ -55,6 +55,7 @@ open class QXImageView: QXView {
         super.init(frame: CGRect.zero)
         addSubview(uiImageView)
         addSubview(placeHolderView)
+        isUserInteractionEnabled = false
     }
     required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -78,7 +79,11 @@ open class QXImageView: QXView {
                 }
             } else {
                 let size = image?.size ?? QXSize.zero
-                return CGSize(width: margin.left + size.w + margin.right, height: margin.top + size.w * size.h / size.w + margin.bottom)
+                if size.w > 0 && size.h > 0 {
+                    return CGSize(width: margin.left + size.w + margin.right, height: margin.top + size.w * size.h / size.w + margin.bottom)
+                } else {
+                    return CGSize.zero
+                }
             }
         } else {
             return CGSize.zero

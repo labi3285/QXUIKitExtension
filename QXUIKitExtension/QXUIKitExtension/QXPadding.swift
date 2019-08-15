@@ -58,5 +58,5 @@ extension UIEdgeInsets {
     public var qxPadding: QXPadding {
         return QXPadding(top, left, bottom, right)
     }
-    
+
 }

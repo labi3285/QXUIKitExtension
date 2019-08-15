@@ -45,7 +45,7 @@ open class QXLoadStatusViewController<LoadStatusView: UIView & QXLoadStatusViewP
                 loadStatusView.isHidden = false
                 contentView.isHidden = true
                 loadStatusView.qxLoadStatusViewUpdateStatus(loadStatus)
-            case .error(err:)(err: _):
+            case .error(err: _):
                 loadStatusView.isHidden = false
                 contentView.isHidden = true
                 loadStatusView.qxLoadStatusViewUpdateStatus(loadStatus)

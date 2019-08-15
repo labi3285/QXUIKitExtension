@@ -77,10 +77,10 @@ extension String {
     }
     
     public var qxUrlEncodingString: String {
-        var t = self
-        t = t.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed) ?? ""
-        t = t.replacingOccurrences(of: "%23", with: "#")
-        return t
+        let charSet = NSMutableCharacterSet()
+        charSet.formUnion(with: CharacterSet.urlQueryAllowed)
+        charSet.addCharacters(in: "#%")
+        return addingPercentEncoding(withAllowedCharacters: charSet as CharacterSet) ?? ""
     }
     
     /// 下划线

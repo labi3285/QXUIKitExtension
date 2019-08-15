@@ -8,7 +8,7 @@
 
 import UIKit
 
-open class QXTableViewController<Model, LoadStatusView: UIView & QXLoadStatusViewProtocol>: QXModelsLoadStatusViewController<Model, QXTableView, LoadStatusView>, QXTableViewCellProtocol {
+open class QXTableViewController<Model, LoadStatusView: UIView & QXLoadStatusViewProtocol>: QXModelsLoadStatusViewController<Model, QXTableView, LoadStatusView>, QXTableViewCellDelegate {
     
     override open var models: [Model] {
         didSet {
@@ -25,8 +25,6 @@ open class QXTableViewController<Model, LoadStatusView: UIView & QXLoadStatusVie
     override open func viewDidLoad() {
         super.viewDidLoad()
         tableView.cellsDelegate = self
-        canRefresh = true
-        canPage = true
     }
     
     open func qxTableViewCell(_ model: Any?, _ reuseId: String) -> QXTableViewCell {

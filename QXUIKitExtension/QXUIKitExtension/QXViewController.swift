@@ -41,6 +41,9 @@ open class QXViewController: UIViewController {
         didSet {
             super.title = title
             self.navigationBarTitle = title
+            if _isNavigationBarInited {
+                updateNavigationBar()
+            }
         }
     }
     
@@ -50,36 +53,70 @@ open class QXViewController: UIViewController {
     open override func loadView() {
         super.loadView()
         view.addSubview(contentView)
+        
     }
+    
+    open func viewWillFirstAppear(_ animated: Bool) {
+        
+    }
+    open func viewDidFirstAppear(_ animated: Bool) {
+        
+    }
+    open func viewWillFirstDisappear(_ animated: Bool) {
+        
+    }
+    open func viewDidFirstDisappear(_ animated: Bool) {
+        
+    }
+    
+    private var _isFirstWillAppear: Bool = true
+    private var _isFirstDidAppear: Bool = true
+    private var _isFirstWillDisappear: Bool = true
+    private var _isFirstDidDisappear: Bool = true
 
     open override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        if _isFirstWillAppear { viewWillFirstAppear(animated); _isFirstWillAppear = false }
+        _isNavigationBarInited = true
         updateNavigationBar()
     }
+    open override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        if _isFirstDidAppear { viewDidFirstAppear(animated); _isFirstDidAppear = false }
+    }
+    open override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        if _isFirstWillDisappear { viewWillFirstDisappear(animated); _isFirstWillDisappear = false }
+    }
+    open override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        if _isFirstDidDisappear { viewDidFirstDisappear(animated); _isFirstDidDisappear = false }
+    }
+    
     open override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         contentView.frame = CGRect(x: padding.left, y: padding.top, width: view.frame.width - padding.left - padding.right, height: view.frame.height - padding.top - padding.bottom)
     }
-
+    
     //MARK:- Navigation
-    public var navigationBarBackArrowImage: QXImage?
-    public var navigationBarBackItem: QXBarButtonItem?
+    public var navigationBarBackArrowImage: QXImage? { didSet { if _isNavigationBarInited { updateNavigationBar() } } }
+    public var navigationBarBackItem: QXBarButtonItem? { didSet { if _isNavigationBarInited { updateNavigationBar() } } }
     
-    public var navigationBarTitle: String?
-    public var navigationBarTitleFont: QXFont?
-    public var navigationBarTitleView: UIView?
-    public var navigationBarTintColor: QXColor?
+    public var navigationBarTitle: String? { didSet { if _isNavigationBarInited { updateNavigationBar() } } }
+    public var navigationBarTitleFont: QXFont? { didSet { if _isNavigationBarInited { updateNavigationBar() } } }
+    public var navigationBarTitleView: UIView? { didSet { if _isNavigationBarInited { updateNavigationBar() } } }
+    public var navigationBarTintColor: QXColor? { didSet { if _isNavigationBarInited { updateNavigationBar() } } }
     
-    public var navigationBarBackgroundColor: QXColor?
-    public var navigationBarBackgroundImage: QXImage?
-    public var isNavigationBarLineShow: Bool?
-    public var isNavigationBarTransparent: Bool?
+    public var navigationBarBackgroundColor: QXColor? { didSet { if _isNavigationBarInited { updateNavigationBar() } } }
+    public var navigationBarBackgroundImage: QXImage? { didSet { if _isNavigationBarInited { updateNavigationBar() } } }
+    public var isNavigationBarLineShow: Bool? { didSet { if _isNavigationBarInited { updateNavigationBar() } } }
+    public var isNavigationBarTransparent: Bool? { didSet { if _isNavigationBarInited { updateNavigationBar() } } }
 
-    public var isNavigationBarShow: Bool?
+    public var isNavigationBarShow: Bool = true { didSet { if _isNavigationBarInited { updateNavigationBar() } } }
     
     //MARK:- Present
-    public var isNavigationBarAutoDismissItemAtLeft: Bool = true
-    public var navigationBarAutoDismissItem: QXBarButtonItem? = QXBarButtonItem.titleItem(title: "取消", styles: nil)
+    public var isNavigationBarAutoDismissItemAtLeft: Bool = true { didSet { if _isNavigationBarInited { updateNavigationBar() } } }
+    public var navigationBarAutoDismissItem: QXBarButtonItem? = QXBarButtonItem.titleItem(title: "取消", styles: nil) { didSet { if _isNavigationBarInited { updateNavigationBar() } } }
     
     public private(set) weak var viewControllerBefore: QXViewController?
         
@@ -109,6 +146,13 @@ open class QXViewController: UIViewController {
             QXDebugFatalError("vc is not in UINavigationController", file: file, line: line)
         }
     }
+    public func popToRoot(animated: Bool = true, file: StaticString = #file, line: UInt = #line) {
+        if let nav = navigationController {
+            nav.popToRootViewController(animated: animated)
+        } else {
+            QXDebugFatalError("vc is not in UINavigationController", file: file, line: line)
+        }
+    }
     
     public func present(_ vc: QXNavigationController, animated: Bool = true) {
         super.present(vc, animated: animated)
@@ -116,14 +160,11 @@ open class QXViewController: UIViewController {
     
     public func updateNavigationBar() {
         if isNavigationRootViewController {
-            if isNavigationBarShow == nil {
-                isNavigationBarShow = false
-            }
-            if navigationBarTitleFont == nil {
-                navigationBarTitleFont = QXFont(15, "#333333")
-            }
             if navigationBarTintColor == nil {
                 navigationBarTintColor = QXColor.hex("#333333", 1)
+            }
+            if navigationBarTitleFont == nil {
+                navigationBarTitleFont = QXFont(size: 15, color: navigationBarTintColor ?? QXColor.hex("#333333", 1))
             }
             if navigationBarBackgroundColor == nil {
                 navigationBarBackgroundColor = QXColor.white
@@ -138,11 +179,15 @@ open class QXViewController: UIViewController {
         if let e = navigationBarTitleView {
             navigationItem.titleView = e
         } else {
-            if let e = navigationBarTitle {
+            if let e = navigationBarTitle ?? title {
                 let label = UILabel()
-                label.qxFont = navigationBarTitleFont
+                if let f = navigationBarTitleFont {
+                    label.qxFont = f
+                } else {
+                    label.qxFont = QXFont(size: 15, color: navigationBarTintColor ?? QXColor.black)
+                }
                 label.qxText = e
-                label.sizeToFit()
+                label.HEIGHT.EQUAL(44).MAKE()
                 navigationItem.titleView = label
             } else {
                 navigationItem.title = title
@@ -159,9 +204,7 @@ open class QXViewController: UIViewController {
         if let e = isNavigationBarLineShow {
             navigationController?.qxIsShadowed = e
         }
-        if let e = isNavigationBarShow {
-            navigationController?.setNavigationBarHidden(e, animated: false)
-        }
+        navigationController?.setNavigationBarHidden(!isNavigationBarShow, animated: false)
         if let e = isNavigationBarTransparent, e == true {
             navigationController?.qxNavigationBackgroundImage = QXImage(QXColor.clear)
         }
@@ -180,11 +223,12 @@ open class QXViewController: UIViewController {
             }
         }
     }
+    private var _isNavigationBarInited: Bool = false
         
     //MARK:- Other
     public var topViewController: UIViewController? { return qxTopViewController }
     public var isNavigationRootViewController: Bool { return qxIsNavigationRootViewController }
-
+    
 }
 
 extension UIViewController {

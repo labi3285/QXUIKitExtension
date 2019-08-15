@@ -13,12 +13,18 @@ open class QXLabel: QXView {
     open var text: String = "" {
         didSet {
             uiLabel.attributedText = font.nsAttributtedString(text)
+            invalidateIntrinsicContentSize()
+            setNeedsLayout()
+            setNeedsDisplay()
         }
     }
     open var font: QXFont = QXFont(size: 14, color: QXColor.black) {
         didSet {
             uiLabel.attributedText = font.nsAttributtedString(text)
             richTexts = nil
+            invalidateIntrinsicContentSize()
+            setNeedsLayout()
+            setNeedsDisplay()
         }
     }
     
@@ -31,6 +37,9 @@ open class QXLabel: QXView {
             } else {
                 uiLabel.attributedText = nil
             }
+            invalidateIntrinsicContentSize()
+            setNeedsLayout()
+            setNeedsDisplay()
         }
     }
     

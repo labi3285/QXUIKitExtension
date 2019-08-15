@@ -33,5 +33,5 @@ public class QXPage<T: QXModel>: QXModel {
             return t
         })
     }
+    
 }
-

@@ -10,7 +10,7 @@ import UIKit
 
 open class QXBarButtonItem: UIBarButtonItem {
     
-    static func backItem(title: String, styles: QXControlStateStyles?) -> QXBarButtonItem {
+    public static func backItem(title: String, styles: QXControlStateStyles?) -> QXBarButtonItem {
         let e = QXBarButtonItem()
         e.title = title
         if let styles = styles {
@@ -39,7 +39,7 @@ open class QXBarButtonItem: UIBarButtonItem {
         return e
     }
     
-    static func titleItem(title: String, styles: QXControlStateStyles?) -> QXBarButtonItem {
+    public static func titleItem(title: String, styles: QXControlStateStyles?) -> QXBarButtonItem {
         let e = QXBarButtonItem(title: title, style: .plain, target: nil, action: #selector(itemClick))
         e.target = e
         if let styles = styles {
@@ -68,7 +68,7 @@ open class QXBarButtonItem: UIBarButtonItem {
         return e
     }
     
-    static func iconItem(icon: String, styles: QXControlStateStyles?) -> QXBarButtonItem {
+    public static func iconItem(icon: String, styles: QXControlStateStyles?) -> QXBarButtonItem {
         let e = QXBarButtonItem(image: UIImage(named: icon), style: .plain, target: self, action: #selector(itemClick))
         return e
     }
@@ -76,6 +76,6 @@ open class QXBarButtonItem: UIBarButtonItem {
     @objc func itemClick() {
         respondClick?()
     }
-    var respondClick: (() -> ())?
+    public var respondClick: (() -> ())?
     
 }

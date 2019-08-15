@@ -294,4 +294,28 @@ extension QXModelsLoadStatusViewController where Model: QXModel {
         }
     }
     
+    
+
+    
+}
+
+class XXXPage<T: QXModel>: QXPage<T> {
+}
+extension QXModelsLoadStatusViewController where Model: QXModel {
+    func onMyLoadModelsComplete(_ respond: QXRespond<XXXPage<Model>>) {
+        if respond.isOk {
+            if let page = respond.data {
+                if let arr = page.models {
+                    onLoadModelsOk(arr, isThereMore: page.isThereMorePage)
+                } else {
+                    onLoadModelsOk([], isThereMore: page.isThereMorePage)
+                }
+            } else {
+                QXDebugFatalError("shoud not be here")
+                onLoadModelsOk([], isThereMore: false)
+            }
+        } else {
+            onLoadModelsFailed(respond.error)
+        }
+    }
 }

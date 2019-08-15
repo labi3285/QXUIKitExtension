@@ -185,7 +185,7 @@ open class QXButton: QXView {
                 }
                 if isClickTriggered {
                     if let e = clickHighlightDelaySecs {
-                        UIView.animate(withDuration: e) {
+                        DispatchQueue.main.qxAsyncWait(e) {
                             self.isHighlighted = false
                             self.update()
                         }
@@ -353,6 +353,71 @@ open class QXTitleButton: QXButton {
             label.qxRichText = QXRichText.text(e, font)
         }
     }
-    
 
+}
+
+
+open class QXImageButton: QXButton {
+    
+    open var image: QXImage? { didSet { update() } }
+    
+    open var imageHighlighted: QXImage?
+    open var imageSelected: QXImage?
+    open var imageDisabled: QXImage?
+    
+    open var padding: QXPadding = QXPadding.zero
+    
+    public lazy var imageView: QXImageView = {
+        let one = QXImageView()
+        return one
+    }()
+    
+    public override init() {
+        super.init()
+        contentView.addSubview(imageView)
+    }
+    required public init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    override open func layoutSubviews() {
+        super.layoutSubviews()
+        imageView.frame = CGRect(x: padding.left, y: padding.top, width: contentView.bounds.width - padding.left - padding.right, height: contentView.bounds.height - padding.top - padding.bottom)
+    }
+    open override var intrinsicContentSize: CGSize {
+        if isDisplay {
+            if let e = intrinsicSize {
+                return e.cgSize
+            } else {
+                let size = imageView.qxIntrinsicContentSize
+                if size.isZero {
+                    return size.cgSize
+                } else {
+                    return CGSize(width: margin.left + padding.left + size.w + padding.right + margin.right,
+                                  height: margin.top + padding.top + size.h + padding.bottom + margin.bottom)
+                }
+            }
+        } else {
+            return CGSize.zero
+        }
+    }
+    
+    override open func handleNormalize() {
+        super.handleNormalize()
+        imageView.image = image
+    }
+    override open func handleHighlighted() {
+        super.handleHighlighted()
+        imageView.image = imageHighlighted ?? image
+    }
+    override open func handleSelected() {
+        super.handleSelected()
+        imageView.image = imageSelected ?? image
+
+    }
+    override open func handleDisabled(isSelected: Bool) {
+        super.handleDisabled(isSelected: isSelected)
+        imageView.image = imageDisabled ?? image
+    }
+    
 }
