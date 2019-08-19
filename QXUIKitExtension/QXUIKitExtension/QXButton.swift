@@ -106,9 +106,7 @@ open class QXButton: QXView {
             isUserInteractionEnabled = false
             handleDisabled(isSelected: isSelected)
         }
-        invalidateIntrinsicContentSize()
-        setNeedsLayout()
-        setNeedsDisplay()
+        qxSetNeedsLayout()
     }
     
     open func handlePrepareOrigins() {
@@ -134,9 +132,7 @@ open class QXButton: QXView {
         if let a = highlightAlpha {
             contentView.alpha = a
         }
-        invalidateIntrinsicContentSize()
-        setNeedsLayout()
-        setNeedsDisplay()
+        qxSetNeedsLayout()
     }
     open func handleSelected() {
         if !_isOriginPrepared {
@@ -283,7 +279,7 @@ open class QXTitleButton: QXButton {
         }
     }
     
-    open var padding: QXPadding = QXPadding.zero
+    open var padding: QXMargin = QXMargin.zero
 
     public lazy var label: UILabel = {
         let one = UILabel()
@@ -365,7 +361,7 @@ open class QXImageButton: QXButton {
     open var imageSelected: QXImage?
     open var imageDisabled: QXImage?
     
-    open var padding: QXPadding = QXPadding.zero
+    open var padding: QXMargin = QXMargin.zero
     
     public lazy var imageView: QXImageView = {
         let one = QXImageView()

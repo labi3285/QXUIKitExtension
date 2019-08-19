@@ -66,6 +66,8 @@ open class QXLoadStatusView: UIView, QXLoadStatusViewProtocol {
         let one = QXLabel()
         one.margin = QXMargin(10, 20, 10, 20)
         one.numberOfLines = 0
+        one.alignmentX = .center
+        one.alignmentY = .center
         one.respondResize = { [weak self] in
             self?.setNeedsLayout()
         }
@@ -78,19 +80,23 @@ open class QXLoadStatusView: UIView, QXLoadStatusViewProtocol {
         one.font = QXFont(14, "#848484")
         one.title = "点击重试"
         one.margin = QXMargin(7, 10, 7, 10)
-        one.padding = QXPadding(7, 10, 7, 10)
+        one.padding = QXMargin(7, 10, 7, 10)
         one.respondResize = { [weak self] in
             self?.setNeedsLayout()
         }
         return one
     }()
+    public lazy var stackView: QXStackView = {
+        let one = QXStackView(self.loadingView, self.iconView, self.contentLabel, self.retryButton)
+        one.isVertical = true
+        one.alignmentX = .center
+        one.alignmentY = .center
+        return one
+    }()
 
     public override init(frame: CGRect) {
         super.init(frame: frame)
-        addSubview(loadingView)
-        addSubview(iconView)
-        addSubview(contentLabel)
-        addSubview(retryButton)
+        addSubview(stackView)
     }
     required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -99,16 +105,9 @@ open class QXLoadStatusView: UIView, QXLoadStatusViewProtocol {
         super.layoutSubviews()
         let rect = qxRect.absoluteRect
         contentLabel.intrinsicWidth = rect.w
-        let loadingSize = loadingView.intrinsicContentSize
-        let iconSize = iconView.intrinsicContentSize
-        let contentSize = contentLabel.intrinsicContentSize
-        let retryButtonSize = retryButton.intrinsicContentSize
-        let top = (rect.h - loadingSize.height - iconSize.height - contentSize.height - retryButtonSize.height) * topBottomRatio / (topBottomRatio + 1)
-
-        loadingView.qxRect = rect.insideRect(.top(top), .center, .size(loadingSize))
-        iconView.qxRect = loadingView.qxRect.bottomRect(.size(iconSize))
-        contentLabel.qxRect = iconView.qxRect.bottomRect(.size(contentSize))
-        retryButton.qxRect = contentLabel.qxRect.bottomRect(.size(retryButtonSize))
+        let size = stackView.qxIntrinsicContentSize
+        let top = (rect.h - size.h) * topBottomRatio / (topBottomRatio + 1)
+        stackView.qxRect = rect.insideRect(.top(top), .center, .size(size))
     }
     
     public func qxLoadStatusViewUpdateStatus(_ status: QXLoadStatus) {

@@ -13,11 +13,11 @@ extension UIViewController {
     
 }
 
-open class QXViewController: UIViewController {
+open class QXViewController: UIViewController, UINavigationBarDelegate {
     
     public var respondRefresh: (() -> ())?
     
-    public var padding: QXPadding = QXPadding.zero
+    public var padding: QXMargin = QXMargin.zero
     public lazy var contentView: QXView = {
         let one = QXView()
         return one
@@ -53,7 +53,6 @@ open class QXViewController: UIViewController {
     open override func loadView() {
         super.loadView()
         view.addSubview(contentView)
-        
     }
     
     open func viewWillFirstAppear(_ animated: Bool) {
@@ -113,6 +112,10 @@ open class QXViewController: UIViewController {
     public var isNavigationBarTransparent: Bool? { didSet { if _isNavigationBarInited { updateNavigationBar() } } }
 
     public var isNavigationBarShow: Bool = true { didSet { if _isNavigationBarInited { updateNavigationBar() } } }
+    
+    open func shouldPop() -> Bool {
+        return true
+    }
     
     //MARK:- Present
     public var isNavigationBarAutoDismissItemAtLeft: Bool = true { didSet { if _isNavigationBarInited { updateNavigationBar() } } }

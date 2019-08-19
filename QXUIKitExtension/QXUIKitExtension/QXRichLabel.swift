@@ -59,9 +59,7 @@ open class QXRichLabel: QXView {
             for view in subviews {
                 view.removeFromSuperview()
             }
-            invalidateIntrinsicContentSize()
-            setNeedsLayout()
-            setNeedsDisplay()
+            qxSetNeedsLayout()
         }
     }
     
@@ -78,7 +76,7 @@ open class QXRichLabel: QXView {
     public var lineBreakItem: QXRichLabel.Item?
     
     /// edge insets
-    public var padding: QXPadding = QXPadding.zero
+    public var padding: QXMargin = QXMargin.zero
     
     /// number of lines, <=0 for no limit
     public var numberOfLines: Int = 0

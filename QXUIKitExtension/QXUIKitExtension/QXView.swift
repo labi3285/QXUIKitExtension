@@ -45,6 +45,12 @@ open class QXView: UIView {
 
 extension UIView {
     
+    public func qxSetNeedsLayout() {
+        invalidateIntrinsicContentSize()
+        setNeedsLayout()
+        setNeedsDisplay()
+    }
+    
     public var qxIntrinsicContentSize: QXSize{
         return intrinsicContentSize.qxSize
     }

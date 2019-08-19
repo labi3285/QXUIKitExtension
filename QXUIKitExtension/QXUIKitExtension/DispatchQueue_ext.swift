@@ -12,9 +12,9 @@ extension DispatchQueue {
     
     public func qxAsyncWait(_ secs: Double, _ todo: @escaping (() -> ())) {
         let win = UIWindow.qxOneNormalWindow
-        win?.isUserInteractionEnabled = false
+        win?.rootViewController?.view.isUserInteractionEnabled = false
         qxAsyncAfter(secs) {
-            win?.isUserInteractionEnabled = true
+            win?.rootViewController?.view.isUserInteractionEnabled = true
             todo()
         }
     }

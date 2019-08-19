@@ -8,7 +8,7 @@
 
 import UIKit
 
-open class QXNavigationController: UINavigationController {
+open class QXNavigationController: UINavigationController, UIGestureRecognizerDelegate, UINavigationBarDelegate {
     
     public var tabBarTitle: String? {
         didSet {
@@ -33,6 +33,43 @@ open class QXNavigationController: UINavigationController {
         return QXDebugFatalError("QXNavigationController must work with QXViewController", QXViewController())
     }
     
+    override open func viewDidLoad() {
+        super.viewDidLoad()
+        if self.responds(to: #selector(getter: interactivePopGestureRecognizer)) {
+            self.interactivePopGestureRecognizer?.delegate = self
+        }
+    }
+    
+    public func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+        if let vc = viewControllers.last as? QXViewController {
+            return vc.shouldPop()
+        }
+        return viewControllers.count > 1
+    }
+    
+    public func navigationBar(_ navigationBar: UINavigationBar, shouldPop item: UINavigationItem) -> Bool {
+        if viewControllers.count < (navigationBar.items?.count ?? 0) {
+            return true
+        }
+        var shouldPop = true;
+        if let vc = topViewController as? QXViewController {
+            shouldPop = vc.shouldPop()
+        }
+        if(shouldPop) {
+            DispatchQueue.main.async {
+                self.popViewController(animated: true)
+            }
+        } else {
+            for e in navigationBar.subviews {
+                if 0 < e.alpha && e.alpha < 1 {
+                    UIView.animate(withDuration: 0.25) {
+                        e.alpha = 1
+                    }
+                }
+            }
+        }
+        return false
+    }
 }
 
 extension UINavigationController {

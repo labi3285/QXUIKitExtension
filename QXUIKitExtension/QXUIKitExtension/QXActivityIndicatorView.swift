@@ -17,7 +17,7 @@ open class QXActivityIndicatorView: QXView {
             if let view = systemView {
                 addSubview(view)
             }
-            invalidateIntrinsicContentSize()
+            qxSetNeedsLayout()
         }
     }
     public func startAnimating() {

@@ -177,7 +177,7 @@ open class QXTableView: QXView {
     public weak var cellsDelegate: QXTableViewCellDelegate?
     public var sections: [QXTableViewSection] = []
 
-    public var padding: QXPadding = QXPadding.zero
+    public var padding: QXMargin = QXMargin.zero
     
     /// 默认是扁平的
     public var isPlain: Bool {
