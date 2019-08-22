@@ -56,7 +56,6 @@ open class QXButton: QXView {
     /// 是否高亮
     public private(set) var isHighlighted: Bool = false
 
-    
     /// 外间隙
     open var margin: QXMargin = QXMargin.zero
     
@@ -66,8 +65,8 @@ open class QXButton: QXView {
         return one
     }()
     
-    public init() {
-        super.init(frame: CGRect.zero)
+    public override init() {
+        super.init()
         addSubview(contentView)
     }
     required public init?(coder aDecoder: NSCoder) {
@@ -75,7 +74,7 @@ open class QXButton: QXView {
     }
     open override func layoutSubviews() {
         super.layoutSubviews()
-        contentView.frame = CGRect(x: margin.left, y: margin.top, width: bounds.width - margin.left - margin.right, height: bounds.height - margin.top - margin.bottom)
+        contentView.qxRect = qxRect.absoluteRect.rectByReduce(margin)
     }
     
     open override var intrinsicContentSize: CGSize {
@@ -298,16 +297,20 @@ open class QXTitleButton: QXButton {
     
     override open func layoutSubviews() {
         super.layoutSubviews()
-        label.frame = CGRect(x: padding.left, y: padding.top, width: contentView.bounds.width - padding.left - padding.right, height: contentView.bounds.height - padding.top - padding.bottom)
+        label.qxRect = contentView.qxRect.absoluteRect.rectByReduce(padding)
     }
+    public var intrinsicMinHeight: CGFloat?
     open override var intrinsicContentSize: CGSize {
         if isDisplay {
             if let e = intrinsicSize {
                 return e.cgSize
             } else {
-                let size = label.intrinsicContentSize
-                return CGSize(width: margin.left + padding.left + size.width + padding.right + margin.right,
-                              height: margin.top + padding.top + size.height + padding.bottom + margin.bottom)
+                var size = label.qxIntrinsicContentSize
+                size = size.sizeByAdd(padding).sizeByAdd(margin)
+                if let e = intrinsicMinHeight {
+                   size = QXSize(size.w, max(size.h, e))
+                }
+                return size.cgSize
             }
         } else {
             return CGSize.zero
@@ -352,7 +355,6 @@ open class QXTitleButton: QXButton {
 
 }
 
-
 open class QXImageButton: QXButton {
     
     open var image: QXImage? { didSet { update() } }
@@ -378,7 +380,7 @@ open class QXImageButton: QXButton {
     
     override open func layoutSubviews() {
         super.layoutSubviews()
-        imageView.frame = CGRect(x: padding.left, y: padding.top, width: contentView.bounds.width - padding.left - padding.right, height: contentView.bounds.height - padding.top - padding.bottom)
+        imageView.qxRect = contentView.qxRect.absoluteRect.rectByReduce(padding)
     }
     open override var intrinsicContentSize: CGSize {
         if isDisplay {
@@ -389,8 +391,7 @@ open class QXImageButton: QXButton {
                 if size.isZero {
                     return size.cgSize
                 } else {
-                    return CGSize(width: margin.left + padding.left + size.w + padding.right + margin.right,
-                                  height: margin.top + padding.top + size.h + padding.bottom + margin.bottom)
+                    return size.sizeByAdd(padding).sizeByAdd(margin).cgSize
                 }
             }
         } else {
@@ -414,6 +415,82 @@ open class QXImageButton: QXButton {
     override open func handleDisabled(isSelected: Bool) {
         super.handleDisabled(isSelected: isSelected)
         imageView.image = imageDisabled ?? image
+    }
+    
+}
+
+
+open class QXStackButton: QXButton {
+    
+    open var views: [QXView] = [] { didSet { update() } }
+    
+    open var viewsHighlighted: [QXView]?
+    open var viewsSelected: [QXView]?
+    open var viewsDisabled: [QXView]?
+    
+    open var padding: QXMargin = QXMargin.zero
+    
+    public lazy var stackView: QXStackView = {
+        let one = QXStackView()
+        one.alignmentX = .center
+        one.alignmentY = .center
+        return one
+    }()
+    
+    public override init() {
+        super.init()
+        contentView.addSubview(stackView)
+    }
+    required public init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    override open func layoutSubviews() {
+        super.layoutSubviews()
+        stackView.qxRect = contentView.qxRect.absoluteRect.rectByReduce(padding)
+    }
+    
+    public var intrinsicMinWidth: CGFloat?
+    public var intrinsicMinHeight: CGFloat?
+    open override var intrinsicContentSize: CGSize {
+        if isDisplay {
+            if let e = intrinsicSize {
+                return e.cgSize
+            } else {
+                let size = stackView.qxIntrinsicContentSize
+                if size.isZero {
+                    return size.cgSize
+                } else {
+                    var size = size.sizeByAdd(padding).sizeByAdd(margin)
+                    if let e = intrinsicMinWidth {
+                        size = QXSize(max(size.w, e), size.h)
+                    }
+                    if let e = intrinsicMinHeight {
+                        size = QXSize(size.w, max(size.h, e))
+                    }
+                    return size.cgSize
+                }
+            }
+        } else {
+            return CGSize.zero
+        }
+    }
+    
+    override open func handleNormalize() {
+        super.handleNormalize()
+        stackView.setupViews(views)
+    }
+    override open func handleHighlighted() {
+        super.handleHighlighted()
+        stackView.setupViews(viewsHighlighted ?? views)
+    }
+    override open func handleSelected() {
+        super.handleSelected()
+        stackView.setupViews(viewsSelected ?? views)
+    }
+    override open func handleDisabled(isSelected: Bool) {
+        super.handleDisabled(isSelected: isSelected)
+        stackView.setupViews(viewsDisabled ?? views)
     }
     
 }

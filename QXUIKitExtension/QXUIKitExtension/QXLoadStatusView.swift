@@ -87,7 +87,8 @@ open class QXLoadStatusView: UIView, QXLoadStatusViewProtocol {
         return one
     }()
     public lazy var stackView: QXStackView = {
-        let one = QXStackView(self.loadingView, self.iconView, self.contentLabel, self.retryButton)
+        let one = QXStackView()
+        one.setupViews([self.loadingView, self.iconView, self.contentLabel, self.retryButton])
         one.isVertical = true
         one.alignmentX = .center
         one.alignmentY = .center
@@ -148,7 +149,7 @@ open class QXLoadStatusView: UIView, QXLoadStatusViewProtocol {
             contentLabel.isDisplay = text != nil
             retryButton.isDisplay = isRetryButtonShow
         }
-        setNeedsLayout()
+        qxSetNeedsLayout()
     }
 
     public func qxLoadStatusViewRetryHandler(_ todo: (() -> ())?) {

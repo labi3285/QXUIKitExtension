@@ -60,3 +60,60 @@ extension UIEdgeInsets {
     }
     
 }
+
+extension QXRect {
+    
+    public func rectByReduce(_ margin: QXMargin) -> QXRect {
+        return QXRect(x + margin.left,
+                      y + margin.top,
+                      w - margin.left - margin.right,
+                      h - margin.top - margin.bottom)
+    }
+    
+    public func rectByAdd(_ margin: QXMargin) -> QXRect {
+        return QXRect(x - margin.left,
+                      y - margin.top,
+                      w + margin.left + margin.right,
+                      h + margin.top + margin.bottom)
+    }
+    
+}
+
+extension QXSize {
+    
+    public func sizeByReduce(_ margin: QXMargin) -> QXSize {
+        return QXSize(w - margin.left - margin.right, h - margin.top - margin.bottom)
+    }
+    public func sizeByAdd(_ margin: QXMargin) -> QXSize {
+        return QXSize(w + margin.left + margin.right, h + margin.top + margin.bottom)
+    }
+}
+
+extension CGRect {
+    
+    public func qxFrameByReduce(_ inserts: UIEdgeInsets) -> CGRect {
+        return CGRect(x: minX + inserts.left,
+                      y: minY + inserts.top,
+                      width: width - inserts.left - inserts.right,
+                      height: height - inserts.top - inserts.bottom)
+    }
+    
+    public func qxFrameByAdd(_ inserts: UIEdgeInsets) -> CGRect {
+        return CGRect(x: minX - inserts.left,
+                      y: minY - inserts.top,
+                      width: width + inserts.left + inserts.right,
+                      height: height + inserts.top + inserts.bottom)
+    }
+    
+}
+
+extension CGSize {
+    
+    public func qxSizeByReduce(_ inserts: UIEdgeInsets) -> CGSize {
+        return CGSize(width: width - inserts.left - inserts.right, height: height - inserts.top - inserts.bottom)
+    }
+    public func qxSizeByAdd(_ inserts: UIEdgeInsets) -> CGSize {
+        return CGSize(width: width - inserts.left - inserts.right, height: height - inserts.top - inserts.bottom)
+    }
+    
+}

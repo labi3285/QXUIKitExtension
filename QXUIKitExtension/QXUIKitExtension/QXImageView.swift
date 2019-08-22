@@ -51,8 +51,8 @@ open class QXImageView: QXView {
         return one
     }()
     
-    public init() {
-        super.init(frame: CGRect.zero)
+    public override init() {
+        super.init()
         addSubview(uiImageView)
         addSubview(placeHolderView)
         isUserInteractionEnabled = false
@@ -65,26 +65,44 @@ open class QXImageView: QXView {
         super.layoutSubviews()
         uiImageView.frame = CGRect(x: margin.left, y: margin.top, width: bounds.width - margin.left - margin.right, height: bounds.height - margin.top - margin.bottom)
     }
+    
     public var intrinsicWidth: CGFloat?
+    public var intrinsicHeight: CGFloat?
+    public var intrinsicMinWidth: CGFloat?
+    public var intrinsicMinHeight: CGFloat?
+    public var intrinsicMaxWidth: CGFloat?
+    public var intrinsicMaxHeight: CGFloat?
     open override var intrinsicContentSize: CGSize {
         if isDisplay {
+            var w: CGFloat = 0
+            var h: CGFloat = 0
             if let e = intrinsicSize {
-                return e.cgSize
+                w = e.w
+                h = e.h
             } else if let e = intrinsicWidth {
+                w = e
                 let size = image?.size ?? QXSize.zero
-                if size.isZero {
-                    return CGSize.zero
-                } else {
-                    return CGSize(width: margin.left + e + margin.right, height: margin.top + e * size.h / size.w + margin.bottom)
+                if !size.isZero {
+                    h = margin.top + e * size.h / size.w + margin.bottom
+                }
+            } else if let e = intrinsicHeight {
+                h = e
+                let size = image?.size ?? QXSize.zero
+                if !size.isZero {
+                    w = margin.top + e * size.w / size.h + margin.bottom
                 }
             } else {
                 let size = image?.size ?? QXSize.zero
-                if size.w > 0 && size.h > 0 {
-                    return CGSize(width: margin.left + size.w + margin.right, height: margin.top + size.w * size.h / size.w + margin.bottom)
-                } else {
-                    return CGSize.zero
+                if !size.isZero {
+                    w = margin.left + size.w + margin.right
+                    h = margin.top + size.w * size.h / size.w + margin.bottom
                 }
             }
+            if let e = intrinsicMinWidth { w = max(e, w) }
+            if let e = intrinsicMaxWidth { w = min(e, w) }
+            if let e = intrinsicMinHeight { h = max(e, h) }
+            if let e = intrinsicMaxHeight { h = min(e, h) }
+            return CGSize(width: w, height: h)
         } else {
             return CGSize.zero
         }

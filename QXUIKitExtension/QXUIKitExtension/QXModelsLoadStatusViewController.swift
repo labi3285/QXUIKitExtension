@@ -260,6 +260,7 @@ open class QXModelsLoadStatusViewController
 
     public lazy var refreshableView: RefreshableView = {
         let one = RefreshableView()
+        one.qxDisableAutoInserts()
         return one
     }()
 
@@ -271,6 +272,7 @@ open class QXModelsLoadStatusViewController
     override open func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         refreshableView.frame = contentView.bounds
+        contentView.qxDebugRandomColor()
     }
 }
 

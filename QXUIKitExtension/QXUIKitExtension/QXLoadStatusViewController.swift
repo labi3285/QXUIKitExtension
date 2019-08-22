@@ -68,7 +68,7 @@ open class QXLoadStatusViewController<LoadStatusView: UIView & QXLoadStatusViewP
     }
     override open func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        loadStatusView.frame = contentView.bounds
+        loadStatusView.frame = contentView.frame
     }
-    
+
 }

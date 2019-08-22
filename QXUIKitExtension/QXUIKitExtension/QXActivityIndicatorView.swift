@@ -31,13 +31,14 @@ open class QXActivityIndicatorView: QXView {
     
     public init(systemView: UIActivityIndicatorView) {
         self.systemView = systemView
-        super.init(frame: CGRect.zero)
+        super.init()
         addSubview(systemView)
     }
-    required public init?(coder aDecoder: NSCoder) {
+    
+    public required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
+    
     open override var intrinsicContentSize: CGSize {
         if isDisplay {
             if let e = intrinsicSize {

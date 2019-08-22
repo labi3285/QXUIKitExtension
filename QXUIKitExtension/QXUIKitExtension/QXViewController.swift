@@ -8,11 +8,6 @@
 
 import UIKit
 
-extension UIViewController {
-  
-    
-}
-
 open class QXViewController: UIViewController, UINavigationBarDelegate {
     
     public var respondRefresh: (() -> ())?
@@ -22,13 +17,14 @@ open class QXViewController: UIViewController, UINavigationBarDelegate {
         let one = QXView()
         return one
     }()
-
+    
     //MARK:- Init
     required public init() {
         super.init(nibName: nil, bundle: nil)
         // make sure view init at start
         _ = view
         automaticallyAdjustsScrollViewInsets = false
+        edgesForExtendedLayout = UIRectEdge(rawValue: 0)
     }
     required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -40,7 +36,6 @@ open class QXViewController: UIViewController, UINavigationBarDelegate {
     open override var title: String? {
         didSet {
             super.title = title
-            self.navigationBarTitle = title
             if _isNavigationBarInited {
                 updateNavigationBar()
             }
@@ -94,38 +89,95 @@ open class QXViewController: UIViewController, UINavigationBarDelegate {
     
     open override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        contentView.frame = CGRect(x: padding.left, y: padding.top, width: view.frame.width - padding.left - padding.right, height: view.frame.height - padding.top - padding.bottom)
+        let rect = view.qxRect.absoluteRect
+        if let navBar = customNavigationBar {
+            navBar.intrinsicWidth = rect.w
+            let barSize = navBar.qxIntrinsicContentSize
+            if isNavigationBarShow {
+                navBar.qxRect = rect.insideRect(.top(0), .size(barSize))
+                contentView.qxRect = rect.insideRect(.top(barSize.h), .left(0), .bottom(0), .right(0)).rectByReduce(padding)
+            } else {
+                contentView.qxRect = rect.rectByReduce(padding)
+            }
+        } else {
+            contentView.qxRect = rect.rectByReduce(padding)
+        }
     }
     
     //MARK:- Navigation
-    public var navigationBarBackArrowImage: QXImage? { didSet { if _isNavigationBarInited { updateNavigationBar() } } }
-    public var navigationBarBackItem: QXBarButtonItem? { didSet { if _isNavigationBarInited { updateNavigationBar() } } }
+    public var customNavigationBar: QXNavigationBar? {
+        didSet {
+            for view in view.subviews {
+                if view is QXNavigationBar {
+                    view.removeFromSuperview()
+                }
+            }
+            if let e = customNavigationBar {
+                view.addSubview(e)
+            }
+        }
+    }
     
+    public var navigationBarBackArrowImage: QXImage? = QXImage("QXUIKitExtensionResources.bundle/icon_back")
+        .setRenderingMode(.alwaysTemplate)
+    public var navigationBarBackTitle: String?
+    public var navigationBarBackFont: QXFont?
+
     public var navigationBarTitle: String? { didSet { if _isNavigationBarInited { updateNavigationBar() } } }
     public var navigationBarTitleFont: QXFont? { didSet { if _isNavigationBarInited { updateNavigationBar() } } }
-    public var navigationBarTitleView: UIView? { didSet { if _isNavigationBarInited { updateNavigationBar() } } }
-    public var navigationBarTintColor: QXColor? { didSet { if _isNavigationBarInited { updateNavigationBar() } } }
+    public var navigationBarTitleView: QXView? { didSet { if _isNavigationBarInited { updateNavigationBar() } } }
+    public var navigationBarTintColor: QXColor = QXColor.hex("#333333", 1)
+        { didSet { if _isNavigationBarInited { updateNavigationBar() } } }
     
-    public var navigationBarBackgroundColor: QXColor? { didSet { if _isNavigationBarInited { updateNavigationBar() } } }
-    public var navigationBarBackgroundImage: QXImage? { didSet { if _isNavigationBarInited { updateNavigationBar() } } }
-    public var isNavigationBarLineShow: Bool? { didSet { if _isNavigationBarInited { updateNavigationBar() } } }
-    public var isNavigationBarTransparent: Bool? { didSet { if _isNavigationBarInited { updateNavigationBar() } } }
+    public var navigationBarBackgroundColor: QXColor = QXColor.white
+        { didSet { if _isNavigationBarInited { updateNavigationBar() } } }
+    public var navigationBarBackgroundImage: QXImage?
+        { didSet { if _isNavigationBarInited { updateNavigationBar() } } }
+    public var isNavigationBarLineShow: Bool = true
+        { didSet { if _isNavigationBarInited { updateNavigationBar() } } }
+    public var isNavigationBarTransparent: Bool = false
+        { didSet { if _isNavigationBarInited { updateNavigationBar() } } }
 
     public var isNavigationBarShow: Bool = true { didSet { if _isNavigationBarInited { updateNavigationBar() } } }
     
     open func shouldPop() -> Bool {
         return true
     }
+    open func shouldDismiss() -> Bool {
+        return true
+    }
     
     //MARK:- Present
-    public var isNavigationBarAutoDismissItemAtLeft: Bool = true { didSet { if _isNavigationBarInited { updateNavigationBar() } } }
-    public var navigationBarAutoDismissItem: QXBarButtonItem? = QXBarButtonItem.titleItem(title: "取消", styles: nil) { didSet { if _isNavigationBarInited { updateNavigationBar() } } }
+    // nil 表示不显示
+    public var isNavigationBarAutoDismissItemAtLeft: Bool? = true { didSet { if _isNavigationBarInited { updateNavigationBar() } } }
+    public var navigationBarAutoDismissImage: QXImage?
+        { didSet { if _isNavigationBarInited { updateNavigationBar() } } }
+    public var navigationBarAutoDismissTitle: String? = "取消"
+        { didSet { if _isNavigationBarInited { updateNavigationBar() } } }
+    public var navigationBarAutoDismissFont: QXFont?
+        { didSet { if _isNavigationBarInited { updateNavigationBar() } } }
     
     public private(set) weak var viewControllerBefore: QXViewController?
         
     public func push(_ vc: QXViewController, animated: Bool = true, file: StaticString = #file, line: UInt = #line) {
         if let nav = navigationController {
-            navigationItem.backBarButtonItem = vc.navigationBarBackItem
+            if let navBar = vc.customNavigationBar {
+                navBar.qxTintColor = vc.navigationBarTintColor
+                if let button = navBar.autoCheckOrSetBackButton(image: vc.navigationBarBackArrowImage, title: vc.navigationBarBackTitle ?? navigationBarTitle ?? title, font: navigationBarBackFont ?? QXFont.init(size: 16, color: navigationBarTintColor)) {
+                    button.respondClick = { [weak self] in
+                        if let s = self {
+                            if s.shouldPop() {
+                                s.pop()
+                            }
+                        }
+                    }
+                }
+            }
+            if let t = vc.navigationBarBackTitle ?? navigationBarTitle ?? title {
+                navigationItem.backBarButtonItem = QXBarButtonItem.backItem(title: t, styles: QXControlStateStyles(font: navigationBarBackFont ?? QXFont.init(size: 17, color: navigationBarTintColor)))
+            } else {
+                navigationItem.backBarButtonItem = nil
+            }
             navigationController?.navigationBar.backIndicatorImage = vc.navigationBarBackArrowImage?.uiImage
             navigationController?.navigationBar.backIndicatorTransitionMaskImage = vc.navigationBarBackArrowImage?.uiImage
             vc.hidesBottomBarWhenPushed = true
@@ -162,66 +214,124 @@ open class QXViewController: UIViewController, UINavigationBarDelegate {
     }
     
     public func updateNavigationBar() {
-        if isNavigationRootViewController {
-            if navigationBarTintColor == nil {
-                navigationBarTintColor = QXColor.hex("#333333", 1)
-            }
-            if navigationBarTitleFont == nil {
-                navigationBarTitleFont = QXFont(size: 15, color: navigationBarTintColor ?? QXColor.hex("#333333", 1))
-            }
-            if navigationBarBackgroundColor == nil {
-                navigationBarBackgroundColor = QXColor.white
-            }
-            if isNavigationBarLineShow == nil {
-                isNavigationBarLineShow = true
-            }
-            if isNavigationBarTransparent == nil {
-                isNavigationBarTransparent = false
-            }
-        }
-        if let e = navigationBarTitleView {
-            navigationItem.titleView = e
-        } else {
-            if let e = navigationBarTitle ?? title {
-                let label = UILabel()
-                if let f = navigationBarTitleFont {
-                    label.qxFont = f
-                } else {
-                    label.qxFont = QXFont(size: 15, color: navigationBarTintColor ?? QXColor.black)
-                }
-                label.qxText = e
-                label.HEIGHT.EQUAL(44).MAKE()
-                navigationItem.titleView = label
+        if let navBar = customNavigationBar {
+            navigationController?.setNavigationBarHidden(true, animated: true)
+            navBar.qxTintColor = navigationBarTintColor
+            if let e = navigationBarTitleView {
+                navBar.titleView = e
             } else {
-                navigationItem.title = title
+                _ = navBar.autoCheckOrSetTitleView(title: navigationBarTitle ?? title, font:  navigationBarTitleFont ?? QXFont(size: 15, color: navigationBarTintColor))
             }
-        }
-        if let e = navigationBarTintColor {
-            navigationController?.navigationBar.tintColor = e.uiColor
-        }
-        if let e = navigationBarBackgroundImage {
-            navigationController?.qxNavigationBackgroundImage = e
-        } else if let e = navigationBarBackgroundColor {
-            navigationController?.qxNavigationBackgroundColor = e
-        }
-        if let e = isNavigationBarLineShow {
-            navigationController?.qxIsShadowed = e
-        }
-        navigationController?.setNavigationBarHidden(!isNavigationBarShow, animated: false)
-        if let e = isNavigationBarTransparent, e == true {
-            navigationController?.qxNavigationBackgroundImage = QXImage(QXColor.clear)
-        }
-        if presentingViewController != nil && isNavigationRootViewController {
-            if let e = navigationBarAutoDismissItem {
-                if e.respondClick == nil {
-                    e.respondClick = { [weak self] in
-                        self?.dismiss(animated: true, completion: nil)
+            if let e = navigationBarBackgroundImage {
+                navBar.layer.contents = e.uiImage?.cgImage
+            } else {
+                navBar.qxBackgroundColor = navigationBarBackgroundColor
+            }
+            if isNavigationBarLineShow {
+                if navBar.lineView == nil {
+                    navBar.lineView = QXLineView.breakLine
+                }
+            } else {
+                navBar.lineView = nil
+            }
+            
+            if let isLeft = isNavigationBarAutoDismissItemAtLeft, presentingViewController != nil, isNavigationRootViewController {
+                navBar.isDismissAtLeft = isLeft
+                if let button = navBar.autoCheckOrSetDismissButton(image: navigationBarAutoDismissImage, title: navigationBarAutoDismissTitle, font: navigationBarAutoDismissFont ?? QXFont.init(size: 16, color: navigationBarTintColor)) {
+                    button.respondClick = { [weak self] in
+                        if let s = self {
+                            if s.shouldDismiss() {
+                                s.dismiss(animated: true, completion: nil)
+                            }
+                        }
                     }
                 }
-                if isNavigationBarAutoDismissItemAtLeft {
-                    navigationItem.leftBarButtonItem = e
+            }
+            navBar.qxSetNeedsLayout()
+            
+        } else {
+            navigationController?.setNavigationBarHidden(!isNavigationBarShow, animated: false)
+            if let e = navigationBarTitleView {
+                navigationItem.titleView = e
+            } else {
+                if let e = navigationBarTitle ?? title {
+                    let label = UILabel()
+                    if let f = navigationBarTitleFont {
+                        label.qxFont = f
+                    } else {
+                        label.qxFont = QXFont(size: 15, color: navigationBarTintColor)
+                    }
+                    label.qxText = e
+                    label.HEIGHT.EQUAL(44).MAKE()
+                    navigationItem.titleView = label
                 } else {
-                    navigationItem.rightBarButtonItem = e
+                    navigationItem.title = title
+                }
+            }
+            navigationController?.navigationBar.tintColor = navigationBarTintColor.uiColor
+            if let e = navigationBarBackgroundImage {
+                navigationController?.qxNavigationBackgroundImage = e
+            } else {
+                navigationController?.qxNavigationBackgroundColor = navigationBarBackgroundColor
+            }
+            navigationController?.qxIsShadowed = isNavigationBarLineShow
+            if isNavigationBarTransparent {
+                navigationController?.qxNavigationBackgroundImage = QXImage(QXColor.clear)
+            }
+            if presentingViewController != nil && isNavigationRootViewController {
+                if let isLeft = isNavigationBarAutoDismissItemAtLeft {
+                    if let image = navigationBarAutoDismissImage, let title = navigationBarAutoDismissTitle {
+                        let btn = QXStackButton()
+                        btn.intrinsicMinHeight = 35
+                        let imageView = QXImageView()
+                        imageView.image = image
+                        let label = QXLabel()
+                        label.font = navigationBarAutoDismissFont ?? QXFont(size: 16, color: navigationBarTintColor)
+                        label.text = title
+                        btn.views = [imageView, label]
+                        btn.sizeToFit()
+                        let item = QXBarButtonItem(customView: btn)
+                        btn.respondClick = { [weak self] in
+                            if let s = self {
+                                if s.shouldDismiss() {
+                                    s.dismiss(animated: true, completion: nil)
+                                }
+                            }
+                        }
+                        if isLeft {
+                            navigationItem.leftBarButtonItem = item
+                        } else {
+                            navigationItem.rightBarButtonItem = item
+                        }
+                    } else if let title = navigationBarAutoDismissTitle {
+                        let btn = QXTitleButton()
+                        btn.intrinsicMinHeight = 35
+                        btn.font = navigationBarAutoDismissFont ?? QXFont(size: 16, color: navigationBarTintColor)
+                        btn.title = title
+                        btn.sizeToFit()
+                        let item = QXBarButtonItem(customView: btn)
+                        btn.respondClick = { [weak self] in
+                            self?.dismiss(animated: true, completion: nil)
+                        }
+                        if isLeft {
+                            navigationItem.leftBarButtonItem = item
+                        } else {
+                            navigationItem.rightBarButtonItem = item
+                        }
+                    } else if let image = navigationBarAutoDismissImage {
+                        let btn = QXImageButton()
+                        btn.image = image
+                        btn.sizeToFit()
+                        let item = QXBarButtonItem(customView: btn)
+                        btn.respondClick = { [weak self] in
+                            self?.dismiss(animated: true, completion: nil)
+                        }
+                        if isLeft {
+                            navigationItem.leftBarButtonItem = item
+                        } else {
+                            navigationItem.rightBarButtonItem = item
+                        }
+                    }
                 }
             }
         }

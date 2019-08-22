@@ -36,7 +36,7 @@ open class QXLabel: QXView {
             }
         }
     }
-    open var alignmentY: QXAlignmentY = .top
+    open var alignmentY: QXAlignmentY = .center
 
     open var margin: QXMargin = QXMargin.zero
 
@@ -72,8 +72,8 @@ open class QXLabel: QXView {
         return one
     }()
 
-    public init() {
-        super.init(frame: CGRect.zero)
+    public override init() {
+        super.init()
         addSubview(uiLabel)
         isUserInteractionEnabled = false
     }
@@ -82,19 +82,32 @@ open class QXLabel: QXView {
     }
     
     public var intrinsicWidth: CGFloat?
+    public var intrinsicMinWidth: CGFloat?
+    public var intrinsicMinHeight: CGFloat?
+    public var intrinsicMaxWidth: CGFloat?
+    public var intrinsicMaxHeight: CGFloat?
     open override var intrinsicContentSize: CGSize {
         if isDisplay {
+            var w: CGFloat = 0
+            var h: CGFloat = 0
             if let e = intrinsicSize {
-                return e.cgSize
+                w = e.w
+                h = e.h
             } else if let e = intrinsicWidth {
-                let size = uiLabel.sizeThatFits(CGSize(width: e - margin.left - margin.right, height: CGFloat.greatestFiniteMagnitude))
-                return CGSize(width: e,
-                              height: margin.top + size.height + margin.bottom)
+                var size = CGSize(width: e, height: CGFloat.greatestFiniteMagnitude)
+                size = uiLabel.sizeThatFits(size)
+                w = margin.left + size.width + margin.right
+                h = margin.top + size.height + margin.bottom
             } else {
                 let size = uiLabel.intrinsicContentSize
-                return CGSize(width: margin.left + size.width + margin.right,
-                              height: margin.top + size.height + margin.bottom)
+                w = margin.left + size.width + margin.right
+                h = margin.top + size.height + margin.bottom
             }
+            if let e = intrinsicMinWidth { w = max(e, w) }
+            if let e = intrinsicMaxWidth { w = min(e, w) }
+            if let e = intrinsicMinHeight { h = max(e, h) }
+            if let e = intrinsicMaxHeight { h = min(e, h) }
+            return CGSize(width: w, height: h)
         } else {
             return CGSize.zero
         }
@@ -102,7 +115,7 @@ open class QXLabel: QXView {
     open override func layoutSubviews() {
         super.layoutSubviews()
         let size = uiLabel.sizeThatFits(CGSize.init(width: bounds.width - margin.left - margin.right, height: CGFloat.greatestFiniteMagnitude))
-        let h = min(size.height, bounds.height - margin.bottom - size.height)
+        let h = min(size.height, bounds.height - margin.bottom - margin.bottom)
         let y: CGFloat
         switch alignmentY {
         case .top:
@@ -114,5 +127,5 @@ open class QXLabel: QXView {
         }
         uiLabel.frame = CGRect(x: margin.left, y: y, width: bounds.width - margin.left - margin.right, height: h)
     }
-    
+
 }

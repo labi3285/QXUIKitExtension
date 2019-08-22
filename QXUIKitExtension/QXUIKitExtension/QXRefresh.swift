@@ -322,13 +322,20 @@ extension UIScrollView {
 }
 
 public protocol QXRefreshableViewProtocol {
+    func qxDisableAutoInserts()
     func qxSetRefreshHeader(_ header: QXRefreshHeader?)
     func qxSetRefreshFooter(_ footer: QXRefreshFooter?)
     func qxReloadData()
 }
 
 extension UIScrollView: QXRefreshableViewProtocol {
-    
+    @objc public func qxDisableAutoInserts() {
+        if #available(iOS 11.0, *) {
+            contentInsetAdjustmentBehavior = .never
+        } else {
+            // Fallback on earlier versions
+        }
+    }
     @objc public func qxSetRefreshHeader(_ header: QXRefreshHeader?) {
         mj_header = header
     }

@@ -38,6 +38,19 @@ open class QXNavigationController: UINavigationController, UIGestureRecognizerDe
         if self.responds(to: #selector(getter: interactivePopGestureRecognizer)) {
             self.interactivePopGestureRecognizer?.delegate = self
         }
+        navigationBar.addSubview(customNavigationBar)
+    }
+    
+    lazy var customNavigationBar: QXView = {
+        let one = QXView()
+        one.backgroundColor = UIColor.red
+        return one
+    }()
+    
+    open override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        navigationBar.frame = CGRect(x: 0, y: 100, width: 300, height: 44)
+//        customNavigationBar.frame = navigationBar.bounds
     }
     
     public func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {

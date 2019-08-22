@@ -120,8 +120,8 @@ open class QXRichLabel: QXView {
     }
     
     /// init
-    public override init(frame: CGRect) {
-        super.init(frame: frame)
+    public override init() {
+        super.init()
         backgroundColor = UIColor.clear
     }
     required public init?(coder aDecoder: NSCoder) {

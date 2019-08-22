@@ -21,12 +21,24 @@ extension UIViewController {
         }
     }
     func showSuccess(msg: String, complete: (() -> ())? = nil) {
-        QXMessageView.demoSuccess(msg: msg, superview: view, complete: complete)
+        if let e = self as? QXViewController {
+            QXMessageView.demoSuccess(msg: msg, superview: e.contentView, complete: complete)
+        } else {
+            QXMessageView.demoSuccess(msg: msg, superview: view, complete: complete)
+        }
     }
     func showFailure(msg: String, complete: (() -> ())? = nil) {
-        QXMessageView.demoFailure(msg: msg, superview: view, complete: complete)
+        if let e = self as? QXViewController {
+            QXMessageView.demoFailure(msg: msg, superview: e.contentView, complete: complete)
+        } else {
+            QXMessageView.demoFailure(msg: msg, superview: view, complete: complete)
+        }
     }
     func showWarning(msg: String, complete: (() -> ())? = nil) {
-        QXMessageView.demoWarning(msg: msg, superview: view, complete: complete)
+        if let e = self as? QXViewController {
+            QXMessageView.demoWarning(msg: msg, superview: e.contentView, complete: complete)
+        } else {
+            QXMessageView.demoWarning(msg: msg, superview: view, complete: complete)
+        }
     }
 }

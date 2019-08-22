@@ -10,6 +10,14 @@ import UIKit
 
 open class QXView: UIView {
     
+    public init() {
+        super.init(frame: CGRect.zero)
+    }
+    
+    public required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     /// 是否显示（影响布局）
     public var isDisplay: Bool = true {
         didSet {
@@ -29,6 +37,7 @@ open class QXView: UIView {
             invalidateIntrinsicContentSize()
         }
     }
+    
     override open var intrinsicContentSize: CGSize {
         if isDisplay {
             if let e = intrinsicSize {
@@ -38,6 +47,11 @@ open class QXView: UIView {
             }
         }
         return CGSize.zero
+    }
+    
+    open override func sizeToFit() {
+        let wh = intrinsicContentSize
+        frame = CGRect(x: frame.minX, y: frame.minY, width: wh.width, height: wh.height)
     }
     
 }

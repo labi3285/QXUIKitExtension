@@ -183,42 +183,42 @@ open class QXTableView: QXView {
     public var isPlain: Bool {
         set {
             if newValue {
-                if nsTableView.style != .plain {
-                    nsTableView = UITableView(frame: CGRect.zero, style: .plain)
-                    updateNSTableView()
+                if uiTableView.style != .plain {
+                    uiTableView = UITableView(frame: CGRect.zero, style: .plain)
+                    updateuiTableView()
                 }
             } else {
-                if nsTableView.style == .plain {
-                    nsTableView = UITableView(frame: CGRect.zero, style: .grouped)
-                    updateNSTableView()
+                if uiTableView.style == .plain {
+                    uiTableView = UITableView(frame: CGRect.zero, style: .grouped)
+                    updateuiTableView()
                 }
             }
         }
         get {
-            return nsTableView.style == .plain
+            return uiTableView.style == .plain
         }
     }
     
-    public private(set) var nsTableView: UITableView = UITableView(frame: CGRect.zero, style: .plain)
+    public private(set) var uiTableView: UITableView = UITableView(frame: CGRect.zero, style: .plain)
     
-    open func updateNSTableView() {
-        nsTableView.backgroundColor = UIColor.clear
-        nsTableView.separatorStyle = .none
-        nsTableView.qxCheckOrRemoveFromSuperview()
-        addSubview(nsTableView)
-        nsTableView.delegate = self
-        nsTableView.dataSource = self
+    open func updateuiTableView() {
+        uiTableView.backgroundColor = UIColor.clear
+        uiTableView.separatorStyle = .none
+        uiTableView.qxCheckOrRemoveFromSuperview()
+        addSubview(uiTableView)
+        uiTableView.delegate = self
+        uiTableView.dataSource = self
         setNeedsLayout()
     }
     
     open override func layoutSubviews() {
         super.layoutSubviews()
-        nsTableView.frame = bounds.qxSubRect(padding.uiEdgeInsets)
+        uiTableView.frame = bounds.qxSubRect(padding.uiEdgeInsets)
     }
     
-    required public init() {
-        super.init(frame: CGRect.zero)
-        updateNSTableView()
+    required override public init() {
+        super.init()
+        updateuiTableView()
     }
     
     required public init?(coder aDecoder: NSCoder) {
@@ -428,15 +428,17 @@ extension QXTableView: UITableViewDelegate, UITableViewDataSource {
 }
 
 extension QXTableView: QXRefreshableViewProtocol {
-    
+    public func qxDisableAutoInserts() {
+        uiTableView.qxDisableAutoInserts()
+    }
     public func qxSetRefreshHeader(_ header: QXRefreshHeader?) {
-        nsTableView.mj_header = header
+        uiTableView.mj_header = header
     }
     public func qxSetRefreshFooter(_ footer: QXRefreshFooter?) {
-        nsTableView.mj_footer = footer
+        uiTableView.mj_footer = footer
     }
     public func qxReloadData() {
-        nsTableView.reloadData()
+        uiTableView.reloadData()
     }
     
 }
