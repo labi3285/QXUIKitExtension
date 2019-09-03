@@ -87,37 +87,8 @@ open class QXViewController: UIViewController, UINavigationBarDelegate {
         if _isFirstDidDisappear { viewDidFirstDisappear(animated); _isFirstDidDisappear = false }
     }
     
-    open override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        let rect = view.qxRect.absoluteRect
-        if let navBar = customNavigationBar {
-            navBar.intrinsicWidth = rect.w
-            let barSize = navBar.qxIntrinsicContentSize
-            if isNavigationBarShow {
-                navBar.qxRect = rect.insideRect(.top(0), .size(barSize))
-                contentView.qxRect = rect.insideRect(.top(barSize.h), .left(0), .bottom(0), .right(0)).rectByReduce(padding)
-            } else {
-                contentView.qxRect = rect.rectByReduce(padding)
-            }
-        } else {
-            contentView.qxRect = rect.rectByReduce(padding)
-        }
-    }
-    
     //MARK:- Navigation
-    public var customNavigationBar: QXNavigationBar? {
-        didSet {
-            for view in view.subviews {
-                if view is QXNavigationBar {
-                    view.removeFromSuperview()
-                }
-            }
-            if let e = customNavigationBar {
-                view.addSubview(e)
-            }
-        }
-    }
-    
+    public var customNavigationBar: QXNavigationBar?
     public var navigationBarBackArrowImage: QXImage? = QXImage("QXUIKitExtensionResources.bundle/icon_back")
         .setRenderingMode(.alwaysTemplate)
     public var navigationBarBackTitle: String?
@@ -164,10 +135,10 @@ open class QXViewController: UIViewController, UINavigationBarDelegate {
             if let navBar = vc.customNavigationBar {
                 navBar.qxTintColor = vc.navigationBarTintColor
                 if let button = navBar.autoCheckOrSetBackButton(image: vc.navigationBarBackArrowImage, title: vc.navigationBarBackTitle ?? navigationBarTitle ?? title, font: navigationBarBackFont ?? QXFont.init(size: 16, color: navigationBarTintColor)) {
-                    button.respondClick = { [weak self] in
-                        if let s = self {
-                            if s.shouldPop() {
-                                s.pop()
+                    button.respondClick = { [weak vc] in
+                        if let e = vc {
+                            if e.shouldPop() {
+                                e.pop()
                             }
                         }
                     }

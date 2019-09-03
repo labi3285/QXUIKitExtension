@@ -15,19 +15,22 @@ class ViewController: QXTableViewController<Any, QXLoadStatusView> {
         let one = QXLineView()
         return one
     }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "首页"
         view.backgroundColor = UIColor.white
-
-//        customNavigationBar = QXNavigationBar()
+        
+        let bar = QXNavigationBar()
         let btn = QXTitleButton()
         btn.title = "测试"
         btn.respondClick = { [weak self] in
             let vc = TestVc()
             self?.push(vc)
         }
-        customNavigationBar?.rightViewA = btn
+        bar.rightViewA = btn
+        
+        customNavigationBar = bar
         
         canRefresh = true
         canPage = true
@@ -46,6 +49,12 @@ class ViewController: QXTableViewController<Any, QXLoadStatusView> {
         let nav = QXNavigationController(rootViewController: vc)
         present(nav)
     }
+    
+    override func shouldPop() -> Bool {
+        showWarning(msg: "home")
+        return true
+    }
+    
 }
 
 class TestVc: QXTableViewController<Int, QXLoadStatusView> {
@@ -71,11 +80,16 @@ class TestVc: QXTableViewController<Int, QXLoadStatusView> {
         }
     }
     
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        let vc = TestVc()
-        let nav = QXNavigationController(rootViewController: vc)
-        present(nav)
+    override func shouldPop() -> Bool {
+        showWarning(msg: "test")
+        return true
     }
+    
+//    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+//        let vc = TestVc()
+//        let nav = QXNavigationController(rootViewController: vc)
+//        present(nav)
+//    }
 }
 
 
