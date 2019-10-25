@@ -1,0 +1,65 @@
+//
+//  QXSettingTitleArrowCell.swift
+//  QXUIKitExtension
+//
+//  Created by labi3285 on 2019/10/24.
+//  Copyright © 2019 labi3285_lab. All rights reserved.
+//
+
+import UIKit
+
+open class QXSettingTitleArrowCell: QXSettingCell {
+        
+    public lazy var titleLabel: QXLabel = {
+        let one = QXLabel()
+        one.numberOfLines = 1
+        one.font = QXFont(fmt: "16 #333333")
+        return one
+    }()
+    public lazy var subTitleLabel: QXLabel = {
+        let one = QXLabel()
+        one.numberOfLines = 1
+        one.font = QXFont(fmt: "14 #666666")
+        return one
+    }()
+    public lazy var arrowView: QXImageView = {
+        let one = QXImageView()
+        one.qxTintColor = QXColor.hex("#666666", 1)
+        one.image = QXImage("QXUIKitExtensionResources.bundle/icon_arrow.png")        .setRenderingMode(.alwaysTemplate)
+        return one
+    }()
+    public lazy var layoutView: QXStackView = {
+        let one = QXStackView()
+        one.alignmentY = .center
+        one.alignmentX = .left
+        one.viewMargin = 10
+        one.padding = QXMargin(5, 10, 5, 15)
+        one.setupViews([self.titleLabel, QXFlexView(), self.subTitleLabel, self.arrowView], collapseOrder: [0, 2, 1, 3])
+        one.isUserInteractionEnabled = false
+        return one
+    }()
+    public lazy var backButton: QXButton = {
+        let one = QXButton()
+        one.backgroundColorHighlighted = QXColor.higlightGray
+        return one
+    }()
+    
+    required public init() {
+        super.init()
+        contentView.addSubview(backButton)
+        contentView.addSubview(layoutView)
+        layoutView.IN(contentView).LEFT.TOP.RIGHT.BOTTOM.MAKE()
+    }
+    required public init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    required public init(_ reuseId: String) {
+        fatalError("init(_:) has not been implemented")
+    }
+    
+    open override func layoutSubviews() {
+        super.layoutSubviews()
+        backButton.frame = contentView.bounds
+    }
+    
+}

@@ -27,18 +27,13 @@ open class QXTableViewController<Model, LoadStatusView: UIView & QXLoadStatusVie
         tableView.cellsDelegate = self
     }
     
-    open func qxTableViewCell(_ model: Any?, _ reuseId: String) -> QXTableViewCell {
-        let cell = QXDebugTableViewCell(reuseId)
-        cell.model = model
-        return cell
-    }
-    open func qxTableViewHeaderView(_ model: Any?, _ reuseId: String) -> QXTableViewHeaderFooterView? {
+    open func cellClass(_ model: Any?) -> QXTableViewCell.Type? {
         return nil
     }
-    open func qxTableViewFooterView(_ model: Any?, _ reuseId: String) -> QXTableViewHeaderFooterView? {
+    open func headerFooterViewClassFor(_ model: Any?) -> QXTableViewHeaderFooterView.Type? {
         return nil
     }
-    
+
     open func qxTableViewCellReuseId(_ model: Any?) -> String {
         if let e = model {
             return "\(type(of: e))"
@@ -46,7 +41,28 @@ open class QXTableViewController<Model, LoadStatusView: UIView & QXLoadStatusVie
             return "NULL"
         }
     }
-    open func qxTableViewCellHeight(_ model: Any?) -> CGFloat {
+    open func qxTableViewCell(_ model: Any?, _ reuseId: String) -> QXTableViewCell {
+        let cell: QXTableViewCell
+        if let e = model as? QXStaticBaseCell {
+            cell = e
+        } else if let e = cellClass(model) {
+            cell = e.init(reuseId)
+        } else {
+            cell = QXDebugTableViewCell(reuseId)
+        }
+        cell.model = model
+        return cell
+    }
+    open func qxTableViewCellHeight(_ model: Any?, _ width: CGFloat) -> CGFloat {
+        if let e = model as? QXStaticBaseCell {
+            if let e = type(of: e).height(model, width) {
+                return e
+            }
+        } else if let e = cellClass(model) {
+            if let e = e.height(model, width) {
+                return e
+            }
+        }
         return QXTableViewAutoHeight
     }
     open func qxTableViewCellCanEdit(_ model: Any?) -> Bool {
@@ -58,6 +74,32 @@ open class QXTableViewController<Model, LoadStatusView: UIView & QXLoadStatusVie
     open func qxTableViewCellEditActions(_ model: Any?) -> [UITableViewRowAction]? {
         return nil
     }
+        
+    open func qxTableViewHeaderView(_ model: Any?, _ reuseId: String) -> QXTableViewHeaderFooterView? {
+        let view: QXTableViewHeaderFooterView?
+        if let e = model as? QXStaticBaseHeaderFooterView {
+            view = e
+        } else if let e = headerFooterViewClassFor(model) {
+            view = e.init(reuseId)
+        } else {
+            view = nil
+        }
+        view?.model = model
+        return view
+    }
+    open func qxTableViewFooterView(_ model: Any?, _ reuseId: String) -> QXTableViewHeaderFooterView? {
+        let view: QXTableViewHeaderFooterView?
+        if let e = model as? QXStaticBaseHeaderFooterView {
+            view = e
+        } else if let e = headerFooterViewClassFor(model) {
+            view = e.init(reuseId)
+        } else {
+            view = nil
+        }
+        view?.model = model
+        return view
+    }
+    
     open func qxTableViewHeaderViewReuseId(_ model: Any?) -> String {
         if let e = model {
             return "\(type(of: e))"
@@ -65,11 +107,33 @@ open class QXTableViewController<Model, LoadStatusView: UIView & QXLoadStatusVie
             return "NULL"
         }
     }
-    open func qxTableViewHeaderViewHeight(_ model: Any?) -> CGFloat {
-        return QXTableViewNoneHeight
+    open func qxTableViewHeaderViewHeight(_ model: Any?, _ width: CGFloat) -> CGFloat {
+        if let e = model as? QXStaticBaseHeaderFooterView {
+             if let e = type(of: e).height(model, width) {
+                 return e
+             } else {
+                return QXTableViewAutoHeight
+            }
+         } else if let e = headerFooterViewClassFor(model) {
+             if let e = e.height(model, width) {
+                 return e
+             }
+         }
+         return QXTableViewNoneHeight
     }
-    open func qxTableViewFooterViewHeight(_ model: Any?) -> CGFloat {
-        return QXTableViewNoneHeight
+    open func qxTableViewFooterViewHeight(_ model: Any?, _ width: CGFloat) -> CGFloat {
+        if let e = model as? QXStaticBaseHeaderFooterView {
+            if let e = type(of: e).height(model, width) {
+                return e
+            } else {
+                return QXTableViewAutoHeight
+            }
+         } else if let e = headerFooterViewClassFor(model) {
+            if let e = e.height(model, width) {
+                return e
+            }
+         }
+         return QXTableViewNoneHeight
     }
     open func qxTableViewFooterViewReuseId(_ model: Any?) -> String {
         if let e = model {
@@ -78,13 +142,14 @@ open class QXTableViewController<Model, LoadStatusView: UIView & QXLoadStatusVie
             return "NULL"
         }
     }
-    open func qxTableViewEstimatedCellHeight(_ model: Any?) -> CGFloat {
+    
+    open func qxTableViewEstimatedCellHeight(_ model: Any?, _ width: CGFloat) -> CGFloat {
         return QXTableViewAutoHeight
     }
-    open func qxTableViewEstimatedHeaderHeight(_ model: Any?) -> CGFloat {
+    open func qxTableViewEstimatedHeaderHeight(_ model: Any?, _ width: CGFloat) -> CGFloat {
         return QXTableViewAutoHeight
     }
-    open func qxTableViewEstimatedFooterHeight(_ model: Any?) -> CGFloat {
+    open func qxTableViewEstimatedFooterHeight(_ model: Any?, _ width: CGFloat) -> CGFloat {
         return QXTableViewAutoHeight
     }
     open func qxTableViewWillDisplayCell(_ cell: QXTableViewCell) {
@@ -101,7 +166,12 @@ open class QXTableViewController<Model, LoadStatusView: UIView & QXLoadStatusVie
     }
 }
 
-class QXDebugTableViewCell: QXTableViewCell {
+class QXDebugTableViewCell: QXTableViewBreakLineCell {
+    
+    override func height(_ model: Any?, _ width: CGFloat) -> CGFloat? {
+        label.intrinsicWidth = width - label.padding.left - label.padding.right
+        return nil
+    }
     
     override var model: Any? {
         didSet {
@@ -111,16 +181,16 @@ class QXDebugTableViewCell: QXTableViewCell {
     }
     public lazy var label: QXLabel = {
         let one = QXLabel()
-        one.margin = QXMargin(10, 15, 10, 15)
+        one.padding = QXMargin(10, 15, 10, 15)
         one.font = QXFont(fmt: "14 #333333")
         one.numberOfLines = 0
-        one.intrinsicWidth = UIScreen.main.bounds.width
         return one
     }()
     required init(_ reuseId: String) {
         super.init(reuseId)
         contentView.addSubview(label)
         label.IN(contentView).LEFT.RIGHT.TOP.BOTTOM.MAKE()
+        breakLine.padding = QXMargin(0, 15, 0, 15)
     }
     required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -130,6 +200,11 @@ class QXDebugTableViewCell: QXTableViewCell {
 
 class QXDebugTableViewHeaderFooterView: QXTableViewHeaderFooterView {
     
+    override func height(_ model: Any?, _ width: CGFloat) -> CGFloat? {
+        label.intrinsicWidth = width - label.padding.left - label.padding.right
+        return nil
+    }
+    
     override var model: Any? {
         didSet {
             super.model = model
@@ -138,10 +213,9 @@ class QXDebugTableViewHeaderFooterView: QXTableViewHeaderFooterView {
     }
     public lazy var label: QXLabel = {
         let one = QXLabel()
-        one.margin = QXMargin(10, 15, 10, 15)
+        one.padding = QXMargin(10, 15, 10, 15)
         one.font = QXFont(fmt: "14 #333333")
         one.numberOfLines = 0
-        one.intrinsicWidth = UIScreen.main.bounds.width
         return one
     }()
     required init(_ reuseId: String) {

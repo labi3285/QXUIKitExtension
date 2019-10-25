@@ -114,6 +114,7 @@ open class QXStackView: QXView {
             for (i, view) in views.enumerated() {
                 if view.isDisplay {
                     var wh = view.qxIntrinsicContentSize
+                    print("\(view) \(wh)")
                     if let e = collapseInfo[i] {
                         wh = e
                     }

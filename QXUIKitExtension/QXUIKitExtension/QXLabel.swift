@@ -18,8 +18,8 @@ open class QXLabel: QXView {
     }
     open var font: QXFont = QXFont(size: 14, color: QXColor.black) {
         didSet {
-            uiLabel.attributedText = font.nsAttributtedString(text)
             richTexts = nil
+            uiLabel.attributedText = font.nsAttributtedString(text)
             qxSetNeedsLayout()
         }
     }
@@ -38,7 +38,7 @@ open class QXLabel: QXView {
     }
     open var alignmentY: QXAlignmentY = .center
 
-    open var margin: QXMargin = QXMargin.zero
+    open var padding: QXMargin = QXMargin.zero
 
     open var richTexts: [QXRichText]? {
         didSet {
@@ -94,14 +94,14 @@ open class QXLabel: QXView {
                 w = e.w
                 h = e.h
             } else if let e = intrinsicWidth {
-                var size = CGSize(width: e, height: CGFloat.greatestFiniteMagnitude)
+                var size = CGSize(width: e - padding.left - padding.right, height: CGFloat.greatestFiniteMagnitude)
                 size = uiLabel.sizeThatFits(size)
-                w = margin.left + size.width + margin.right
-                h = margin.top + size.height + margin.bottom
+                w = e
+                h = size.height + padding.top + padding.bottom
             } else {
                 let size = uiLabel.intrinsicContentSize
-                w = margin.left + size.width + margin.right
-                h = margin.top + size.height + margin.bottom
+                w = padding.left + size.width + padding.right
+                h = padding.top + size.height + padding.bottom
             }
             if let e = intrinsicMinWidth { w = max(e, w) }
             if let e = intrinsicMaxWidth { w = min(e, w) }
@@ -114,18 +114,18 @@ open class QXLabel: QXView {
     }
     open override func layoutSubviews() {
         super.layoutSubviews()
-        let size = uiLabel.sizeThatFits(CGSize.init(width: bounds.width - margin.left - margin.right, height: CGFloat.greatestFiniteMagnitude))
-        let h = min(size.height, bounds.height - margin.bottom - margin.bottom)
+        let size = uiLabel.sizeThatFits(CGSize.init(width: bounds.width - padding.left - padding.right, height: CGFloat.greatestFiniteMagnitude))
+        let h = min(size.height, bounds.height - padding.bottom - padding.bottom)
         let y: CGFloat
         switch alignmentY {
         case .top:
-            y = margin.top
+            y = padding.top
         case .center:
-            y = (bounds.height - margin.top - margin.bottom - h) / 2 + margin.top
+            y = (bounds.height - padding.top - padding.bottom - h) / 2 + padding.top
         case .bottom:
-            y = (bounds.height - margin.bottom - h) / 2 + margin.top
+            y = (bounds.height - padding.bottom - h) / 2 + padding.top
         }
-        uiLabel.frame = CGRect(x: margin.left, y: y, width: bounds.width - margin.left - margin.right, height: h)
+        uiLabel.frame = CGRect(x: padding.left, y: y, width: bounds.width - padding.left - padding.right, height: h)
     }
 
 }

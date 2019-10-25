@@ -124,4 +124,13 @@ extension String {
         return self
     }
     
+    
+    public func qxRegexReplaceOccurrences(pattern: String, with: String,
+                                 options: NSRegularExpression.Options = []) -> String {
+        let regex = try! NSRegularExpression(pattern: pattern, options: options)
+        return regex.stringByReplacingMatches(in: self, options: [],
+                                              range: NSMakeRange(0, self.count),
+                                              withTemplate: with)
+    }
+    
 }

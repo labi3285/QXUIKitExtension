@@ -52,7 +52,8 @@ public enum QXColor {
 
     public static var placeHolderGray: QXColor { return QXColor.rgb(187, 187, 187, 255) }
     public static var backgroundGray: QXColor { return QXColor.rgb(245, 245, 245, 255) }
-    public static var lineGray: QXColor { return QXColor.rgb(238, 238, 238, 255) }
+    public static var higlightGray: QXColor { return QXColor.rgb(245, 245, 245, 255) }
+    public static var lineGray: QXColor { return QXColor.rgb(224, 224, 224, 255) }
     public static var borderGray: QXColor { return QXColor.rgb(166, 166, 166, 255) }
     
     public static func random(alpha: CGFloat) -> QXColor { return QXColor.uiColor(UIColor.qxRandom(alpha: alpha)) }

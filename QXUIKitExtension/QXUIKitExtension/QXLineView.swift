@@ -12,8 +12,8 @@ extension QXLineView {
     
     public static var breakLine: QXLineView {
         let e = QXLineView()
-        e.lineWidth = 0.6
-        e.lineColor = QXColor.fmtHex("#999999")
+        e.lineWidth = 0.5
+        e.lineColor = QXColor.lineGray
         return e
     }
 }
@@ -25,9 +25,8 @@ open class QXLineView: QXView {
     public var lineCap: CGLineCap = .round
     public var lineDash: (phase: CGFloat, lengths: [CGFloat])?
     
-    
     public var isVertical: Bool = false
-    public var margin: QXMargin = QXMargin.zero
+    public var padding: QXMargin = QXMargin.zero
     
     public override init() {
         super.init()
@@ -47,37 +46,39 @@ open class QXLineView: QXView {
                 if isVertical {
                     return CGSize(width: e, height: CGFloat.greatestFiniteMagnitude)
                 } else {
-                    return CGSize(width: e, height: lineWidth + margin.top + margin.bottom)
+                    return CGSize(width: e, height: lineWidth + padding.top + padding.bottom)
                 }
             } else if let e = intrinsicHeight {
                 if isVertical {
-                    return CGSize(width: lineWidth + margin.left + margin.right, height: e)
+                    return CGSize(width: lineWidth + padding.left + padding.right, height: e)
                 } else {
                     return CGSize(width: CGFloat.greatestFiniteMagnitude, height: e)
                 }
             } else {
                 if isVertical {
-                    return CGSize(width: lineWidth + margin.left + margin.right, height: CGFloat.greatestFiniteMagnitude)
+                    return CGSize(width: lineWidth + padding.left + padding.right, height: CGFloat.greatestFiniteMagnitude)
                 } else {
-                    return CGSize(width: CGFloat.greatestFiniteMagnitude, height: lineWidth + margin.top + margin.bottom)
+                    return CGSize(width: CGFloat.greatestFiniteMagnitude, height: lineWidth + padding.top + padding.bottom)
                 }
             }
         }
         return CGSize.zero
     }
     
+    var a: Bool = false
+    
     open override func draw(_ rect: CGRect) {
         if let ctx = UIGraphicsGetCurrentContext() {
             if isVertical {
-                let y = margin.top
-                let x = margin.left + (rect.width - margin.left - margin.right) / 2
-                let h = rect.height - margin.top - margin.bottom
+                let y = padding.top
+                let x = padding.left + (rect.width - padding.left - padding.right) / 2
+                let h = rect.height - padding.top - padding.bottom
                 ctx.move(to: CGPoint(x: x, y: y))
                 ctx.addLine(to: CGPoint(x: x, y: y + h))
             } else {
-                let x = margin.left
-                let y = margin.top + (rect.height - margin.top - margin.bottom) / 2
-                let w = rect.width - margin.left - margin.right
+                let x = padding.left
+                let y = padding.top + (rect.height - padding.top - padding.bottom) / 2
+                let w = rect.width - padding.left - padding.right
                 ctx.move(to: CGPoint(x: x, y: y))
                 ctx.addLine(to: CGPoint(x: x + w, y: y))
             }

@@ -236,7 +236,7 @@ extension QXNavigationBar {
             label.alignmentX = .center
             label.font = font ?? QXFont(fmt: "15 #333333")
             label.text = title
-            label.margin = QXMargin(0, 10, 0, 10)
+            label.padding = QXMargin(0, 10, 0, 10)
             titleView = label
             return label
         }

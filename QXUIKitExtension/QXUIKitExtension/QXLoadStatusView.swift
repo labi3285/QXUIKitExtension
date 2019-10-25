@@ -55,7 +55,7 @@ open class QXLoadStatusView: UIView, QXLoadStatusViewProtocol {
     
     open lazy var iconView: QXImageView = {
         let one = QXImageView()
-        one.margin = QXMargin.zero
+        one.padding = QXMargin.zero
         one.qxTintColor = QXColor.fmtHex("#848484")
         one.respondResize = { [weak self] in
             self?.layoutSubviews()
@@ -64,7 +64,7 @@ open class QXLoadStatusView: UIView, QXLoadStatusViewProtocol {
     }()
     open lazy var contentLabel: QXLabel = {
         let one = QXLabel()
-        one.margin = QXMargin(10, 20, 10, 20)
+        one.padding = QXMargin(10, 20, 10, 20)
         one.numberOfLines = 0
         one.alignmentX = .center
         one.alignmentY = .center
@@ -75,12 +75,11 @@ open class QXLoadStatusView: UIView, QXLoadStatusViewProtocol {
     }()
     public lazy var retryButton: QXTitleButton = {
         let one = QXTitleButton()
-        one.margin = QXMargin.zero
         one.border = QXBorder.border
         one.font = QXFont(14, "#848484")
         one.title = "点击重试"
-        one.margin = QXMargin(7, 10, 7, 10)
         one.padding = QXMargin(7, 10, 7, 10)
+        one.titlePadding = QXMargin(7, 10, 7, 10)
         one.respondResize = { [weak self] in
             self?.setNeedsLayout()
         }

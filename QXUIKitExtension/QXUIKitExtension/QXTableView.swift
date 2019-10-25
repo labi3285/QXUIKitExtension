@@ -19,19 +19,19 @@ public protocol QXTableViewCellDelegate: class {
 
     // [Optional]
     func qxTableViewCellReuseId(_ model: Any?) -> String
-    func qxTableViewCellHeight(_ model: Any?) -> CGFloat
+    func qxTableViewCellHeight(_ model: Any?, _ width: CGFloat) -> CGFloat
     func qxTableViewCellCanEdit(_ model: Any?) -> Bool
     func qxTableViewCellEditActions(_ model: Any?) -> [UITableViewRowAction]?
     
     func qxTableViewHeaderViewReuseId(_ model: Any?) -> String
-    func qxTableViewHeaderViewHeight(_ model: Any?) -> CGFloat
+    func qxTableViewHeaderViewHeight(_ model: Any?, _ width: CGFloat) -> CGFloat
 
     func qxTableViewFooterViewReuseId(_ model: Any?) -> String
-    func qxTableViewFooterViewHeight(_ model: Any?) -> CGFloat
+    func qxTableViewFooterViewHeight(_ model: Any?, _ width: CGFloat) -> CGFloat
 
-    func qxTableViewEstimatedCellHeight(_ model: Any?) -> CGFloat
-    func qxTableViewEstimatedHeaderHeight(_ model: Any?) -> CGFloat
-    func qxTableViewEstimatedFooterHeight(_ model: Any?) -> CGFloat
+    func qxTableViewEstimatedCellHeight(_ model: Any?, _ width: CGFloat) -> CGFloat
+    func qxTableViewEstimatedHeaderHeight(_ model: Any?, _ width: CGFloat) -> CGFloat
+    func qxTableViewEstimatedFooterHeight(_ model: Any?, _ width: CGFloat) -> CGFloat
 
     func qxTableViewHeaderView(_ model: Any?, _ reuseId: String) -> QXTableViewHeaderFooterView?
     func qxTableViewFooterView(_ model: Any?, _ reuseId: String) -> QXTableViewHeaderFooterView?
@@ -55,7 +55,7 @@ extension QXTableViewCellDelegate {
             return "NULL"
         }
     }
-    public func qxTableViewCellHeight(_ model: Any?) -> CGFloat {
+    public func qxTableViewCellHeight(_ model: Any?, _ width: CGFloat) -> CGFloat {
         return QXTableViewAutoHeight
     }
     public func qxTableViewCellCanEdit(_ model: Any?) -> Bool {
@@ -75,10 +75,10 @@ extension QXTableViewCellDelegate {
             return "NULL"
         }
     }
-    public func qxTableViewHeaderViewHeight(_ model: Any?) -> CGFloat {
+    public func qxTableViewHeaderViewHeight(_ model: Any?, _ width: CGFloat) -> CGFloat {
         return QXTableViewNoneHeight
     }
-    public func qxTableViewFooterViewHeight(_ model: Any?) -> CGFloat {
+    public func qxTableViewFooterViewHeight(_ model: Any?, _ width: CGFloat) -> CGFloat {
         return QXTableViewNoneHeight
     }
     
@@ -89,13 +89,13 @@ extension QXTableViewCellDelegate {
             return "NULL"
         }
     }
-    public func qxTableViewEstimatedCellHeight(_ model: Any?) -> CGFloat {
+    public func qxTableViewEstimatedCellHeight(_ model: Any?, _ width: CGFloat) -> CGFloat {
         return QXTableViewAutoHeight
     }
-    public func qxTableViewEstimatedHeaderHeight(_ model: Any?) -> CGFloat {
+    public func qxTableViewEstimatedHeaderHeight(_ model: Any?, _ width: CGFloat) -> CGFloat {
         return QXTableViewAutoHeight
     }
-    public func qxTableViewEstimatedFooterHeight(_ model: Any?) -> CGFloat {
+    public func qxTableViewEstimatedFooterHeight(_ model: Any?, _ width: CGFloat) -> CGFloat {
         return QXTableViewAutoHeight
     }
     public func qxTableViewHeaderView(_ model: Any?, _ reuseId: String) -> QXTableViewHeaderFooterView? {
@@ -128,6 +128,20 @@ open class QXTableViewCell: UITableViewCell {
     
     open var model: Any?
     
+    public weak fileprivate(set) var tableView: QXTableView!
+    public fileprivate(set) var indexPath: IndexPath!
+    
+    open class func height(_ model: Any?, _ width: CGFloat) -> CGFloat? {
+        return nil
+    }
+    open func height(_ model: Any?, _ width: CGFloat) -> CGFloat? {
+        return nil
+    }
+    
+    open func updateSectionPossition(_ isFirstCell: Bool, _ isLastCell: Bool) {
+        
+    }
+
     required public init(_ reuseId: String) {
         super.init(style: .default, reuseIdentifier: reuseId)
         backgroundView = UIView()
@@ -140,9 +154,47 @@ open class QXTableViewCell: UITableViewCell {
     
 }
 
+open class QXTableViewBreakLineCell: QXTableViewCell {
+        
+    open override func updateSectionPossition(_ isFirstCell: Bool, _ isLastCell: Bool) {
+        super.updateSectionPossition(isFirstCell, isLastCell)
+        breakLine.isHidden = isLastCell
+    }
+
+    public lazy var breakLine: QXLineView = {
+        let one = QXLineView.breakLine
+        one.isVertical = false
+        one.isHidden = false
+        one.isUserInteractionEnabled = false
+        return one
+    }()
+    
+    required public init(_ reuseId: String) {
+        super.init(reuseId)
+        contentView.addSubview(breakLine)
+    }
+    required public init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    open override func layoutSubviews() {
+        super.layoutSubviews()
+        let h = breakLine.intrinsicContentSize.height
+        breakLine.frame = CGRect(x: 0, y: contentView.frame.height - h, width: contentView.frame.width, height: h)
+        bringSubviewToFront(breakLine)
+    }
+
+}
+
 open class QXTableViewHeaderFooterView: UITableViewHeaderFooterView {
     
     open var model: Any?
+    
+    open class func height(_ model: Any?, _ width: CGFloat) -> CGFloat? {
+        return nil
+    }
+    open func height(_ model: Any?, _ width: CGFloat) -> CGFloat? {
+        return nil
+    }
     
     required public init(_ reuseId: String) {
         super.init(reuseIdentifier: reuseId)
@@ -157,6 +209,7 @@ open class QXTableViewHeaderFooterView: UITableViewHeaderFooterView {
 }
 
 public struct QXTableViewSection {
+    
     public var indexTitle: String? = nil
     public var header: Any? = nil
     public var models: [Any?] = []
@@ -179,18 +232,23 @@ open class QXTableView: QXView {
 
     public var padding: QXMargin = QXMargin.zero
     
-    /// 默认是扁平的
+    open func update() {
+        uiTableView.beginUpdates()
+        uiTableView.endUpdates()
+    }
+    
+    /// 默认是group
     public var isPlain: Bool {
         set {
             if newValue {
                 if uiTableView.style != .plain {
                     uiTableView = UITableView(frame: CGRect.zero, style: .plain)
-                    updateuiTableView()
+                    updateUITableView()
                 }
             } else {
                 if uiTableView.style == .plain {
                     uiTableView = UITableView(frame: CGRect.zero, style: .grouped)
-                    updateuiTableView()
+                    updateUITableView()
                 }
             }
         }
@@ -198,10 +256,10 @@ open class QXTableView: QXView {
             return uiTableView.style == .plain
         }
     }
+
+    public private(set) var uiTableView: UITableView = UITableView(frame: CGRect.zero, style: .grouped)
     
-    public private(set) var uiTableView: UITableView = UITableView(frame: CGRect.zero, style: .plain)
-    
-    open func updateuiTableView() {
+    open func updateUITableView() {
         uiTableView.backgroundColor = UIColor.clear
         uiTableView.separatorStyle = .none
         uiTableView.qxCheckOrRemoveFromSuperview()
@@ -218,7 +276,7 @@ open class QXTableView: QXView {
     
     required override public init() {
         super.init()
-        updateuiTableView()
+        updateUITableView()
     }
     
     required public init?(coder aDecoder: NSCoder) {
@@ -246,6 +304,9 @@ extension QXTableView: UITableViewDelegate, UITableViewDataSource {
             } else {
                 cell = delegate.qxTableViewCell(model, id)
             }
+            cell.tableView = self
+            cell.indexPath = indexPath
+            cell.updateSectionPossition(indexPath.row == 0, indexPath.row == section.models.count - 1)
             cell.model = model
             return cell
         } else {
@@ -335,7 +396,7 @@ extension QXTableView: UITableViewDelegate, UITableViewDataSource {
         let section = sections[indexPath.section]
         let model = section.models[indexPath.row]
         if let delegate = cellsDelegate {
-            return delegate.qxTableViewCellHeight(model)
+            return delegate.qxTableViewCellHeight(model, uiTableView.bounds.width)
         } else {
             return QXDebugFatalError("请设置 cellsDelegate", QXTableViewAutoHeight)
         }
@@ -345,7 +406,7 @@ extension QXTableView: UITableViewDelegate, UITableViewDataSource {
         let section = sections[section]
         let model = section.header
         if let delegate = cellsDelegate {
-            return delegate.qxTableViewHeaderViewHeight(model)
+            return delegate.qxTableViewHeaderViewHeight(model, uiTableView.bounds.width)
         } else {
             return QXDebugFatalError("请设置 cellsDelegate", QXTableViewAutoHeight)
         }
@@ -355,7 +416,7 @@ extension QXTableView: UITableViewDelegate, UITableViewDataSource {
         let section = sections[section]
         let model = section.footer
         if let delegate = cellsDelegate {
-            return delegate.qxTableViewFooterViewHeight(model)
+            return delegate.qxTableViewFooterViewHeight(model, uiTableView.bounds.width)
         } else {
             return QXDebugFatalError("请设置 cellsDelegate", QXTableViewAutoHeight)
         }
@@ -365,35 +426,11 @@ extension QXTableView: UITableViewDelegate, UITableViewDataSource {
         let section = sections[indexPath.section]
         let model = section.models[indexPath.row]
         if let delegate = cellsDelegate {
-            return delegate.qxTableViewEstimatedCellHeight(model)
+            return delegate.qxTableViewEstimatedCellHeight(model, uiTableView.bounds.width)
         } else {
             return QXDebugFatalError("请设置 cellsDelegate", QXTableViewAutoHeight)
         }
     }
-//    open func tableView(_ tableView: UITableView, estimatedHeightForHeaderInSection section: Int) -> CGFloat {
-//        return 30
-//
-//    }
-
-    
-//    open func tableView(_ tableView: UITableView, estimatedHeightForHeaderInSection section: Int) -> CGFloat {
-//        let section = sections[section]
-//        let model = section.header
-//        if let delegate = cellsDelegate {
-//            return delegate.qxTableViewEstimatedHeaderHeight(model)
-//        } else {
-//            return QXDebugFatalError("请设置 cellsDelegate", QXTableViewAutoHeight)
-//        }
-//    }
-//    open func tableView(_ tableView: UITableView, estimatedHeightForFooterInSection section: Int) -> CGFloat {
-//        let section = sections[section]
-//        let model = section.footer
-//        if let delegate = cellsDelegate {
-//            return delegate.qxTableViewEstimatedFooterHeight(model)
-//        } else {
-//            return QXDebugFatalError("请设置 cellsDelegate", QXTableViewAutoHeight)
-//        }
-//    }
     
     open func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         if let delegate = cellsDelegate {

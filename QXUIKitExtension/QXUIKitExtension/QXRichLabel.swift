@@ -12,7 +12,7 @@ open class QXRichLabel: QXView {
     
     public var text: String {
         set {
-            items = [Item.text(string: text, font: font, linkData: nil)]
+            items = [Item.text(string: newValue, font: font, linkData: nil)]
         }
         get {
             return _attributtedString.string

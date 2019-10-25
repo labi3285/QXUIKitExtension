@@ -56,8 +56,7 @@ open class QXButton: QXView {
     /// 是否高亮
     public private(set) var isHighlighted: Bool = false
 
-    /// 外间隙
-    open var margin: QXMargin = QXMargin.zero
+    open var padding: QXMargin = QXMargin.zero
     
     public lazy var contentView: UIView = {
         let one = UIView()
@@ -74,7 +73,7 @@ open class QXButton: QXView {
     }
     open override func layoutSubviews() {
         super.layoutSubviews()
-        contentView.qxRect = qxRect.absoluteRect.rectByReduce(margin)
+        contentView.qxRect = qxRect.absoluteRect.rectByReduce(padding)
     }
     
     open override var intrinsicContentSize: CGSize {
@@ -109,7 +108,7 @@ open class QXButton: QXView {
     }
     
     open func handlePrepareOrigins() {
-        _originBackgoundColor = contentView.qxBackgroundColor
+        _originBackgoundColor = contentView.qxBackgroundColor ?? QXColor.clear
         _originShadow = shadow
         _originBorder = border
         _originAlpha = alpha
@@ -125,6 +124,10 @@ open class QXButton: QXView {
         contentView.alpha = _originAlpha ?? 1
     }
     open func handleHighlighted() {
+        if !_isOriginPrepared {
+            handlePrepareOrigins()
+            _isOriginPrepared = true
+        }
         contentView.qxBackgroundColor = backgroundColorHighlighted ?? _originBackgoundColor
         contentView.qxShadow = shadowHighlighted ?? _originShadow
         contentView.qxBorder = borderHighlighted ?? _originBorder
@@ -202,6 +205,7 @@ open class QXButton: QXView {
     }
     open override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
         respondTouchCancelled?()
+        handleNormalize()
     }
     private var _touchBeganPoint: CGPoint?
     private var _isOriginPrepared: Bool = false
@@ -278,7 +282,7 @@ open class QXTitleButton: QXButton {
         }
     }
     
-    open var padding: QXMargin = QXMargin.zero
+    open var titlePadding: QXMargin = QXMargin.zero
 
     public lazy var label: UILabel = {
         let one = UILabel()
@@ -306,7 +310,7 @@ open class QXTitleButton: QXButton {
                 return e.cgSize
             } else {
                 var size = label.qxIntrinsicContentSize
-                size = size.sizeByAdd(padding).sizeByAdd(margin)
+                size = size.sizeByAdd(titlePadding).sizeByAdd(padding)
                 if let e = intrinsicMinHeight {
                    size = QXSize(size.w, max(size.h, e))
                 }
@@ -363,7 +367,7 @@ open class QXImageButton: QXButton {
     open var imageSelected: QXImage?
     open var imageDisabled: QXImage?
     
-    open var padding: QXMargin = QXMargin.zero
+    open var imagePadding: QXMargin = QXMargin.zero
     
     public lazy var imageView: QXImageView = {
         let one = QXImageView()
@@ -380,7 +384,7 @@ open class QXImageButton: QXButton {
     
     override open func layoutSubviews() {
         super.layoutSubviews()
-        imageView.qxRect = contentView.qxRect.absoluteRect.rectByReduce(padding)
+        imageView.qxRect = contentView.qxRect.absoluteRect.rectByReduce(imagePadding)
     }
     open override var intrinsicContentSize: CGSize {
         if isDisplay {
@@ -391,7 +395,7 @@ open class QXImageButton: QXButton {
                 if size.isZero {
                     return size.cgSize
                 } else {
-                    return size.sizeByAdd(padding).sizeByAdd(margin).cgSize
+                    return size.sizeByAdd(imagePadding).sizeByAdd(padding).cgSize
                 }
             }
         } else {
@@ -428,7 +432,7 @@ open class QXStackButton: QXButton {
     open var viewsSelected: [QXView]?
     open var viewsDisabled: [QXView]?
     
-    open var padding: QXMargin = QXMargin.zero
+    open var stackPadding: QXMargin = QXMargin.zero
     
     public lazy var stackView: QXStackView = {
         let one = QXStackView()
@@ -447,7 +451,7 @@ open class QXStackButton: QXButton {
     
     override open func layoutSubviews() {
         super.layoutSubviews()
-        stackView.qxRect = contentView.qxRect.absoluteRect.rectByReduce(padding)
+        stackView.qxRect = contentView.qxRect.absoluteRect.rectByReduce(stackPadding)
     }
     
     public var intrinsicMinWidth: CGFloat?
@@ -461,7 +465,7 @@ open class QXStackButton: QXButton {
                 if size.isZero {
                     return size.cgSize
                 } else {
-                    var size = size.sizeByAdd(padding).sizeByAdd(margin)
+                    var size = size.sizeByAdd(stackPadding).sizeByAdd(padding)
                     if let e = intrinsicMinWidth {
                         size = QXSize(max(size.w, e), size.h)
                     }

@@ -56,13 +56,13 @@ open class QXRefreshHeader: MJRefreshHeader {
     }()
     public lazy var imageView: QXImageView = {
         let one = QXImageView()
-        one.margin = QXMargin(0, 5, 0, 5)
+        one.padding = QXMargin(0, 5, 0, 5)
         return one
     }()
     public lazy var arrowView: QXImageView = {
         let one = QXImageView()
         one.qxTintColor = QXColor.fmtHex("#333333")
-        one.margin = QXMargin(0, 5, 0, 5)
+        one.padding = QXMargin(0, 5, 0, 5)
         return one
     }()
     public var loadingView: QXActivityIndicatorView = {
@@ -213,7 +213,7 @@ open class QXRefreshFooter: MJRefreshAutoFooter {
     }()
     public lazy var imageView: QXImageView = {
         let one = QXImageView()
-        one.margin = QXMargin(0, 5, 0, 5)
+        one.padding = QXMargin(0, 5, 0, 5)
         one.backgroundColor = UIColor.red
         return one
     }()

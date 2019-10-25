@@ -12,7 +12,7 @@ open class QXImageView: QXView {
     
     open var respondUpdateImage: ((_ image: QXImage?) ->())?
     
-    open var margin: QXMargin = QXMargin.zero
+    open var padding: QXMargin = QXMargin.zero
 
     open var image: QXImage? {
         set {
@@ -63,7 +63,7 @@ open class QXImageView: QXView {
     
     open override func layoutSubviews() {
         super.layoutSubviews()
-        uiImageView.frame = CGRect(x: margin.left, y: margin.top, width: bounds.width - margin.left - margin.right, height: bounds.height - margin.top - margin.bottom)
+        uiImageView.frame = CGRect(x: padding.left, y: padding.top, width: bounds.width - padding.left - padding.right, height: bounds.height - padding.top - padding.bottom)
     }
     
     public var intrinsicWidth: CGFloat?
@@ -83,19 +83,19 @@ open class QXImageView: QXView {
                 w = e
                 let size = image?.size ?? QXSize.zero
                 if !size.isZero {
-                    h = margin.top + e * size.h / size.w + margin.bottom
+                    h = padding.top + (e - padding.left - padding.right) * size.h / size.w + padding.bottom
                 }
             } else if let e = intrinsicHeight {
                 h = e
                 let size = image?.size ?? QXSize.zero
                 if !size.isZero {
-                    w = margin.top + e * size.w / size.h + margin.bottom
+                    w = padding.left + e - (padding.top - padding.bottom) * size.w / size.h + padding.right
                 }
             } else {
                 let size = image?.size ?? QXSize.zero
                 if !size.isZero {
-                    w = margin.left + size.w + margin.right
-                    h = margin.top + size.w * size.h / size.w + margin.bottom
+                    w = padding.left + size.w + padding.right
+                    h = padding.top + size.w * size.h / size.w + padding.bottom
                 }
             }
             if let e = intrinsicMinWidth { w = max(e, w) }

@@ -1,21 +1,18 @@
 //
-//  ViewController.swift
+//  DemoSettingsVc.swift
 //  QXUIKitExtension
 //
-//  Created by labi3285 on 2019/6/22.
+//  Created by labi3285 on 2019/10/25.
 //  Copyright © 2019 labi3285_lab. All rights reserved.
 //
 
 import UIKit
 
-class ViewController: QXTableViewController<Any, QXLoadStatusView> {
+class DemoSettingsVc: QXTableViewController<Any, QXLoadStatusView> {
     
     lazy var arrowCell: QXSettingTitleArrowCell = {
         let one = QXSettingTitleArrowCell()
         one.titleLabel.text = "设置相关UI"
-        one.backButton.respondClick = { [weak self] in
-            print("click")
-        }
         return one
     }()
     

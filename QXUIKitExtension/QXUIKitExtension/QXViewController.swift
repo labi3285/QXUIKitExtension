@@ -87,6 +87,11 @@ open class QXViewController: UIViewController, UINavigationBarDelegate {
         if _isFirstDidDisappear { viewDidFirstDisappear(animated); _isFirstDidDisappear = false }
     }
     
+    open override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        contentView.qxRect = view.qxBounds.rectByReduce(padding)
+    }
+    
     //MARK:- Navigation
     public var customNavigationBar: QXNavigationBar?
     public var navigationBarBackArrowImage: QXImage? = QXImage("QXUIKitExtensionResources.bundle/icon_back")
