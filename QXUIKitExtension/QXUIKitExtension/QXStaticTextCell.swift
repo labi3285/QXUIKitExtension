@@ -1,5 +1,5 @@
 //
-//  QXStaticButtonCell.swift
+//  QXTableViewStaticTextCell.swift
 //  QXUIKitExtension
 //
 //  Created by labi3285 on 2019/10/24.
@@ -7,27 +7,26 @@
 //
 
 import UIKit
+import QXConsMaker
 
-open class QXStaticButtonCell: QXStaticBaseCell {
+open class QXStaticTextCell: QXStaticBaseCell {
     
-    
-    open override class func height(_ model: Any?, _ width: CGFloat) -> CGFloat? {
-        return 50
+    open override func height(_ model: Any?, _ width: CGFloat) -> CGFloat? {
+        label.intrinsicWidth = width - label.padding.left - label.padding.right
+        return label.intrinsicContentSize.height
     }
-    
-    public lazy var button: QXTitleButton = {
-        let one = QXTitleButton()
+
+    public lazy var label: QXLabel = {
+        let one = QXLabel()
+        one.numberOfLines = 0
         one.padding = QXMargin(10, 15, 10, 15)
-        one.border = QXBorder.border
-        one.title = "按钮 固定高度"
         return one
     }()
 
     required public init() {
         super.init()
-        contentView.addSubview(button)
-        button.IN(contentView).CENTER.MAKE()
-//        button.IN(contentView).LEFT.RIGHT.TOP.BOTTOM.MAKE()
+        contentView.addSubview(label)
+        label.IN(contentView).LEFT.RIGHT.TOP.BOTTOM.MAKE()
     }
     required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")

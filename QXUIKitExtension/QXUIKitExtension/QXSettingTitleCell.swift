@@ -1,5 +1,5 @@
 //
-//  QXSettingTextFiledCell.swift
+//  QXSettingTitleItemCell.swift
 //  QXUIKitExtension
 //
 //  Created by labi3285 on 2019/10/24.
@@ -7,15 +7,14 @@
 //
 
 import UIKit
+import QXConsMaker
 
-open class QXSettingTextFieldCell: QXSettingCell {
-
-    public lazy var textField: QXTextField = {
-        let one = QXTextField()
-        one.intrinsicSize = QXSize(9999, 99)
+open class QXSettingTitleCell: QXSettingCell {
+    
+    public lazy var titleLabel: QXLabel = {
+        let one = QXLabel()
+        one.numberOfLines = 1
         one.font = QXFont(fmt: "16 #333333")
-        one.placeHolderfont = QXFont(fmt: "16 #999999")
-        one.placeHolder = "输入内容"
         return one
     }()
     public lazy var layoutView: QXStackView = {
@@ -24,10 +23,10 @@ open class QXSettingTextFieldCell: QXSettingCell {
         one.alignmentX = .left
         one.viewMargin = 10
         one.padding = QXMargin(5, 15, 5, 15)
-        one.setupViews([self.textField])
+        one.setupViews([self.titleLabel])
         return one
     }()
-
+    
     required public init() {
         super.init()
         contentView.addSubview(layoutView)
@@ -39,5 +38,5 @@ open class QXSettingTextFieldCell: QXSettingCell {
     required public init(_ reuseId: String) {
         fatalError("init(_:) has not been implemented")
     }
-
+    
 }

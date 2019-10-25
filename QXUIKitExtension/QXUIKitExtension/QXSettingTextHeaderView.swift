@@ -1,5 +1,5 @@
 //
-//  QXSettingTextFooterView.swift
+//  QXSettingTextHeaderView.swift
 //  QXUIKitExtension
 //
 //  Created by labi3285 on 2019/10/25.
@@ -7,8 +7,9 @@
 //
 
 import UIKit
+import QXConsMaker
 
-open class QXSettingTextFooterView: QXSettingSeparateFooterView {
+open class QXSettingTextHeaderView: QXSettingSeparateHeaderView {
     
     open override func height(_ model: Any?, _ width: CGFloat) -> CGFloat? {
         label.intrinsicWidth = width - label.padding.left - label.padding.right
@@ -18,7 +19,7 @@ open class QXSettingTextFooterView: QXSettingSeparateFooterView {
     public lazy var label: QXLabel = {
         let one = QXLabel()
         one.numberOfLines = 0
-        one.padding = QXMargin(5, 15, 10, 15)
+        one.padding = QXMargin(10, 15, 5, 15)
         one.font = QXFont(fmt: "12 #999999")
         return one
     }()

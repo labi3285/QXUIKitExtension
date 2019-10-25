@@ -36,7 +36,7 @@ public enum QXTextFilter {
         func doLimit(_ text: String, limit: Int?) -> String {
             if let limit = limit {
                 if text.count >= limit {
-                    return text.substring(to: text.index(text.startIndex, offsetBy: limit))
+                    return text.qxSubString(start: 0, end: limit)
                 }
             }
             return text

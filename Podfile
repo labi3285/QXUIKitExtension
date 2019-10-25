@@ -8,4 +8,5 @@ target 'QXUIKitExtension' do
     pod 'QXMessageView', '~> 0.0.3'
     pod 'SAMKeychain', '~> 1.5.3'
     pod 'MJRefresh', '~> 3.1.15.7'
+    pod 'QXConsMaker', '~> 0.0.6'
 end

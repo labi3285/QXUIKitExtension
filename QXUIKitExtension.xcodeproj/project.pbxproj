@@ -91,8 +91,6 @@
 		75929CEB22D97C3D006577AD /* QXButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75929CEA22D97C3D006577AD /* QXButton.swift */; };
 		75929CF322D9A89D006577AD /* QXRichText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75929CF222D9A89D006577AD /* QXRichText.swift */; };
 		75929CF522D9A8BD006577AD /* QXFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75929CF422D9A8BD006577AD /* QXFont.swift */; };
-		75944D3E22E2F893006FD18E /* QXConsMaker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75944D3C22E2F893006FD18E /* QXConsMaker.swift */; };
-		75944D3F22E2F893006FD18E /* QXConsMakerExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75944D3D22E2F893006FD18E /* QXConsMakerExt.swift */; };
 		75944D4322E302ED006FD18E /* QXView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75944D4222E302ED006FD18E /* QXView.swift */; };
 		75944D4522E304EC006FD18E /* QXActivityIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75944D4422E304EC006FD18E /* QXActivityIndicatorView.swift */; };
 		75944D4722E5953F006FD18E /* QXModelsLoadStatusViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75944D4622E5953F006FD18E /* QXModelsLoadStatusViewController.swift */; };
@@ -191,8 +189,6 @@
 		75929CEA22D97C3D006577AD /* QXButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QXButton.swift; sourceTree = "<group>"; };
 		75929CF222D9A89D006577AD /* QXRichText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QXRichText.swift; sourceTree = "<group>"; };
 		75929CF422D9A8BD006577AD /* QXFont.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QXFont.swift; sourceTree = "<group>"; };
-		75944D3C22E2F893006FD18E /* QXConsMaker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QXConsMaker.swift; sourceTree = "<group>"; };
-		75944D3D22E2F893006FD18E /* QXConsMakerExt.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QXConsMakerExt.swift; sourceTree = "<group>"; };
 		75944D4222E302ED006FD18E /* QXView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QXView.swift; sourceTree = "<group>"; };
 		75944D4422E304EC006FD18E /* QXActivityIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QXActivityIndicatorView.swift; sourceTree = "<group>"; };
 		75944D4622E5953F006FD18E /* QXModelsLoadStatusViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QXModelsLoadStatusViewController.swift; sourceTree = "<group>"; };
@@ -318,42 +314,11 @@
 				7574AA85230BCF9F00ABF6AD /* QXLineView.swift */,
 				75CCBC2922F7BF68004AD9E1 /* QXTimer.swift */,
 				75FE018722EC3E26007646A3 /* QXTableView.swift */,
-				7578A87D236191C6006CFDD5 /* QXSettingCells */,
-				75729F9E236133790007D1B1 /* QXStaticCells */,
-				75929C8522D0764C006577AD /* QXNavigationController.swift */,
-				75929C8B22D2CDE7006577AD /* QXTabBarController.swift */,
-				7553C81022CF1D6B0058239B /* QXBarButtonItem.swift */,
-				7553C80822CF0CB60058239B /* UIApplication_ext.swift */,
-				75944D4822E59AAE006FD18E /* QXMessageView.swift */,
-				7553C7FC22CEE0CE0058239B /* QXError.swift */,
-				751558AB22E8033000EFF37A /* QXRespond.swift */,
-				751558A722E7FCFA00EFF37A /* QXPage.swift */,
-				7553C80022CEE50A0058239B /* QXDebug.swift */,
-				7553C80222CEF5910058239B /* UserDefaults_ext.swift */,
-				7553C80A22CF0DA90058239B /* DispatchQueue_ext.swift */,
-				7578069322E164E7009DD0DA /* QXUIKitExtensionResources.swift */,
-				75944D3C22E2F893006FD18E /* QXConsMaker.swift */,
-				75944D3D22E2F893006FD18E /* QXConsMakerExt.swift */,
-				7578069122E1647C009DD0DA /* QXUIKitExtensionResources.bundle */,
-			);
-			path = QXUIKitExtension;
-			sourceTree = "<group>";
-		};
-		75729F9E236133790007D1B1 /* QXStaticCells */ = {
-			isa = PBXGroup;
-			children = (
 				75729F9F236133CC0007D1B1 /* QXStaticTextCell.swift */,
 				757D6C3E2361757E00BF1788 /* QXStaticButtonCell.swift */,
 				75729FA1236134010007D1B1 /* QXStaticBase.swift */,
 				75729FAB236170450007D1B1 /* QXStaticHeaderView.swift */,
 				757D6C3C236174B800BF1788 /* QXStaticFooterView.swift */,
-			);
-			path = QXStaticCells;
-			sourceTree = "<group>";
-		};
-		7578A87D236191C6006CFDD5 /* QXSettingCells */ = {
-			isa = PBXGroup;
-			children = (
 				7578A87223617CF3006CFDD5 /* QXSettingCell.swift */,
 				7578A87B23619109006CFDD5 /* QXSettingTitleCell.swift */,
 				7578A890236296A4006CFDD5 /* QXSettingTextCell.swift */,
@@ -367,8 +332,21 @@
 				7578A87723618286006CFDD5 /* QXSettingSeparateFooterView.swift */,
 				7578A89223629909006CFDD5 /* QXSettingTextHeaderView.swift */,
 				7578A89423629A3A006CFDD5 /* QXSettingTextFooterView.swift */,
+				75929C8522D0764C006577AD /* QXNavigationController.swift */,
+				75929C8B22D2CDE7006577AD /* QXTabBarController.swift */,
+				7553C81022CF1D6B0058239B /* QXBarButtonItem.swift */,
+				7553C80822CF0CB60058239B /* UIApplication_ext.swift */,
+				75944D4822E59AAE006FD18E /* QXMessageView.swift */,
+				7553C7FC22CEE0CE0058239B /* QXError.swift */,
+				751558AB22E8033000EFF37A /* QXRespond.swift */,
+				751558A722E7FCFA00EFF37A /* QXPage.swift */,
+				7553C80022CEE50A0058239B /* QXDebug.swift */,
+				7553C80222CEF5910058239B /* UserDefaults_ext.swift */,
+				7553C80A22CF0DA90058239B /* DispatchQueue_ext.swift */,
+				7578069322E164E7009DD0DA /* QXUIKitExtensionResources.swift */,
+				7578069122E1647C009DD0DA /* QXUIKitExtensionResources.bundle */,
 			);
-			path = QXSettingCells;
+			path = QXUIKitExtension;
 			sourceTree = "<group>";
 		};
 		9C5AC6D840FBAECE741D74B1 /* Frameworks */ = {
@@ -527,7 +505,6 @@
 				7578069A22E18D1D009DD0DA /* QXAlignment.swift in Sources */,
 				7578A8972362A69D006CFDD5 /* DemoSettingsVc.swift in Sources */,
 				756A50B822BDFA3B00E692DA /* QXColor.swift in Sources */,
-				75944D3E22E2F893006FD18E /* QXConsMaker.swift in Sources */,
 				75929C8422D075DE006577AD /* QXViewController.swift in Sources */,
 				75729FA2236134010007D1B1 /* QXStaticBase.swift in Sources */,
 				7553C80922CF0CB60058239B /* UIApplication_ext.swift in Sources */,
@@ -558,7 +535,6 @@
 				7578A88523619AFD006CFDD5 /* QXSettingTextFieldCell.swift in Sources */,
 				7578A88B2361A609006CFDD5 /* QXSettingTitleTextFieldCell.swift in Sources */,
 				7578A87323617CF3006CFDD5 /* QXSettingCell.swift in Sources */,
-				75944D3F22E2F893006FD18E /* QXConsMakerExt.swift in Sources */,
 				751558AA22E7FD1500EFF37A /* QXModel.swift in Sources */,
 				751558AE22E8255700EFF37A /* QXRequest_jsonExt.swift in Sources */,
 				7578A88323619813006CFDD5 /* QXSwitchView.swift in Sources */,

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import QXConsMaker
 
 open class QXTableViewController<Model, LoadStatusView: UIView & QXLoadStatusViewProtocol>: QXModelsLoadStatusViewController<Model, QXTableView, LoadStatusView>, QXTableViewCellDelegate {
     

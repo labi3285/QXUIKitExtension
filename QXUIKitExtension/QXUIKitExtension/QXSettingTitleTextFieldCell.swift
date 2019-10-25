@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import QXConsMaker
 
 open class QXSettingTitleTextFieldCell: QXSettingCell {
 

@@ -1,5 +1,5 @@
 //
-//  QXStaticHeaderView.swift
+//  QXStaticFooterView.swift
 //  QXUIKitExtension
 //
 //  Created by labi3285 on 2019/10/24.
@@ -7,13 +7,14 @@
 //
 
 import UIKit
+import QXConsMaker
 
-open class QXStaticHeaderView: QXStaticBaseHeaderFooterView {
+open class QXStaticFooterView: QXStaticBaseHeaderFooterView {
     
     public lazy var label: QXLabel = {
         let one = QXLabel()
         one.numberOfLines = 0
-        one.padding = QXMargin(10, 15, 5, 15)
+        one.padding = QXMargin(5, 15, 10, 15)
         one.font = QXFont(fmt: "14 #999999")
         return one
     }()
@@ -31,4 +32,3 @@ open class QXStaticHeaderView: QXStaticBaseHeaderFooterView {
     }
     
 }
-

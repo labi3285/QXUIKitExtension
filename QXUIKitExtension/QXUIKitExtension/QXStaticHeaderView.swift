@@ -1,24 +1,21 @@
 //
-//  QXSettingTextCell.swift
+//  QXStaticHeaderView.swift
 //  QXUIKitExtension
 //
-//  Created by labi3285 on 2019/10/25.
+//  Created by labi3285 on 2019/10/24.
 //  Copyright © 2019 labi3285_lab. All rights reserved.
 //
 
 import UIKit
+import QXConsMaker
 
-open class QXSettingTextCell: QXSettingCell {
+open class QXStaticHeaderView: QXStaticBaseHeaderFooterView {
     
-    open override func height(_ model: Any?, _ width: CGFloat) -> CGFloat? {
-        label.intrinsicWidth = width - label.padding.left - label.padding.right
-        return label.intrinsicContentSize.height
-    }
-
     public lazy var label: QXLabel = {
         let one = QXLabel()
         one.numberOfLines = 0
-        one.padding = QXMargin(10, 15, 10, 15)
+        one.padding = QXMargin(10, 15, 5, 15)
+        one.font = QXFont(fmt: "14 #999999")
         return one
     }()
 
@@ -35,3 +32,4 @@ open class QXSettingTextCell: QXSettingCell {
     }
     
 }
+

@@ -1,5 +1,5 @@
 //
-//  QXSettingTitleStackItemCell.swift
+//  QXSettingTitleSwitchCell.swift
 //  QXUIKitExtension
 //
 //  Created by labi3285 on 2019/10/24.
@@ -7,8 +7,9 @@
 //
 
 import UIKit
+import QXConsMaker
 
-open class QXSettingTitleStackCell: QXSettingCell {
+open class QXSettingTitleSwitchCell: QXSettingCell {
     
     public lazy var titleLabel: QXLabel = {
         let one = QXLabel()
@@ -16,19 +17,18 @@ open class QXSettingTitleStackCell: QXSettingCell {
         one.font = QXFont(fmt: "16 #333333")
         return one
     }()
-    public lazy var stackView: QXStackView = {
-        let one = QXStackView()
-        one.alignmentY = .center
-        one.alignmentX = .right
+    public lazy var switchView: QXSwitchView = {
+        let one = QXSwitchView()
         return one
     }()
+    
     public lazy var layoutView: QXStackView = {
         let one = QXStackView()
         one.alignmentY = .center
         one.alignmentX = .left
         one.viewMargin = 10
         one.padding = QXMargin(5, 15, 5, 15)
-        one.setupViews([self.titleLabel, QXFlexView(), self.stackView], collapseOrder: [0, 2, 1])
+        one.setupViews([self.titleLabel, QXFlexView(), self.switchView])
         return one
     }()
     
@@ -45,4 +45,3 @@ open class QXSettingTitleStackCell: QXSettingCell {
     }
     
 }
-

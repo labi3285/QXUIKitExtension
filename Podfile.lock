@@ -2,6 +2,7 @@ PODS:
   - Alamofire (4.8.2)
   - Kingfisher (4.10.1)
   - MJRefresh (3.1.15.7)
+  - QXConsMaker (0.0.6)
   - QXJSON (0.1.1)
   - QXMessageView (0.0.3)
   - SAMKeychain (1.5.3)
@@ -10,6 +11,7 @@ DEPENDENCIES:
   - Alamofire (= 4.8.2)
   - Kingfisher (~> 4.10.1)
   - MJRefresh (~> 3.1.15.7)
+  - QXConsMaker (~> 0.0.6)
   - QXJSON (~> 0.1.1)
   - QXMessageView (~> 0.0.3)
   - SAMKeychain (~> 1.5.3)
@@ -19,6 +21,7 @@ SPEC REPOS:
     - Alamofire
     - Kingfisher
     - MJRefresh
+    - QXConsMaker
     - QXJSON
     - QXMessageView
     - SAMKeychain
@@ -27,10 +30,11 @@ SPEC CHECKSUMS:
   Alamofire: ae5c501addb7afdbb13687d7f2f722c78734c2d3
   Kingfisher: c148cd7b47ebde9989f6bc7c27dcaa79d81279a0
   MJRefresh: 697f8ec75ebdbe9207767bb682cf0f51b0d8a41f
+  QXConsMaker: e3e12b9117e286d1923cda5d4fad8adb8f4ad5f3
   QXJSON: 142a34d8510e11103603c9b3435fe177b0321bd5
   QXMessageView: f7437eb16f3a9f0889c233d4044df7f622f40ab0
   SAMKeychain: 483e1c9f32984d50ca961e26818a534283b4cd5c
 
-PODFILE CHECKSUM: d8afa7b1019658a4fa7341fa0876ce6e6336cf36
+PODFILE CHECKSUM: 3d9eaeb4335e0b9d4f8384634704d70ec1e64ef7
 
 COCOAPODS: 1.7.2

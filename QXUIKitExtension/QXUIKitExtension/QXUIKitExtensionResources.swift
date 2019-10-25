@@ -8,8 +8,6 @@
 
 import Foundation
 
-import Foundation
-
 public class QXUIKitExtensionResources {
     
     public static let shared: QXUIKitExtensionResources = QXUIKitExtensionResources()
