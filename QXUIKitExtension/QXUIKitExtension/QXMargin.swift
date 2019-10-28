@@ -1,5 +1,5 @@
 //
-//  QXMargin.swift
+//  QXEdgeInsets.swift
 //  QXUIKitExtension
 //
 //  Created by labi3285 on 2019/7/20.
@@ -8,14 +8,14 @@
 
 import UIKit
 
-public struct QXMargin {
+public struct QXEdgeInsets {
     
     public var top: CGFloat
     public var left: CGFloat
     public var bottom: CGFloat
     public var right: CGFloat
     
-    public static let zero = QXMargin()
+    public static let zero = QXEdgeInsets()
     
     public init() {
         self.top = 0
@@ -50,59 +50,59 @@ public struct QXMargin {
     public var isZero: Bool {
         return top == 0 && right == 0 && bottom == 0 && left == 0
     }
-    
+        
 }
 
 extension UIEdgeInsets {
     
-    public var qxMargin: QXMargin {
-        return QXMargin(top, left, bottom, right)
+    public var qxEdgeInsets: QXEdgeInsets {
+        return QXEdgeInsets(top, left, bottom, right)
     }
     
 }
 
 extension QXRect {
     
-    public func rectByReduce(_ margin: QXMargin) -> QXRect {
-        return QXRect(x + margin.left,
-                      y + margin.top,
-                      w - margin.left - margin.right,
-                      h - margin.top - margin.bottom)
+    public func rectByReduce(_ edgeInsets: QXEdgeInsets) -> QXRect {
+        return QXRect(x + edgeInsets.left,
+                      y + edgeInsets.top,
+                      w - edgeInsets.left - edgeInsets.right,
+                      h - edgeInsets.top - edgeInsets.bottom)
     }
     
-    public func rectByAdd(_ margin: QXMargin) -> QXRect {
-        return QXRect(x - margin.left,
-                      y - margin.top,
-                      w + margin.left + margin.right,
-                      h + margin.top + margin.bottom)
+    public func rectByAdd(_ edgeInsets: QXEdgeInsets) -> QXRect {
+        return QXRect(x - edgeInsets.left,
+                      y - edgeInsets.top,
+                      w + edgeInsets.left + edgeInsets.right,
+                      h + edgeInsets.top + edgeInsets.bottom)
     }
     
 }
 
 extension QXSize {
     
-    public func sizeByReduce(_ margin: QXMargin) -> QXSize {
-        return QXSize(w - margin.left - margin.right, h - margin.top - margin.bottom)
+    public func sizeByReduce(_ edgeInsets: QXEdgeInsets) -> QXSize {
+        return QXSize(w - edgeInsets.left - edgeInsets.right, h - edgeInsets.top - edgeInsets.bottom)
     }
-    public func sizeByAdd(_ margin: QXMargin) -> QXSize {
-        return QXSize(w + margin.left + margin.right, h + margin.top + margin.bottom)
+    public func sizeByAdd(_ edgeInsets: QXEdgeInsets) -> QXSize {
+        return QXSize(w + edgeInsets.left + edgeInsets.right, h + edgeInsets.top + edgeInsets.bottom)
     }
 }
 
 extension CGRect {
     
-    public func qxFrameByReduce(_ inserts: UIEdgeInsets) -> CGRect {
-        return CGRect(x: minX + inserts.left,
-                      y: minY + inserts.top,
-                      width: width - inserts.left - inserts.right,
-                      height: height - inserts.top - inserts.bottom)
+    public func qxFrameByReduce(_ edgeInsets: UIEdgeInsets) -> CGRect {
+        return CGRect(x: minX + edgeInsets.left,
+                      y: minY + edgeInsets.top,
+                      width: width - edgeInsets.left - edgeInsets.right,
+                      height: height - edgeInsets.top - edgeInsets.bottom)
     }
     
-    public func qxFrameByAdd(_ inserts: UIEdgeInsets) -> CGRect {
-        return CGRect(x: minX - inserts.left,
-                      y: minY - inserts.top,
-                      width: width + inserts.left + inserts.right,
-                      height: height + inserts.top + inserts.bottom)
+    public func qxFrameByAdd(_ edgeInsets: UIEdgeInsets) -> CGRect {
+        return CGRect(x: minX - edgeInsets.left,
+                      y: minY - edgeInsets.top,
+                      width: width + edgeInsets.left + edgeInsets.right,
+                      height: height + edgeInsets.top + edgeInsets.bottom)
     }
     
 }
@@ -114,6 +114,21 @@ extension CGSize {
     }
     public func qxSizeByAdd(_ inserts: UIEdgeInsets) -> CGSize {
         return CGSize(width: width - inserts.left - inserts.right, height: height - inserts.top - inserts.bottom)
+    }
+    
+}
+
+extension QXEdgeInsets: CustomStringConvertible {
+    
+    public var description: String {
+        func string(_ f: CGFloat) -> String {
+            if f == CGFloat(Int(f)) {
+                return "\(Int(f))"
+            } else {
+                return "\(f)"
+            }
+        }
+        return "[\(string(top)),\(string(right)),\(string(bottom)),\(string(left))]"
     }
     
 }

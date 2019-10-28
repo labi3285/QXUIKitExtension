@@ -26,7 +26,6 @@ open class QXLineView: QXView {
     public var lineDash: (phase: CGFloat, lengths: [CGFloat])?
     
     public var isVertical: Bool = false
-    public var padding: QXMargin = QXMargin.zero
     
     public override init() {
         super.init()

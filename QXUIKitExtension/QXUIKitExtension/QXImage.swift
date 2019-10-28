@@ -157,7 +157,7 @@ extension UIImageView {
                 }
             } else if let e = newValue._kfResource {
                 weak var ws = self
-                kf.setImage(with: e, placeholder: nil, options: nil, progressBlock: nil) { (image, err, _, _) in
+                kf.setImage(with: e, placeholder: nil, options: nil, progressBlock: nil) { (image, err, cacheType, _) in
                     if let e = image {
                         if let r = newValue.renderingMode {
                             ws?.image = e.withRenderingMode(r)
@@ -173,7 +173,7 @@ extension UIImageView {
                 if qxIsThumbnail {
                     if let e = newValue.thumbUrl?.nsUrl ?? newValue.url?.nsUrl  {
                         kf.setImage(with: e, placeholder: nil, options: nil, progressBlock: { (receive, total) in
-                        }) { (image, err, _, _) in
+                        }) { (image, err, cacheType, _) in
                             if let e = image {
                                 if let r = newValue.renderingMode {
                                     ws?.image = e.withRenderingMode(r)
@@ -190,7 +190,7 @@ extension UIImageView {
                 } else {
                     if let e = newValue.url?.nsUrl ?? newValue.thumbUrl?.nsUrl  {
                         kf.setImage(with: e, placeholder: nil, options: nil, progressBlock: { (receive, total) in
-                        }) { (image, err, _, _) in
+                        }) { (image, err, cacheType, _) in
                             if let e = image {
                                 if let r = newValue.renderingMode {
                                     ws?.image = e.withRenderingMode(r)
@@ -206,9 +206,10 @@ extension UIImageView {
                     }
                 }
             }
+        } else {
+            self.image = nil
         }
     }
-    private static var kUIImageViewQXImageAssociateKey: String = "kUIImageViewQXImageAssociateKey"
     
     /// 请求缩率图，默认false
     public var qxIsThumbnail: Bool {
@@ -222,6 +223,6 @@ extension UIImageView {
             return false
         }
     }
-    private static var kUIImageViewQXIsThumbnailAssociateKey: String = "kUIImageViewQXIsThumbnailAssociateKey"
+    private static var kUIImageViewQXIsThumbnailAssociateKey: Bool?
     
 }

@@ -22,12 +22,12 @@ open class QXSettingTextViewCell: QXSettingCell {
 
     public lazy var textView: QXTextView = {
         let one = QXTextView()
-        one.padding = QXMargin(5, 15, 5, 15)
-        one.font = QXFont(fmt: "15 #333333")
+        one.padding = QXEdgeInsets(5, 10, 5, 10)
+        one.font = QXFont(fmt: "16 #333333")
         one.placeHolderfont = QXFont(fmt: "16 #999999")
         one.uiTextView.isScrollEnabled = false
         one.respondNeedsUpdate = { [weak self] in
-            self?.tableView.update()
+            self?.tableView?.update()
         }
         return one
     }()

@@ -20,9 +20,7 @@ open class QXSwitchView: QXView {
             return uiSwitch.isOn
         }
     }
-    
-    open var padding: QXMargin = QXMargin.zero
-    
+        
     public lazy var uiSwitch: UISwitch = {
         let one = UISwitch()
         one.addTarget(self, action: #selector(valueChanged), for: .valueChanged)

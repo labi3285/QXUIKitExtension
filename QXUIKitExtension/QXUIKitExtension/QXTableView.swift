@@ -128,8 +128,8 @@ open class QXTableViewCell: UITableViewCell {
     
     open var model: Any?
     
-    public weak fileprivate(set) var tableView: QXTableView!
-    public fileprivate(set) var indexPath: IndexPath!
+    public weak fileprivate(set) var tableView: QXTableView?
+    public fileprivate(set) var indexPath: IndexPath?
     
     open class func height(_ model: Any?, _ width: CGFloat) -> CGFloat? {
         return nil
@@ -223,18 +223,31 @@ public struct QXTableViewSection {
         self.header = header
         self.footer = footer
     }
+    
 }
 
 open class QXTableView: QXView {
     
     public weak var cellsDelegate: QXTableViewCellDelegate?
     public var sections: [QXTableViewSection] = []
-
-    public var padding: QXMargin = QXMargin.zero
+    
+    open func setNeedsUpdate() {
+        if _isNeedsUpdate {
+            return
+        }
+        _isNeedsUpdate = true
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.15) {
+            if self._isNeedsUpdate {
+                self.update()
+            }
+        }
+    }
+    private var _isNeedsUpdate: Bool = false
     
     open func update() {
         uiTableView.beginUpdates()
         uiTableView.endUpdates()
+        _isNeedsUpdate = false
     }
     
     /// 默认是group

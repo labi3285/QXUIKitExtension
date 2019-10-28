@@ -56,18 +56,18 @@ open class QXRefreshHeader: MJRefreshHeader {
     }()
     public lazy var imageView: QXImageView = {
         let one = QXImageView()
-        one.padding = QXMargin(0, 5, 0, 5)
+        one.padding = QXEdgeInsets(0, 5, 0, 5)
         return one
     }()
     public lazy var arrowView: QXImageView = {
         let one = QXImageView()
         one.qxTintColor = QXColor.fmtHex("#333333")
-        one.padding = QXMargin(0, 5, 0, 5)
+        one.padding = QXEdgeInsets(0, 5, 0, 5)
         return one
     }()
     public var loadingView: QXActivityIndicatorView = {
         let e = QXActivityIndicatorView(systemView: UIActivityIndicatorView(style: .gray))
-        e.margin = QXMargin(0, 5, 0, 5)
+        e.margin = QXEdgeInsets(0, 5, 0, 5)
         return e
         }() {
         didSet {
@@ -213,7 +213,7 @@ open class QXRefreshFooter: MJRefreshAutoFooter {
     }()
     public lazy var imageView: QXImageView = {
         let one = QXImageView()
-        one.padding = QXMargin(0, 5, 0, 5)
+        one.padding = QXEdgeInsets(0, 5, 0, 5)
         one.backgroundColor = UIColor.red
         return one
     }()
@@ -228,7 +228,7 @@ open class QXRefreshFooter: MJRefreshAutoFooter {
     }()
     public var loadingView: QXActivityIndicatorView = {
         let e = QXActivityIndicatorView(systemView: UIActivityIndicatorView(style: .gray))
-        e.margin = QXMargin(0, 5, 0, 5)
+        e.margin = QXEdgeInsets(0, 5, 0, 5)
         return e
         }() {
         didSet {

@@ -9,11 +9,6 @@
 import UIKit
 
 open class QXSettingSeparateHeaderView: QXStaticBaseHeaderFooterView {
-    
-    open override func height(_ model: Any?, _ width: CGFloat) -> CGFloat? {
-        return height
-    }
-    open var height: CGFloat? = 10
         
     public lazy var breakLine: QXLineView = {
         let one = QXLineView.breakLine
@@ -27,6 +22,7 @@ open class QXSettingSeparateHeaderView: QXStaticBaseHeaderFooterView {
         let h = breakLine.intrinsicContentSize.height
         breakLine.frame = CGRect(x: 0, y: contentView.frame.height - h, width: contentView.frame.width, height: h)
         bringSubviewToFront(breakLine)
+        height = 10
     }
         
     required public init() {

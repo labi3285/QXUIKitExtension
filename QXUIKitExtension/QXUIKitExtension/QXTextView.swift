@@ -75,13 +75,11 @@ open class QXTextView: QXView, UITextViewDelegate {
     public lazy var placeHolderLabel: QXLabel = {
         let one = QXLabel()
         one.font = QXFont(size: 16, color: QXColor.placeHolderGray)
-        one.padding = QXMargin(7, 5, 7, 5)
+        one.padding = QXEdgeInsets(7, 5, 7, 5)
         one.isUserInteractionEnabled = false
         return one
     }()
-    
-    open var padding: QXMargin = QXMargin.zero
-    
+        
     public override init() {
         super.init()
         addSubview(uiTextView)

@@ -12,14 +12,15 @@ import QXConsMaker
 open class QXSettingTextCell: QXSettingCell {
     
     open override func height(_ model: Any?, _ width: CGFloat) -> CGFloat? {
-        label.intrinsicWidth = width - label.padding.left - label.padding.right
+        label.intrinsicWidth = width
         return label.intrinsicContentSize.height
     }
 
     public lazy var label: QXLabel = {
         let one = QXLabel()
         one.numberOfLines = 0
-        one.padding = QXMargin(10, 15, 10, 15)
+        one.font = QXFont(fmt: "15 #333333")
+        one.padding = QXEdgeInsets(10, 15, 10, 15)
         return one
     }()
 

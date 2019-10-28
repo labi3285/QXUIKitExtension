@@ -21,27 +21,6 @@ open class QXButton: QXView {
     open var respondTouchEnded: (() -> ())?
     open var respondTouchCancelled: (() -> ())?
     
-    open var shadow: QXShadow? { set { contentView.qxShadow = newValue } get { return contentView.qxShadow } }
-    open var border: QXBorder? { set { contentView.qxBorder = newValue } get { return contentView.qxBorder } }
-
-    open override var backgroundColor: UIColor? {
-        didSet {
-            contentView.backgroundColor = backgroundColor
-        }
-    }
-    
-    open var backgroundColorHighlighted: QXColor?
-    open var shadowHighlighted: QXShadow?
-    open var borderHighlighted: QXBorder?
-
-    open var backgroundColorSelected: QXColor?
-    open var shadowSelected: QXShadow?
-    open var borderSelected: QXBorder?
- 
-    open var backgroundColorDisabled: QXColor?
-    open var shadowDisabled: QXShadow?
-    open var borderDisabled: QXBorder?
-    
     open var respondClick: (() -> ())?
     /// 触发点击的容忍距离
     open var clickMoveTolerance: CGFloat = 20
@@ -55,25 +34,38 @@ open class QXButton: QXView {
     
     /// 是否高亮
     public private(set) var isHighlighted: Bool = false
-
-    open var padding: QXMargin = QXMargin.zero
     
-    public lazy var contentView: UIView = {
-        let one = UIView()
+    public lazy var backView: BackView = {
+        let one = BackView()
         one.isUserInteractionEnabled = false
         return one
     }()
     
+    open class BackView: UIView {
+       open var backgroundColorHighlighted: QXColor?
+    
+       open var shadowHighlighted: QXShadow?
+       open var borderHighlighted: QXBorder?
+
+       open var backgroundColorSelected: QXColor?
+       open var shadowSelected: QXShadow?
+       open var borderSelected: QXBorder?
+    
+       open var backgroundColorDisabled: QXColor?
+       open var shadowDisabled: QXShadow?
+       open var borderDisabled: QXBorder?
+    }
+    
     public override init() {
         super.init()
-        addSubview(contentView)
+        addSubview(backView)
     }
     required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     open override func layoutSubviews() {
         super.layoutSubviews()
-        contentView.qxRect = qxRect.absoluteRect.rectByReduce(padding)
+        backView.qxRect = qxRect.absoluteRect.rectByReduce(padding)
     }
     
     open override var intrinsicContentSize: CGSize {
@@ -108,9 +100,9 @@ open class QXButton: QXView {
     }
     
     open func handlePrepareOrigins() {
-        _originBackgoundColor = contentView.qxBackgroundColor ?? QXColor.clear
-        _originShadow = shadow
-        _originBorder = border
+        _originBackgoundColor = backView.qxBackgroundColor ?? QXColor.clear
+        _originShadow = backView.qxShadow
+        _originBorder = backView.qxBorder
         _originAlpha = alpha
     }
     open func handleNormalize() {
@@ -118,21 +110,21 @@ open class QXButton: QXView {
             handlePrepareOrigins()
             _isOriginPrepared = true
         }
-        contentView.qxBackgroundColor = _originBackgoundColor
-        contentView.qxShadow = _originShadow
-        contentView.qxBorder = _originBorder
-        contentView.alpha = _originAlpha ?? 1
+        backView.qxBackgroundColor = _originBackgoundColor
+        backView.qxShadow = _originShadow
+        backView.qxBorder = _originBorder
+        backView.alpha = _originAlpha ?? 1
     }
     open func handleHighlighted() {
         if !_isOriginPrepared {
             handlePrepareOrigins()
             _isOriginPrepared = true
         }
-        contentView.qxBackgroundColor = backgroundColorHighlighted ?? _originBackgoundColor
-        contentView.qxShadow = shadowHighlighted ?? _originShadow
-        contentView.qxBorder = borderHighlighted ?? _originBorder
+        backView.qxBackgroundColor = backView.backgroundColorHighlighted ?? _originBackgoundColor
+        backView.qxShadow = backView.shadowHighlighted ?? _originShadow
+        backView.qxBorder = backView.borderHighlighted ?? _originBorder
         if let a = highlightAlpha {
-            contentView.alpha = a
+            backView.alpha = a
         }
         qxSetNeedsLayout()
     }
@@ -141,22 +133,22 @@ open class QXButton: QXView {
             handlePrepareOrigins()
             _isOriginPrepared = true
         }
-        contentView.qxBackgroundColor = backgroundColorSelected ?? _originBackgoundColor
-        contentView.qxShadow = shadowSelected ?? _originShadow
-        contentView.qxBorder = borderSelected ?? _originBorder
+        backView.qxBackgroundColor = backView.backgroundColorSelected ?? _originBackgoundColor
+        backView.qxShadow = backView.shadowSelected ?? _originShadow
+        backView.qxBorder = backView.borderSelected ?? _originBorder
     }
     open func handleDisabled(isSelected: Bool) {
         if !_isOriginPrepared {
             handlePrepareOrigins()
             _isOriginPrepared = true
         }
-        contentView.qxBackgroundColor = backgroundColorDisabled ?? _originBackgoundColor
-        contentView.qxShadow = shadowDisabled ?? _originShadow
-        contentView.qxBorder = borderDisabled ?? _originBorder
+        backView.qxBackgroundColor = backView.backgroundColorDisabled ?? _originBackgoundColor
+        backView.qxShadow = backView.shadowDisabled ?? _originShadow
+        backView.qxBorder = backView.borderDisabled ?? _originBorder
         if let a = disableAlpha {
-            contentView.alpha = a
+            backView.alpha = a
         } else {
-            contentView.alpha = 1
+            backView.alpha = 1
         }
     }
     
@@ -176,10 +168,8 @@ open class QXButton: QXView {
             if bounds.contains(p1) {
                 var isClickTriggered: Bool = false
                 if sqrt(pow(p.x - p1.x, 2) + pow(p.y - p1.y, 2)) < clickMoveTolerance {
-                    if let f = respondClick {
-                        isClickTriggered = true
-                        f()
-                    }
+                    isClickTriggered = true
+                    respondClick?()
                 }
                 if isClickTriggered {
                     if let e = clickHighlightDelaySecs {
@@ -282,7 +272,7 @@ open class QXTitleButton: QXButton {
         }
     }
     
-    open var titlePadding: QXMargin = QXMargin.zero
+    open var titlePadding: QXEdgeInsets = QXEdgeInsets.zero
 
     public lazy var label: UILabel = {
         let one = UILabel()
@@ -293,7 +283,7 @@ open class QXTitleButton: QXButton {
     
     public override init() {
         super.init()
-        contentView.addSubview(label)
+        backView.addSubview(label)
     }
     required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -301,9 +291,11 @@ open class QXTitleButton: QXButton {
     
     override open func layoutSubviews() {
         super.layoutSubviews()
-        label.qxRect = contentView.qxRect.absoluteRect.rectByReduce(padding)
+        label.qxRect = backView.qxRect.absoluteRect.rectByReduce(padding)
     }
+    
     public var intrinsicMinHeight: CGFloat?
+    public var intrinsicWidth: CGFloat?
     open override var intrinsicContentSize: CGSize {
         if isDisplay {
             if let e = intrinsicSize {
@@ -313,6 +305,9 @@ open class QXTitleButton: QXButton {
                 size = size.sizeByAdd(titlePadding).sizeByAdd(padding)
                 if let e = intrinsicMinHeight {
                    size = QXSize(size.w, max(size.h, e))
+                }
+                if let e = intrinsicWidth {
+                    size = QXSize(max(size.w, e), size.h)
                 }
                 return size.cgSize
             }
@@ -367,7 +362,7 @@ open class QXImageButton: QXButton {
     open var imageSelected: QXImage?
     open var imageDisabled: QXImage?
     
-    open var imagePadding: QXMargin = QXMargin.zero
+    open var imagePadding: QXEdgeInsets = QXEdgeInsets.zero
     
     public lazy var imageView: QXImageView = {
         let one = QXImageView()
@@ -376,7 +371,7 @@ open class QXImageButton: QXButton {
     
     public override init() {
         super.init()
-        contentView.addSubview(imageView)
+        backView.addSubview(imageView)
     }
     required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -384,7 +379,7 @@ open class QXImageButton: QXButton {
     
     override open func layoutSubviews() {
         super.layoutSubviews()
-        imageView.qxRect = contentView.qxRect.absoluteRect.rectByReduce(imagePadding)
+        imageView.qxRect = backView.qxRect.absoluteRect.rectByReduce(imagePadding)
     }
     open override var intrinsicContentSize: CGSize {
         if isDisplay {
@@ -432,7 +427,7 @@ open class QXStackButton: QXButton {
     open var viewsSelected: [QXView]?
     open var viewsDisabled: [QXView]?
     
-    open var stackPadding: QXMargin = QXMargin.zero
+    open var stackPadding: QXEdgeInsets = QXEdgeInsets.zero
     
     public lazy var stackView: QXStackView = {
         let one = QXStackView()
@@ -443,7 +438,7 @@ open class QXStackButton: QXButton {
     
     public override init() {
         super.init()
-        contentView.addSubview(stackView)
+        backView.addSubview(stackView)
     }
     required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -451,7 +446,7 @@ open class QXStackButton: QXButton {
     
     override open func layoutSubviews() {
         super.layoutSubviews()
-        stackView.qxRect = contentView.qxRect.absoluteRect.rectByReduce(stackPadding)
+        stackView.qxRect = backView.qxRect.absoluteRect.rectByReduce(stackPadding)
     }
     
     public var intrinsicMinWidth: CGFloat?

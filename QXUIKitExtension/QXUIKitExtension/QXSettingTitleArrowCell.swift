@@ -34,14 +34,14 @@ open class QXSettingTitleArrowCell: QXSettingCell {
         one.alignmentY = .center
         one.alignmentX = .left
         one.viewMargin = 10
-        one.padding = QXMargin(5, 10, 5, 15)
+        one.padding = QXEdgeInsets(5, 10, 5, 15)
         one.setupViews([self.titleLabel, QXFlexView(), self.subTitleLabel, self.arrowView], collapseOrder: [0, 2, 1, 3])
-        one.isUserInteractionEnabled = false
         return one
     }()
+    
     public lazy var backButton: QXButton = {
         let one = QXButton()
-        one.backgroundColorHighlighted = QXColor.higlightGray
+        one.backView.backgroundColorHighlighted = QXColor.higlightGray
         return one
     }()
     
@@ -50,6 +50,7 @@ open class QXSettingTitleArrowCell: QXSettingCell {
         contentView.addSubview(backButton)
         contentView.addSubview(layoutView)
         layoutView.IN(contentView).LEFT.TOP.RIGHT.BOTTOM.MAKE()
+        height = 50
     }
     required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")

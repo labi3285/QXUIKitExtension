@@ -75,9 +75,6 @@ open class QXRichLabel: QXView {
     /// customise line break item. Default is '...'. [warning] this item must be no-bigger than texts around
     public var lineBreakItem: QXRichLabel.Item?
     
-    /// edge insets
-    public var padding: QXMargin = QXMargin.zero
-    
     /// number of lines, <=0 for no limit
     public var numberOfLines: Int = 0
     

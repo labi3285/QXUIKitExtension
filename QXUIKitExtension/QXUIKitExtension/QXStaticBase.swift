@@ -17,6 +17,11 @@ open class QXStaticBaseCell: QXTableViewCell {
         }
     }
     
+    open override func height(_ model: Any?, _ width: CGFloat) -> CGFloat? {
+        return height
+    }
+    open var height: CGFloat?
+    
     open override class func height(_ model: Any?, _ width: CGFloat) -> CGFloat? {
         if let e = model as? QXStaticBaseCell {
             return e.height(model, width)
@@ -45,6 +50,11 @@ open class QXStaticBaseHeaderFooterView: QXTableViewHeaderFooterView {
         }
     }
     
+    open override func height(_ model: Any?, _ width: CGFloat) -> CGFloat? {
+        return height
+    }
+    open var height: CGFloat?
+    
     open override class func height(_ model: Any?, _ width: CGFloat) -> CGFloat? {
         if let e = model as? QXStaticBaseHeaderFooterView {
             return e.height(model, width)
@@ -63,3 +73,4 @@ open class QXStaticBaseHeaderFooterView: QXTableViewHeaderFooterView {
     }
     
 }
+

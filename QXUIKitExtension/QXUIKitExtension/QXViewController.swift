@@ -12,8 +12,7 @@ import QXConsMaker
 open class QXViewController: UIViewController, UINavigationBarDelegate {
     
     public var respondRefresh: (() -> ())?
-    
-    public var padding: QXMargin = QXMargin.zero
+        
     public lazy var contentView: QXView = {
         let one = QXView()
         return one
@@ -90,7 +89,7 @@ open class QXViewController: UIViewController, UINavigationBarDelegate {
     
     open override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        contentView.qxRect = view.qxBounds.rectByReduce(padding)
+        contentView.qxRect = view.qxBounds
     }
     
     //MARK:- Navigation

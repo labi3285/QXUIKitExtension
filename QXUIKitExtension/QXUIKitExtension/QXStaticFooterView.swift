@@ -11,11 +11,16 @@ import QXConsMaker
 
 open class QXStaticFooterView: QXStaticBaseHeaderFooterView {
     
+    open override func height(_ model: Any?, _ width: CGFloat) -> CGFloat? {
+        label.intrinsicWidth = width
+        return label.intrinsicContentSize.height
+    }
+    
     public lazy var label: QXLabel = {
         let one = QXLabel()
         one.numberOfLines = 0
-        one.padding = QXMargin(5, 15, 10, 15)
-        one.font = QXFont(fmt: "14 #999999")
+        one.padding = QXEdgeInsets(5, 15, 10, 15)
+        one.font = QXFont(fmt: "14 #333333")
         return one
     }()
 

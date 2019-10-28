@@ -44,9 +44,11 @@
 		75729FA2236134010007D1B1 /* QXStaticBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75729FA1236134010007D1B1 /* QXStaticBase.swift */; };
 		75729FA423614DEC0007D1B1 /* TestTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75729FA323614DEC0007D1B1 /* TestTable.swift */; };
 		75729FA623614E090007D1B1 /* TestStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75729FA523614E090007D1B1 /* TestStack.swift */; };
-		75729FA823614E510007D1B1 /* TestStaticTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75729FA723614E510007D1B1 /* TestStaticTable.swift */; };
 		75729FAC236170450007D1B1 /* QXStaticHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75729FAB236170450007D1B1 /* QXStaticHeaderView.swift */; };
 		7574AA86230BCF9F00ABF6AD /* QXLineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7574AA85230BCF9F00ABF6AD /* QXLineView.swift */; };
+		757659C02366749700588C63 /* DemoStaticsVc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 757659BF2366749700588C63 /* DemoStaticsVc.swift */; };
+		757659C2236677D800588C63 /* QXStaticSpaceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 757659C1236677D800588C63 /* QXStaticSpaceCell.swift */; };
+		757659C823669A5400588C63 /* QXStaticPictureCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 757659C723669A5400588C63 /* QXStaticPictureCell.swift */; };
 		7578068C22E1611F009DD0DA /* QXRichLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7578068B22E1611F009DD0DA /* QXRichLabel.swift */; };
 		7578068F22E162F0009DD0DA /* QXLoadStatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7578068D22E162F0009DD0DA /* QXLoadStatusView.swift */; };
 		7578069022E162F0009DD0DA /* QXLoadStatusViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7578068E22E162F0009DD0DA /* QXLoadStatusViewController.swift */; };
@@ -142,9 +144,11 @@
 		75729FA1236134010007D1B1 /* QXStaticBase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QXStaticBase.swift; sourceTree = "<group>"; };
 		75729FA323614DEC0007D1B1 /* TestTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestTable.swift; sourceTree = "<group>"; };
 		75729FA523614E090007D1B1 /* TestStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestStack.swift; sourceTree = "<group>"; };
-		75729FA723614E510007D1B1 /* TestStaticTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestStaticTable.swift; sourceTree = "<group>"; };
 		75729FAB236170450007D1B1 /* QXStaticHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QXStaticHeaderView.swift; sourceTree = "<group>"; };
 		7574AA85230BCF9F00ABF6AD /* QXLineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QXLineView.swift; sourceTree = "<group>"; };
+		757659BF2366749700588C63 /* DemoStaticsVc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoStaticsVc.swift; sourceTree = "<group>"; };
+		757659C1236677D800588C63 /* QXStaticSpaceCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QXStaticSpaceCell.swift; sourceTree = "<group>"; };
+		757659C723669A5400588C63 /* QXStaticPictureCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QXStaticPictureCell.swift; sourceTree = "<group>"; };
 		7578068B22E1611F009DD0DA /* QXRichLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QXRichLabel.swift; sourceTree = "<group>"; };
 		7578068D22E162F0009DD0DA /* QXLoadStatusView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QXLoadStatusView.swift; sourceTree = "<group>"; };
 		7578068E22E162F0009DD0DA /* QXLoadStatusViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QXLoadStatusViewController.swift; sourceTree = "<group>"; };
@@ -248,8 +252,8 @@
 				756A50A422BDF9FD00E692DA /* AppDelegate.swift */,
 				756A50A622BDF9FD00E692DA /* ViewController.swift */,
 				75729FA323614DEC0007D1B1 /* TestTable.swift */,
-				75729FA723614E510007D1B1 /* TestStaticTable.swift */,
 				7578A8962362A69D006CFDD5 /* DemoSettingsVc.swift */,
+				757659BF2366749700588C63 /* DemoStaticsVc.swift */,
 				75729FA523614E090007D1B1 /* TestStack.swift */,
 				7542FF3C23050EC60079CCD6 /* icon_mine_ask1.png */,
 				7542FF3E23050F990079CCD6 /* icon_mine_recommend.png */,
@@ -315,7 +319,9 @@
 				75CCBC2922F7BF68004AD9E1 /* QXTimer.swift */,
 				75FE018722EC3E26007646A3 /* QXTableView.swift */,
 				75729F9F236133CC0007D1B1 /* QXStaticTextCell.swift */,
+				757659C723669A5400588C63 /* QXStaticPictureCell.swift */,
 				757D6C3E2361757E00BF1788 /* QXStaticButtonCell.swift */,
+				757659C1236677D800588C63 /* QXStaticSpaceCell.swift */,
 				75729FA1236134010007D1B1 /* QXStaticBase.swift */,
 				75729FAB236170450007D1B1 /* QXStaticHeaderView.swift */,
 				757D6C3C236174B800BF1788 /* QXStaticFooterView.swift */,
@@ -481,14 +487,15 @@
 				7578A87823618286006CFDD5 /* QXSettingSeparateFooterView.swift in Sources */,
 				75729FA623614E090007D1B1 /* TestStack.swift in Sources */,
 				7553C80D22CF0F590058239B /* QXEmpty.swift in Sources */,
+				757659C2236677D800588C63 /* QXStaticSpaceCell.swift in Sources */,
 				75954A8A230A33DF00FE6C4F /* QXNavigationBar.swift in Sources */,
 				7578A88D2361A710006CFDD5 /* QXTextView.swift in Sources */,
 				7578069422E164E7009DD0DA /* QXUIKitExtensionResources.swift in Sources */,
 				75929CB822D831C4006577AD /* QXPoint.swift in Sources */,
-				75729FA823614E510007D1B1 /* TestStaticTable.swift in Sources */,
 				7553C81122CF1D6B0058239B /* QXBarButtonItem.swift in Sources */,
 				757806A922E2A4A6009DD0DA /* QXImageView.swift in Sources */,
 				756A50A722BDF9FD00E692DA /* ViewController.swift in Sources */,
+				757659C02366749700588C63 /* DemoStaticsVc.swift in Sources */,
 				7542FF43230555CB0079CCD6 /* QXStackView.swift in Sources */,
 				7553C80122CEE50A0058239B /* QXDebug.swift in Sources */,
 				756A50BE22BE0B1300E692DA /* QXURL.swift in Sources */,
@@ -522,6 +529,7 @@
 				75622EBF22BE3DAB0035093D /* UIFont_ext.swift in Sources */,
 				753D1A02230A4B7700409637 /* QXDevice.swift in Sources */,
 				75929CF322D9A89D006577AD /* QXRichText.swift in Sources */,
+				757659C823669A5400588C63 /* QXStaticPictureCell.swift in Sources */,
 				757806AB22E2BA5D009DD0DA /* QXMargin.swift in Sources */,
 				7553C7FD22CEE0CE0058239B /* QXError.swift in Sources */,
 				7553C79122CC9C810058239B /* QXRect.UIView.swift in Sources */,

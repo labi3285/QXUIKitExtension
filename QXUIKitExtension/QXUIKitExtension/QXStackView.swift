@@ -13,11 +13,12 @@ public class QXFlexView: QXView {
     public required init(_ ratio: CGFloat) {
         self.ratio = ratio
         super.init()
+        isUserInteractionEnabled = false
     }
     public required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    convenience override init() {
+    convenience public override init() {
         self.init(1)
     }
 }
@@ -28,7 +29,6 @@ open class QXStackView: QXView {
     public var alignmentX: QXAlignmentX = .left
     public var alignmentY: QXAlignmentY = .top
     
-    public var padding: QXMargin = QXMargin.zero
     public var viewMargin: CGFloat = 0
     public private(set) var views: [QXView] = []
     public private(set) var collapseOrder: [Int] = []
@@ -58,6 +58,21 @@ open class QXStackView: QXView {
             }
         }
         qxSetNeedsLayout()
+    }
+    
+    open override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
+        if let _ = super.hitTest(point, with: event) {
+              for view in subviews {
+                  if view.isUserInteractionEnabled {
+                      let point = view.convert(point, from: self)
+                      if view.point(inside: point, with: event) {
+                          return view.hitTest(point, with: event)
+                      }
+                  }
+              }
+              return nil
+        }
+        return nil
     }
     
     open override func layoutSubviews() {
@@ -114,7 +129,6 @@ open class QXStackView: QXView {
             for (i, view) in views.enumerated() {
                 if view.isDisplay {
                     var wh = view.qxIntrinsicContentSize
-                    print("\(view) \(wh)")
                     if let e = collapseInfo[i] {
                         wh = e
                     }

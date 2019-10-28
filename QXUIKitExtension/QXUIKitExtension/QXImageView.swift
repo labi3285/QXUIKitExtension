@@ -10,14 +10,13 @@ import UIKit
 
 open class QXImageView: QXView {
     
-    open var respondUpdateImage: ((_ image: QXImage?) ->())?
+    open var respondUpdateImage: (() ->())?
     
-    open var padding: QXMargin = QXMargin.zero
-
     open var image: QXImage? {
         set {
             _image = newValue
             uiImageView.qxImage = newValue
+            placeHolderView.isHidden = placeHolderView.image == nil || uiImageView.image != nil
         }
         get {
             if let e = uiImageView.image {
@@ -36,18 +35,38 @@ open class QXImageView: QXView {
         }
     }
     
+    open var alignmentX: QXAlignmentX = .center
+    open var alignmentY: QXAlignmentY = .center
+    
+    open var placeHolderImage: QXImage? {
+        set {
+            placeHolderView.qxImage = newValue
+            placeHolderView.isHidden = placeHolderView.image == nil || uiImageView.image != nil
+        }
+        get {
+            return placeHolderView.qxImage
+        }
+    }
+    
     public lazy var uiImageView: ImageView = {
         let one = ImageView()
         one.isUserInteractionEnabled = false
         one.respondUpdateImage = { [weak self] image in
-            self?.update()
+            self?.placeHolderView.isHidden = self?.placeHolderView.image == nil || image != nil
+            self?.qxSetNeedsLayout()
+            self?.respondUpdateImage?()
         }
         return one
     }()
-    public lazy var placeHolderView: PlaceHolder = {
-        let one = PlaceHolder()
+    public lazy var placeHolderView: ImageView = {
+        let one = ImageView()
         one.isUserInteractionEnabled = false
         one.isHidden = true
+        one.respondUpdateImage = { [weak self] image in
+            self?.placeHolderView.isHidden = image == nil || self?.uiImageView.image != nil
+            self?.qxSetNeedsLayout()
+            self?.respondUpdateImage?()
+        }
         return one
     }()
     
@@ -63,15 +82,76 @@ open class QXImageView: QXView {
     
     open override func layoutSubviews() {
         super.layoutSubviews()
-        uiImageView.frame = CGRect(x: padding.left, y: padding.top, width: bounds.width - padding.left - padding.right, height: bounds.height - padding.top - padding.bottom)
+        if qxBounds.size.isZero {
+            return
+        }
+        func rectForSize(_ size: QXSize) -> QXRect {
+            let sw = qxBounds.w - padding.left - padding.right
+            let sh = qxBounds.h - padding.top - padding.bottom
+            let wh = size// image?.size ?? QXSize.zero
+            var x: CGFloat = padding.left
+            var y: CGFloat = padding.top
+            var w: CGFloat = 0
+            var h: CGFloat = 0
+            if !wh.isZero {
+                if wh.w / wh.h > sw / sh {
+                    if wh.w >= sw {
+                        w = sw
+                        h = w * wh.h / wh.w
+                    } else {
+                        w = wh.w
+                        h = wh.h
+                        switch alignmentX {
+                        case .left:
+                            break
+                        case .center:
+                            x += (sw - w) / 2
+                        case .right:
+                            x += sw - w
+                        }
+                    }
+                    switch alignmentY {
+                    case .top:
+                        break
+                    case .center:
+                        y += (sh - h) / 2
+                    case .bottom:
+                        y += sh - h
+                    }
+                } else {
+                    if wh.h >= sh {
+                        h = sh
+                        w = h * wh.w / wh.h
+                    } else {
+                        w = wh.w
+                        h = wh.h
+                        switch alignmentY {
+                        case .top:
+                            break
+                        case .center:
+                            y += (sh - h) / 2
+                        case .bottom:
+                            y += sh - h
+                        }
+                    }
+                    switch alignmentX {
+                    case .left:
+                        break
+                    case .center:
+                        x += (sw - w) / 2
+                    case .right:
+                        x += sw - w
+                    }
+                }
+            }
+            return QXRect(x, y, w, h)
+        }
+        uiImageView.qxRect = rectForSize(image?.size ?? QXSize.zero)
+        placeHolderView.qxRect = rectForSize(placeHolderImage?.size ?? QXSize.zero)
     }
-    
+        
     public var intrinsicWidth: CGFloat?
     public var intrinsicHeight: CGFloat?
-    public var intrinsicMinWidth: CGFloat?
-    public var intrinsicMinHeight: CGFloat?
-    public var intrinsicMaxWidth: CGFloat?
-    public var intrinsicMaxHeight: CGFloat?
     open override var intrinsicContentSize: CGSize {
         if isDisplay {
             var w: CGFloat = 0
@@ -79,18 +159,24 @@ open class QXImageView: QXView {
             if let e = intrinsicSize {
                 w = e.w
                 h = e.h
-            } else if let e = intrinsicWidth {
-                w = e
-                let size = image?.size ?? QXSize.zero
-                if !size.isZero {
-                    h = padding.top + (e - padding.left - padding.right) * size.h / size.w + padding.bottom
-                }
             } else if let e = intrinsicHeight {
                 h = e
-                let size = image?.size ?? QXSize.zero
-                if !size.isZero {
-                    w = padding.left + e - (padding.top - padding.bottom) * size.w / size.h + padding.right
+                var size = image?.size ?? QXSize.zero
+                if size.isZero, let e = placeHolderImage?.size {
+                     size = e
                 }
+                let _w = (h - padding.top - padding.bottom) * size.w / size.h
+                w = min(_w, size.w)
+                w = padding.left + w + padding.right
+            } else if let e = intrinsicWidth {
+                w = e
+                var size = image?.size ?? QXSize.zero
+                if size.isZero, let e = placeHolderImage?.size {
+                    size = e
+                }
+                let _h = (w - padding.left - padding.right) * size.h / size.w
+                h = min(_h, size.h)
+                h = padding.top + h + padding.bottom
             } else {
                 let size = image?.size ?? QXSize.zero
                 if !size.isZero {
@@ -98,18 +184,10 @@ open class QXImageView: QXView {
                     h = padding.top + size.w * size.h / size.w + padding.bottom
                 }
             }
-            if let e = intrinsicMinWidth { w = max(e, w) }
-            if let e = intrinsicMaxWidth { w = min(e, w) }
-            if let e = intrinsicMinHeight { h = max(e, h) }
-            if let e = intrinsicMaxHeight { h = min(e, h) }
             return CGSize(width: w, height: h)
         } else {
             return CGSize.zero
         }
-    }
-    
-    open func update() {
-        respondUpdateImage?(image)
     }
     
     public class ImageView: UIImageView {
@@ -118,14 +196,6 @@ open class QXImageView: QXView {
             didSet {
                 super.image = image
                 respondUpdateImage?(image)
-            }
-        }
-    }
-    public class PlaceHolder: UIImageView {
-        override public var image: UIImage? {
-            didSet {
-                super.image = image
-                self.isHidden = image == nil
             }
         }
     }

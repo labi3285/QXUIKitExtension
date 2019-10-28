@@ -123,7 +123,7 @@ extension CGRect {
 }
 extension QXRect {
     
-    public func subRect(_ padding: QXMargin) -> QXRect {
+    public func subRect(_ padding: QXEdgeInsets) -> QXRect {
         return QXRect(padding.left, padding.top, w - padding.left - padding.right, h - padding.top - padding.bottom)
     }
     

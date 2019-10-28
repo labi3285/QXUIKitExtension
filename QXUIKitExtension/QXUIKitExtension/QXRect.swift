@@ -556,6 +556,10 @@ extension QXRect {
         return QXRect.init(0, 0, w, h)
     }
     
+    public var isZero: Bool {
+        return x == 0 && y == 0 && w == 0 && h == 0
+    }
+    
 }
 
 extension QXRect: CustomStringConvertible {

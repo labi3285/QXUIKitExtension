@@ -26,7 +26,7 @@ open class QXLoadStatusView: UIView, QXLoadStatusViewProtocol {
     // loadingIcon 为nil的时候展示
     open var loadingView: QXActivityIndicatorView = {
         let e = QXActivityIndicatorView(systemView: UIActivityIndicatorView(style: .gray))
-        e.margin = QXMargin(5, 5, 5, 5)
+        e.margin = QXEdgeInsets(5, 5, 5, 5)
         return e
         }() {
         didSet {
@@ -55,7 +55,7 @@ open class QXLoadStatusView: UIView, QXLoadStatusViewProtocol {
     
     open lazy var iconView: QXImageView = {
         let one = QXImageView()
-        one.padding = QXMargin.zero
+        one.padding = QXEdgeInsets.zero
         one.qxTintColor = QXColor.fmtHex("#848484")
         one.respondResize = { [weak self] in
             self?.layoutSubviews()
@@ -64,7 +64,7 @@ open class QXLoadStatusView: UIView, QXLoadStatusViewProtocol {
     }()
     open lazy var contentLabel: QXLabel = {
         let one = QXLabel()
-        one.padding = QXMargin(10, 20, 10, 20)
+        one.padding = QXEdgeInsets(10, 20, 10, 20)
         one.numberOfLines = 0
         one.alignmentX = .center
         one.alignmentY = .center
@@ -75,11 +75,11 @@ open class QXLoadStatusView: UIView, QXLoadStatusViewProtocol {
     }()
     public lazy var retryButton: QXTitleButton = {
         let one = QXTitleButton()
-        one.border = QXBorder.border
+        one.backView.qxBorder = QXBorder.border
         one.font = QXFont(14, "#848484")
         one.title = "点击重试"
-        one.padding = QXMargin(7, 10, 7, 10)
-        one.titlePadding = QXMargin(7, 10, 7, 10)
+        one.padding = QXEdgeInsets(7, 10, 7, 10)
+        one.titlePadding = QXEdgeInsets(7, 10, 7, 10)
         one.respondResize = { [weak self] in
             self?.setNeedsLayout()
         }

@@ -10,11 +10,6 @@ import UIKit
 
 open class QXSettingSeparateFooterView: QXStaticBaseHeaderFooterView {
     
-    open override func height(_ model: Any?, _ width: CGFloat) -> CGFloat? {
-        return height
-    }
-    open var height: CGFloat? = 10
-    
     public lazy var breakLine: QXLineView = {
         let one = QXLineView.breakLine
         one.isVertical = false
@@ -32,6 +27,7 @@ open class QXSettingSeparateFooterView: QXStaticBaseHeaderFooterView {
     required public init() {
         super.init()
         contentView.addSubview(breakLine)
+        height = 10
     }
     required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")

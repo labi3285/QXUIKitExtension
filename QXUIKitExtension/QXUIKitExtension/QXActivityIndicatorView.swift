@@ -27,7 +27,7 @@ open class QXActivityIndicatorView: QXView {
         systemView?.stopAnimating()
     }
     
-    open var margin: QXMargin = QXMargin.zero
+    open var margin: QXEdgeInsets = QXEdgeInsets.zero
     
     public init(systemView: UIActivityIndicatorView) {
         self.systemView = systemView

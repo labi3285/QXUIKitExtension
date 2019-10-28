@@ -10,58 +10,31 @@ import UIKit
 
 class ViewController: QXTableViewController<Any, QXLoadStatusView> {
     
-    lazy var arrowCell: QXSettingTitleArrowCell = {
+    lazy var staticCell: QXSettingTitleArrowCell = {
         let one = QXSettingTitleArrowCell()
-        one.titleLabel.text = "设置相关UI"
+        one.titleLabel.text = "QXStatics"
         one.backButton.respondClick = { [weak self] in
-            print("click")
+            let vc = DemoStaticsVc()
+            self?.push(vc)
         }
         return one
     }()
     
-    lazy var textFieldCell: QXSettingTextViewCell = {
-        let one = QXSettingTextViewCell()
-        one.textView.text = QXDebugText(99)
-        one.textView.placeHolder = "输入内容"
+    lazy var settingCell: QXSettingTitleArrowCell = {
+        let one = QXSettingTitleArrowCell()
+        one.titleLabel.text = "QXSetting"
+        one.backButton.respondClick = { [weak self] in
+            let vc = DemoSettingsVc()
+            self?.push(vc)
+        }
         return one
     }()
     
-    lazy var textViewCell: QXSettingTextViewCell = {
-        let one = QXSettingTextViewCell()
-        one.textView.text = QXDebugText(99)
-        one.textView.placeHolder = "输入内容"
-        return one
-    }()
-    
-    lazy var textCell: QXSettingTextCell = {
-        let one = QXSettingTextCell()
-        one.label.text = QXDebugText(99)
-        return one
-    }()
-    
-    lazy var switchCell: QXSettingTitleSwitchCell = {
-        let one = QXSettingTitleSwitchCell()
-        one.titleLabel.text = "开关"
-        return one
-    }()
-    
-    lazy var headerView: QXSettingTextHeaderView = {
-        let one = QXSettingTextHeaderView()
-        one.label.text = QXDebugRandomText(999)
-        return one
-    }()
-    lazy var footerView: QXSettingTextFooterView = {
-        let one = QXSettingTextFooterView()
-        one.label.text = QXDebugRandomText(999)
-        return one
-    }()
     lazy var section: QXTableViewSection = {
         let one = QXTableViewSection([
-            self.arrowCell,
-            self.textViewCell,
-            self.textCell,
-            self.switchCell
-        ], self.headerView, self.footerView)
+            self.staticCell,
+            self.settingCell,
+        ], QXSettingSeparateHeaderView(), QXSettingSeparateFooterView())
         return one
     }()
     

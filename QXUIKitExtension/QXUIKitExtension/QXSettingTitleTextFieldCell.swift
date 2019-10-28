@@ -31,7 +31,7 @@ open class QXSettingTitleTextFieldCell: QXSettingCell {
         one.alignmentY = .center
         one.alignmentX = .left
         one.viewMargin = 10
-        one.padding = QXMargin(5, 15, 5, 15)
+        one.padding = QXEdgeInsets(5, 15, 5, 15)
         one.setupViews([self.titleLabel, QXFlexView(), self.textField])
         return one
     }()
@@ -40,6 +40,7 @@ open class QXSettingTitleTextFieldCell: QXSettingCell {
         super.init()
         contentView.addSubview(layoutView)
         layoutView.IN(contentView).LEFT.TOP.RIGHT.BOTTOM.MAKE()
+        height = 50
     }
     required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")

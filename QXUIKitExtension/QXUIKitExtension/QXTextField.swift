@@ -76,9 +76,7 @@ open class QXTextField: QXView, UITextFieldDelegate {
         one.addTarget(self, action: #selector(textChange), for: .editingChanged)
         return one
     }()
-    
-    open var padding: QXMargin = QXMargin.zero
-    
+        
     public override init() {
         super.init()
         addSubview(uiTextField)

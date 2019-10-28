@@ -10,6 +10,8 @@ import UIKit
 
 open class QXView: UIView {
     
+    open var padding: QXEdgeInsets = QXEdgeInsets.zero
+    
     public init() {
         super.init(frame: CGRect.zero)
     }

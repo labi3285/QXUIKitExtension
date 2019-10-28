@@ -38,8 +38,6 @@ open class QXLabel: QXView {
     }
     open var alignmentY: QXAlignmentY = .center
 
-    open var padding: QXMargin = QXMargin.zero
-
     open var richTexts: [QXRichText]? {
         didSet {
             if let richTexts = richTexts {
@@ -115,7 +113,7 @@ open class QXLabel: QXView {
     open override func layoutSubviews() {
         super.layoutSubviews()
         let size = uiLabel.sizeThatFits(CGSize.init(width: bounds.width - padding.left - padding.right, height: CGFloat.greatestFiniteMagnitude))
-        let h = min(size.height, bounds.height - padding.bottom - padding.bottom)
+        let h = min(size.height, bounds.height - padding.top - padding.bottom)
         let y: CGFloat
         switch alignmentY {
         case .top:

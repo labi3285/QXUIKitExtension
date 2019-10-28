@@ -170,7 +170,7 @@ open class QXTableViewController<Model, LoadStatusView: UIView & QXLoadStatusVie
 class QXDebugTableViewCell: QXTableViewBreakLineCell {
     
     override func height(_ model: Any?, _ width: CGFloat) -> CGFloat? {
-        label.intrinsicWidth = width - label.padding.left - label.padding.right
+        label.intrinsicWidth = width
         return nil
     }
     
@@ -182,7 +182,7 @@ class QXDebugTableViewCell: QXTableViewBreakLineCell {
     }
     public lazy var label: QXLabel = {
         let one = QXLabel()
-        one.padding = QXMargin(10, 15, 10, 15)
+        one.padding = QXEdgeInsets(10, 15, 10, 15)
         one.font = QXFont(fmt: "14 #333333")
         one.numberOfLines = 0
         return one
@@ -191,7 +191,7 @@ class QXDebugTableViewCell: QXTableViewBreakLineCell {
         super.init(reuseId)
         contentView.addSubview(label)
         label.IN(contentView).LEFT.RIGHT.TOP.BOTTOM.MAKE()
-        breakLine.padding = QXMargin(0, 15, 0, 15)
+        breakLine.padding = QXEdgeInsets(0, 15, 0, 15)
     }
     required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -202,7 +202,7 @@ class QXDebugTableViewCell: QXTableViewBreakLineCell {
 class QXDebugTableViewHeaderFooterView: QXTableViewHeaderFooterView {
     
     override func height(_ model: Any?, _ width: CGFloat) -> CGFloat? {
-        label.intrinsicWidth = width - label.padding.left - label.padding.right
+        label.intrinsicWidth = width
         return nil
     }
     
@@ -214,7 +214,7 @@ class QXDebugTableViewHeaderFooterView: QXTableViewHeaderFooterView {
     }
     public lazy var label: QXLabel = {
         let one = QXLabel()
-        one.padding = QXMargin(10, 15, 10, 15)
+        one.padding = QXEdgeInsets(10, 15, 10, 15)
         one.font = QXFont(fmt: "14 #333333")
         one.numberOfLines = 0
         return one

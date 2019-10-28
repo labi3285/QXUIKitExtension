@@ -10,11 +10,6 @@ import UIKit
 
 open class QXSettingCell: QXStaticBaseCell {
     
-    open override func height(_ model: Any?, _ width: CGFloat) -> CGFloat? {
-        return height
-    }
-    open var height: CGFloat? = 50
-    
     open override func updateSectionPossition(_ isFirstCell: Bool, _ isLastCell: Bool) {
         super.updateSectionPossition(isFirstCell, isLastCell)
         breakLine.isHidden = isLastCell || isBreakLineHidden
@@ -24,7 +19,7 @@ open class QXSettingCell: QXStaticBaseCell {
     public lazy var breakLine: QXLineView = {
         let one = QXLineView.breakLine
         one.isVertical = false
-        one.padding = QXMargin(0, 0, 0, 15)
+        one.padding = QXEdgeInsets(0, 0, 0, 15)
         one.isUserInteractionEnabled = false
         return one
     }()
