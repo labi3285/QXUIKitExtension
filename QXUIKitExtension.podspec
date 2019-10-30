@@ -16,6 +16,8 @@ s.source_files = "QXUIKitExtension/QXUIKitExtension/*"
 s.resources = "QXUIKitExtension/QXUIKitExtension/QXUIKitExtensionResources.bundle"
 s.requires_arc = true
 
+s.frameworks   = "MobileCoreServices", "ImageIO"
+
 s.dependency 'Alamofire', '4.8.2'
 s.dependency 'Kingfisher', '~> 4.10.1'
 s.dependency 'MJRefresh', '~> 3.1.15.7'
@@ -26,4 +28,8 @@ s.dependency 'QXConsMaker', '~> 0.0.6'
 s.dependency 'TZImagePickerController', '~> 3.2.6'
 s.dependency 'IQKeyboardManagerSwift', '~> 6.5.2'
 
+
+# pod trunk push QXUIKitExtension.podspec --allow-warnings
+
 end
+
