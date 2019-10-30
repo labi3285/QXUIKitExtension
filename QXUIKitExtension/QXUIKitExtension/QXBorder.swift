@@ -11,12 +11,15 @@ import UIKit
 open class QXBorder {
     
     open var color: QXColor?
+    @discardableResult
     public func setColor(_ e: QXColor?) -> QXBorder { color = e; return self }
     
     open var lineWidth: CGFloat?
+    @discardableResult
     public func setLineWidth(_ e: CGFloat?) -> QXBorder { lineWidth = e; return self }
     
     open var cornerRadius: CGFloat?
+    @discardableResult
     public func setCornerRadius(_ e: CGFloat?) -> QXBorder { cornerRadius = e; return self }
     
     public init() {

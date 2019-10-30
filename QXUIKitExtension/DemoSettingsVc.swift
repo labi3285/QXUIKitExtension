@@ -30,6 +30,17 @@ class DemoSettingsVc: QXTableViewController<Any, QXLoadStatusView> {
         one.label.text = "文本" + QXDebugText(99)
         return one
     }()
+    lazy var arrowCell: QXSettingTitleArrowCell = {
+        let one = QXSettingTitleArrowCell()
+        one.titleLabel.text = "箭头"
+        return one
+    }()
+    lazy var switchCell: QXSettingTitleSwitchCell = {
+        let one = QXSettingTitleSwitchCell()
+        one.titleLabel.text = "开关"
+        return one
+    }()
+    
     lazy var textFieldCell: QXSettingTextFieldCell = {
         let one = QXSettingTextFieldCell()
         one.textField.placeHolder = "输入内容"
@@ -47,14 +58,14 @@ class DemoSettingsVc: QXTableViewController<Any, QXLoadStatusView> {
         return one
     }()
     
-    lazy var arrowCell: QXSettingTitleArrowCell = {
-        let one = QXSettingTitleArrowCell()
-        one.titleLabel.text = "箭头"
+    lazy var pictureCell: QXSettingTitlePictureCell = {
+        let one = QXSettingTitlePictureCell()
+        one.titleLabel.text = "选择图片"
         return one
     }()
-    lazy var switchCell: QXSettingTitleSwitchCell = {
-        let one = QXSettingTitleSwitchCell()
-        one.titleLabel.text = "开关"
+    
+    lazy var picturesCell: QXSettingPicturesCell = {
+        let one = QXSettingPicturesCell()
         return one
     }()
     
@@ -75,6 +86,9 @@ class DemoSettingsVc: QXTableViewController<Any, QXLoadStatusView> {
             self.textCell,
             self.textFieldCell,
             self.textViewCell,
+            self.pictureCell,
+            self.picturesCell,
+            
         ], self.headerView, self.footerView)
         return one
     }()

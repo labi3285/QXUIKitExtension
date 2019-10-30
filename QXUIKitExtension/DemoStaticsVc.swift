@@ -23,7 +23,7 @@ class DemoStaticsVc: QXTableViewController<Any, QXLoadStatusView> {
     }()
     lazy var pictrueCell: QXStaticPictureCell = {
         let one = QXStaticPictureCell()
-        one.pictureView.placeHolderImage = QXImage("QXUIKitExtensionResources.bundle/icon_load_empty")
+        one.pictureView.placeHolderImage = QXUIKitExtensionResources.shared.image("icon_load_empty")
         one.pictureView.image = QXImage(url: "http://gss0.baidu.com/-vo3dSag_xI4khGko9WTAnF6hhy/zhidao/pic/item/d788d43f8794a4c240e9466f0ef41bd5ac6e39af.jpg")
 
         return one

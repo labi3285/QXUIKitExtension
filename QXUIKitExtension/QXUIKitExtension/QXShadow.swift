@@ -11,18 +11,23 @@ import UIKit
 open class QXShadow {
     
     open var color: QXColor?
+    @discardableResult
     public func setColor(_ e: QXColor?) -> QXShadow { color = e; return self }
     
     open var alpha: CGFloat?
+    @discardableResult
     public func setAlpha(_ e: CGFloat?) -> QXShadow { alpha = e; return self }
 
     open var offset: QXSize?
+    @discardableResult
     public func setOffset(_ e: QXSize?) -> QXShadow { offset = e; return self }
 
     open var radius: CGFloat?
+    @discardableResult
     public func setRadius(_ e: CGFloat?) -> QXShadow { radius = e; return self }
 
     open var path: CGPath?
+    @discardableResult
     public func setPath(_ e: CGPath?) -> QXShadow { path = e; return self }
     
     public init() {

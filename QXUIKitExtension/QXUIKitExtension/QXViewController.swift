@@ -94,7 +94,8 @@ open class QXViewController: UIViewController, UINavigationBarDelegate {
     
     //MARK:- Navigation
     public var customNavigationBar: QXNavigationBar?
-    public var navigationBarBackArrowImage: QXImage? = QXImage("QXUIKitExtensionResources.bundle/icon_back")
+    
+    public var navigationBarBackArrowImage: QXImage? = QXUIKitExtensionResources.shared.image("icon_back")
         .setRenderingMode(.alwaysTemplate)
     public var navigationBarBackTitle: String?
     public var navigationBarBackFont: QXFont?

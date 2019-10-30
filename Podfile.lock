@@ -1,40 +1,48 @@
 PODS:
   - Alamofire (4.8.2)
+  - IQKeyboardManagerSwift (6.5.2)
   - Kingfisher (4.10.1)
   - MJRefresh (3.1.15.7)
   - QXConsMaker (0.0.6)
   - QXJSON (0.1.1)
   - QXMessageView (0.0.3)
   - SAMKeychain (1.5.3)
+  - TZImagePickerController (3.2.6)
 
 DEPENDENCIES:
   - Alamofire (= 4.8.2)
+  - IQKeyboardManagerSwift (~> 6.5.2)
   - Kingfisher (~> 4.10.1)
   - MJRefresh (~> 3.1.15.7)
   - QXConsMaker (~> 0.0.6)
   - QXJSON (~> 0.1.1)
   - QXMessageView (~> 0.0.3)
   - SAMKeychain (~> 1.5.3)
+  - TZImagePickerController (~> 3.2.6)
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - Alamofire
+    - IQKeyboardManagerSwift
     - Kingfisher
     - MJRefresh
     - QXConsMaker
     - QXJSON
     - QXMessageView
     - SAMKeychain
+    - TZImagePickerController
 
 SPEC CHECKSUMS:
   Alamofire: ae5c501addb7afdbb13687d7f2f722c78734c2d3
+  IQKeyboardManagerSwift: c75366f1f19590e8caeae45fcd5815c9289d6099
   Kingfisher: c148cd7b47ebde9989f6bc7c27dcaa79d81279a0
   MJRefresh: 697f8ec75ebdbe9207767bb682cf0f51b0d8a41f
   QXConsMaker: e3e12b9117e286d1923cda5d4fad8adb8f4ad5f3
   QXJSON: 142a34d8510e11103603c9b3435fe177b0321bd5
   QXMessageView: f7437eb16f3a9f0889c233d4044df7f622f40ab0
   SAMKeychain: 483e1c9f32984d50ca961e26818a534283b4cd5c
+  TZImagePickerController: 3900e8d68428ff3a88817efce82ae9e7d9ffebc9
 
-PODFILE CHECKSUM: 3d9eaeb4335e0b9d4f8384634704d70ec1e64ef7
+PODFILE CHECKSUM: d4b46c779e8fd4a6d725cc2220c08a727edcf86f
 
 COCOAPODS: 1.7.2

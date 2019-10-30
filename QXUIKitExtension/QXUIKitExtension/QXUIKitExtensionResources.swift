@@ -30,6 +30,10 @@ public class QXUIKitExtensionResources {
     
     private var _bundle: Bundle?
     
+    public func image(_ cacheNamed: String) -> QXImage {
+        return QXImage(cacheNamed, in: bundle)
+    }
+    
 }
 
 extension QXUIKitExtensionResources {

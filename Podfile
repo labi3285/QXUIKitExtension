@@ -9,4 +9,7 @@ target 'QXUIKitExtension' do
     pod 'SAMKeychain', '~> 1.5.3'
     pod 'MJRefresh', '~> 3.1.15.7'
     pod 'QXConsMaker', '~> 0.0.6'
+    pod 'TZImagePickerController', '~> 3.2.6'
+
+    pod 'IQKeyboardManagerSwift', '~> 6.5.2'
 end

@@ -128,20 +128,18 @@ open class QXTableViewCell: UITableViewCell {
     
     open var model: Any?
     
+    public weak internal(set) var viewController: UIViewController?
     public weak fileprivate(set) var tableView: QXTableView?
     public fileprivate(set) var indexPath: IndexPath?
     
     open class func height(_ model: Any?, _ width: CGFloat) -> CGFloat? {
         return nil
     }
-    open func height(_ model: Any?, _ width: CGFloat) -> CGFloat? {
-        return nil
-    }
     
-    open func updateSectionPossition(_ isFirstCell: Bool, _ isLastCell: Bool) {
+    open func update(_ isFirstCellInSection: Bool, _ isLastCellInSection: Bool, _ width: CGFloat) {
         
     }
-
+    
     required public init(_ reuseId: String) {
         super.init(style: .default, reuseIdentifier: reuseId)
         backgroundView = UIView()
@@ -156,9 +154,9 @@ open class QXTableViewCell: UITableViewCell {
 
 open class QXTableViewBreakLineCell: QXTableViewCell {
         
-    open override func updateSectionPossition(_ isFirstCell: Bool, _ isLastCell: Bool) {
-        super.updateSectionPossition(isFirstCell, isLastCell)
-        breakLine.isHidden = isLastCell
+    open override func update(_ isFirstCellInSection: Bool, _ isLastCellInSection: Bool, _ width: CGFloat) {
+        super.update(isFirstCellInSection, isLastCellInSection, width)
+        breakLine.isHidden = isLastCellInSection
     }
 
     public lazy var breakLine: QXLineView = {
@@ -189,10 +187,11 @@ open class QXTableViewHeaderFooterView: UITableViewHeaderFooterView {
     
     open var model: Any?
     
-    open class func height(_ model: Any?, _ width: CGFloat) -> CGFloat? {
-        return nil
+    open func update(_ width: CGFloat) {
+        
     }
-    open func height(_ model: Any?, _ width: CGFloat) -> CGFloat? {
+    
+    open class func height(_ model: Any?, _ width: CGFloat) -> CGFloat? {
         return nil
     }
     
@@ -319,7 +318,8 @@ extension QXTableView: UITableViewDelegate, UITableViewDataSource {
             }
             cell.tableView = self
             cell.indexPath = indexPath
-            cell.updateSectionPossition(indexPath.row == 0, indexPath.row == section.models.count - 1)
+            
+            cell.update(indexPath.row == 0, indexPath.row == section.models.count - 1, uiTableView.bounds.width)
             cell.model = model
             return cell
         } else {

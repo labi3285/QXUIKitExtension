@@ -26,6 +26,9 @@ open class QXImageView: QXView {
         }
     }
     
+    open var isForceImageFill: Bool = false
+    open var isForcePlaceHolderFill: Bool = false
+
     open var isThumbnail: Bool {
         set {
             uiImageView.qxIsThumbnail = newValue
@@ -50,8 +53,10 @@ open class QXImageView: QXView {
     
     public lazy var uiImageView: ImageView = {
         let one = ImageView()
+        one.contentMode = .scaleAspectFill
         one.isUserInteractionEnabled = false
         one.respondUpdateImage = { [weak self] image in
+            self?.setNeedsLayout()
             self?.placeHolderView.isHidden = self?.placeHolderView.image == nil || image != nil
             self?.qxSetNeedsLayout()
             self?.respondUpdateImage?()
@@ -75,6 +80,7 @@ open class QXImageView: QXView {
         addSubview(uiImageView)
         addSubview(placeHolderView)
         isUserInteractionEnabled = false
+        clipsToBounds = true
     }
     required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -88,7 +94,7 @@ open class QXImageView: QXView {
         func rectForSize(_ size: QXSize) -> QXRect {
             let sw = qxBounds.w - padding.left - padding.right
             let sh = qxBounds.h - padding.top - padding.bottom
-            let wh = size// image?.size ?? QXSize.zero
+            let wh = size
             var x: CGFloat = padding.left
             var y: CGFloat = padding.top
             var w: CGFloat = 0
@@ -146,8 +152,16 @@ open class QXImageView: QXView {
             }
             return QXRect(x, y, w, h)
         }
-        uiImageView.qxRect = rectForSize(image?.size ?? QXSize.zero)
-        placeHolderView.qxRect = rectForSize(placeHolderImage?.size ?? QXSize.zero)
+        if isForcePlaceHolderFill {
+            placeHolderView.qxRect = qxBounds.rectByAdd(padding)
+        } else {
+            placeHolderView.qxRect = rectForSize(placeHolderImage?.size ?? QXSize.zero)
+        }
+        if isForceImageFill {
+            uiImageView.qxRect = qxBounds.rectByAdd(padding)
+        } else {
+            uiImageView.qxRect = rectForSize(image?.size ?? QXSize.zero)
+        }
     }
         
     public var intrinsicWidth: CGFloat?
@@ -178,10 +192,15 @@ open class QXImageView: QXView {
                 h = min(_h, size.h)
                 h = padding.top + h + padding.bottom
             } else {
-                let size = image?.size ?? QXSize.zero
+                var size = image?.size ?? QXSize.zero
+                if size.isZero, let e = placeHolderImage?.size {
+                    size = e
+                }
+                w = padding.left + size.w + padding.right
                 if !size.isZero {
-                    w = padding.left + size.w + padding.right
                     h = padding.top + size.w * size.h / size.w + padding.bottom
+                } else {
+                    h = padding.top + padding.bottom
                 }
             }
             return CGSize(width: w, height: h)

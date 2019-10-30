@@ -15,11 +15,11 @@ open class QXLoadStatusView: UIView, QXLoadStatusViewProtocol {
     open var loadingIcon: QXImage?
 //        = QXImage(path: "QXUIKitExtensionResources.bundle/gif.gif").setSize(QXSize(80, 80))
     open var emptyIcon: QXImage?
-        = QXImage("QXUIKitExtensionResources.bundle/icon_load_empty")
+        = QXUIKitExtensionResources.shared.image("icon_load_empty")
             .setSize(QXSize(60, 60))
             .setRenderingMode(.alwaysTemplate)
     open var errorIcon: QXImage?
-        = QXImage("QXUIKitExtensionResources.bundle/icon_load_failed")
+        = QXUIKitExtensionResources.shared.image("icon_load_failed")
             .setSize(QXSize(60, 60))
             .setRenderingMode(.alwaysTemplate)
     

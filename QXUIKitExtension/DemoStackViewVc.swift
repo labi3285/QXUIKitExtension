@@ -9,7 +9,7 @@
 import UIKit
 import QXConsMaker
 
-class TestStackVc: QXViewController {
+class DemoStackViewVc: QXViewController {
     
     lazy var num1: QXLabel = {
         let one = QXLabel()
@@ -82,10 +82,10 @@ class TestStackVc: QXViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Stack"
+        view.qxBackgroundColor = QXColor.white
         contentView.addSubview(stack)
         stack.IN(contentView).CENTER.WIDTH(300).MAKE()
         stack.qxDebugRandomColor()
-        
     }
 
 }

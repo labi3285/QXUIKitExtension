@@ -51,6 +51,7 @@ open class QXTableViewController<Model, LoadStatusView: UIView & QXLoadStatusVie
         } else {
             cell = QXDebugTableViewCell(reuseId)
         }
+        cell.viewController = self
         cell.model = model
         return cell
     }
@@ -85,6 +86,8 @@ open class QXTableViewController<Model, LoadStatusView: UIView & QXLoadStatusVie
         } else {
             view = nil
         }
+        
+        view?.update(tableView.uiTableView.frame.width)
         view?.model = model
         return view
     }
@@ -97,6 +100,8 @@ open class QXTableViewController<Model, LoadStatusView: UIView & QXLoadStatusVie
         } else {
             view = nil
         }
+        
+        view?.update(tableView.uiTableView.frame.width)
         view?.model = model
         return view
     }
@@ -169,9 +174,9 @@ open class QXTableViewController<Model, LoadStatusView: UIView & QXLoadStatusVie
 
 class QXDebugTableViewCell: QXTableViewBreakLineCell {
     
-    override func height(_ model: Any?, _ width: CGFloat) -> CGFloat? {
+    override func update(_ isFirstCellInSection: Bool, _ isLastCellInSection: Bool, _ width: CGFloat) {
+        super.update(isFirstCellInSection, isLastCellInSection, width)
         label.intrinsicWidth = width
-        return nil
     }
     
     override var model: Any? {
@@ -201,9 +206,9 @@ class QXDebugTableViewCell: QXTableViewBreakLineCell {
 
 class QXDebugTableViewHeaderFooterView: QXTableViewHeaderFooterView {
     
-    override func height(_ model: Any?, _ width: CGFloat) -> CGFloat? {
+    override func update(_ width: CGFloat) {
+        super.update(width)
         label.intrinsicWidth = width
-        return nil
     }
     
     override var model: Any? {

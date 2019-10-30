@@ -62,6 +62,7 @@ open class QXView: UIView {
 extension UIView {
     
     public func qxSetNeedsLayout() {
+        superview?.qxSetNeedsLayout()
         invalidateIntrinsicContentSize()
         setNeedsLayout()
         setNeedsDisplay()

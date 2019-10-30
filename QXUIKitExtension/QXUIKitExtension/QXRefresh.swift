@@ -42,7 +42,7 @@ open class QXRefreshHeader: MJRefreshHeader {
     public var customizedImageLoading: QXImage?
 
     public var imageRefreshArrow: QXImage?
-        = QXImage("QXUIKitExtensionResources.bundle/icon_refresh_arrow").setSize(24, 24)
+        = QXUIKitExtensionResources.shared.image("icon_refresh_arrow").setSize(24, 24)
     
     public lazy var messageLabel: QXLabel = {
         let one = QXLabel()

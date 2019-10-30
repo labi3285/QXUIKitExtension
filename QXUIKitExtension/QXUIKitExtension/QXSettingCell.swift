@@ -10,9 +10,9 @@ import UIKit
 
 open class QXSettingCell: QXStaticBaseCell {
     
-    open override func updateSectionPossition(_ isFirstCell: Bool, _ isLastCell: Bool) {
-        super.updateSectionPossition(isFirstCell, isLastCell)
-        breakLine.isHidden = isLastCell || isBreakLineHidden
+    open override func update(_ isFirstCellInSection: Bool, _ isLastCellInSection: Bool, _ width: CGFloat) {
+        super.update(isFirstCellInSection, isLastCellInSection, width)
+        breakLine.isHidden = isLastCellInSection || isBreakLineHidden
     }
     
     public var isBreakLineHidden: Bool = false
@@ -28,6 +28,7 @@ open class QXSettingCell: QXStaticBaseCell {
         super.init()
         contentView.addSubview(breakLine)
         contentView.qxBackgroundColor = QXColor.white
+        height = 50
     }
     required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")

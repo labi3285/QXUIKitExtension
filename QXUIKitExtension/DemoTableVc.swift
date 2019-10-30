@@ -8,12 +8,12 @@
 
 import UIKit
 
-class TestTableVc: QXTableViewController<Any, QXLoadStatusView> {
+class DemoTableVc: QXTableViewController<Any, QXLoadStatusView> {
     
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "TableVc"
-        view.qxBackgroundColor = QXColor.yellow
+        view.qxBackgroundColor = QXColor.white
         canRefresh = true
         canPage = true
         retry()
@@ -30,9 +30,6 @@ class TestTableVc: QXTableViewController<Any, QXLoadStatusView> {
     override func cellClass(_ model: Any?) -> QXTableViewCell.Type? {
         return QXDebugTableViewCell.self
     }
-//    override func headerFooterViewClassFor(_ model: Any?) -> QXTableViewHeaderFooterView.Type? {
-//        return QXStaticFooterView.self
-//    }
-    
+
 }
 

@@ -26,7 +26,10 @@ open class QXSettingTitleArrowCell: QXSettingCell {
     public lazy var arrowView: QXImageView = {
         let one = QXImageView()
         one.qxTintColor = QXColor.hex("#666666", 1)
-        one.image = QXImage("QXUIKitExtensionResources.bundle/icon_arrow.png")        .setRenderingMode(.alwaysTemplate)
+        one.image = QXUIKitExtensionResources.shared.image("icon_arrow.png")        .setRenderingMode(.alwaysTemplate)
+        one.respondUpdateImage = { [weak self] in
+            self?.layoutView.setNeedsLayout()
+        }
         return one
     }()
     public lazy var layoutView: QXStackView = {

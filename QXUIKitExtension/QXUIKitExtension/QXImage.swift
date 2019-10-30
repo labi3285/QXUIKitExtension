@@ -11,9 +11,7 @@ import Photos
 import Kingfisher
 
 open class QXImage {
-    
-//    public var gifImage: Gif
-    
+        
     public var uiImage: UIImage? {
         set {
             _uiImage = newValue
@@ -26,6 +24,7 @@ open class QXImage {
             }
         }
     }
+    @discardableResult
     public func setUIImage(_ e: UIImage?) -> QXImage { uiImage = e; return self }
     
     public var thumbUrl: QXURL? {
@@ -35,6 +34,7 @@ open class QXImage {
             }
         }
     }
+    @discardableResult
     public func setThumbUrl(_ e: QXURL?) -> QXImage { thumbUrl = e; return self }
     
     public var url: QXURL? {
@@ -45,13 +45,16 @@ open class QXImage {
         }
     }
     
+    @discardableResult
     public func setUrl(_ e: QXURL?) -> QXImage { url = e; return self }
 
     public var phAsset: PHAsset?
-    public func setPhAsset(_ e: PHAsset?) -> QXImage { phAsset = e; return self }
+    @discardableResult
+    public func setPHAsset(_ e: PHAsset?) -> QXImage { phAsset = e; return self }
 
-    public var data: Data?
-    public func setData(_ e: Data?) -> QXImage { data = e; return self }
+//    public var data: Data?
+//    @discardableResult
+//    public func setData(_ e: Data?) -> QXImage { data = e; return self }
 
     public var size: QXSize? {
         set {
@@ -68,10 +71,13 @@ open class QXImage {
             return nil
         }
     }
+    @discardableResult
     public func setSize(_ e: QXSize?) -> QXImage { size = e; return self }
+    @discardableResult
     public func setSize(_ w: CGFloat, _ h: CGFloat) -> QXImage { return setSize(QXSize(w, h)) }
 
     public var renderingMode: UIImage.RenderingMode?
+    @discardableResult
     public func setRenderingMode(_ e: UIImage.RenderingMode?) -> QXImage { renderingMode = e; return self }
 
     public init(url: String?) {
@@ -80,15 +86,24 @@ open class QXImage {
         }
     }
     
-    public init(path: String) {
-        let path = Bundle.main.path(forResource: path, ofType: nil) ?? ""
-        self._kfResource = ImageResource(downloadURL:URL(fileURLWithPath: path))
-    }
-    
-    public init(_ named: String) {
-        let image = UIImage(named: named)
+    public init(iconPath: String, in bundle: Bundle) {
+        let path = bundle.path(forResource: iconPath, ofType: nil) ?? ""
+        let image = UIImage(contentsOfFile: path)
         self._uiImage = image
     }
+    public convenience init(iconPath: String) {
+        self.init(iconPath: iconPath, in: Bundle.main)
+    }
+    
+    public init(_ cacheIconNamed: String) {
+        let image = UIImage(named: cacheIconNamed)
+        self._uiImage = image
+    }
+    public init(_ cacheIconNamed: String, in bundle: Bundle) {
+        let image = UIImage(named: cacheIconNamed, in: bundle, compatibleWith: nil)
+        self._uiImage = image
+    }
+    
     public init(_ url: QXURL?) {
         self.url = url
     }
@@ -116,8 +131,7 @@ open class QXImage {
     
     fileprivate var _uiImage: UIImage?
     fileprivate var _size: QXSize?
-    fileprivate var _kfResource: ImageResource?
-
+    
 }
 
 extension UIImageView {
@@ -154,19 +168,6 @@ extension UIImageView {
                     self.image = e.withRenderingMode(r)
                 } else {
                     self.image = e
-                }
-            } else if let e = newValue._kfResource {
-                weak var ws = self
-                kf.setImage(with: e, placeholder: nil, options: nil, progressBlock: nil) { (image, err, cacheType, _) in
-                    if let e = image {
-                        if let r = newValue.renderingMode {
-                            ws?.image = e.withRenderingMode(r)
-                        } else {
-                            ws?.image = e
-                        }
-                    } else {
-                        ws?.image = placeHolder?.uiImage
-                    }
                 }
             } else {
                 weak var ws = self
