@@ -8,6 +8,7 @@
 
 import UIKit
 import QXConsMaker
+import DSImageBrowse
 
 open class QXStaticPictureCell: QXStaticBaseCell {
     
@@ -16,10 +17,10 @@ open class QXStaticPictureCell: QXStaticBaseCell {
         return pictureView.intrinsicContentSize.height
     }
     
-    public lazy var pictureView: QXImageView = {
-        let one = QXImageView()
+    public lazy var pictureView: QXPictureView = {
+        let one = QXPictureView()
         one.padding = QXEdgeInsets(5, 15, 5, 15)
-        one.respondUpdateImage = { [weak self] in
+        one.imageView.respondUpdateImage = { [weak self] in
             self?.tableView?.setNeedsUpdate()
         }
         return one

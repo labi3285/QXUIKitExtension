@@ -37,7 +37,7 @@ open class QXSettingTitleStackCell: QXSettingCell {
         super.init()
         contentView.addSubview(layoutView)
         layoutView.IN(contentView).LEFT.TOP.RIGHT.BOTTOM.MAKE()
-        height = 50
+        fixHeight = 50
     }
     required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")

@@ -57,7 +57,7 @@ open class QXLoadStatusView: UIView, QXLoadStatusViewProtocol {
         let one = QXImageView()
         one.padding = QXEdgeInsets.zero
         one.qxTintColor = QXColor.fmtHex("#848484")
-        one.respondResize = { [weak self] in
+        one.respondNeedsLayout = { [weak self] in
             self?.layoutSubviews()
         }
         return one
@@ -68,7 +68,7 @@ open class QXLoadStatusView: UIView, QXLoadStatusViewProtocol {
         one.numberOfLines = 0
         one.alignmentX = .center
         one.alignmentY = .center
-        one.respondResize = { [weak self] in
+        one.respondNeedsLayout = { [weak self] in
             self?.setNeedsLayout()
         }
         return one
@@ -80,7 +80,7 @@ open class QXLoadStatusView: UIView, QXLoadStatusViewProtocol {
         one.title = "点击重试"
         one.padding = QXEdgeInsets(7, 10, 7, 10)
         one.titlePadding = QXEdgeInsets(7, 10, 7, 10)
-        one.respondResize = { [weak self] in
+        one.respondNeedsLayout = { [weak self] in
             self?.setNeedsLayout()
         }
         return one

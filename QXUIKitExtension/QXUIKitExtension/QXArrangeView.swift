@@ -19,6 +19,26 @@ open class QXArrangeView: QXView {
     public func setupViews(_ views: QXView...) {
         setupViews(views)
     }
+    
+    open func applyConfigs(intrinsicWidth: CGFloat, xCount: Int, hwRatio: CGFloat) {
+        QXDebugAssert(intrinsicWidth > 0)
+        QXDebugAssert(xCount > 0)
+        QXDebugAssert(hwRatio > 0)
+        self.intrinsicWidth = intrinsicWidth
+        let w = (intrinsicWidth - padding.left - padding.right - CGFloat(xCount - 1) * viewMarginX) / CGFloat(xCount)
+        let h = w * hwRatio
+        for view in views {
+            view.intrinsicSize = QXSize(w, h)
+        }
+    }
+    
+    open func applyConfigs(viewsWidth: CGFloat, viewsHeight: CGFloat) {
+        QXDebugAssert(viewsWidth > 0)
+        QXDebugAssert(viewsHeight > 0)
+        for view in views {
+            view.intrinsicSize = QXSize(viewsWidth, viewsHeight)
+        }
+    }
 
     public func setupViews(_ views: [QXView]) {
         for view in subviews {

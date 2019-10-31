@@ -7,9 +7,7 @@
 //
 
 import UIKit
-import Kingfisher
 import IQKeyboardManagerSwift
-
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {

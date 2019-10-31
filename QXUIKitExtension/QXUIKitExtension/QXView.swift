@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import DSImageBrowse
 
 open class QXView: UIView {
     
@@ -27,11 +28,11 @@ open class QXView: UIView {
         }
     }
     
-    public var respondResize: (() -> ())?
+    public var respondNeedsLayout: (() -> ())?
     
     open override func invalidateIntrinsicContentSize() {
         super.invalidateIntrinsicContentSize()
-        respondResize?()
+        respondNeedsLayout?()
     }
     
     public var intrinsicSize: QXSize? {
@@ -62,10 +63,22 @@ open class QXView: UIView {
 extension UIView {
     
     public func qxSetNeedsLayout() {
-        superview?.qxSetNeedsLayout()
         invalidateIntrinsicContentSize()
         setNeedsLayout()
         setNeedsDisplay()
+    }
+    
+    public var qxVc: UIViewController? {
+        var view: UIView? = self
+        while view != nil {
+            if let r = view?.next {
+                if r.isKind(of: UIViewController.self) {
+                    return r as? UIViewController
+                }
+            }
+            view = view?.superview
+        }
+        return nil
     }
     
     public var qxIntrinsicContentSize: QXSize{

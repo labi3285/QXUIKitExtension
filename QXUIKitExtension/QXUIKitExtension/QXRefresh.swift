@@ -20,9 +20,9 @@ public struct QXRefreshHeaderDateHandler: QXRefreshHeaderDateHandlerProtocol {
 
 open class QXRefreshHeader: MJRefreshHeader {
     
-    public var height: CGFloat = MJRefreshHeaderHeight {
+    public var fixHeight: CGFloat = MJRefreshHeaderHeight {
         didSet {
-            QXDebugAssert(height > 0, "高度为0会导致无法刷新")
+            QXDebugAssert(fixHeight > 0, "高度为0会导致无法刷新")
         }
     }
     
@@ -82,7 +82,7 @@ open class QXRefreshHeader: MJRefreshHeader {
     
     open override func prepare() {
         super.prepare()
-        mj_h = height
+        mj_h = fixHeight
     }
     
     open override func placeSubviews() {
@@ -190,9 +190,9 @@ open class QXRefreshHeader: MJRefreshHeader {
 
 open class QXRefreshFooter: MJRefreshAutoFooter {
     
-    public var height: CGFloat = MJRefreshFooterHeight {
+    public var fixHeight: CGFloat = MJRefreshFooterHeight {
         didSet {
-            QXDebugAssert(height > 0, "高度为0会导致无法刷新")
+            QXDebugAssert(fixHeight > 0, "高度为0会导致无法刷新")
         }
     }
     
@@ -243,7 +243,7 @@ open class QXRefreshFooter: MJRefreshAutoFooter {
     
     open override func prepare() {
         super.prepare()
-        mj_h = height
+        mj_h = fixHeight
     }
 
     open override func placeSubviews() {

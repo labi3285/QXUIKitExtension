@@ -22,7 +22,7 @@ open class QXSettingSeparateHeaderView: QXStaticBaseHeaderFooterView {
         let h = breakLine.intrinsicContentSize.height
         breakLine.frame = CGRect(x: 0, y: contentView.frame.height - h, width: contentView.frame.width, height: h)
         bringSubviewToFront(breakLine)
-        height = 10
+        fixHeight = 10
     }
         
     required public init() {

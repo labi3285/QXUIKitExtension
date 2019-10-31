@@ -23,11 +23,22 @@ class DemoStaticsVc: QXTableViewController<Any, QXLoadStatusView> {
     }()
     lazy var pictrueCell: QXStaticPictureCell = {
         let one = QXStaticPictureCell()
-        one.pictureView.placeHolderImage = QXUIKitExtensionResources.shared.image("icon_load_empty")
-        one.pictureView.image = QXImage(url: "http://gss0.baidu.com/-vo3dSag_xI4khGko9WTAnF6hhy/zhidao/pic/item/d788d43f8794a4c240e9466f0ef41bd5ac6e39af.jpg")
-
+        one.pictureView.image = QXUIKitExtensionResources.shared.image("icon_load_empty")
         return one
     }()
+    
+    lazy var pictruesCell: QXStaticPicturesCell = {
+        let one = QXStaticPicturesCell()
+        
+        let e = "http://gss0.baidu.com/-vo3dSag_xI4khGko9WTAnF6hhy/zhidao/pic/item/d788d43f8794a4c240e9466f0ef41bd5ac6e39af.jpg"
+
+//        one.pictures = [QXImage(url: e)]
+        one.picturesView.pictures = [QXImage(url: e), QXImage(url: e)]
+//        one.pictures = [QXImage(url: e), QXImage(url: e), QXImage(url: e)]
+        return one
+    }()
+    
+    
     
     
     lazy var buttonCell: QXStaticButtonCell = {
@@ -45,6 +56,7 @@ class DemoStaticsVc: QXTableViewController<Any, QXLoadStatusView> {
         let one = QXTableViewSection([
             self.textCell,
             self.pictrueCell,
+            self.pictruesCell,
             self.buttonCell,
         ], self.headerView, self.footerView)
         return one
@@ -52,7 +64,7 @@ class DemoStaticsVc: QXTableViewController<Any, QXLoadStatusView> {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "首页"
+        title = "Statics"
         view.qxBackgroundColor = QXColor.white
         tableView.sections = [section]
         

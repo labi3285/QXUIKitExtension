@@ -51,7 +51,6 @@ open class QXTableViewController<Model, LoadStatusView: UIView & QXLoadStatusVie
         } else {
             cell = QXDebugTableViewCell(reuseId)
         }
-        cell.viewController = self
         cell.model = model
         return cell
     }
@@ -174,9 +173,9 @@ open class QXTableViewController<Model, LoadStatusView: UIView & QXLoadStatusVie
 
 class QXDebugTableViewCell: QXTableViewBreakLineCell {
     
-    override func update(_ isFirstCellInSection: Bool, _ isLastCellInSection: Bool, _ width: CGFloat) {
-        super.update(isFirstCellInSection, isLastCellInSection, width)
-        label.intrinsicWidth = width
+    open override func initializedWithTable() {
+        super.initializedWithTable()
+        label.intrinsicWidth = cellWidth
     }
     
     override var model: Any? {

@@ -128,15 +128,17 @@ open class QXTableViewCell: UITableViewCell {
     
     open var model: Any?
     
-    public weak internal(set) var viewController: UIViewController?
     public weak fileprivate(set) var tableView: QXTableView?
     public fileprivate(set) var indexPath: IndexPath?
-    
+    public fileprivate(set) var isFirstCellInSection: Bool = false
+    public fileprivate(set) var isLastCellInSection: Bool = false
+    public fileprivate(set) var cellWidth: CGFloat = 0
+
     open class func height(_ model: Any?, _ width: CGFloat) -> CGFloat? {
         return nil
     }
     
-    open func update(_ isFirstCellInSection: Bool, _ isLastCellInSection: Bool, _ width: CGFloat) {
+    open func initializedWithTable() {
         
     }
     
@@ -154,8 +156,8 @@ open class QXTableViewCell: UITableViewCell {
 
 open class QXTableViewBreakLineCell: QXTableViewCell {
         
-    open override func update(_ isFirstCellInSection: Bool, _ isLastCellInSection: Bool, _ width: CGFloat) {
-        super.update(isFirstCellInSection, isLastCellInSection, width)
+    open override func initializedWithTable() {
+        super.initializedWithTable()
         breakLine.isHidden = isLastCellInSection
     }
 
@@ -318,8 +320,11 @@ extension QXTableView: UITableViewDelegate, UITableViewDataSource {
             }
             cell.tableView = self
             cell.indexPath = indexPath
+            cell.isFirstCellInSection = indexPath.row == 0
+            cell.isLastCellInSection = indexPath.row == section.models.count - 1
+            cell.cellWidth = uiTableView.bounds.width
+            cell.initializedWithTable()
             
-            cell.update(indexPath.row == 0, indexPath.row == section.models.count - 1, uiTableView.bounds.width)
             cell.model = model
             return cell
         } else {

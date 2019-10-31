@@ -11,6 +11,15 @@ import QXConsMaker
 
 open class QXSettingTitleArrowCell: QXSettingCell {
         
+
+    open override func height(_ model: Any?, _ width: CGFloat) -> CGFloat? {
+        let h = super.height(model, width)
+        if let e = h {
+            arrowView.intrinsicHeight = e - layoutView.padding.top - layoutView.padding.bottom
+        }
+        return h
+    }
+    
     public lazy var titleLabel: QXLabel = {
         let one = QXLabel()
         one.numberOfLines = 1
@@ -53,7 +62,7 @@ open class QXSettingTitleArrowCell: QXSettingCell {
         contentView.addSubview(backButton)
         contentView.addSubview(layoutView)
         layoutView.IN(contentView).LEFT.TOP.RIGHT.BOTTOM.MAKE()
-        height = 50
+        fixHeight = 50
     }
     required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")

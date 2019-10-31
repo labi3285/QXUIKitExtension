@@ -68,6 +68,7 @@ open class QXTextView: QXView, UITextViewDelegate {
     
     public lazy var uiTextView: UITextView = {
         let one = UITextView()
+        one.backgroundColor = UIColor.clear
         one.qxTintColor = QXColor.hex("#666666", 1)
         one.delegate = self
         return one

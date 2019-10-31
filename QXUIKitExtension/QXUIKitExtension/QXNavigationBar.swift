@@ -10,7 +10,7 @@ import UIKit
 
 open class QXNavigationBar: QXView {
     
-    public var height: CGFloat = 44
+    public var fixHeight: CGFloat = 44
     public var leftMargin: CGFloat = 10
     public var rightMargin: CGFloat = 10
     

@@ -14,7 +14,7 @@ open class QXSettingTextViewCell: QXSettingCell {
     open override func height(_ model: Any?, _ width: CGFloat) -> CGFloat? {
         textView.intrinsicWidth = width - textView.padding.left - textView.padding.right
         let h = textView.intrinsicContentSize.height
-        if let _h = height {
+        if let _h = fixHeight {
             return max(_h, h)
         }
         return h
@@ -36,7 +36,7 @@ open class QXSettingTextViewCell: QXSettingCell {
         super.init()
         contentView.addSubview(textView)
         textView.IN(contentView).LEFT.TOP.RIGHT.BOTTOM.MAKE()
-        height = 100
+        fixHeight = 100
     }
     required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")

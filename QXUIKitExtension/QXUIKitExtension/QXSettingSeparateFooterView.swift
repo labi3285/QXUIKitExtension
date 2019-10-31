@@ -27,7 +27,7 @@ open class QXSettingSeparateFooterView: QXStaticBaseHeaderFooterView {
     required public init() {
         super.init()
         contentView.addSubview(breakLine)
-        height = 10
+        fixHeight = 10
     }
     required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")

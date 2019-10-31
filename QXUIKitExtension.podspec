@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
 s.name         = "QXUIKitExtension"
-s.version      = "0.1.8"
+s.version      = "0.1.9"
 s.summary      = "UIKit extensions in swift5."
 s.description  = <<-DESC
 UIKit extensions in swift. Just enjoy!
@@ -19,7 +19,6 @@ s.requires_arc = true
 s.frameworks   = "MobileCoreServices", "ImageIO"
 
 s.dependency 'Alamofire', '4.8.2'
-s.dependency 'Kingfisher', '~> 4.10.1'
 s.dependency 'MJRefresh', '~> 3.1.15.7'
 s.dependency 'QXJSON', '~> 0.1.1'
 s.dependency 'QXMessageView', '~> 0.0.3'
@@ -27,7 +26,8 @@ s.dependency 'SAMKeychain', '~> 1.5.3'
 s.dependency 'QXConsMaker', '~> 0.0.6'
 s.dependency 'TZImagePickerController', '~> 3.2.6'
 s.dependency 'IQKeyboardManagerSwift', '~> 6.5.2'
-
+s.dependency 'DSImageBrowse' , '~> 1.0.2'
+s.dependency 'YYWebImage' , '~> 1.0.5'
 
 # pod trunk push QXUIKitExtension.podspec --allow-warnings
 

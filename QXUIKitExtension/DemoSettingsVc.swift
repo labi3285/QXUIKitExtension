@@ -95,7 +95,7 @@ class DemoSettingsVc: QXTableViewController<Any, QXLoadStatusView> {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "首页"
+        title = "Settings"
         view.qxBackgroundColor = QXColor.backgroundGray
         tableView.sections = [section]
     }

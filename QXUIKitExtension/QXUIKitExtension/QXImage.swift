@@ -8,7 +8,8 @@
 
 import UIKit
 import Photos
-import Kingfisher
+//import Kingfisher
+import YYWebImage
 
 open class QXImage {
         
@@ -86,6 +87,15 @@ open class QXImage {
         }
     }
     
+    public init(gifPath: String, in bundle: Bundle) {
+        let url = bundle.url(forResource: gifPath, withExtension: nil)!
+        let data = try! Data(contentsOf: url)
+        self._uiImage = UIImage.qxGifImageWithData(data, scale: 1)
+    }
+    public convenience init(gifPath: String) {
+        self.init(gifPath: gifPath, in: Bundle.main)
+    }
+    
     public init(iconPath: String, in bundle: Bundle) {
         let path = bundle.path(forResource: iconPath, ofType: nil) ?? ""
         let image = UIImage(contentsOfFile: path)
@@ -126,9 +136,7 @@ open class QXImage {
         self.uiImage = UIImage.qxCreate(size: size.cgSize, render: render)
         self.size = size
     }
-    
-    public static let invalid: QXImage! = QXImage("QXUIKitExtensionResources/icon_invalid")
-    
+        
     fileprivate var _uiImage: UIImage?
     fileprivate var _size: QXSize?
     
@@ -173,8 +181,7 @@ extension UIImageView {
                 weak var ws = self
                 if qxIsThumbnail {
                     if let e = newValue.thumbUrl?.nsUrl ?? newValue.url?.nsUrl  {
-                        kf.setImage(with: e, placeholder: nil, options: nil, progressBlock: { (receive, total) in
-                        }) { (image, err, cacheType, _) in
+                        yy_setImage(with: e, placeholder: nil, options: [.showNetworkActivity, .ignorePlaceHolder, .avoidSetImage]) { (image, url, from, stage, err) in
                             if let e = image {
                                 if let r = newValue.renderingMode {
                                     ws?.image = e.withRenderingMode(r)
@@ -190,18 +197,17 @@ extension UIImageView {
                     }
                 } else {
                     if let e = newValue.url?.nsUrl ?? newValue.thumbUrl?.nsUrl  {
-                        kf.setImage(with: e, placeholder: nil, options: nil, progressBlock: { (receive, total) in
-                        }) { (image, err, cacheType, _) in
-                            if let e = image {
-                                if let r = newValue.renderingMode {
-                                    ws?.image = e.withRenderingMode(r)
-                                } else {
-                                    ws?.image = e
-                                }
-                            } else {
-                                ws?.image = placeHolder?.uiImage
-                            }
-                        }
+                        yy_setImage(with: e, placeholder: nil, options: [.showNetworkActivity, .ignorePlaceHolder, .avoidSetImage]) { (image, url, from, stage, err) in
+                           if let e = image {
+                               if let r = newValue.renderingMode {
+                                   ws?.image = e.withRenderingMode(r)
+                               } else {
+                                   ws?.image = e
+                               }
+                           } else {
+                               ws?.image = placeHolder?.uiImage
+                           }
+                       }
                     } else {
                         self.image = placeHolder?.uiImage
                     }

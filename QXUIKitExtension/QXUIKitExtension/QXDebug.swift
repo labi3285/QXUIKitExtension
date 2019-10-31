@@ -65,7 +65,7 @@ public func QXAssert(_ condition: Bool, _ message: String, file: StaticString = 
     #endif
 }
 
-public func QXDebugAssert(_ condition: Bool, _ message: String, file: StaticString = #file, line: UInt = #line) {
+public func QXDebugAssert(_ condition: Bool, _ message: String = "", file: StaticString = #file, line: UInt = #line) {
     assert(condition, message, file: file, line: line)
 }
 
