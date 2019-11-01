@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import DSImageBrowse
 
 open class QXView: UIView {
     

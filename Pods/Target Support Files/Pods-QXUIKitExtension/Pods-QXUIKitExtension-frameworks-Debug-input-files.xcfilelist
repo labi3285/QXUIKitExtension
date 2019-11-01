@@ -1,13 +1,10 @@
 ${PODS_ROOT}/Target Support Files/Pods-QXUIKitExtension/Pods-QXUIKitExtension-frameworks.sh
 ${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework
-${BUILT_PRODUCTS_DIR}/DSImageBrowse/DSImageBrowse.framework
-${BUILT_PRODUCTS_DIR}/IQKeyboardManagerSwift/IQKeyboardManagerSwift.framework
 ${BUILT_PRODUCTS_DIR}/MJRefresh/MJRefresh.framework
 ${BUILT_PRODUCTS_DIR}/QXConsMaker/QXConsMaker.framework
 ${BUILT_PRODUCTS_DIR}/QXJSON/QXJSON.framework
 ${BUILT_PRODUCTS_DIR}/QXMessageView/QXMessageView.framework
 ${BUILT_PRODUCTS_DIR}/SAMKeychain/SAMKeychain.framework
-${BUILT_PRODUCTS_DIR}/TZImagePickerController/TZImagePickerController.framework
 ${BUILT_PRODUCTS_DIR}/YYCache/YYCache.framework
 ${BUILT_PRODUCTS_DIR}/YYImage/YYImage.framework
 ${BUILT_PRODUCTS_DIR}/YYWebImage/YYWebImage.framework

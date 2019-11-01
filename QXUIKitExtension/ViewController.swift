@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ViewController: QXTableViewController<Any, QXLoadStatusView> {
+class ViewController: QXTableViewController<Any> {
     
     lazy var testCell: QXSettingTitleArrowCell = {
         let one = QXSettingTitleArrowCell()

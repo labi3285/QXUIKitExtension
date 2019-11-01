@@ -1,13 +1,12 @@
 //
-//  QXTableViewController.swift
+//  QXModelsLoadStatusView.swift
 //  QXUIKitExtension
 //
-//  Created by labi3285 on 2019/7/22.
+//  Created by labi3285 on 2019/10/31.
 //  Copyright © 2019 labi3285_lab. All rights reserved.
 //
 
 import UIKit
-import MJRefresh
 
 public enum QXModelsLoadStatus {
     case reload(_ status: QXLoadStatus)
@@ -38,31 +37,82 @@ public enum QXModelsPageStatus {
     case pageNoMore(_ msg: String?)
 }
 
-open class QXModelsLoadStatusViewController
-<Model, RefreshableView: UIView & QXRefreshableViewProtocol, LoadStatusView: UIView & QXLoadStatusViewProtocol>: QXLoadStatusViewController<LoadStatusView> {
+open class QXModelsLoadStatusView<T>: QXView {
+        
+    public var api: QXModelsApi<T>?
     
+    open func reloadData() {
+        currentPage = 1
+        modelsLoadStatus = .reload(.loading(nil))
+        loadModels()
+    }
+
     /// 模型
-    open var models: [Model] = [] {
+    open var models: [T] = [] {
         didSet {
             contentView.isHidden = models.count == 0
+            contentView.qxUpdateModels(models)
         }
+    }
+    
+    open func loadModels() {
+        weak var ws = self
+        api?({ models, isThereMore in
+            ws?.onLoadModelsOk(models, isThereMore: isThereMore)
+        }, { err in
+            ws?.onLoadModelsFailed(err)
+        })
+    }
+
+    public let contentView: UIView & QXRefreshableViewProtocol
+    public let loadStatusView: UIView & QXLoadStatusViewProtocol
+    public required init(contentView: UIView & QXRefreshableViewProtocol, loadStatusView: UIView & QXLoadStatusViewProtocol) {
+        self.contentView = contentView
+        self.loadStatusView = loadStatusView
+        super.init()
+        self.addSubview(contentView)
+        self.addSubview(loadStatusView)
+        loadStatusView.qxLoadStatusViewRetryHandler { [weak self] in
+            self?.reloadData()
+        }
+        contentView.qxDisableAutoInserts()
+    }
+    public required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    open override func layoutSubviews() {
+        super.layoutSubviews()
+        contentView.qxRect = qxBounds.rectByReduce(padding)
+        loadStatusView.qxRect = qxBounds.rectByReduce(padding)
+    }
+
+    open override var intrinsicContentSize: CGSize {
+        if isDisplay {
+            if let e = intrinsicSize {
+                return e.cgSize
+            }
+            let e = loadStatusView.intrinsicContentSize
+            return e.qxSizeByAdd(padding.uiEdgeInsets)
+        }
+        return CGSize.zero
     }
 
     /// 是否可以下拉刷新
     public var canRefresh: Bool = false {
         didSet {
             if canRefresh {
-                refreshableView.qxSetRefreshHeader(refreshHeader)
+                contentView.qxSetRefreshHeader(refreshHeader)
             } else {
-                refreshableView.qxSetRefreshHeader(nil)
+                contentView.qxSetRefreshHeader(nil)
             }
         }
     }
     private func updateCanRefresh() {
         if canRefresh {
-            refreshableView.qxSetRefreshHeader(refreshHeader)
+            contentView.qxSetRefreshHeader(refreshHeader)
         } else {
-            refreshableView.qxSetRefreshHeader(nil)
+            contentView.qxSetRefreshHeader(nil)
         }
     }
 
@@ -74,9 +124,9 @@ open class QXModelsLoadStatusViewController
     }
     private func updateCanPage() {
         if canPage {
-            refreshableView.qxSetRefreshFooter(refreshFooter)
+            contentView.qxSetRefreshFooter(refreshFooter)
         } else {
-            refreshableView.qxSetRefreshFooter(nil)
+            contentView.qxSetRefreshFooter(nil)
         }
     }
     
@@ -101,14 +151,21 @@ open class QXModelsLoadStatusViewController
                 refreshHeader.endRefreshing()
                 refreshFooter.endRefreshing()
                 refreshFooter.resetNoMoreData()
-                loadStatus = s
+                loadStatusView.qxLoadStatusViewUpdateStatus(s)
+                switch s {
+                case .ok:
+                    contentView.isHidden = false
+                default:
+                    contentView.isHidden = true
+                }
             case .page(let s):
-                loadStatus = .ok
+                loadStatusView.qxLoadStatusViewUpdateStatus(.ok)
+                contentView.isHidden = false
                 switch s {
                 case .refreshing:
                     refreshHeader.beginRefreshing()
                     refreshFooter.resetNoMoreData()
-                    refreshableView.qxSetRefreshFooter(nil)
+                    contentView.qxSetRefreshFooter(nil)
                 case .refreshOk:
                     refreshHeader.endRefreshing()
                     updateCanPage()
@@ -120,7 +177,7 @@ open class QXModelsLoadStatusViewController
                     updateCanPage()
                 case .paging:
                     refreshFooter.beginRefreshing()
-                    refreshableView.qxSetRefreshHeader(nil)
+                    contentView.qxSetRefreshHeader(nil)
                 case .pageError(let err):
                     if let e = err?.message {
                         showFailure(msg: e)
@@ -151,22 +208,14 @@ open class QXModelsLoadStatusViewController
         modelsLoadStatus = .page(.paging)
         loadModels()
     }
-    override open func retry() {
-        currentPage = 1
-        modelsLoadStatus = .reload(.loading(nil))
-        loadModels()
-    }
-
+        
     /// 默认从1开始
     public var isPageStartFromZero: Bool = false
     public private(set) var currentPage: Int = 1
     public var pageCount: Int = 10
-
-    /// 数据加载方法， 重写这个方法请调用super
-    open func loadModels() { }
     
     /// 拿到分页数据的界面更新
-    open func onLoadModelsOk(_ newModels: [Model], isThereMore: Bool? = nil) {
+    open func onLoadModelsOk(_ newModels: [T], isThereMore: Bool? = nil) {
         let statusBefore = modelsLoadStatus
         if canPage {
             if statusBefore.isRefresh {
@@ -175,7 +224,7 @@ open class QXModelsLoadStatusViewController
                 models += newModels
                 currentPage += 1
             }
-            refreshableView.qxReloadData()
+            contentView.qxReloadData()
             let isThereMore = isThereMore ?? (newModels.count > 0)
             switch statusBefore {
             case .reload(status: _):
@@ -217,7 +266,7 @@ open class QXModelsLoadStatusViewController
             
         } else {
             models = newModels
-            refreshableView.qxReloadData()
+            contentView.qxReloadData()
             switch statusBefore {
             case .page(status: let s):
                 switch s {
@@ -257,62 +306,4 @@ open class QXModelsLoadStatusViewController
         }
     }
 
-    public lazy var refreshableView: RefreshableView = {
-        let one = RefreshableView()
-        one.qxDisableAutoInserts()
-        return one
-    }()
-
-    override open func viewDidLoad() {
-        super.viewDidLoad()
-        contentView.addSubview(refreshableView)
-    }
-
-    override open func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        refreshableView.frame = contentView.bounds
-    }
 }
-
-
-extension QXModelsLoadStatusViewController where Model: QXModel {
-    
-    public func onLoadModelsComplete(_ respond: QXRespond<QXPage<Model>>) {
-        if respond.isOk {
-            if let page = respond.data {
-                if let arr = page.models {
-                    onLoadModelsOk(arr, isThereMore: page.isThereMorePage)
-                } else {
-                    onLoadModelsOk([], isThereMore: page.isThereMorePage)
-                }
-            } else {
-                QXDebugFatalError("shoud not be here")
-                onLoadModelsOk([], isThereMore: false)
-            }
-        } else {
-            onLoadModelsFailed(respond.error)
-        }
-    }
-    
-}
-
-//class XXXPage<T: QXModel>: QXPage<T> {
-//}
-//extension QXModelsLoadStatusViewController where Model: QXModel {
-//    func onMyLoadModelsComplete(_ respond: QXRespond<XXXPage<Model>>) {
-//        if respond.isOk {
-//            if let page = respond.data {
-//                if let arr = page.models {
-//                    onLoadModelsOk(arr, isThereMore: page.isThereMorePage)
-//                } else {
-//                    onLoadModelsOk([], isThereMore: page.isThereMorePage)
-//                }
-//            } else {
-//                QXDebugFatalError("shoud not be here")
-//                onLoadModelsOk([], isThereMore: false)
-//            }
-//        } else {
-//            onLoadModelsFailed(respond.error)
-//        }
-//    }
-//}

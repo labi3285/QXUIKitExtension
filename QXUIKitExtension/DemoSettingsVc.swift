@@ -8,7 +8,7 @@
 
 import UIKit
 
-class DemoSettingsVc: QXTableViewController<Any, QXLoadStatusView> {
+class DemoSettingsVc: QXTableViewController<Any> {
     
     lazy var headerView: QXSettingTextHeaderView = {
         let one = QXSettingTextHeaderView()
@@ -58,17 +58,6 @@ class DemoSettingsVc: QXTableViewController<Any, QXLoadStatusView> {
         return one
     }()
     
-    lazy var pictureCell: QXSettingTitlePictureCell = {
-        let one = QXSettingTitlePictureCell()
-        one.titleLabel.text = "选择图片"
-        return one
-    }()
-    
-    lazy var picturesCell: QXSettingPicturesCell = {
-        let one = QXSettingPicturesCell()
-        return one
-    }()
-    
     lazy var footerView: QXSettingTextFooterView = {
         let one = QXSettingTextFooterView()
         one.label.text = "尾部"
@@ -86,8 +75,6 @@ class DemoSettingsVc: QXTableViewController<Any, QXLoadStatusView> {
             self.textCell,
             self.textFieldCell,
             self.textViewCell,
-            self.pictureCell,
-            self.picturesCell,
             
         ], self.headerView, self.footerView)
         return one

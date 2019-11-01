@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import IQKeyboardManagerSwift
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -30,8 +29,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let win = UIWindow.qxInitKeyWindow(tabVc, &window)
         win.backgroundColor = UIColor.white
         
-        IQKeyboardManager.shared.enable = true
-
         return true
     }
 

@@ -1,16 +1,10 @@
 PODS:
   - Alamofire (4.8.2)
-  - DSImageBrowse (1.0.2):
-    - YYCache (~> 1.0.4)
-    - YYImage (~> 1.0.4)
-    - YYWebImage (~> 1.0.5)
-  - IQKeyboardManagerSwift (6.5.2)
   - MJRefresh (3.1.15.7)
   - QXConsMaker (0.0.6)
   - QXJSON (0.1.1)
   - QXMessageView (0.0.3)
   - SAMKeychain (1.5.3)
-  - TZImagePickerController (3.2.6)
   - YYCache (1.0.4)
   - YYImage (1.0.4):
     - YYImage/Core (= 1.0.4)
@@ -21,44 +15,36 @@ PODS:
 
 DEPENDENCIES:
   - Alamofire (= 4.8.2)
-  - DSImageBrowse (~> 1.0.2)
-  - IQKeyboardManagerSwift (~> 6.5.2)
   - MJRefresh (~> 3.1.15.7)
   - QXConsMaker (~> 0.0.6)
   - QXJSON (~> 0.1.1)
   - QXMessageView (~> 0.0.3)
   - SAMKeychain (~> 1.5.3)
-  - TZImagePickerController (~> 3.2.6)
+  - YYWebImage (~> 1.0.5)
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - Alamofire
-    - DSImageBrowse
-    - IQKeyboardManagerSwift
     - MJRefresh
     - QXConsMaker
     - QXJSON
     - QXMessageView
     - SAMKeychain
-    - TZImagePickerController
     - YYCache
     - YYImage
     - YYWebImage
 
 SPEC CHECKSUMS:
   Alamofire: ae5c501addb7afdbb13687d7f2f722c78734c2d3
-  DSImageBrowse: 6ba9488bb693a56ebca9c48c3c15bfb9168e82f5
-  IQKeyboardManagerSwift: c75366f1f19590e8caeae45fcd5815c9289d6099
   MJRefresh: 697f8ec75ebdbe9207767bb682cf0f51b0d8a41f
   QXConsMaker: e3e12b9117e286d1923cda5d4fad8adb8f4ad5f3
   QXJSON: 142a34d8510e11103603c9b3435fe177b0321bd5
   QXMessageView: f7437eb16f3a9f0889c233d4044df7f622f40ab0
   SAMKeychain: 483e1c9f32984d50ca961e26818a534283b4cd5c
-  TZImagePickerController: 3900e8d68428ff3a88817efce82ae9e7d9ffebc9
   YYCache: 8105b6638f5e849296c71f331ff83891a4942952
   YYImage: 1e1b62a9997399593e4b9c4ecfbbabbf1d3f3b54
   YYWebImage: 5f7f36aee2ae293f016d418c7d6ba05c4863e928
 
-PODFILE CHECKSUM: ad1d7029e5cba521fac0dddd03acd6b9e72bb0d2
+PODFILE CHECKSUM: 72c95af6cfa6f2f8b6dba15b938959452274e590
 
 COCOAPODS: 1.7.2

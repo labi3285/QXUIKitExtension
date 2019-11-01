@@ -8,28 +8,42 @@
 
 import UIKit
 
-class DemoTableVc: QXTableViewController<Any, QXLoadStatusView> {
+class DemoTableVc: QXTableViewController<Any> {
+    
+    lazy var testView: QXModelsLoadStatusView<Any> = {
+         let tableView = QXTableView()
+         let statusView = QXLoadStatusView()
+         let one = QXModelsLoadStatusView<Any>(contentView: tableView, loadStatusView: statusView)
+         one.canPage = true
+         one.canRefresh = true
+         one.api = { ok, failed in
+             DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1) {
+                 let ms = (0..<5).map { _ in QXDebugRandomText(999) }
+                 ok(ms, true)
+             }
+         }
+         return one
+     }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "TableVc"
         view.qxBackgroundColor = QXColor.white
-        canRefresh = true
-        canPage = true
-        retry()
-    }
-    override func loadModels() {
-        super.loadModels()
-        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1) {
-            let ms = (0..<10).map { _ in QXDebugRandomText(999) }
-            self.onLoadModelsOk(ms)
-//            self.onLoadModelsFailed(QXError.unknown)
+        contentView.canRefresh = true
+        contentView.canPage = true
+        contentView.api = { ok, failed in
+            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1) {
+                let ms = (0..<10).map { _ in QXDebugRandomText(999) }
+                ok(ms, nil)
+    //            self.onLoadModelsFailed(QXError.unknown)
+            }
         }
+        contentView.reloadData()
     }
     
-    override func cellClass(_ model: Any?) -> QXTableViewCell.Type? {
+    override func qxTableViewCellClass(_ model: Any?) -> QXTableViewCell.Type? {
         return QXDebugTableViewCell.self
     }
-
+    
 }
 

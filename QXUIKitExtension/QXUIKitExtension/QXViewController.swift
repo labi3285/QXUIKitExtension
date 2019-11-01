@@ -12,11 +12,6 @@ import QXConsMaker
 open class QXViewController: UIViewController, UINavigationBarDelegate {
     
     public var respondRefresh: (() -> ())?
-        
-    public lazy var contentView: QXView = {
-        let one = QXView()
-        return one
-    }()
     
     //MARK:- Init
     required public init() {
@@ -47,7 +42,6 @@ open class QXViewController: UIViewController, UINavigationBarDelegate {
     //MARK:- Life cycle
     open override func loadView() {
         super.loadView()
-        view.addSubview(contentView)
     }
     
     open func viewWillFirstAppear(_ animated: Bool) {
@@ -85,11 +79,6 @@ open class QXViewController: UIViewController, UINavigationBarDelegate {
     open override func viewDidDisappear(_ animated: Bool) {
         super.viewDidAppear(animated)
         if _isFirstDidDisappear { viewDidFirstDisappear(animated); _isFirstDidDisappear = false }
-    }
-    
-    open override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        contentView.qxRect = view.qxBounds
     }
     
     //MARK:- Navigation

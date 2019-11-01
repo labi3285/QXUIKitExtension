@@ -134,7 +134,7 @@ open class QXNavigationController: UINavigationController, UIGestureRecognizerDe
         }
         if let e = nowBar {
             view.addSubview(e)
-            e.frame = CGRect(x: 0, y: 0, width: view.bounds.width, height: 20 + e.height)
+            e.frame = CGRect(x: 0, y: 0, width: view.bounds.width, height: 20 + e.fixHeight)
             e.contentView.alpha = 1
         }
         if let e = toBar {
