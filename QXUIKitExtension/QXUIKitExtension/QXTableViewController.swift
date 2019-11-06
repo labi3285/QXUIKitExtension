@@ -11,18 +11,18 @@ import UIKit
 open class QXTableViewController<Model>: QXViewController, QXTableViewDelegate {
 
     public lazy var tableView: QXTableView = {
-        let one = QXTableView()
-        one.delegate = self
-        return one
+        let e = QXTableView()
+        e.delegate = self
+        return e
     }()
     public lazy var loadStatusView: QXLoadStatusView = {
-        let one = QXLoadStatusView()
-        return one
+        let e = QXLoadStatusView()
+        return e
     }()
     
     public lazy var contentView: QXModelsLoadStatusView<Model> = {
-        let one = QXModelsLoadStatusView<Model>(contentView: self.tableView, loadStatusView: self.loadStatusView)
-         return one
+        let e = QXModelsLoadStatusView<Model>(contentView: self.tableView, loadStatusView: self.loadStatusView)
+         return e
     }()
     
     override open func viewDidLoad() {

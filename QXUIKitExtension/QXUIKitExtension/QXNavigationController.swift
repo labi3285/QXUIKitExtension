@@ -57,9 +57,9 @@ open class QXNavigationController: UINavigationController, UINavigationBarDelega
     }
     
 //    public lazy var screenEdgePanGestureRecognizer: UIScreenEdgePanGestureRecognizer = {
-//        let one = UIScreenEdgePanGestureRecognizer(target: self, action: #selector(handleScreenEdgePanGestureRecognizer(_:)))
-//        one.edges = .left
-//        return one
+//        let e = UIScreenEdgePanGestureRecognizer(target: self, action: #selector(handleScreenEdgePanGestureRecognizer(_:)))
+//        e.edges = .left
+//        return e
 //    }()
     
 //    @objc func handleScreenEdgePanGestureRecognizer(_ recognizer: UIScreenEdgePanGestureRecognizer) {

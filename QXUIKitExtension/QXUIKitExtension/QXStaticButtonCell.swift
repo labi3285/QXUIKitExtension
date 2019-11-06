@@ -17,15 +17,15 @@ open class QXStaticButtonCell: QXStaticBaseCell {
     }
     
     public lazy var button: QXTitleButton = {
-        let one = QXTitleButton()
-        one.titlePadding = QXEdgeInsets(7, 10, 7, 10)
-        one.padding = QXEdgeInsets(10, 15, 10, 15)
-        one.backView.qxBorder = QXBorder().setCornerRadius(5)
-        one.backView.qxBackgroundColor = QXColor.fmtHex("#3a8ffb")
-        one.font = QXFont(16, "#ffffff", true)
-        one.highlightAlpha = 0.3
-        one.title = "按 钮"
-        return one
+        let e = QXTitleButton()
+        e.titlePadding = QXEdgeInsets(7, 10, 7, 10)
+        e.padding = QXEdgeInsets(10, 15, 10, 15)
+        e.backView.qxBorder = QXBorder().setCornerRadius(5)
+        e.backView.qxBackgroundColor = QXColor.fmtHex("#3a8ffb")
+        e.font = QXFont(16, "#ffffff", true)
+        e.highlightAlpha = 0.3
+        e.title = "按 钮"
+        return e
     }()
 
     required public init() {

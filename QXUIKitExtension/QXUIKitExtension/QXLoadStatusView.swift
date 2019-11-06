@@ -146,44 +146,44 @@ open class QXLoadStatusView: UIView {
     open var isFullScreenRetry: Bool = false
     
     open lazy var iconView: QXImageView = {
-        let one = QXImageView()
-        one.padding = QXEdgeInsets.zero
-        one.qxTintColor = QXColor.fmtHex("#848484")
-        one.respondNeedsLayout = { [weak self] in
+        let e = QXImageView()
+        e.padding = QXEdgeInsets.zero
+        e.qxTintColor = QXColor.fmtHex("#848484")
+        e.respondNeedsLayout = { [weak self] in
             self?.layoutSubviews()
         }
-        return one
+        return e
     }()
     open lazy var contentLabel: QXLabel = {
-        let one = QXLabel()
-        one.padding = QXEdgeInsets(10, 20, 10, 20)
-        one.numberOfLines = 0
-        one.alignmentX = .center
-        one.alignmentY = .center
-        one.respondNeedsLayout = { [weak self] in
+        let e = QXLabel()
+        e.padding = QXEdgeInsets(10, 20, 10, 20)
+        e.numberOfLines = 0
+        e.alignmentX = .center
+        e.alignmentY = .center
+        e.respondNeedsLayout = { [weak self] in
             self?.setNeedsLayout()
         }
-        return one
+        return e
     }()
     public lazy var retryButton: QXTitleButton = {
-        let one = QXTitleButton()
-        one.backView.qxBorder = QXBorder.border
-        one.font = QXFont(14, "#848484")
-        one.title = "点击重试"
-        one.padding = QXEdgeInsets(7, 10, 7, 10)
-        one.titlePadding = QXEdgeInsets(7, 10, 7, 10)
-        one.respondNeedsLayout = { [weak self] in
+        let e = QXTitleButton()
+        e.backView.qxBorder = QXBorder.border
+        e.font = QXFont(14, "#848484")
+        e.title = "点击重试"
+        e.padding = QXEdgeInsets(7, 10, 7, 10)
+        e.titlePadding = QXEdgeInsets(7, 10, 7, 10)
+        e.respondNeedsLayout = { [weak self] in
             self?.setNeedsLayout()
         }
-        return one
+        return e
     }()
     public lazy var stackView: QXStackView = {
-        let one = QXStackView()
-        one.setupViews([self.loadingView, self.iconView, self.contentLabel, self.retryButton])
-        one.isVertical = true
-        one.alignmentX = .center
-        one.alignmentY = .center
-        return one
+        let e = QXStackView()
+        e.setupViews([self.loadingView, self.iconView, self.contentLabel, self.retryButton])
+        e.isVertical = true
+        e.alignmentX = .center
+        e.alignmentY = .center
+        return e
     }()
 
     public override init(frame: CGRect) {

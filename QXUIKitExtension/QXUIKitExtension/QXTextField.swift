@@ -67,14 +67,14 @@ open class QXTextField: QXView, UITextFieldDelegate {
     }
         
     public lazy var uiTextField: UITextField = {
-        let one = UITextField()
-        one.clearButtonMode = .whileEditing
-        one.qxTintColor = QXColor.hex("#666666", 1)
-        one.leftViewMode = .never
-        one.rightViewMode = .never
-        one.delegate = self
-        one.addTarget(self, action: #selector(textChange), for: .editingChanged)
-        return one
+        let e = UITextField()
+        e.clearButtonMode = .never
+        e.qxTintColor = QXColor.hex("#666666", 1)
+        e.leftViewMode = .never
+        e.rightViewMode = .never
+        e.delegate = self
+        e.addTarget(self, action: #selector(textChange), for: .editingChanged)
+        return e
     }()
         
     public override init() {

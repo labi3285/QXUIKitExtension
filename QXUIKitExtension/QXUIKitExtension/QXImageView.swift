@@ -52,27 +52,27 @@ open class QXImageView: QXView {
     }
     
     public lazy var uiImageView: ImageView = {
-        let one = ImageView()
-        one.contentMode = .scaleAspectFill
-        one.isUserInteractionEnabled = false
-        one.respondUpdateImage = { [weak self] image in
+        let e = ImageView()
+        e.contentMode = .scaleAspectFill
+        e.isUserInteractionEnabled = false
+        e.respondUpdateImage = { [weak self] image in
             self?.setNeedsLayout()
             self?.placeHolderView.isHidden = self?.placeHolderView.image == nil || image != nil
             self?.qxSetNeedsLayout()
             self?.respondUpdateImage?()
         }
-        return one
+        return e
     }()
     public lazy var placeHolderView: ImageView = {
-        let one = ImageView()
-        one.isUserInteractionEnabled = false
-        one.isHidden = true
-        one.respondUpdateImage = { [weak self] image in
+        let e = ImageView()
+        e.isUserInteractionEnabled = false
+        e.isHidden = true
+        e.respondUpdateImage = { [weak self] image in
             self?.placeHolderView.isHidden = image == nil || self?.uiImageView.image != nil
             self?.qxSetNeedsLayout()
             self?.respondUpdateImage?()
         }
-        return one
+        return e
     }()
     
     public override init() {

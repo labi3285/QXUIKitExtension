@@ -11,34 +11,34 @@ import UIKit
 class DemoStaticsVc: QXTableViewController<Any> {
     
     lazy var headerView: QXStaticHeaderView = {
-        let one = QXStaticHeaderView()
-        one.label.text = "头部"
-        return one
+        let e = QXStaticHeaderView()
+        e.label.text = "头部"
+        return e
     }()
 
     lazy var textCell: QXStaticTextCell = {
-        let one = QXStaticTextCell()
-        one.label.text = "文本" + QXDebugText(999)
-        return one
+        let e = QXStaticTextCell()
+        e.label.text = "文本" + QXDebugText(999)
+        return e
     }()
     
     lazy var buttonCell: QXStaticButtonCell = {
-        let one = QXStaticButtonCell()
-        return one
+        let e = QXStaticButtonCell()
+        return e
     }()
       
     lazy var footerView: QXStaticFooterView = {
-        let one = QXStaticFooterView()
-        one.label.text = "尾部"
-        return one
+        let e = QXStaticFooterView()
+        e.label.text = "尾部"
+        return e
     }()
     
     lazy var section: QXTableViewSection = {
-        let one = QXTableViewSection([
+        let e = QXTableViewSection([
             self.textCell,
             self.buttonCell,
         ], self.headerView, self.footerView)
-        return one
+        return e
     }()
     
     override func viewDidLoad() {

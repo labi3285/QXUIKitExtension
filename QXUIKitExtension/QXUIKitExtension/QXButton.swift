@@ -36,9 +36,9 @@ open class QXButton: QXView {
     public private(set) var isHighlighted: Bool = false
     
     public lazy var backView: BackView = {
-        let one = BackView()
-        one.isUserInteractionEnabled = false
-        return one
+        let e = BackView()
+        e.isUserInteractionEnabled = false
+        return e
     }()
     
     open class BackView: UIView {
@@ -296,10 +296,10 @@ open class QXTitleButton: QXButton {
     open var titlePadding: QXEdgeInsets = QXEdgeInsets.zero
 
     public lazy var label: UILabel = {
-        let one = UILabel()
-        one.textAlignment = .center
-        one.isUserInteractionEnabled = false
-        return one
+        let e = UILabel()
+        e.textAlignment = .center
+        e.isUserInteractionEnabled = false
+        return e
     }()
     
     public override init() {
@@ -399,8 +399,8 @@ open class QXImageButton: QXButton {
     open var imageDisabled: QXImage?
         
     public lazy var imageView: QXImageView = {
-        let one = QXImageView()
-        return one
+        let e = QXImageView()
+        return e
     }()
     
     public override init() {
@@ -505,10 +505,10 @@ open class QXStackButton: QXButton {
     open var stackPadding: QXEdgeInsets = QXEdgeInsets.zero
     
     public lazy var stackView: QXStackView = {
-        let one = QXStackView()
-        one.alignmentX = .center
-        one.alignmentY = .center
-        return one
+        let e = QXStackView()
+        e.alignmentX = .center
+        e.alignmentY = .center
+        return e
     }()
     
     public override init() {

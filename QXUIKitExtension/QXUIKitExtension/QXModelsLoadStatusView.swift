@@ -131,17 +131,17 @@ open class QXModelsLoadStatusView<T>: QXView {
     }
     
     public lazy var refreshFooter: QXRefreshFooter = {
-        let one = QXRefreshFooter(refreshingBlock: {  [weak self] in
+        let e = QXRefreshFooter(refreshingBlock: {  [weak self] in
             self?.footerStartRefresh()
         })!
-        return one
+        return e
     }()
     
     public lazy var refreshHeader: QXRefreshHeader = {
-        let one = QXRefreshHeader(refreshingBlock: {  [weak self] in
+        let e = QXRefreshHeader(refreshingBlock: {  [weak self] in
             self?.headerStartRefresh()
         })!
-        return one
+        return e
     }()
 
     public private(set) var modelsLoadStatus: QXModelsLoadStatus = .reload(.ok) {

@@ -13,16 +13,16 @@ class DemoTableVc: QXTableViewController<Any> {
     lazy var testView: QXModelsLoadStatusView<Any> = {
          let tableView = QXTableView()
          let statusView = QXLoadStatusView()
-         let one = QXModelsLoadStatusView<Any>(contentView: tableView, loadStatusView: statusView)
-         one.canPage = true
-         one.canRefresh = true
-         one.api = { ok, failed in
+         let e = QXModelsLoadStatusView<Any>(contentView: tableView, loadStatusView: statusView)
+         e.canPage = true
+         e.canRefresh = true
+         e.api = { ok, failed in
              DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1) {
                  let ms = (0..<5).map { _ in QXDebugRandomText(999) }
                  ok(ms, true)
              }
          }
-         return one
+         return e
      }()
     
     override func viewDidLoad() {

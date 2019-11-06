@@ -12,28 +12,28 @@ import QXConsMaker
 open class QXSettingTitleTextFieldCell: QXSettingCell {
 
     public lazy var titleLabel: QXLabel = {
-        let one = QXLabel()
-        one.numberOfLines = 1
-        one.font = QXFont(fmt: "16 #333333")
-        return one
+        let e = QXLabel()
+        e.numberOfLines = 1
+        e.font = QXFont(fmt: "16 #333333")
+        return e
     }()
     public lazy var textField: QXTextField = {
-        let one = QXTextField()
-        one.intrinsicSize = QXSize(9999, 99)
-        one.font = QXFont(fmt: "16 #333333")
-        one.placeHolderfont = QXFont(fmt: "16 #999999")
-        one.uiTextField.textAlignment = .right
-        one.placeHolder = "输入内容"
-        return one
+        let e = QXTextField()
+        e.intrinsicSize = QXSize(9999, 99)
+        e.font = QXFont(fmt: "16 #333333")
+        e.placeHolderfont = QXFont(fmt: "16 #999999")
+        e.uiTextField.textAlignment = .right
+        e.placeHolder = "输入内容"
+        return e
     }()
     public lazy var layoutView: QXStackView = {
-        let one = QXStackView()
-        one.alignmentY = .center
-        one.alignmentX = .left
-        one.viewMargin = 10
-        one.padding = QXEdgeInsets(5, 15, 5, 15)
-        one.setupViews([self.titleLabel, QXFlexView(), self.textField])
-        return one
+        let e = QXStackView()
+        e.alignmentY = .center
+        e.alignmentX = .left
+        e.viewMargin = 10
+        e.padding = QXEdgeInsets(5, 15, 5, 15)
+        e.setupViews([self.titleLabel, QXFlexView(), self.textField])
+        return e
     }()
 
     required public init() {

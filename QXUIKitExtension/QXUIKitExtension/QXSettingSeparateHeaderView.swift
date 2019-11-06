@@ -11,11 +11,11 @@ import UIKit
 open class QXSettingSeparateHeaderView: QXStaticBaseHeaderFooterView {
         
     public lazy var breakLine: QXLineView = {
-        let one = QXLineView.breakLine
-        one.isVertical = false
-        one.isHidden = false
-        one.isUserInteractionEnabled = false
-        return one
+        let e = QXLineView.breakLine
+        e.isVertical = false
+        e.isHidden = false
+        e.isUserInteractionEnabled = false
+        return e
     }()
     open override func layoutSubviews() {
         super.layoutSubviews()

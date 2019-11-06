@@ -17,11 +17,11 @@ open class QXSettingTextCell: QXSettingCell {
     }
 
     public lazy var label: QXLabel = {
-        let one = QXLabel()
-        one.numberOfLines = 0
-        one.font = QXFont(fmt: "15 #333333")
-        one.padding = QXEdgeInsets(10, 15, 10, 15)
-        return one
+        let e = QXLabel()
+        e.numberOfLines = 0
+        e.font = QXFont(fmt: "15 #333333")
+        e.padding = QXEdgeInsets(10, 15, 10, 15)
+        return e
     }()
 
     required public init() {

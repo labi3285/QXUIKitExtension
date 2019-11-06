@@ -17,11 +17,11 @@ open class QXSettingTextHeaderView: QXSettingSeparateHeaderView {
     }
     
     public lazy var label: QXLabel = {
-        let one = QXLabel()
-        one.numberOfLines = 0
-        one.padding = QXEdgeInsets(10, 15, 5, 15)
-        one.font = QXFont(fmt: "12 #999999")
-        return one
+        let e = QXLabel()
+        e.numberOfLines = 0
+        e.padding = QXEdgeInsets(10, 15, 5, 15)
+        e.font = QXFont(fmt: "12 #999999")
+        return e
     }()
 
     required public init() {

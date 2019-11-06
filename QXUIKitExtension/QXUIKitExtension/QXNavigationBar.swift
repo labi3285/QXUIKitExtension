@@ -32,8 +32,8 @@ open class QXNavigationBar: QXView {
     public var lineView: QXView? { didSet { updateView(lineView, old: oldValue) } }
     
     public lazy var contentView: QXView = {
-        let one = QXView()
-        return one
+        let e = QXView()
+        return e
     }()
     
     private func updateView(_ view: QXView?, old: QXView?) {

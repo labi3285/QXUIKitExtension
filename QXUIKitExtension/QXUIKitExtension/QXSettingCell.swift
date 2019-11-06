@@ -17,11 +17,11 @@ open class QXSettingCell: QXStaticBaseCell {
     
     public var isBreakLineHidden: Bool = false
     public lazy var breakLine: QXLineView = {
-        let one = QXLineView.breakLine
-        one.isVertical = false
-        one.padding = QXEdgeInsets(0, 0, 0, 15)
-        one.isUserInteractionEnabled = false
-        return one
+        let e = QXLineView.breakLine
+        e.isVertical = false
+        e.padding = QXEdgeInsets(0, 0, 0, 15)
+        e.isUserInteractionEnabled = false
+        return e
     }()
 
     required public init() {

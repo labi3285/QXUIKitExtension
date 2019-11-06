@@ -12,13 +12,13 @@ import QXConsMaker
 open class QXSettingTextFieldCell: QXSettingCell {
 
     public lazy var textField: QXTextField = {
-        let one = QXTextField()
-        one.intrinsicSize = QXSize(9999, 99)
-        one.font = QXFont(fmt: "16 #333333")
-        one.placeHolderfont = QXFont(fmt: "16 #999999")
-        one.placeHolder = "输入内容"
-        one.padding = QXEdgeInsets(5, 15, 5, 15)
-        return one
+        let e = QXTextField()
+        e.intrinsicSize = QXSize(9999, 99)
+        e.font = QXFont(fmt: "16 #333333")
+        e.placeHolderfont = QXFont(fmt: "16 #999999")
+        e.placeHolder = "输入内容"
+        e.padding = QXEdgeInsets(5, 15, 5, 15)
+        return e
     }()
 
     required public init() {

@@ -21,40 +21,40 @@ open class QXSettingTitleArrowCell: QXSettingCell {
     }
     
     public lazy var titleLabel: QXLabel = {
-        let one = QXLabel()
-        one.numberOfLines = 1
-        one.font = QXFont(fmt: "16 #333333")
-        return one
+        let e = QXLabel()
+        e.numberOfLines = 1
+        e.font = QXFont(fmt: "16 #333333")
+        return e
     }()
     public lazy var subTitleLabel: QXLabel = {
-        let one = QXLabel()
-        one.numberOfLines = 1
-        one.font = QXFont(fmt: "14 #666666")
-        return one
+        let e = QXLabel()
+        e.numberOfLines = 1
+        e.font = QXFont(fmt: "14 #666666")
+        return e
     }()
     public lazy var arrowView: QXImageView = {
-        let one = QXImageView()
-        one.qxTintColor = QXColor.hex("#666666", 1)
-        one.image = QXUIKitExtensionResources.shared.image("icon_arrow.png")        .setRenderingMode(.alwaysTemplate)
-        one.respondUpdateImage = { [weak self] in
+        let e = QXImageView()
+        e.qxTintColor = QXColor.hex("#666666", 1)
+        e.image = QXUIKitExtensionResources.shared.image("icon_arrow.png")        .setRenderingMode(.alwaysTemplate)
+        e.respondUpdateImage = { [weak self] in
             self?.layoutView.setNeedsLayout()
         }
-        return one
+        return e
     }()
     public lazy var layoutView: QXStackView = {
-        let one = QXStackView()
-        one.alignmentY = .center
-        one.alignmentX = .left
-        one.viewMargin = 10
-        one.padding = QXEdgeInsets(5, 10, 5, 15)
-        one.setupViews([self.titleLabel, QXFlexView(), self.subTitleLabel, self.arrowView], collapseOrder: [0, 2, 1, 3])
-        return one
+        let e = QXStackView()
+        e.alignmentY = .center
+        e.alignmentX = .left
+        e.viewMargin = 10
+        e.padding = QXEdgeInsets(5, 10, 5, 15)
+        e.setupViews([self.titleLabel, QXFlexView(), self.subTitleLabel, self.arrowView], collapseOrder: [0, 2, 1, 3])
+        return e
     }()
     
     public lazy var backButton: QXButton = {
-        let one = QXButton()
-        one.backView.backgroundColorHighlighted = QXColor.higlightGray
-        return one
+        let e = QXButton()
+        e.backView.backgroundColorHighlighted = QXColor.higlightGray
+        return e
     }()
     
     required public init() {

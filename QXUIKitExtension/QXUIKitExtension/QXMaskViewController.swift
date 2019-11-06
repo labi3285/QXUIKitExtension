@@ -13,10 +13,10 @@ open class QXMaskViewController: UIViewController {
     public var isDismissOnTapCover: Bool = true
     
     public lazy var coverButton: UIButton = {
-        let one = UIButton()
-        one.backgroundColor = UIColor(white: 0, alpha: 0.3)
-        one.addTarget(self, action: #selector(coverButtonClick), for: .touchUpInside)
-        return one
+        let e = UIButton()
+        e.backgroundColor = UIColor(white: 0, alpha: 0.3)
+        e.addTarget(self, action: #selector(coverButtonClick), for: .touchUpInside)
+        return e
     }()
     @objc func coverButtonClick() {
         if isDismissOnTapCover {

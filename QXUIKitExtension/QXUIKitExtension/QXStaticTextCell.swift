@@ -17,11 +17,11 @@ open class QXStaticTextCell: QXStaticBaseCell {
     }
 
     public lazy var label: QXLabel = {
-        let one = QXLabel()
-        one.numberOfLines = 0
-        one.font = QXFont(fmt: "15 #999999")
-        one.padding = QXEdgeInsets(5, 15, 5, 15)
-        return one
+        let e = QXLabel()
+        e.numberOfLines = 0
+        e.font = QXFont(fmt: "15 #999999")
+        e.padding = QXEdgeInsets(5, 15, 5, 15)
+        return e
     }()
 
     required public init() {

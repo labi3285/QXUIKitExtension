@@ -17,11 +17,11 @@ open class QXStaticFooterView: QXStaticBaseHeaderFooterView {
     }
     
     public lazy var label: QXLabel = {
-        let one = QXLabel()
-        one.numberOfLines = 0
-        one.padding = QXEdgeInsets(5, 15, 10, 15)
-        one.font = QXFont(fmt: "14 #333333")
-        return one
+        let e = QXLabel()
+        e.numberOfLines = 0
+        e.padding = QXEdgeInsets(5, 15, 10, 15)
+        e.font = QXFont(fmt: "14 #333333")
+        return e
     }()
 
     required public init() {

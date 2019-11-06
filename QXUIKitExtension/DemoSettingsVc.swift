@@ -11,61 +11,61 @@ import UIKit
 class DemoSettingsVc: QXTableViewController<Any> {
     
     lazy var headerView: QXSettingTextHeaderView = {
-        let one = QXSettingTextHeaderView()
-        one.label.text = "头部"
-        return one
+        let e = QXSettingTextHeaderView()
+        e.label.text = "头部"
+        return e
     }()
     
     lazy var baseCell: QXSettingCell = {
-        let one = QXSettingCell()
-        return one
+        let e = QXSettingCell()
+        return e
     }()
     lazy var titleCell: QXSettingTitleCell = {
-        let one = QXSettingTitleCell()
-        one.titleLabel.text = "标题"
-        return one
+        let e = QXSettingTitleCell()
+        e.titleLabel.text = "标题"
+        return e
     }()
     lazy var textCell: QXSettingTextCell = {
-        let one = QXSettingTextCell()
-        one.label.text = "文本" + QXDebugText(99)
-        return one
+        let e = QXSettingTextCell()
+        e.label.text = "文本" + QXDebugText(99)
+        return e
     }()
     lazy var arrowCell: QXSettingTitleArrowCell = {
-        let one = QXSettingTitleArrowCell()
-        one.titleLabel.text = "箭头"
-        return one
+        let e = QXSettingTitleArrowCell()
+        e.titleLabel.text = "箭头"
+        return e
     }()
     lazy var switchCell: QXSettingTitleSwitchCell = {
-        let one = QXSettingTitleSwitchCell()
-        one.titleLabel.text = "开关"
-        return one
+        let e = QXSettingTitleSwitchCell()
+        e.titleLabel.text = "开关"
+        return e
     }()
     
     lazy var textFieldCell: QXSettingTextFieldCell = {
-        let one = QXSettingTextFieldCell()
-        one.textField.placeHolder = "输入内容"
-        return one
+        let e = QXSettingTextFieldCell()
+        e.textField.placeHolder = "输入内容"
+        return e
     }()
     lazy var titleTextFieldCell: QXSettingTitleTextFieldCell = {
-        let one = QXSettingTitleTextFieldCell()
-        one.titleLabel.text = "输入框"
-        one.textField.placeHolder = "输入内容"
-        return one
+        let e = QXSettingTitleTextFieldCell()
+        e.titleLabel.text = "输入框"
+        e.textField.placeHolder = "输入内容"
+        return e
     }()
     lazy var textViewCell: QXSettingTextViewCell = {
-        let one = QXSettingTextViewCell()
-        one.textView.placeHolder = "输入内容"
-        return one
+        let e = QXSettingTextViewCell()
+        e.textView.placeHolder = "输入内容"
+        return e
     }()
     
     lazy var footerView: QXSettingTextFooterView = {
-        let one = QXSettingTextFooterView()
-        one.label.text = "尾部"
-        return one
+        let e = QXSettingTextFooterView()
+        e.label.text = "尾部"
+        return e
     }()
     
     lazy var section: QXTableViewSection = {
-        let one = QXTableViewSection([
+        let e = QXTableViewSection([
             self.baseCell,
             self.titleCell,
             self.arrowCell,
@@ -77,7 +77,7 @@ class DemoSettingsVc: QXTableViewController<Any> {
             self.textViewCell,
             
         ], self.headerView, self.footerView)
-        return one
+        return e
     }()
     
     override func viewDidLoad() {

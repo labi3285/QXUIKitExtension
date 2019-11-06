@@ -1,15 +1,14 @@
 //
-//  QXStaticSpaceCell.swift
+//  QXStaticSpaceHeaderFooterView.swift
 //  QXUIKitExtension
 //
-//  Created by labi3285 on 2019/10/28.
+//  Created by labi3285 on 2019/11/6.
 //  Copyright © 2019 labi3285_lab. All rights reserved.
 //
 
 import UIKit
-import QXConsMaker
 
-open class QXStaticSpaceCell: QXStaticBaseCell {
+open class QXStaticSpaceHeaderView: QXStaticBaseHeaderFooterView {
     
     convenience public init(height: CGFloat) {
         self.init()
@@ -28,3 +27,4 @@ open class QXStaticSpaceCell: QXStaticBaseCell {
     }
     
 }
+

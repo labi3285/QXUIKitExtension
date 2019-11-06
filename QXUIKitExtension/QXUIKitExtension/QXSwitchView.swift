@@ -22,9 +22,9 @@ open class QXSwitchView: QXView {
     }
         
     public lazy var uiSwitch: UISwitch = {
-        let one = UISwitch()
-        one.addTarget(self, action: #selector(valueChanged), for: .valueChanged)
-        return one
+        let e = UISwitch()
+        e.addTarget(self, action: #selector(valueChanged), for: .valueChanged)
+        return e
     }()
     @objc func valueChanged() {
         respondChange?(uiSwitch.isOn)

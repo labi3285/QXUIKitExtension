@@ -66,8 +66,8 @@ open class QXLabel: QXView {
     }
     
     public lazy var uiLabel: UILabel = {
-        let one = UILabel()
-        return one
+        let e = UILabel()
+        return e
     }()
 
     public override init() {

@@ -45,25 +45,25 @@ open class QXRefreshHeader: MJRefreshHeader {
         = QXUIKitExtensionResources.shared.image("icon_refresh_arrow").setSize(24, 24)
     
     public lazy var messageLabel: QXLabel = {
-        let one = QXLabel()
-        one.uiLabel.textAlignment = .center
-        return one
+        let e = QXLabel()
+        e.uiLabel.textAlignment = .center
+        return e
     }()
     public lazy var dateLabel: QXLabel = {
-        let one = QXLabel()
-        one.uiLabel.textAlignment = .center
-        return one
+        let e = QXLabel()
+        e.uiLabel.textAlignment = .center
+        return e
     }()
     public lazy var imageView: QXImageView = {
-        let one = QXImageView()
-        one.padding = QXEdgeInsets(0, 5, 0, 5)
-        return one
+        let e = QXImageView()
+        e.padding = QXEdgeInsets(0, 5, 0, 5)
+        return e
     }()
     public lazy var arrowView: QXImageView = {
-        let one = QXImageView()
-        one.qxTintColor = QXColor.fmtHex("#333333")
-        one.padding = QXEdgeInsets(0, 5, 0, 5)
-        return one
+        let e = QXImageView()
+        e.qxTintColor = QXColor.fmtHex("#333333")
+        e.padding = QXEdgeInsets(0, 5, 0, 5)
+        return e
     }()
     public var loadingView: QXActivityIndicatorView = {
         let e = QXActivityIndicatorView(systemView: UIActivityIndicatorView(style: .gray))
@@ -208,23 +208,23 @@ open class QXRefreshFooter: MJRefreshAutoFooter {
     public var imageNoMoreData: QXImage?
     
     public lazy var messageLabel: QXLabel = {
-        let one = QXLabel()
-        return one
+        let e = QXLabel()
+        return e
     }()
     public lazy var imageView: QXImageView = {
-        let one = QXImageView()
-        one.padding = QXEdgeInsets(0, 5, 0, 5)
-        one.backgroundColor = UIColor.red
-        return one
+        let e = QXImageView()
+        e.padding = QXEdgeInsets(0, 5, 0, 5)
+        e.backgroundColor = UIColor.red
+        return e
     }()
     public lazy var backButton: QXButton = {
-        let one = QXButton()
-        one.respondClick = { [weak self] in
+        let e = QXButton()
+        e.respondClick = { [weak self] in
             if let s = self, s.state == .idle {
                 s.beginRefreshing()
             }
         }
-        return one
+        return e
     }()
     public var loadingView: QXActivityIndicatorView = {
         let e = QXActivityIndicatorView(systemView: UIActivityIndicatorView(style: .gray))

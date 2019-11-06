@@ -87,10 +87,10 @@ extension QXDate {
         
         /// static formatter for use
         private static var _formatter: DateFormatter = {
-            let one = DateFormatter()
-            one.calendar = Calendar(identifier: .gregorian)
-            one.dateFormat = DateFormats.standard24.rawValue
-            return one
+            let e = DateFormatter()
+            e.calendar = Calendar(identifier: .gregorian)
+            e.dateFormat = DateFormats.standard24.rawValue
+            return e
         }()
         
         /// make nature date string

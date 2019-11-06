@@ -11,12 +11,12 @@ import UIKit
 open class QXLoadStatusViewController<Model>: QXViewController {
 
     public lazy var loadStatusView: QXLoadStatusView = {
-        let one = QXLoadStatusView()
-        return one
+        let e = QXLoadStatusView()
+        return e
     }()
     public lazy var contentView: QXContentLoadStatusView<Model> = {
-        let one = QXContentLoadStatusView<Model>(contentView: UIView(), loadStatusView: self.loadStatusView)
-        return one
+        let e = QXContentLoadStatusView<Model>(contentView: UIView(), loadStatusView: self.loadStatusView)
+        return e
     }()
 
     override open func viewDidLoad() {

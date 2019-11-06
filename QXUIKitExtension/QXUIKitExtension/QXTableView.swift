@@ -90,11 +90,11 @@ open class QXTableViewBreakLineCell: QXTableViewCell {
     }
 
     public lazy var breakLine: QXLineView = {
-        let one = QXLineView.breakLine
-        one.isVertical = false
-        one.isHidden = false
-        one.isUserInteractionEnabled = false
-        return one
+        let e = QXLineView.breakLine
+        e.isVertical = false
+        e.isHidden = false
+        e.isUserInteractionEnabled = false
+        return e
     }()
     
     required public init(_ reuseId: String) {
@@ -445,11 +445,11 @@ class QXDebugTableViewCell: QXTableViewBreakLineCell {
         }
     }
     public lazy var label: QXLabel = {
-        let one = QXLabel()
-        one.padding = QXEdgeInsets(10, 15, 10, 15)
-        one.font = QXFont(fmt: "14 #333333")
-        one.numberOfLines = 0
-        return one
+        let e = QXLabel()
+        e.padding = QXEdgeInsets(10, 15, 10, 15)
+        e.font = QXFont(fmt: "14 #333333")
+        e.numberOfLines = 0
+        return e
     }()
     required init(_ reuseId: String) {
         super.init(reuseId)
@@ -477,11 +477,11 @@ class QXDebugTableViewHeaderFooterView: QXTableViewHeaderFooterView {
         }
     }
     public lazy var label: QXLabel = {
-        let one = QXLabel()
-        one.padding = QXEdgeInsets(10, 15, 10, 15)
-        one.font = QXFont(fmt: "14 #333333")
-        one.numberOfLines = 0
-        return one
+        let e = QXLabel()
+        e.padding = QXEdgeInsets(10, 15, 10, 15)
+        e.font = QXFont(fmt: "14 #333333")
+        e.numberOfLines = 0
+        return e
     }()
     required init(_ reuseId: String) {
         super.init(reuseId)

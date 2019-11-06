@@ -12,24 +12,24 @@ import QXConsMaker
 open class QXSettingTitleSwitchCell: QXSettingCell {
     
     public lazy var titleLabel: QXLabel = {
-        let one = QXLabel()
-        one.numberOfLines = 1
-        one.font = QXFont(fmt: "16 #333333")
-        return one
+        let e = QXLabel()
+        e.numberOfLines = 1
+        e.font = QXFont(fmt: "16 #333333")
+        return e
     }()
     public lazy var switchView: QXSwitchView = {
-        let one = QXSwitchView()
-        return one
+        let e = QXSwitchView()
+        return e
     }()
     
     public lazy var layoutView: QXStackView = {
-        let one = QXStackView()
-        one.alignmentY = .center
-        one.alignmentX = .left
-        one.viewMargin = 10
-        one.padding = QXEdgeInsets(5, 15, 5, 15)
-        one.setupViews([self.titleLabel, QXFlexView(), self.switchView])
-        return one
+        let e = QXStackView()
+        e.alignmentY = .center
+        e.alignmentX = .left
+        e.viewMargin = 10
+        e.padding = QXEdgeInsets(5, 15, 5, 15)
+        e.setupViews([self.titleLabel, QXFlexView(), self.switchView])
+        return e
     }()
     
     required public init() {

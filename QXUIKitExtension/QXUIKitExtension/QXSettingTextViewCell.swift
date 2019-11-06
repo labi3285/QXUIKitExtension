@@ -21,15 +21,15 @@ open class QXSettingTextViewCell: QXSettingCell {
     }
 
     public lazy var textView: QXTextView = {
-        let one = QXTextView()
-        one.padding = QXEdgeInsets(5, 10, 5, 10)
-        one.font = QXFont(fmt: "16 #333333")
-        one.placeHolderfont = QXFont(fmt: "16 #999999")
-        one.uiTextView.isScrollEnabled = false
-        one.respondNeedsUpdate = { [weak self] in
+        let e = QXTextView()
+        e.padding = QXEdgeInsets(5, 10, 5, 10)
+        e.font = QXFont(fmt: "16 #333333")
+        e.placeHolderfont = QXFont(fmt: "16 #999999")
+        e.uiTextView.isScrollEnabled = false
+        e.respondNeedsUpdate = { [weak self] in
             self?.tableView?.update()
         }
-        return one
+        return e
     }()
 
     required public init() {

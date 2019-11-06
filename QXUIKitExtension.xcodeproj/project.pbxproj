@@ -100,6 +100,8 @@
 		75944D4922E59AAE006FD18E /* QXMessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75944D4822E59AAE006FD18E /* QXMessageView.swift */; };
 		75954A8A230A33DF00FE6C4F /* QXNavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75954A89230A33DF00FE6C4F /* QXNavigationBar.swift */; };
 		75CCBC2A22F7BF68004AD9E1 /* QXTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75CCBC2922F7BF68004AD9E1 /* QXTimer.swift */; };
+		75D2CC1E2372C2F9007E2C38 /* QXStaticSpaceHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75D2CC1D2372C2F9007E2C38 /* QXStaticSpaceHeaderView.swift */; };
+		75D2CC202372C354007E2C38 /* QXStaticSpaceFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75D2CC1F2372C354007E2C38 /* QXStaticSpaceFooterView.swift */; };
 		75D852222367FA2B000F4157 /* DemoTestVc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75D852212367FA2B000F4157 /* DemoTestVc.swift */; };
 		75D8522423682068000F4157 /* DemoArrangeViewVc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75D8522323682068000F4157 /* DemoArrangeViewVc.swift */; };
 		75D852262368214C000F4157 /* QXArrangeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75D852252368214C000F4157 /* QXArrangeView.swift */; };
@@ -206,6 +208,8 @@
 		75944D4822E59AAE006FD18E /* QXMessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QXMessageView.swift; sourceTree = "<group>"; };
 		75954A89230A33DF00FE6C4F /* QXNavigationBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QXNavigationBar.swift; sourceTree = "<group>"; };
 		75CCBC2922F7BF68004AD9E1 /* QXTimer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QXTimer.swift; sourceTree = "<group>"; };
+		75D2CC1D2372C2F9007E2C38 /* QXStaticSpaceHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QXStaticSpaceHeaderView.swift; sourceTree = "<group>"; };
+		75D2CC1F2372C354007E2C38 /* QXStaticSpaceFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QXStaticSpaceFooterView.swift; sourceTree = "<group>"; };
 		75D852212367FA2B000F4157 /* DemoTestVc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoTestVc.swift; sourceTree = "<group>"; };
 		75D8522323682068000F4157 /* DemoArrangeViewVc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoArrangeViewVc.swift; sourceTree = "<group>"; };
 		75D852252368214C000F4157 /* QXArrangeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QXArrangeView.swift; sourceTree = "<group>"; };
@@ -340,6 +344,8 @@
 				75729F9F236133CC0007D1B1 /* QXStaticTextCell.swift */,
 				757D6C3E2361757E00BF1788 /* QXStaticButtonCell.swift */,
 				757659C1236677D800588C63 /* QXStaticSpaceCell.swift */,
+				75D2CC1D2372C2F9007E2C38 /* QXStaticSpaceHeaderView.swift */,
+				75D2CC1F2372C354007E2C38 /* QXStaticSpaceFooterView.swift */,
 				75729FA1236134010007D1B1 /* QXStaticBase.swift */,
 				75729FAB236170450007D1B1 /* QXStaticHeaderView.swift */,
 				757D6C3C236174B800BF1788 /* QXStaticFooterView.swift */,
@@ -554,6 +560,7 @@
 				75929CF322D9A89D006577AD /* QXRichText.swift in Sources */,
 				757806AB22E2BA5D009DD0DA /* QXMargin.swift in Sources */,
 				7553C7FD22CEE0CE0058239B /* QXError.swift in Sources */,
+				75D2CC1E2372C2F9007E2C38 /* QXStaticSpaceHeaderView.swift in Sources */,
 				7553C79122CC9C810058239B /* QXRect.UIView.swift in Sources */,
 				75729FA423614DEC0007D1B1 /* DemoTableVc.swift in Sources */,
 				757D6C3F2361757E00BF1788 /* QXStaticButtonCell.swift in Sources */,
@@ -561,6 +568,7 @@
 				7578A87C23619109006CFDD5 /* QXSettingTitleCell.swift in Sources */,
 				75944D4322E302ED006FD18E /* QXView.swift in Sources */,
 				75944D4922E59AAE006FD18E /* QXMessageView.swift in Sources */,
+				75D2CC202372C354007E2C38 /* QXStaticSpaceFooterView.swift in Sources */,
 				75929CEB22D97C3D006577AD /* QXButton.swift in Sources */,
 				7578A88523619AFD006CFDD5 /* QXSettingTextFieldCell.swift in Sources */,
 				7578A88B2361A609006CFDD5 /* QXSettingTitleTextFieldCell.swift in Sources */,

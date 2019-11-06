@@ -67,18 +67,18 @@ open class QXTextView: QXView, UITextViewDelegate {
     }
     
     public lazy var uiTextView: UITextView = {
-        let one = UITextView()
-        one.backgroundColor = UIColor.clear
-        one.qxTintColor = QXColor.hex("#666666", 1)
-        one.delegate = self
-        return one
+        let e = UITextView()
+        e.backgroundColor = UIColor.clear
+        e.qxTintColor = QXColor.hex("#666666", 1)
+        e.delegate = self
+        return e
     }()
     public lazy var placeHolderLabel: QXLabel = {
-        let one = QXLabel()
-        one.font = QXFont(size: 16, color: QXColor.placeHolderGray)
-        one.padding = QXEdgeInsets(7, 5, 7, 5)
-        one.isUserInteractionEnabled = false
-        return one
+        let e = QXLabel()
+        e.font = QXFont(size: 16, color: QXColor.placeHolderGray)
+        e.padding = QXEdgeInsets(7, 5, 7, 5)
+        e.isUserInteractionEnabled = false
+        return e
     }()
         
     public override init() {
