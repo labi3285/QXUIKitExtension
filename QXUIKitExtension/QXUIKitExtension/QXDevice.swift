@@ -20,16 +20,18 @@ public struct QXDevice {
     }
     
     public static var statusBarHeight: CGFloat {
-        switch UIApplication.shared.statusBarOrientation {
-        case .landscapeLeft, .landscapeRight:
-            return 0
-        default:
-            if isLiuHaiScreen {
-                return 34
-            } else {
-                return 20
-            }
-        }
+        return UIApplication.shared.statusBarFrame.height
+//
+//        switch UIApplication.shared.statusBarOrientation {
+//        case .landscapeLeft, .landscapeRight:
+//            return 0
+//        default:
+//            if isLiuHaiScreen {
+//                return 44//34
+//            } else {
+//                return 20
+//            }
+//        }
     }
     
     public static var navigationBarHeight: CGFloat {

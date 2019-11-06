@@ -23,7 +23,7 @@ open class QXTabBarController: UITabBarController {
             viewControllers = navigationControllers
         }
     }
-    
+
     open override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         updateTabBar()
@@ -61,7 +61,6 @@ open class QXTabBarController: UITabBarController {
         }
         if let e = tabBarTintColor?.uiColor {
             tabBar.tintColor = e
-            tabBar.barStyle = UIBarStyle.black
         }
         if let e = tabBarStyle {
             tabBar.barStyle = e

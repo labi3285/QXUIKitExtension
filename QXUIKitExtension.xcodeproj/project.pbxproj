@@ -81,6 +81,8 @@
 		7578A8972362A69D006CFDD5 /* DemoSettingsVc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7578A8962362A69D006CFDD5 /* DemoSettingsVc.swift */; };
 		757D6C3D236174B800BF1788 /* QXStaticFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 757D6C3C236174B800BF1788 /* QXStaticFooterView.swift */; };
 		757D6C3F2361757E00BF1788 /* QXStaticButtonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 757D6C3E2361757E00BF1788 /* QXStaticButtonCell.swift */; };
+		758B220D237018CC00A03539 /* QXTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 758B220C237018CC00A03539 /* QXTransition.swift */; };
+		758B220F23703ABB00A03539 /* QXMaskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 758B220E23703ABB00A03539 /* QXMaskViewController.swift */; };
 		75929C8022D03518006577AD /* QXControlStateStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75929C7F22D03518006577AD /* QXControlStateStyle.swift */; };
 		75929C8422D075DE006577AD /* QXViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75929C8322D075DE006577AD /* QXViewController.swift */; };
 		75929C8622D0764C006577AD /* QXNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75929C8522D0764C006577AD /* QXNavigationController.swift */; };
@@ -185,6 +187,8 @@
 		7578A8962362A69D006CFDD5 /* DemoSettingsVc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoSettingsVc.swift; sourceTree = "<group>"; };
 		757D6C3C236174B800BF1788 /* QXStaticFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QXStaticFooterView.swift; sourceTree = "<group>"; };
 		757D6C3E2361757E00BF1788 /* QXStaticButtonCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QXStaticButtonCell.swift; sourceTree = "<group>"; };
+		758B220C237018CC00A03539 /* QXTransition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QXTransition.swift; sourceTree = "<group>"; };
+		758B220E23703ABB00A03539 /* QXMaskViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QXMaskViewController.swift; sourceTree = "<group>"; };
 		75929C7F22D03518006577AD /* QXControlStateStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QXControlStateStyle.swift; sourceTree = "<group>"; };
 		75929C8322D075DE006577AD /* QXViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QXViewController.swift; sourceTree = "<group>"; };
 		75929C8522D0764C006577AD /* QXNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QXNavigationController.swift; sourceTree = "<group>"; };
@@ -315,6 +319,8 @@
 				7542FF42230555CB0079CCD6 /* QXStackView.swift */,
 				75D852252368214C000F4157 /* QXArrangeView.swift */,
 				75929C8322D075DE006577AD /* QXViewController.swift */,
+				75929C8522D0764C006577AD /* QXNavigationController.swift */,
+				758B220C237018CC00A03539 /* QXTransition.swift */,
 				75954A89230A33DF00FE6C4F /* QXNavigationBar.swift */,
 				7578A88223619813006CFDD5 /* QXSwitchView.swift */,
 				7578A88623619B6D006CFDD5 /* QXTextField.swift */,
@@ -326,6 +332,7 @@
 				751B76E7236A903A004F3265 /* QXModelsLoadStatusView.swift */,
 				7553884522EE969900D5261D /* QXTableViewController.swift */,
 				75E214F022E6AD44004A12DB /* QXRefresh.swift */,
+				758B220E23703ABB00A03539 /* QXMaskViewController.swift */,
 				75FE018322EC29C0007646A3 /* QXDate.swift */,
 				7574AA85230BCF9F00ABF6AD /* QXLineView.swift */,
 				75CCBC2922F7BF68004AD9E1 /* QXTimer.swift */,
@@ -349,7 +356,6 @@
 				7578A87723618286006CFDD5 /* QXSettingSeparateFooterView.swift */,
 				7578A89223629909006CFDD5 /* QXSettingTextHeaderView.swift */,
 				7578A89423629A3A006CFDD5 /* QXSettingTextFooterView.swift */,
-				75929C8522D0764C006577AD /* QXNavigationController.swift */,
 				75929C8B22D2CDE7006577AD /* QXTabBarController.swift */,
 				7553C81022CF1D6B0058239B /* QXBarButtonItem.swift */,
 				7553C80822CF0CB60058239B /* UIApplication_ext.swift */,
@@ -498,6 +504,7 @@
 				7578068F22E162F0009DD0DA /* QXLoadStatusView.swift in Sources */,
 				7578A87A23618D72006CFDD5 /* QXSettingTitleStackCell.swift in Sources */,
 				75929CB622D83024006577AD /* QXSize.swift in Sources */,
+				758B220F23703ABB00A03539 /* QXMaskViewController.swift in Sources */,
 				75D85228236847DF000F4157 /* UIImage_gif.swift in Sources */,
 				7578A87823618286006CFDD5 /* QXSettingSeparateFooterView.swift in Sources */,
 				75729FA623614E090007D1B1 /* DemoStackViewVc.swift in Sources */,
@@ -557,6 +564,7 @@
 				75929CEB22D97C3D006577AD /* QXButton.swift in Sources */,
 				7578A88523619AFD006CFDD5 /* QXSettingTextFieldCell.swift in Sources */,
 				7578A88B2361A609006CFDD5 /* QXSettingTitleTextFieldCell.swift in Sources */,
+				758B220D237018CC00A03539 /* QXTransition.swift in Sources */,
 				7578A87323617CF3006CFDD5 /* QXSettingCell.swift in Sources */,
 				751558AA22E7FD1500EFF37A /* QXModel.swift in Sources */,
 				751558AE22E8255700EFF37A /* QXRequest_jsonExt.swift in Sources */,

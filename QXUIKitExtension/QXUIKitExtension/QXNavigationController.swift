@@ -8,8 +8,8 @@
 
 import UIKit
 
-open class QXNavigationController: UINavigationController, UIGestureRecognizerDelegate, UINavigationBarDelegate, UINavigationControllerDelegate {
-    
+open class QXNavigationController: UINavigationController, UINavigationBarDelegate, UINavigationControllerDelegate, UIGestureRecognizerDelegate {
+        
     public var tabBarTitle: String? {
         didSet {
             tabBarItem.title = tabBarTitle
@@ -29,12 +29,12 @@ open class QXNavigationController: UINavigationController, UIGestureRecognizerDe
     public override init(rootViewController: UIViewController) {
         super.init(nibName: nil, bundle: nil)
         self.viewControllers = [rootViewController]
-        if let e = rootViewController as? QXViewController {
-            if let bar = e.customNavigationBar {
-                view.addSubview(bar)
-                customNavigationBar = bar
-            }
-        }
+//        if let e = rootViewController as? QXViewController {
+//            if let bar = e.customNavigationBar {
+//                view.addSubview(bar)
+//                customNavigationBar = bar
+//            }
+//        }
     }
     required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -46,56 +46,91 @@ open class QXNavigationController: UINavigationController, UIGestureRecognizerDe
         }
         return QXDebugFatalError("QXNavigationController must work with QXViewController", QXViewController())
     }
-    
+        
     override open func viewDidLoad() {
         super.viewDidLoad()
-        self.interactivePopGestureRecognizer?.delegate = self
-        self.delegate = self
+        interactivePopGestureRecognizer?.isEnabled = true
+        interactivePopGestureRecognizer?.delegate = self
+//        view.addGestureRecognizer(screenEdgePanGestureRecognizer)
+//        screenEdgePanGestureRecognizer.delegate = self
+//        self.delegate = self
     }
     
-    public private(set) weak var customNavigationBarBefore: QXNavigationBar?
-    public private(set) weak var customNavigationBar: QXNavigationBar?
+//    public lazy var screenEdgePanGestureRecognizer: UIScreenEdgePanGestureRecognizer = {
+//        let one = UIScreenEdgePanGestureRecognizer(target: self, action: #selector(handleScreenEdgePanGestureRecognizer(_:)))
+//        one.edges = .left
+//        return one
+//    }()
     
+//    @objc func handleScreenEdgePanGestureRecognizer(_ recognizer: UIScreenEdgePanGestureRecognizer) {
+//        guard let view = recognizer.view else {
+//            return
+//        }
+//        if view.bounds.width < 0 {
+//            return
+//        }
+//        var process = recognizer.translation(in: view).x / view.bounds.width
+//        process = min(max(process, 0), 1)
+//        switch recognizer.state {
+//        case .began:
+//            interactiveTransition = UIPercentDrivenInteractiveTransition()
+//            _ = self.popViewController(animated: true)
+//        case .changed:
+//            interactiveTransition?.update(process)
+//        default:
+//            if (process > 0.5) {
+//                interactiveTransition?.finish()
+//            } else {
+//                interactiveTransition?.cancel()
+//                performBarPushTo(_customNavigationBarForRecover, animated: true)
+//            }
+//            interactiveTransition = nil
+//        }
+//    }
+    
+    public func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+        if viewControllers.count == 1 {
+            return false
+        }
+        return (topViewController as? QXViewController)?.shouldPop() ?? true
+    }
+    
+    public private(set) var customNavigationBar: QXNavigationBar?
+    private(set) var _customNavigationBarForRecover: QXNavigationBar?
+
     open override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        if let e = customNavigationBarBefore {
-            e.intrinsicWidth = view.bounds.width
-            e.frame = CGRect(x: 0, y: 0, width: view.bounds.width, height: e.qxIntrinsicContentSize.h)
-        }
         if let e = customNavigationBar {
+            e.frame = navigationBar.frame
             e.intrinsicWidth = view.bounds.width
             e.frame = CGRect(x: 0, y: 0, width: view.bounds.width, height: e.qxIntrinsicContentSize.h)
         }
     }
 
 //    open override func pushViewController(_ viewController: UIViewController, animated: Bool) {
-//        performBarPushTo(viewController, animated: animated)
+//        let bar = (viewController as? QXViewController)?.customNavigationBar
+//        performBarPushTo(bar, animated: animated)
 //        super.pushViewController(viewController, animated: animated)
 //    }
 //
 //    open override func popViewController(animated: Bool) -> UIViewController? {
-//        performBarPopTo(viewControllers[viewControllers.count - 2], animated: animated)
+//        let bar = (viewControllers[viewControllers.count - 2] as? QXViewController)?.customNavigationBar
+//        performBarPopTo(bar, animated: animated)
 //        return super.popViewController(animated: animated)
 //    }
 //
 //    open override func popToRootViewController(animated: Bool) -> [UIViewController]? {
-//        performBarPopTo(rootViewController, animated: animated)
+//        let bar = rootViewController.customNavigationBar
+//        performBarPopTo(bar, animated: animated)
 //        return super.popToRootViewController(animated: animated)
 //    }
 //    open override func popToViewController(_ viewController: UIViewController, animated: Bool) -> [UIViewController]? {
-//        performBarPopTo(viewController, animated: animated)
+//        let bar = (viewController as? QXViewController)?.customNavigationBar
+//        performBarPopTo(bar, animated: animated)
 //        return super.popToViewController(viewController, animated: animated)
 //    }
     
-    
-    //MARK:- handle pop
-    
-    public func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
-        if let vc = viewControllers.last as? QXViewController {
-            return vc.shouldPop()
-        }
-        return viewControllers.count > 1
-    }
+    //MARK:- UINavigationBarDelegate
     public func navigationBar(_ navigationBar: UINavigationBar, shouldPop item: UINavigationItem) -> Bool {
         if viewControllers.count < (navigationBar.items?.count ?? 0) {
             return true
@@ -120,107 +155,89 @@ open class QXNavigationController: UINavigationController, UIGestureRecognizerDe
         return false
     }
     
-    //MARK:- custom pop
-    
-    private func performBarPushTo(_ viewController: UIViewController, animated: Bool) {
-        let toBar = (viewController as? QXViewController)?.customNavigationBar
-        let nowBar = customNavigationBar
-        customNavigationBarBefore = nowBar
-        customNavigationBar = toBar
-        for view in view.subviews {
-            if view is QXNavigationBar {
-                view.removeFromSuperview()
-            }
-        }
-        if let e = nowBar {
-            view.addSubview(e)
-            e.frame = CGRect(x: 0, y: 0, width: view.bounds.width, height: 20 + e.fixHeight)
-            e.contentView.alpha = 1
-        }
-        if let e = toBar {
-            view.addSubview(e)
-            e.intrinsicWidth = view.bounds.width
-            e.frame = CGRect(x: 0, y: 0, width: view.bounds.width, height: e.qxIntrinsicContentSize.h)
-            e.alpha = 0
-            UIView.animate(withDuration: 0.3) {
-                e.alpha = 1
-            }
-        }
-    }
-    
-    private func performBarPopTo(_ viewController: UIViewController, animated: Bool) {
-        let toBar = (viewController as? QXViewController)?.customNavigationBar
-        var barBeforeToBar: QXNavigationBar?
-        guard let i = viewControllers.firstIndex(where: { $0 === viewController }) else {
-            return
-        }
-        if i > 0 {
-            if let e = viewControllers[i - 1] as? QXViewController {
-                barBeforeToBar = e.customNavigationBar
-            }
-        }
-        customNavigationBarBefore?.removeFromSuperview()
-        let nowBar = customNavigationBar
-        customNavigationBarBefore = barBeforeToBar
-        customNavigationBar = toBar
-        if let e = toBar {
-            if let n = nowBar {
-                view.insertSubview(e, belowSubview: n)
-            } else {
-                view.addSubview(e)
-            }
-            e.frame = CGRect(x: 0, y: 0, width: view.bounds.width, height: 20 + e.fixHeight)
-            e.contentView.alpha = 1
-        }
-        if let e = barBeforeToBar {
-            if let n = toBar {
-                view.insertSubview(e, belowSubview: n)
-            } else {
-                view.addSubview(e)
-            }
-            e.frame = CGRect(x: 0, y: 0, width: view.bounds.width, height: 20 + e.fixHeight)
-            e.contentView.alpha = 1
-        }
-        
-        
-        UIView.animate(withDuration: 0.3, animations: {
-            nowBar?.alpha = 0
-        }) { (c) in
-            nowBar?.removeFromSuperview()
-        }
-    }
-    
-    
-    //MARK:- UINavigationControllerDelegate
-    
-//    public func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
-//
+//    //MARK:- Custom push
+//    private func performBarPushTo(_ bar: QXNavigationBar?, animated: Bool) {
+//        let toBar = bar
+//        let nowBar = customNavigationBar
+//        customNavigationBar = toBar
+//        for view in view.subviews {
+//            if view is QXNavigationBar {
+//                view.removeFromSuperview()
+//            }
+//        }
+//        func setBar(_ bar: QXNavigationBar) {
+//            view.addSubview(bar)
+//            bar.intrinsicWidth = view.bounds.width
+//            bar.frame = CGRect(x: 0, y: 0, width: view.bounds.width, height: bar.intrinsicContentSize.height)
+//        }
+//        if let e = nowBar {
+//            setBar(e)
+//        }
+//        if let e = toBar {
+//            setBar(e)
+//        }
+//        nowBar?.alpha = 1
+//        toBar?.alpha = 0
+//        UIView.animate(withDuration: 0.3, animations: {
+//            nowBar?.alpha = 0
+//            toBar?.alpha = 1
+//        }) { (c) in
+//            nowBar?.removeFromSuperview()
+//        }
 //    }
-//    public func navigationController(_ navigationController: UINavigationController, didShow viewController: UIViewController, animated: Bool) {
-//
+//    private func performBarPopTo(_ bar: QXNavigationBar?, animated: Bool) {
+//        let toBar = bar
+//        let nowBar = customNavigationBar
+//        customNavigationBar = toBar
+//        _customNavigationBarForRecover = nowBar
+//        for view in view.subviews {
+//            if view is QXNavigationBar {
+//                view.removeFromSuperview()
+//            }
+//        }
+//        func setBar(_ bar: QXNavigationBar) {
+//            view.addSubview(bar)
+//            bar.intrinsicWidth = view.bounds.width
+//            bar.frame = CGRect(x: 0, y: 0, width: view.bounds.width, height: bar.intrinsicContentSize.height)
+//        }
+//        if let e = toBar {
+//            setBar(e)
+//        }
+//        if let e = nowBar {
+//            setBar(e)
+//        }
+//        nowBar?.alpha = 1
+//        toBar?.alpha = 0
+//        UIView.animate(withDuration: 0.3, animations: {
+//            nowBar?.alpha = 0
+//            toBar?.alpha = 1
+//        }) { (c) in
+//            nowBar?.removeFromSuperview()
+//        }
 //    }
-//    public func navigationControllerSupportedInterfaceOrientations(_ navigationController: UINavigationController) -> UIInterfaceOrientationMask {
 //
+//    //MARK:- UINavigationControllerDelegate
+//    public private(set) var interactiveTransition: UIPercentDrivenInteractiveTransition?
+//    public var pushTransition: QXPushTransition = QXPushTransition()
+//    public var popTransition: QXPopTransition = QXPopTransition()
+//    public func navigationController(_ navigationController: UINavigationController, interactionControllerFor animationController: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
+//        return interactiveTransition
 //    }
-//    public func navigationControllerPreferredInterfaceOrientationForPresentation(_ navigationController: UINavigationController) -> UIInterfaceOrientation {
-//
+//    public func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationController.Operation, from fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+//        switch operation {
+//        case .push:
+//            let bar = (toVC as? QXViewController)?.customNavigationBar
+//            performBarPushTo(bar, animated: true)
+//            return pushTransition
+//        case .pop:
+//            let bar = (toVC as? QXViewController)?.customNavigationBar
+//            performBarPopTo(bar, animated: true)
+//            return popTransition
+//        default:
+//            return nil
+//        }
 //    }
-    public func navigationController(_ navigationController: UINavigationController, interactionControllerFor animationController: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
-        return nil
-    }
-    public func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationController.Operation, from fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        switch operation {
-        case .push:
-            performBarPushTo(toVC, animated: true)
-        case .pop:
-            performBarPopTo(toVC, animated: true)
-        case .none:
-            break
-        @unknown default:
-            break
-        }
-        return nil
-    }
+    
 }
 
 extension UINavigationController {
@@ -285,3 +302,4 @@ extension UINavigationController {
     }
     
 }
+

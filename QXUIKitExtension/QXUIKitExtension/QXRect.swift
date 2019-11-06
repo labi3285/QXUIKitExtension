@@ -581,13 +581,13 @@ extension QXSize: CustomStringConvertible {
     
     public var description: String {
         func string(_ f: CGFloat) -> String {
-            if f == CGFloat(Int(f)) {
+            if f == CGFloat(Int64(f)) {
                 return "\(Int(f))"
             } else {
                 return "\(f)"
             }
         }
-        return "[\(string(w)),\(string(h))]"
+        return "[\(w),\(h)]"
     }
     
 }

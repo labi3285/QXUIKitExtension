@@ -14,8 +14,14 @@ class ViewController: QXTableViewController<Any> {
         let one = QXSettingTitleArrowCell()
         one.titleLabel.text = "Test"
         one.backButton.respondClick = { [weak self] in
-            let vc = DemoTestVc()
-            self?.push(vc)
+            
+            let vc = QXMaskViewController()
+            vc.view.backgroundColor = UIColor.red
+
+            self?.present(vc)
+            
+//            let vc = DemoTestVc()
+//            self?.push(vc)
         }
         return one
     }()
@@ -86,6 +92,14 @@ class ViewController: QXTableViewController<Any> {
         title = "首页"
         view.qxBackgroundColor = QXColor.backgroundGray
         tableView.sections = [section]
+        
+        view.backgroundColor = UIColor.yellow
+        
+//        let bar = QXNavigationBar()
+//        bar.isAutoTitle = true
+//        bar.contentView.backgroundColor = UIColor.yellow
+//        customNavigationBar = bar
+
     }
 
 }

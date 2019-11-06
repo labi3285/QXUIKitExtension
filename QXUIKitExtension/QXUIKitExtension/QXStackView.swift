@@ -78,7 +78,7 @@ open class QXStackView: QXView {
     open override func layoutSubviews() {
         super.layoutSubviews()
         if isVertical {
-            let size = qxIntrinsicContentSize
+            let size = viewsIntrinsicSize
             var collapseInfo: [Int: QXSize] = [:]
             var flexInfo: [Int: CGFloat] = [:]
             if size.h > bounds.height {
@@ -118,7 +118,7 @@ open class QXStackView: QXView {
             case .top:
                 offsetY = padding.top
             case .center:
-                if flexInfo.count == 0{
+                if flexInfo.count == 0 {
                     offsetY = (bounds.height - padding.top - padding.bottom - contentH) / 2 + padding.top
                 }
             case .bottom:
@@ -150,7 +150,7 @@ open class QXStackView: QXView {
                 }
             }
         } else {
-            let size = qxIntrinsicContentSize
+            let size = viewsIntrinsicSize
             var collapseInfo: [Int: QXSize] = [:]
             var flexInfo: [Int: CGFloat] = [:]
             if size.w >= bounds.width {
@@ -231,6 +231,22 @@ open class QXStackView: QXView {
         if views.count == 0 || !isDisplay {
             return CGSize.zero
         }
+        if let e = intrinsicSize {
+            return e.cgSize
+        }
+        let wh = viewsIntrinsicSize
+        var w: CGFloat = wh.w
+        var h: CGFloat = wh.h
+        if let e = intrinsicWidth {
+            w = max(w, e)
+        }
+        if let e = intrinsicHeight {
+            h = max(h, e)
+        }
+        return CGSize(width: w, height: h)
+    }
+    
+    private var viewsIntrinsicSize: QXSize {
         var w: CGFloat = 0
         var h: CGFloat = 0
         var showCount: Int = 0
@@ -244,7 +260,7 @@ open class QXStackView: QXView {
                 }
             }
             if showCount == 0 {
-                return CGSize.zero
+                return QXSize.zero
             }
             h += padding.top + padding.bottom + viewMargin * CGFloat(showCount - 1)
             w += padding.left + padding.right
@@ -258,18 +274,11 @@ open class QXStackView: QXView {
                 }
             }
             if showCount == 0 {
-                return CGSize.zero
+                return QXSize.zero
             }
             w += padding.left + padding.right + viewMargin * CGFloat(showCount - 1)
             h += padding.top + padding.bottom
         }
-        if let e = intrinsicWidth {
-            w = max(w, e)
-        }
-        if let e = intrinsicHeight {
-            h = max(h, e)
-        }
-        return CGSize(width: w, height: h)
+        return QXSize(w, h)
     }
-    
 }

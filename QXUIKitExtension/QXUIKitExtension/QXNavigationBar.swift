@@ -116,7 +116,7 @@ open class QXNavigationBar: QXView {
         }
         if let lineView = lineView {
             let size = lineView.qxIntrinsicContentSize
-            lineView.qxRect = rect.insideRect(.bottom(0), .left(0), .right(0), .h(size.h))
+            lineView.qxRect = rect.insideRect(.bottom(0), .left(0), .right(0), .height(size.h))
         }
     }
     

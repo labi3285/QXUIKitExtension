@@ -149,6 +149,7 @@ open class QXButton: QXView {
         if let e = backView.borderSelected {
             backView.qxBorder = e
         }
+        backView.alpha = _originAlpha ?? 1
         qxSetNeedsLayout()
     }
     open func handleDisabled(isSelected: Bool) {
@@ -168,6 +169,7 @@ open class QXButton: QXView {
         if let e = disableAlpha {
             backView.alpha = e
         }
+        backView.alpha = _originAlpha ?? 1
         qxSetNeedsLayout()
     }
     
@@ -348,6 +350,12 @@ open class QXTitleButton: QXButton {
             label.qxRichTexts = e
         } else if let e = titleHighlighted {
             label.qxRichText = QXRichText.text(e, font)
+        } else {
+           if let e = richTitles {
+              label.qxRichTexts = e
+           } else {
+              label.qxRichText = QXRichText.text(title, font)
+           }
         }
         super.handleHighlighted()
     }
@@ -356,6 +364,12 @@ open class QXTitleButton: QXButton {
             label.qxRichTexts = e
         } else if let e = titleSelected {
             label.qxRichText = QXRichText.text(e, font)
+        } else {
+            if let e = richTitles {
+               label.qxRichTexts = e
+            } else {
+               label.qxRichText = QXRichText.text(title, font)
+            }
         }
         super.handleSelected()
     }
@@ -364,6 +378,12 @@ open class QXTitleButton: QXButton {
             label.qxRichTexts = e
         } else if let e = titleDisabled {
             label.qxRichText = QXRichText.text(e, font)
+        } else {
+            if let e = richTitles {
+                label.qxRichTexts = e
+            } else {
+                label.qxRichText = QXRichText.text(title, font)
+            }
         }
         super.handleDisabled(isSelected: isSelected)
     }
@@ -441,8 +461,15 @@ open class QXImageButton: QXButton {
         }
     }
     
+//    open override func handlePrepareOrigins() {
+//        super.handlePrepareOrigins()
+//        if image == nil {
+//            image = imageView.image
+//        }
+//    }
+    
     override open func handleNormalize() {
-        imageView.image = image ?? imageView.image
+        imageView.image = image
         super.handleNormalize()
     }
     override open func handleHighlighted() {
@@ -452,7 +479,7 @@ open class QXImageButton: QXButton {
         super.handleHighlighted()
     }
     override open func handleSelected() {
-        if let e = imageHighlighted {
+        if let e = imageSelected {
             imageView.image = e
         }
         super.handleSelected()

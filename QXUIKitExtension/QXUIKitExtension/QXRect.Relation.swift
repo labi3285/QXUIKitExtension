@@ -28,9 +28,9 @@ extension QXRect {
         case top(CGFloat)
         
         /// w relation
-        case w(CGFloat)
+        case width(CGFloat)
         /// h relation
-        case h(CGFloat)
+        case height(CGFloat)
         
         /// center x relation
         case centerX
@@ -500,9 +500,9 @@ extension QXRect {
                     top = value
                 case .bottom(let value):
                     bottom = value
-                case .w(let value):
+                case .width(let value):
                     w = value
-                case .h(let value):
+                case .height(let value):
                     h = value
                 case .size(let value0, let value1):
                     w = value0
