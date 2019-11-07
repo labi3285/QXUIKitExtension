@@ -34,11 +34,11 @@ open class QXMaskViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    open override func viewDidLoad() {
+    override open func viewDidLoad() {
         super.viewDidLoad()
     }
     
-    open override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+    override open func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         dismiss(animated: true, completion: nil)
     }
     

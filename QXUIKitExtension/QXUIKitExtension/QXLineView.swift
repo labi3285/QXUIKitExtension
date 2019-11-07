@@ -37,7 +37,7 @@ open class QXLineView: QXView {
     
     public var intrinsicWidth: CGFloat?
     public var intrinsicHeight: CGFloat?
-    open override var intrinsicContentSize: CGSize {
+    override open var intrinsicContentSize: CGSize {
         if isDisplay {
             if let e = intrinsicSize {
                 return e.cgSize
@@ -66,7 +66,7 @@ open class QXLineView: QXView {
     
     var a: Bool = false
     
-    open override func draw(_ rect: CGRect) {
+    override open func draw(_ rect: CGRect) {
         if let ctx = UIGraphicsGetCurrentContext() {
             if isVertical {
                 let y = padding.top

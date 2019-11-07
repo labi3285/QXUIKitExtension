@@ -17,7 +17,7 @@ open class QXSettingSeparateFooterView: QXStaticBaseHeaderFooterView {
         e.isUserInteractionEnabled = false
         return e
     }()
-    open override func layoutSubviews() {
+    override open func layoutSubviews() {
         super.layoutSubviews()
         let h = breakLine.intrinsicContentSize.height
         breakLine.frame = CGRect(x: 0, y: 0, width: contentView.frame.width, height: h)

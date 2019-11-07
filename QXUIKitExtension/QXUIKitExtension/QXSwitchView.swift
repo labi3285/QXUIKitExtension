@@ -38,7 +38,7 @@ open class QXSwitchView: QXView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    open override var intrinsicContentSize: CGSize {
+    override open var intrinsicContentSize: CGSize {
         if isDisplay {
             if let e = intrinsicSize {
                 return e.cgSize
@@ -50,7 +50,7 @@ open class QXSwitchView: QXView {
             return CGSize.zero
         }
     }
-    open override func layoutSubviews() {
+    override open func layoutSubviews() {
         super.layoutSubviews()
         uiSwitch.qxRect = qxBounds.rectByReduce(padding)
     }

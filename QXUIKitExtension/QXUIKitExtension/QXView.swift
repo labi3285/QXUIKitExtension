@@ -29,7 +29,7 @@ open class QXView: UIView {
     
     public var respondNeedsLayout: (() -> ())?
     
-    open override func invalidateIntrinsicContentSize() {
+    override open func invalidateIntrinsicContentSize() {
         super.invalidateIntrinsicContentSize()
         respondNeedsLayout?()
     }
@@ -51,7 +51,7 @@ open class QXView: UIView {
         return CGSize.zero
     }
     
-    open override func sizeToFit() {
+    override open func sizeToFit() {
         let wh = intrinsicContentSize
         frame = CGRect(x: frame.minX, y: frame.minY, width: wh.width, height: wh.height)
     }
@@ -103,4 +103,10 @@ extension UIView {
         }
     }
     
+}
+
+extension QXView {
+    open override var description: String {
+        return "\(type(of: self))\(self.frame)"
+    }
 }

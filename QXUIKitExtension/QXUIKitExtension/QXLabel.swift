@@ -84,7 +84,7 @@ open class QXLabel: QXView {
     public var intrinsicMinHeight: CGFloat?
     public var intrinsicMaxWidth: CGFloat?
     public var intrinsicMaxHeight: CGFloat?
-    open override var intrinsicContentSize: CGSize {
+    override open var intrinsicContentSize: CGSize {
         if isDisplay {
             var w: CGFloat = 0
             var h: CGFloat = 0
@@ -110,7 +110,7 @@ open class QXLabel: QXView {
             return CGSize.zero
         }
     }
-    open override func layoutSubviews() {
+    override open func layoutSubviews() {
         super.layoutSubviews()
         let size = uiLabel.sizeThatFits(CGSize.init(width: bounds.width - padding.left - padding.right, height: CGFloat.greatestFiniteMagnitude))
         let h = min(size.height, bounds.height - padding.top - padding.bottom)

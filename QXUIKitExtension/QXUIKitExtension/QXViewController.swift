@@ -28,11 +28,11 @@ open class QXViewController: UIViewController, UINavigationBarDelegate {
         QXDebugPrint("deinit")
     }
     
-    open override var title: String? {
+    override open var title: String? {
         didSet {
             super.title = title
             if _isNavigationBarInited {
-                updateNavigationBar()
+                updateNavigationBar(false)
             }
         }
     }
@@ -40,7 +40,7 @@ open class QXViewController: UIViewController, UINavigationBarDelegate {
     //MARK:- Data
     
     //MARK:- Life cycle
-    open override func loadView() {
+    override open func loadView() {
         super.loadView()
     }
     
@@ -62,21 +62,21 @@ open class QXViewController: UIViewController, UINavigationBarDelegate {
     private var _isFirstWillDisappear: Bool = true
     private var _isFirstDidDisappear: Bool = true
 
-    open override func viewWillAppear(_ animated: Bool) {
+    override open func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         if _isFirstWillAppear { viewWillFirstAppear(animated); _isFirstWillAppear = false }
         _isNavigationBarInited = true
-        updateNavigationBar()
+        updateNavigationBar(animated)
     }
-    open override func viewDidAppear(_ animated: Bool) {
+    override open func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         if _isFirstDidAppear { viewDidFirstAppear(animated); _isFirstDidAppear = false }
     }
-    open override func viewWillDisappear(_ animated: Bool) {
+    override open func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         if _isFirstWillDisappear { viewWillFirstDisappear(animated); _isFirstWillDisappear = false }
     }
-    open override func viewDidDisappear(_ animated: Bool) {
+    override open func viewDidDisappear(_ animated: Bool) {
         super.viewDidAppear(animated)
         if _isFirstDidDisappear { viewDidFirstDisappear(animated); _isFirstDidDisappear = false }
     }
@@ -89,22 +89,22 @@ open class QXViewController: UIViewController, UINavigationBarDelegate {
     public var navigationBarBackTitle: String?
     public var navigationBarBackFont: QXFont?
 
-    public var navigationBarTitle: String? { didSet { if _isNavigationBarInited { updateNavigationBar() } } }
-    public var navigationBarTitleFont: QXFont? { didSet { if _isNavigationBarInited { updateNavigationBar() } } }
-    public var navigationBarTitleView: QXView? { didSet { if _isNavigationBarInited { updateNavigationBar() } } }
+    public var navigationBarTitle: String? { didSet { if _isNavigationBarInited { updateNavigationBar(false) } } }
+    public var navigationBarTitleFont: QXFont? { didSet { if _isNavigationBarInited { updateNavigationBar(false) } } }
+    public var navigationBarTitleView: QXView? { didSet { if _isNavigationBarInited { updateNavigationBar(false) } } }
     public var navigationBarTintColor: QXColor = QXColor.hex("#333333", 1)
-        { didSet { if _isNavigationBarInited { updateNavigationBar() } } }
+        { didSet { if _isNavigationBarInited { updateNavigationBar(false) } } }
     
     public var navigationBarBackgroundColor: QXColor = QXColor.white
-        { didSet { if _isNavigationBarInited { updateNavigationBar() } } }
+        { didSet { if _isNavigationBarInited { updateNavigationBar(false) } } }
     public var navigationBarBackgroundImage: QXImage?
-        { didSet { if _isNavigationBarInited { updateNavigationBar() } } }
+        { didSet { if _isNavigationBarInited { updateNavigationBar(false) } } }
     public var isNavigationBarLineShow: Bool = true
-        { didSet { if _isNavigationBarInited { updateNavigationBar() } } }
+        { didSet { if _isNavigationBarInited { updateNavigationBar(false) } } }
     public var isNavigationBarTransparent: Bool = false
-        { didSet { if _isNavigationBarInited { updateNavigationBar() } } }
+        { didSet { if _isNavigationBarInited { updateNavigationBar(false) } } }
 
-    public var isNavigationBarShow: Bool = true { didSet { if _isNavigationBarInited { updateNavigationBar() } } }
+    public var isNavigationBarShow: Bool = true { didSet { if _isNavigationBarInited { updateNavigationBar(false) } } }
     
     open func shouldPop() -> Bool {
         return true
@@ -115,13 +115,13 @@ open class QXViewController: UIViewController, UINavigationBarDelegate {
     
     //MARK:- Present
     // nil 表示不显示
-    public var isNavigationBarAutoDismissItemAtLeft: Bool? = true { didSet { if _isNavigationBarInited { updateNavigationBar() } } }
+    public var isNavigationBarAutoDismissItemAtLeft: Bool? = true { didSet { if _isNavigationBarInited { updateNavigationBar(false) } } }
     public var navigationBarAutoDismissImage: QXImage?
-        { didSet { if _isNavigationBarInited { updateNavigationBar() } } }
+        { didSet { if _isNavigationBarInited { updateNavigationBar(false) } } }
     public var navigationBarAutoDismissTitle: String? = "取消"
-        { didSet { if _isNavigationBarInited { updateNavigationBar() } } }
+        { didSet { if _isNavigationBarInited { updateNavigationBar(false) } } }
     public var navigationBarAutoDismissFont: QXFont?
-        { didSet { if _isNavigationBarInited { updateNavigationBar() } } }
+        { didSet { if _isNavigationBarInited { updateNavigationBar(false) } } }
     
     public private(set) weak var viewControllerBefore: QXViewController?
         
@@ -196,14 +196,14 @@ open class QXViewController: UIViewController, UINavigationBarDelegate {
         super.dismiss(animated: true, completion: completion)
     }
     
-    public func updateNavigationBar() {
+    public func updateNavigationBar(_ animated: Bool) {
         if let vc = parent {
             if !vc.isKind(of: UINavigationController.self) && !vc.isKind(of: UITabBarController.self) {
                 return
             }
         }
         if let navBar = customNavigationBar {
-            navigationController?.setNavigationBarHidden(true, animated: true)
+            navigationController?.setNavigationBarHidden(true, animated: animated)
             navBar.qxTintColor = navigationBarTintColor
             if let e = navigationBarTitleView {
                 navBar.titleView = e
@@ -238,7 +238,7 @@ open class QXViewController: UIViewController, UINavigationBarDelegate {
             navBar.qxSetNeedsLayout()
             
         } else {
-            navigationController?.setNavigationBarHidden(!isNavigationBarShow, animated: false)
+            navigationController?.setNavigationBarHidden(!isNavigationBarShow, animated: animated)
             if let e = navigationBarTitleView {
                 navigationItem.titleView = e
             } else {

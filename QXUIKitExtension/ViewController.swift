@@ -14,18 +14,22 @@ class ViewController: QXTableViewController<Any> {
         let e = QXSettingTitleArrowCell()
         e.titleLabel.text = "Test"
         e.backButton.respondClick = { [weak self] in
-            
-            let vc = QXMaskViewController()
-            vc.view.backgroundColor = UIColor.red
-
-            self?.present(vc)
-            
-//            let vc = DemoTestVc()
-//            self?.push(vc)
+            let vc = DemoTestVc()
+            self?.push(vc)
         }
         return e
     }()
     
+    lazy var maskCell: QXSettingTitleArrowCell = {
+        let e = QXSettingTitleArrowCell()
+        e.titleLabel.text = "QXArrangeView"
+        e.backButton.respondClick = { [weak self] in
+            let vc = QXMaskViewController()
+            vc.view.backgroundColor = UIColor.red
+            self?.present(vc)
+        }
+        return e
+    }()
     lazy var arrangeCell: QXSettingTitleArrowCell = {
         let e = QXSettingTitleArrowCell()
         e.titleLabel.text = "QXArrangeView"
@@ -49,7 +53,7 @@ class ViewController: QXTableViewController<Any> {
         let e = QXSettingTitleArrowCell()
         e.titleLabel.text = "List"
         e.backButton.respondClick = { [weak self] in
-            let vc = DemoTableVc()
+            let vc = DemoListVc()
             self?.push(vc)
         }
         return e
@@ -78,6 +82,7 @@ class ViewController: QXTableViewController<Any> {
     lazy var section: QXTableViewSection = {
         let e = QXTableViewSection([
             self.testCell,
+            self.maskCell,
             self.arrangeCell,
             self.stackCell,
             self.listCell,
@@ -92,6 +97,7 @@ class ViewController: QXTableViewController<Any> {
         title = "首页"
         view.qxBackgroundColor = QXColor.backgroundGray
         tableView.sections = [section]
+        isNavigationBarShow = false
         
         view.backgroundColor = UIColor.yellow
         

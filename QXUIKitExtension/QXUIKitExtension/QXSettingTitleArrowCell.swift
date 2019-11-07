@@ -11,8 +11,7 @@ import QXConsMaker
 
 open class QXSettingTitleArrowCell: QXSettingCell {
         
-
-    open override func height(_ model: Any?, _ width: CGFloat) -> CGFloat? {
+    override open func height(_ model: Any?, _ width: CGFloat) -> CGFloat? {
         let h = super.height(model, width)
         if let e = h {
             arrowView.intrinsicHeight = e - layoutView.padding.top - layoutView.padding.bottom
@@ -50,18 +49,12 @@ open class QXSettingTitleArrowCell: QXSettingCell {
         e.setupViews([self.titleLabel, QXFlexView(), self.subTitleLabel, self.arrowView], collapseOrder: [0, 2, 1, 3])
         return e
     }()
-    
-    public lazy var backButton: QXButton = {
-        let e = QXButton()
-        e.backView.backgroundColorHighlighted = QXColor.higlightGray
-        return e
-    }()
-    
+        
     required public init() {
         super.init()
-        contentView.addSubview(backButton)
         contentView.addSubview(layoutView)
         layoutView.IN(contentView).LEFT.TOP.RIGHT.BOTTOM.MAKE()
+        backButton.isDisplay = true
         fixHeight = 50
     }
     required public init?(coder aDecoder: NSCoder) {
@@ -69,11 +62,6 @@ open class QXSettingTitleArrowCell: QXSettingCell {
     }
     required public init(_ reuseId: String) {
         fatalError("init(_:) has not been implemented")
-    }
-    
-    open override func layoutSubviews() {
-        super.layoutSubviews()
-        backButton.frame = contentView.bounds
     }
     
 }

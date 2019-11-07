@@ -11,7 +11,7 @@ import QXConsMaker
 
 open class QXStaticFooterView: QXStaticBaseHeaderFooterView {
     
-    open override func height(_ model: Any?, _ width: CGFloat) -> CGFloat? {
+    override open func height(_ model: Any?, _ width: CGFloat) -> CGFloat? {
         label.intrinsicWidth = width
         return label.intrinsicContentSize.height
     }

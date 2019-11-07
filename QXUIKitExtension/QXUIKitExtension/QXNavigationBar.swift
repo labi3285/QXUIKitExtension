@@ -59,7 +59,7 @@ open class QXNavigationBar: QXView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    open override func layoutSubviews() {
+    override open func layoutSubviews() {
         super.layoutSubviews()
         contentView.qxRect = qxRect.insideRect(.top(QXDevice.statusBarHeight))
         let rect = contentView.qxRect.absoluteRect
@@ -121,7 +121,7 @@ open class QXNavigationBar: QXView {
     }
     
     public var intrinsicWidth: CGFloat?
-    open override var intrinsicContentSize: CGSize {
+    override open var intrinsicContentSize: CGSize {
         if let e = intrinsicWidth {
             return CGSize(width: e, height: QXDevice.statusBarHeight + QXDevice.navigationBarHeight)
         }

@@ -80,12 +80,12 @@ open class QXRefreshHeader: MJRefreshHeader {
         }
     }
     
-    open override func prepare() {
+    override open func prepare() {
         super.prepare()
         mj_h = fixHeight
     }
     
-    open override func placeSubviews() {
+    override open func placeSubviews() {
         super.placeSubviews()
         qxCheckOrAddSubview(loadingView)
         qxCheckOrAddSubview(imageView)
@@ -113,7 +113,7 @@ open class QXRefreshHeader: MJRefreshHeader {
     }
     private var isCustomised: Bool = false
     
-    open override var state: MJRefreshState {
+    override open var state: MJRefreshState {
         didSet {
             super.state = state
             messageLabel.isDisplay = true
@@ -241,12 +241,12 @@ open class QXRefreshFooter: MJRefreshAutoFooter {
         }
     }
     
-    open override func prepare() {
+    override open func prepare() {
         super.prepare()
         mj_h = fixHeight
     }
 
-    open override func placeSubviews() {
+    override open func placeSubviews() {
         super.placeSubviews()
         qxCheckOrAddSubview(backButton)
         qxCheckOrAddSubview(loadingView)
@@ -263,7 +263,7 @@ open class QXRefreshFooter: MJRefreshAutoFooter {
         messageLabel.qxRect = imageView.qxRect.rightRect(.center, .size(messageSize))
     }
     
-    open override var state: MJRefreshState {
+    override open var state: MJRefreshState {
         didSet {
             super.state = state
             switch state {

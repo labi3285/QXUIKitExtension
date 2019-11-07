@@ -86,7 +86,7 @@ open class QXTextField: QXView, UITextFieldDelegate {
     }
     
     public var intrinsicWidth: CGFloat?
-    open override var intrinsicContentSize: CGSize {
+    override open var intrinsicContentSize: CGSize {
         if isDisplay {
             var w: CGFloat = 0
             var h: CGFloat = 0
@@ -109,7 +109,7 @@ open class QXTextField: QXView, UITextFieldDelegate {
         }
     }
     
-    open override func layoutSubviews() {
+    override open func layoutSubviews() {
         super.layoutSubviews()
         uiTextField.qxRect = qxBounds.rectByReduce(padding)
     }

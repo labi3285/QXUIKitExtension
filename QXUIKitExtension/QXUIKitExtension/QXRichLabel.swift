@@ -104,7 +104,7 @@ open class QXRichLabel: QXView {
     /// intrinsic width for auto-layout
     public var intrinsicWidth: CGFloat?
     /// the auto calculate size
-    open override var intrinsicContentSize: CGSize {
+    override open var intrinsicContentSize: CGSize {
         if isDisplay {
             if let e = intrinsicSize {
                 return e.cgSize
@@ -125,7 +125,7 @@ open class QXRichLabel: QXView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    open override func layoutSubviews() {
+    override open func layoutSubviews() {
         super.layoutSubviews()
         let content = _getContent(items)
         var links = content.links
@@ -164,7 +164,7 @@ open class QXRichLabel: QXView {
             }
         }
     }
-    open override func draw(_ rect: CGRect) {
+    override open func draw(_ rect: CGRect) {
         super.draw(rect)
         guard let ctx = UIGraphicsGetCurrentContext() else {
             return
@@ -196,7 +196,7 @@ open class QXRichLabel: QXView {
         }
         ctx.restoreGState()
     }
-    open override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+    override open func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard let point = touches.first?.location(in: self) else { return }
         _touchedLocation = point
         _touchedLink = _tryCatchTouchedLink(point, _links)
@@ -204,14 +204,14 @@ open class QXRichLabel: QXView {
             setNeedsDisplay()
         }
     }
-    open override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+    override open func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard let point = touches.first?.location(in: self) else { return }
         if sqrt(pow(point.x - _touchedLocation.x, 2) + pow(point.y - _touchedLocation.y, 2)) > 10 {
             _touchedLink = nil
             setNeedsDisplay()
         }
     }
-    open override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+    override open func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         if _isHiglight {
             return
         }
@@ -225,7 +225,7 @@ open class QXRichLabel: QXView {
             }
         }
     }
-    open override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
+    override open func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
         if let _ = super.hitTest(point, with: event) {
             for view in subviews {
                 if view.isUserInteractionEnabled {

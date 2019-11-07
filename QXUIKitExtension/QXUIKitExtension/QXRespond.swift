@@ -18,7 +18,7 @@ open class QXRespond<T: QXModel>: QXModel {
     public var data: T?
     public var error: QXError?
     
-    open override func update(_ json: QXJSON) {
+    override open func update(_ json: QXJSON) {
         super.update(json)
         if json[QXUIKitExtensionConfigs.jsonKey_code].intValue == 0 {
             let e = T.init()

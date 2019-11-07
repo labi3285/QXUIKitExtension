@@ -80,13 +80,13 @@ open class QXContentLoadStatusView<T>: QXView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    open override func layoutSubviews() {
+    override open func layoutSubviews() {
         super.layoutSubviews()
         contentView.qxRect = qxBounds.rectByReduce(padding)
         loadStatusView.qxRect = qxBounds.rectByReduce(padding)
     }
     
-    open override var intrinsicContentSize: CGSize {
+    override open var intrinsicContentSize: CGSize {
         if isDisplay {
             if let e = intrinsicSize {
                 return e.cgSize
@@ -194,7 +194,7 @@ open class QXLoadStatusView: UIView {
     required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    open override func layoutSubviews() {
+    override open func layoutSubviews() {
         super.layoutSubviews()
         let rect = qxRect.absoluteRect
         contentLabel.intrinsicWidth = rect.w

@@ -51,7 +51,7 @@ open class QXArrangeView: QXView {
         qxSetNeedsLayout()
     }
     
-//    open override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
+//    override open func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
 //        if let _ = super.hitTest(point, with: event) {
 //              for view in subviews {
 //                  if view.isUserInteractionEnabled {
@@ -66,7 +66,7 @@ open class QXArrangeView: QXView {
 //        return nil
 //    }
     
-    open override func layoutSubviews() {
+    override open func layoutSubviews() {
         super.layoutSubviews()
         for e in _viewFrames(bounds.width) {
             e.view.frame = e.frame
@@ -126,7 +126,7 @@ open class QXArrangeView: QXView {
     }
     
     public var intrinsicWidth: CGFloat?
-    open override var intrinsicContentSize: CGSize {
+    override open var intrinsicContentSize: CGSize {
         if views.count == 0 || !isDisplay {
             return CGSize.zero
         }

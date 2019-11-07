@@ -60,7 +60,7 @@ open class QXStackView: QXView {
         qxSetNeedsLayout()
     }
     
-    open override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
+    override open func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
         if let _ = super.hitTest(point, with: event) {
               for view in subviews {
                   if view.isUserInteractionEnabled {
@@ -75,7 +75,7 @@ open class QXStackView: QXView {
         return nil
     }
     
-    open override func layoutSubviews() {
+    override open func layoutSubviews() {
         super.layoutSubviews()
         if isVertical {
             let size = viewsIntrinsicSize
@@ -227,7 +227,7 @@ open class QXStackView: QXView {
     
     public var intrinsicWidth: CGFloat?
     public var intrinsicHeight: CGFloat?
-    open override var intrinsicContentSize: CGSize {
+    override open var intrinsicContentSize: CGSize {
         if views.count == 0 || !isDisplay {
             return CGSize.zero
         }

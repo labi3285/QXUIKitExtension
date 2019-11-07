@@ -95,7 +95,7 @@ open class QXTextView: QXView, UITextViewDelegate {
     public var intrinsicMinHeight: CGFloat?
     public var intrinsicMaxWidth: CGFloat?
     public var intrinsicMaxHeight: CGFloat?
-    open override var intrinsicContentSize: CGSize {
+    override open var intrinsicContentSize: CGSize {
         if isDisplay {
             var w: CGFloat = 0
             var h: CGFloat = 0
@@ -122,7 +122,7 @@ open class QXTextView: QXView, UITextViewDelegate {
         }
     }
     
-    open override func layoutSubviews() {
+    override open func layoutSubviews() {
         super.layoutSubviews()
         uiTextView.qxRect = qxBounds.rectByReduce(padding)
         let wh = placeHolderLabel.intrinsicContentSize

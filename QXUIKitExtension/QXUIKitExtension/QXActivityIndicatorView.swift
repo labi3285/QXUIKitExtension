@@ -39,7 +39,7 @@ open class QXActivityIndicatorView: QXView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    open override var intrinsicContentSize: CGSize {
+    override open var intrinsicContentSize: CGSize {
         if isDisplay {
             if let e = intrinsicSize {
                 return e.cgSize
@@ -54,7 +54,7 @@ open class QXActivityIndicatorView: QXView {
             return CGSize.zero
         }
     }
-    open override func layoutSubviews() {
+    override open func layoutSubviews() {
         super.layoutSubviews()
         systemView?.frame = CGRect(x: margin.left, y: margin.top, width: bounds.width - margin.left - margin.right, height: bounds.height - margin.top - margin.bottom)
     }    

@@ -8,33 +8,23 @@
 
 import UIKit
 
-class DemoTableVc: QXTableViewController<Any> {
-    
-    lazy var testView: QXModelsLoadStatusView<Any> = {
-         let tableView = QXTableView()
-         let statusView = QXLoadStatusView()
-         let e = QXModelsLoadStatusView<Any>(contentView: tableView, loadStatusView: statusView)
-         e.canPage = true
-         e.canRefresh = true
-         e.api = { ok, failed in
-             DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1) {
-                 let ms = (0..<5).map { _ in QXDebugRandomText(999) }
-                 ok(ms, true)
-             }
-         }
-         return e
-     }()
+class DemoListVc: QXTableViewController<QXTableViewSection> {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "TableVc"
+        title = "ListVc"
         view.qxBackgroundColor = QXColor.white
         contentView.canRefresh = true
         contentView.canPage = true
+        
+        tableView.sectionHeaderSpace = 100
+        tableView.sectionFooterSpace = 100
+        
         contentView.api = { ok, failed in
             DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1) {
                 let ms = (0..<10).map { _ in QXDebugRandomText(999) }
-                ok(ms, nil)
+                let s = QXTableViewSection(ms, QXSpace(10), QXSpace(10))
+                ok([s], nil)
     //            self.onLoadModelsFailed(QXError.unknown)
             }
         }
@@ -42,8 +32,17 @@ class DemoTableVc: QXTableViewController<Any> {
     }
     
     override func qxTableViewCellClass(_ model: Any?) -> QXTableViewCell.Type? {
-        return QXDebugTableViewCell.self
+        return QXTableViewDebugCell.self
     }
-    
+    override func qxTableViewDidSelectCell(_ model: Any?) {
+         print("cell")
+    }
+    override func qxTableViewDidSelectHeaderView(_ model: Any?) {
+        print("header")
+    }
+    override func qxTableViewDidSelectFooterView(_ model: Any?) {
+        print("footer")
+    }
+
 }
 

@@ -43,12 +43,22 @@ open class QXTableViewController<Model>: QXViewController, QXTableViewDelegate {
     open func qxTableViewCellClass(_ model: Any?) -> QXTableViewCell.Type? {
         return nil
     }
-    open func qxTableViewHeaderFooterViewClass(_ model: Any?) -> QXTableViewHeaderFooterView.Type? {
+    open func qxTableViewHeaderViewClass(_ model: Any?) -> QXTableViewHeaderFooterView.Type? {
         return nil
     }
-    open func qxTableViewMoveCell(_ indexPath: IndexPath, _ toIndexPath: IndexPath) {
-        
+    open func qxTableViewFooterViewClass(_ model: Any?) -> QXTableViewHeaderFooterView.Type? {
+        return nil
     }
     
+    open func qxTableViewDidSelectCell(_ model: Any?) {
+        QXDebugPrint("cell select: \(model ?? "null")")
+    }
+    open func qxTableViewDidSelectHeaderView(_ model: Any?) {
+        QXDebugPrint("headerView select: \(model ?? "null")")
+    }
+    open func qxTableViewDidSelectFooterView(_ model: Any?) {
+        QXDebugPrint("footerView select: \(model ?? "null")")
+    }
+
 }
 

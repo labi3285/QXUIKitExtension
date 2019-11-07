@@ -86,7 +86,7 @@ open class QXImageView: QXView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    open override func layoutSubviews() {
+    override open func layoutSubviews() {
         super.layoutSubviews()
         if qxBounds.size.isZero {
             return
@@ -166,7 +166,7 @@ open class QXImageView: QXView {
         
     public var intrinsicWidth: CGFloat?
     public var intrinsicHeight: CGFloat?
-    open override var intrinsicContentSize: CGSize {
+    override open var intrinsicContentSize: CGSize {
         if isDisplay {
             var w: CGFloat = 0
             var h: CGFloat = 0

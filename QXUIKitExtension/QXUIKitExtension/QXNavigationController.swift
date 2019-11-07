@@ -98,7 +98,7 @@ open class QXNavigationController: UINavigationController, UINavigationBarDelega
     public private(set) var customNavigationBar: QXNavigationBar?
     private(set) var _customNavigationBarForRecover: QXNavigationBar?
 
-    open override func viewDidLayoutSubviews() {
+    override open func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         if let e = customNavigationBar {
             e.frame = navigationBar.frame
@@ -107,24 +107,24 @@ open class QXNavigationController: UINavigationController, UINavigationBarDelega
         }
     }
 
-//    open override func pushViewController(_ viewController: UIViewController, animated: Bool) {
+//    override open func pushViewController(_ viewController: UIViewController, animated: Bool) {
 //        let bar = (viewController as? QXViewController)?.customNavigationBar
 //        performBarPushTo(bar, animated: animated)
 //        super.pushViewController(viewController, animated: animated)
 //    }
 //
-//    open override func popViewController(animated: Bool) -> UIViewController? {
+//    override open func popViewController(animated: Bool) -> UIViewController? {
 //        let bar = (viewControllers[viewControllers.count - 2] as? QXViewController)?.customNavigationBar
 //        performBarPopTo(bar, animated: animated)
 //        return super.popViewController(animated: animated)
 //    }
 //
-//    open override func popToRootViewController(animated: Bool) -> [UIViewController]? {
+//    override open func popToRootViewController(animated: Bool) -> [UIViewController]? {
 //        let bar = rootViewController.customNavigationBar
 //        performBarPopTo(bar, animated: animated)
 //        return super.popToRootViewController(animated: animated)
 //    }
-//    open override func popToViewController(_ viewController: UIViewController, animated: Bool) -> [UIViewController]? {
+//    override open func popToViewController(_ viewController: UIViewController, animated: Bool) -> [UIViewController]? {
 //        let bar = (viewController as? QXViewController)?.customNavigationBar
 //        performBarPopTo(bar, animated: animated)
 //        return super.popToViewController(viewController, animated: animated)

@@ -11,7 +11,7 @@ import QXConsMaker
 
 open class QXSettingTextViewCell: QXSettingCell {
 
-    open override func height(_ model: Any?, _ width: CGFloat) -> CGFloat? {
+    override open func height(_ model: Any?, _ width: CGFloat) -> CGFloat? {
         textView.intrinsicWidth = width - textView.padding.left - textView.padding.right
         let h = textView.intrinsicContentSize.height
         if let _h = fixHeight {

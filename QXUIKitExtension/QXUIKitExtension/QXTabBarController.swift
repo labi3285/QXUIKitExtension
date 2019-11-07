@@ -24,7 +24,7 @@ open class QXTabBarController: UITabBarController {
         }
     }
 
-    open override func viewDidLayoutSubviews() {
+    override open func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         updateTabBar()
     }

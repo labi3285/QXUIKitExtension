@@ -28,7 +28,7 @@ open class QXButton: QXView {
     open var clickHighlightDelaySecs: Double? = 0.3
     
     /// 高亮的alpha，nil表示不生效
-    open var highlightAlpha: CGFloat?
+    open var highlightAlpha: CGFloat? = 0.3
     /// 无效的alpha，nil表示不生效
     open var disableAlpha: CGFloat? = 0.3
     
@@ -63,12 +63,12 @@ open class QXButton: QXView {
     required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    open override func layoutSubviews() {
+    override open func layoutSubviews() {
         super.layoutSubviews()
         backView.qxRect = qxRect.absoluteRect.rectByReduce(padding)
     }
     
-    open override var intrinsicContentSize: CGSize {
+    override open var intrinsicContentSize: CGSize {
         if isDisplay {
             if let e = intrinsicSize {
                 return e.cgSize
@@ -104,6 +104,12 @@ open class QXButton: QXView {
         _originShadow = backView.qxShadow
         _originBorder = backView.qxBorder
         _originAlpha = alpha
+        if backView.backgroundColorHighlighted != nil {
+            highlightAlpha = nil
+        }
+        if backView.backgroundColorDisabled != nil {
+            disableAlpha = nil
+        }
     }
     open func handleNormalize() {
         if !_isOriginPrepared {
@@ -173,16 +179,16 @@ open class QXButton: QXView {
         qxSetNeedsLayout()
     }
     
-    open override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+    override open func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         respondTouchDown?()
         isHighlighted = true
         update()
         _touchBeganPoint = touches.first?.location(in: self)
     }
-    open override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+    override open func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         respondTouchMoved?()
     }
-    open override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+    override open func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         respondTouchEnded?()
         if let t = touches.first, let p = _touchBeganPoint {
             let p1 = t.location(in: self)
@@ -214,7 +220,7 @@ open class QXButton: QXView {
             }
         }
     }
-    open override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
+    override open func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
         respondTouchCancelled?()
         handleNormalize()
     }
@@ -317,7 +323,7 @@ open class QXTitleButton: QXButton {
     
     public var intrinsicMinHeight: CGFloat?
     public var intrinsicWidth: CGFloat?
-    open override var intrinsicContentSize: CGSize {
+    override open var intrinsicContentSize: CGSize {
         if isDisplay {
             if let e = intrinsicSize {
                 return e.cgSize
@@ -334,6 +340,16 @@ open class QXTitleButton: QXButton {
             }
         } else {
             return CGSize.zero
+        }
+    }
+    
+    override open func handlePrepareOrigins() {
+        super.handlePrepareOrigins()
+        if titleHighlighted != nil {
+            highlightAlpha = nil
+        }
+        if titleDisabled != nil {
+            disableAlpha = nil
         }
     }
     
@@ -418,7 +434,7 @@ open class QXImageButton: QXButton {
     
     public var intrinsicWidth: CGFloat? = nil
     public var intrinsicHeight: CGFloat? = nil
-    open override var intrinsicContentSize: CGSize {
+    override open var intrinsicContentSize: CGSize {
         if isDisplay {
             if let e = intrinsicSize {
                 return e.cgSize
@@ -461,12 +477,15 @@ open class QXImageButton: QXButton {
         }
     }
     
-//    open override func handlePrepareOrigins() {
-//        super.handlePrepareOrigins()
-//        if image == nil {
-//            image = imageView.image
-//        }
-//    }
+    override open func handlePrepareOrigins() {
+        super.handlePrepareOrigins()
+        if imageHighlighted != nil {
+            highlightAlpha = nil
+        }
+        if imageDisabled != nil {
+            disableAlpha = nil
+        }
+    }
     
     override open func handleNormalize() {
         imageView.image = image
@@ -526,7 +545,7 @@ open class QXStackButton: QXButton {
     
     public var intrinsicMinWidth: CGFloat?
     public var intrinsicMinHeight: CGFloat?
-    open override var intrinsicContentSize: CGSize {
+    override open var intrinsicContentSize: CGSize {
         if isDisplay {
             if let e = intrinsicSize {
                 return e.cgSize
@@ -547,6 +566,16 @@ open class QXStackButton: QXButton {
             }
         } else {
             return CGSize.zero
+        }
+    }
+    
+    override open func handlePrepareOrigins() {
+        super.handlePrepareOrigins()
+        if viewsHighlighted != nil {
+            highlightAlpha = nil
+        }
+        if viewsDisabled != nil {
+            disableAlpha = nil
         }
     }
     

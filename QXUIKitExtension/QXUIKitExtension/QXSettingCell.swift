@@ -10,7 +10,7 @@ import UIKit
 
 open class QXSettingCell: QXStaticBaseCell {
     
-    open override func initializedWithTable() {
+    override open func initializedWithTable() {
         super.initializedWithTable()
         breakLine.isHidden = isLastCellInSection || isBreakLineHidden
     }
@@ -37,7 +37,7 @@ open class QXSettingCell: QXStaticBaseCell {
         fatalError("init(_:) has not been implemented")
     }
     
-    open override func layoutSubviews() {
+    override open func layoutSubviews() {
         super.layoutSubviews()
         let h = breakLine.intrinsicContentSize.height
         breakLine.frame = CGRect(x: 0, y: contentView.frame.height - h, width: contentView.frame.width, height: h)
