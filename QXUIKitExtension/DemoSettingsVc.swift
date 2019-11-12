@@ -35,12 +35,26 @@ class DemoSettingsVc: QXTableViewController<Any> {
         e.titleLabel.text = "箭头"
         return e
     }()
+    lazy var iconArrowCell: QXSettingIconTitleArrowCell = {
+        let e = QXSettingIconTitleArrowCell()
+        e.titleLabel.text = "箭头"
+        return e
+    }()
     lazy var switchCell: QXSettingTitleSwitchCell = {
         let e = QXSettingTitleSwitchCell()
         e.titleLabel.text = "开关"
         return e
     }()
-    
+    lazy var selectCell: QXSettingTitleSelectCell = {
+        let e = QXSettingTitleSelectCell()
+        e.titleLabel.text = "选项"
+        e.backButton.respondClick = { [weak self] in
+            if let s = self {
+                s.selectCell.isSelected = !s.selectCell.isSelected
+            }
+        }
+        return e
+    }()
     lazy var textFieldCell: QXSettingTextFieldCell = {
         let e = QXSettingTextFieldCell()
         e.textField.placeHolder = "输入内容"
@@ -69,6 +83,8 @@ class DemoSettingsVc: QXTableViewController<Any> {
             self.baseCell,
             self.titleCell,
             self.arrowCell,
+            self.iconArrowCell,
+            self.selectCell,
             self.switchCell,
             self.titleTextFieldCell,
 
@@ -84,7 +100,7 @@ class DemoSettingsVc: QXTableViewController<Any> {
         super.viewDidLoad()
         title = "Settings"
         view.qxBackgroundColor = QXColor.backgroundGray
-        tableView.sections = [section]
+        tableView.sections = [section]        
     }
 
 }

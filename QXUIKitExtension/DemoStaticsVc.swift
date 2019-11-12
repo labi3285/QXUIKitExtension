@@ -22,6 +22,12 @@ class DemoStaticsVc: QXTableViewController<Any> {
         return e
     }()
     
+    lazy var imageCell: QXStaticImageCell = {
+        let e = QXStaticImageCell()
+        e.myImageView.image = QXImage("icon_mine_ask1")
+        return e
+    }()
+        
     lazy var buttonCell: QXStaticButtonCell = {
         let e = QXStaticButtonCell()
         return e
@@ -36,6 +42,7 @@ class DemoStaticsVc: QXTableViewController<Any> {
     lazy var section: QXTableViewSection = {
         let e = QXTableViewSection([
             self.textCell,
+            self.imageCell,
             self.buttonCell,
         ], self.headerView, self.footerView)
         return e

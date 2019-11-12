@@ -35,35 +35,28 @@ open class QXLineView: QXView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    public var intrinsicWidth: CGFloat?
-    public var intrinsicHeight: CGFloat?
-    override open var intrinsicContentSize: CGSize {
-        if isDisplay {
-            if let e = intrinsicSize {
-                return e.cgSize
-            } else if let e = intrinsicWidth {
-                if isVertical {
-                    return CGSize(width: e, height: CGFloat.greatestFiniteMagnitude)
-                } else {
-                    return CGSize(width: e, height: lineWidth + padding.top + padding.bottom)
-                }
-            } else if let e = intrinsicHeight {
-                if isVertical {
-                    return CGSize(width: lineWidth + padding.left + padding.right, height: e)
-                } else {
-                    return CGSize(width: CGFloat.greatestFiniteMagnitude, height: e)
-                }
+    open override func natureContentSize() -> QXSize {
+        if let e = fixWidth ?? maxWidth {
+            if isVertical {
+                return QXSize(e, QXView.extendLength)
             } else {
-                if isVertical {
-                    return CGSize(width: lineWidth + padding.left + padding.right, height: CGFloat.greatestFiniteMagnitude)
-                } else {
-                    return CGSize(width: CGFloat.greatestFiniteMagnitude, height: lineWidth + padding.top + padding.bottom)
-                }
+                return QXSize(e, lineWidth + padding.top + padding.bottom)
+            }
+        } else if let e = fixHeight ?? maxHeight {
+            if isVertical {
+                return QXSize(lineWidth + padding.left + padding.right, e)
+            } else {
+                return QXSize(QXView.extendLength, e)
+            }
+        } else {
+            if isVertical {
+                return QXSize(lineWidth + padding.left + padding.right, QXView.extendLength)
+            } else {
+                return QXSize(QXView.extendLength, lineWidth + padding.top + padding.bottom)
             }
         }
-        return CGSize.zero
     }
-    
+
     var a: Bool = false
     
     override open func draw(_ rect: CGRect) {

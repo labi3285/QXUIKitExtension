@@ -16,11 +16,14 @@ class DemoListVc: QXTableViewController<QXTableViewSection> {
         view.qxBackgroundColor = QXColor.white
         contentView.canRefresh = true
         contentView.canPage = true
-        
         tableView.sectionHeaderSpace = 100
         tableView.sectionFooterSpace = 100
         
-        contentView.api = { ok, failed in
+        tableView.adapter = QXTableView.Adapter([
+            (String.self, QXTableViewDebugCell.self)
+        ])
+        
+        contentView.api = { page, size, ok, failed in
             DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1) {
                 let ms = (0..<10).map { _ in QXDebugRandomText(999) }
                 let s = QXTableViewSection(ms, QXSpace(10), QXSpace(10))
@@ -31,9 +34,9 @@ class DemoListVc: QXTableViewController<QXTableViewSection> {
         contentView.reloadData()
     }
     
-    override func qxTableViewCellClass(_ model: Any?) -> QXTableViewCell.Type? {
-        return QXTableViewDebugCell.self
-    }
+//    override func qxTableViewCellClass(_ model: Any?) -> QXTableViewCell.Type? {
+//        return QXTableViewDebugCell.self
+//    }
     override func qxTableViewDidSelectCell(_ model: Any?) {
          print("cell")
     }

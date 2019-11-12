@@ -12,18 +12,19 @@ import QXConsMaker
 open class QXStaticTextCell: QXStaticBaseCell {
     
     override open func height(_ model: Any?, _ width: CGFloat) -> CGFloat? {
-        label.intrinsicWidth = width
+        label.maxWidth = width
         return label.intrinsicContentSize.height
     }
 
-    public lazy var label: QXLabel = {
-        let e = QXLabel()
+    public lazy var label: QXRichLabel = {
+        let e = QXRichLabel()
         e.numberOfLines = 0
         e.font = QXFont(fmt: "15 #999999")
         e.padding = QXEdgeInsets(5, 15, 5, 15)
+        e.isCopyEnabled = true
         return e
     }()
-
+    
     required public init() {
         super.init()
         contentView.addSubview(label)

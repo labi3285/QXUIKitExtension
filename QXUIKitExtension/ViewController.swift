@@ -13,6 +13,7 @@ class ViewController: QXTableViewController<Any> {
     lazy var testCell: QXSettingTitleArrowCell = {
         let e = QXSettingTitleArrowCell()
         e.titleLabel.text = "Test"
+        e.subTitleLabel.text = QXDebugText(99)
         e.backButton.respondClick = { [weak self] in
             let vc = DemoTestVc()
             self?.push(vc)
@@ -22,7 +23,7 @@ class ViewController: QXTableViewController<Any> {
     
     lazy var maskCell: QXSettingTitleArrowCell = {
         let e = QXSettingTitleArrowCell()
-        e.titleLabel.text = "QXArrangeView"
+        e.titleLabel.text = "QXMaskViewController"
         e.backButton.respondClick = { [weak self] in
             let vc = QXMaskViewController()
             vc.view.backgroundColor = UIColor.red
@@ -58,6 +59,16 @@ class ViewController: QXTableViewController<Any> {
         }
         return e
     }()
+    lazy var defaultListCell: QXSettingTitleArrowCell = {
+        let e = QXSettingTitleArrowCell()
+        e.titleLabel.text = "DefaultList"
+        e.backButton.respondClick = { [weak self] in
+            let vc = DemoDefaultListVc()
+            self?.push(vc)
+        }
+        return e
+    }()
+    
     
     lazy var staticCell: QXSettingTitleArrowCell = {
         let e = QXSettingTitleArrowCell()
@@ -86,6 +97,7 @@ class ViewController: QXTableViewController<Any> {
             self.arrangeCell,
             self.stackCell,
             self.listCell,
+            self.defaultListCell,
             self.staticCell,
             self.settingCell,
         ], QXSettingSeparateHeaderView(), QXSettingSeparateFooterView())
@@ -94,11 +106,12 @@ class ViewController: QXTableViewController<Any> {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         title = "首页"
         view.qxBackgroundColor = QXColor.backgroundGray
         tableView.sections = [section]
-        isNavigationBarShow = false
-        
+//        isNavigationBarShow = false
+                        
         view.backgroundColor = UIColor.yellow
         
 //        let bar = QXNavigationBar()

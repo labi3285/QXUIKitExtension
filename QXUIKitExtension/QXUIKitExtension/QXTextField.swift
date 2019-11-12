@@ -15,6 +15,13 @@ open class QXTextField: QXView, UITextFieldDelegate {
     public var respondEndEditting: (() -> ())?
     public var respondReturn: (() -> ())?
     
+    open var isEnabled: Bool = true {
+        didSet {
+            uiTextField.isEnabled = isEnabled
+            uiTextField.alpha = isEnabled ? 1 : 0.3
+        }
+    }
+
     public var text: String {
         set {
             uiTextField.text = newValue
@@ -30,7 +37,6 @@ open class QXTextField: QXView, UITextFieldDelegate {
             uiTextField.textColor = font.color.uiColor
         }
     }
-    
     
     open var placeHolder: String = "" {
         didSet {
@@ -85,30 +91,23 @@ open class QXTextField: QXView, UITextFieldDelegate {
         fatalError("init(coder:) has not been implemented")
     }
     
-    public var intrinsicWidth: CGFloat?
-    override open var intrinsicContentSize: CGSize {
-        if isDisplay {
-            var w: CGFloat = 0
-            var h: CGFloat = 0
-            if let e = intrinsicSize {
-                w = e.w
-                h = e.h
-            } else if let e = intrinsicWidth {
-                var size = CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude)
-                size = uiTextField.sizeThatFits(size)
-                w = padding.left + e + padding.right
-                h = padding.top + size.height + padding.bottom
-            } else {
-                let size = uiTextField.intrinsicContentSize
-                w = padding.left + size.width + padding.right
-                h = padding.top + size.height + padding.bottom
-            }
-            return CGSize(width: w, height: h)
-        } else {
-            return CGSize.zero
-        }
-    }
     
+    open override func natureContentSize() -> QXSize {
+        var w: CGFloat = 0
+        var h: CGFloat = 0
+        if let e = fixWidth {
+            var size = CGSize(width: QXView.extendLength, height: QXView.extendLength)
+            size = uiTextField.sizeThatFits(size)
+            w = padding.left + e + padding.right
+            h = padding.top + size.height + padding.bottom
+        } else {
+            let size = uiTextField.intrinsicContentSize
+            w = padding.left + size.width + padding.right
+            h = padding.top + size.height + padding.bottom
+        }
+        return QXSize(w, h)
+    }
+
     override open func layoutSubviews() {
         super.layoutSubviews()
         uiTextField.qxRect = qxBounds.rectByReduce(padding)

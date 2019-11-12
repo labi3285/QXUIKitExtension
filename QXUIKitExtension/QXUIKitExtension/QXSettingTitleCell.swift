@@ -23,7 +23,7 @@ open class QXSettingTitleCell: QXSettingCell {
         e.alignmentX = .left
         e.viewMargin = 10
         e.padding = QXEdgeInsets(5, 15, 5, 15)
-        e.setupViews([self.titleLabel])
+        e.setupViews(self.titleLabel)
         return e
     }()
     

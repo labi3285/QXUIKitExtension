@@ -102,7 +102,7 @@ open class QXNavigationController: UINavigationController, UINavigationBarDelega
         super.viewDidLayoutSubviews()
         if let e = customNavigationBar {
             e.frame = navigationBar.frame
-            e.intrinsicWidth = view.bounds.width
+            e.fixWidth = view.bounds.width
             e.frame = CGRect(x: 0, y: 0, width: view.bounds.width, height: e.qxIntrinsicContentSize.h)
         }
     }
@@ -167,7 +167,7 @@ open class QXNavigationController: UINavigationController, UINavigationBarDelega
 //        }
 //        func setBar(_ bar: QXNavigationBar) {
 //            view.addSubview(bar)
-//            bar.intrinsicWidth = view.bounds.width
+//            bar.fixWidth = view.bounds.width
 //            bar.frame = CGRect(x: 0, y: 0, width: view.bounds.width, height: bar.intrinsicContentSize.height)
 //        }
 //        if let e = nowBar {
@@ -197,7 +197,7 @@ open class QXNavigationController: UINavigationController, UINavigationBarDelega
 //        }
 //        func setBar(_ bar: QXNavigationBar) {
 //            view.addSubview(bar)
-//            bar.intrinsicWidth = view.bounds.width
+//            bar.fixWidth = view.bounds.width
 //            bar.frame = CGRect(x: 0, y: 0, width: view.bounds.width, height: bar.intrinsicContentSize.height)
 //        }
 //        if let e = toBar {

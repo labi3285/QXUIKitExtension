@@ -10,10 +10,17 @@ import UIKit
 import QXConsMaker
 
 open class QXSettingTextFieldCell: QXSettingCell {
+    
+    open override var isEnabled: Bool {
+        didSet {
+            textField.isEnabled = isEnabled
+            super.isEnabled = isEnabled
+        }
+    }
 
     public lazy var textField: QXTextField = {
         let e = QXTextField()
-        e.intrinsicSize = QXSize(9999, 99)
+        e.extendSize = true
         e.font = QXFont(fmt: "16 #333333")
         e.placeHolderfont = QXFont(fmt: "16 #999999")
         e.placeHolder = "输入内容"

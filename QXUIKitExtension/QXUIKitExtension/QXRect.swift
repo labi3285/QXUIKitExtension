@@ -24,6 +24,20 @@ public struct QXRect {
         self.h = h
     }
     
+    /// init with size
+    public init(_ size: QXSize) {
+        self.x = 0
+        self.y = 0
+        self.w = size.w
+        self.h = size.h
+    }
+    public init(_ size: CGSize) {
+        self.x = 0
+        self.y = 0
+        self.w = size.width
+        self.h = size.height
+    }
+    
     //MARK:-
 
     /// x at left

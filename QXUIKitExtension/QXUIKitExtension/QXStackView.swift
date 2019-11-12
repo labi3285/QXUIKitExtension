@@ -8,21 +8,6 @@
 
 import UIKit
 
-public class QXFlexView: QXView {
-    public var ratio: CGFloat
-    public required init(_ ratio: CGFloat) {
-        self.ratio = ratio
-        super.init()
-        isUserInteractionEnabled = false
-    }
-    public required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    convenience public override init() {
-        self.init(1)
-    }
-}
-
 open class QXStackView: QXView {
     
     public var isVertical: Bool = false
@@ -30,32 +15,31 @@ open class QXStackView: QXView {
     public var alignmentY: QXAlignmentY = .top
     
     public var viewMargin: CGFloat = 0
-    public private(set) var views: [QXView] = []
-    public private(set) var collapseOrder: [Int] = []
-    public var collapseMinSize: QXSize = QXSize(30, 30)
+    public private(set) var views: [QXViewProtocol] = []
+    public private(set) var compressOrder: [Int] = []
+    public var compressMinSize: QXSize = QXSize(30, 30)
     
-    public func setupViews(_ views: QXView...) {
-        setupViews(views, collapseOrder: nil)
+    public func setupViews(_ views: QXViewProtocol...) {
+        setupViews(views)
     }
 
-    public func setupViews(_ views: [QXView], collapseOrder: [Int]? = nil) {
+    public func setupViews(_ views: [QXViewProtocol]) {
         for view in subviews {
             view.removeFromSuperview()
         }
         self.views = views
-        var orders: [Int] = []
-        if let e = collapseOrder {
-            orders = e
-        } else {
-            for (i, _) in views.enumerated() {
-                orders.append(views.count - 1 - i)
+        var sortInfos: [(i: Int, compressResistance: CGFloat)] = []
+        for (i, v) in views.enumerated() {
+            if isVertical {
+                sortInfos.append((i, v.compressResistanceY))
+            } else {
+                sortInfos.append((i, v.compressResistanceX))
             }
         }
-        self.collapseOrder = orders
+        sortInfos = sortInfos.reversed().sorted(by: { $0.compressResistance < $1.compressResistance })
+        self.compressOrder = sortInfos.map({ $0.i })
         for view in views {
-            if !(view is QXFlexView) {
-                addSubview(view)
-            }
+            view.addAsQXSubview(self)
         }
         qxSetNeedsLayout()
     }
@@ -78,21 +62,28 @@ open class QXStackView: QXView {
     override open func layoutSubviews() {
         super.layoutSubviews()
         if isVertical {
-            let size = viewsIntrinsicSize
-            var collapseInfo: [Int: QXSize] = [:]
+            let size = viewsfixSizeWithoutFlexs()
+            var compressInfo: [Int: QXSize] = [:]
             var flexInfo: [Int: CGFloat] = [:]
             if size.h > bounds.height {
                 var needCollapseH = size.h - bounds.height
-                for i in collapseOrder {
+                for i in compressOrder {
                     let view = views[i]
-                    if view.isDisplay && !(view is QXFlexView) {
-                        let size = view.qxIntrinsicContentSize
+                    if let view = view as? QXView, view.isDisplay {
+                        let size = view.natureSize
                         if size.h > needCollapseH {
-                            collapseInfo[i] = QXSize(size.w, size.h - needCollapseH)
+                            compressInfo[i] = QXSize(size.w, size.h - needCollapseH)
                             break
                         } else {
-                            needCollapseH -= size.h - collapseMinSize.h
-                            collapseInfo[i] = QXSize(size.w, collapseMinSize.h)
+                            var h = compressMinSize.h
+                            if h > size.h {
+                                h = size.h
+                            }
+                            if let e = view.minHeight {
+                                h = max(e, h)
+                            }
+                            needCollapseH -= size.h - h
+                            compressInfo[i] = QXSize(size.w, h)
                         }
                     }
                 }
@@ -100,7 +91,7 @@ open class QXStackView: QXView {
                 var flexs: [(Int, CGFloat)] = []
                 var total: CGFloat = 0
                 for (i, view) in views.enumerated() {
-                    if let e = view as? QXFlexView {
+                    if let e = view as? QXFlexSpace {
                         flexs.append((i, e.ratio))
                         total += e.ratio
                     }
@@ -128,8 +119,8 @@ open class QXStackView: QXView {
             }
             for (i, view) in views.enumerated() {
                 if view.isDisplay {
-                    var wh = view.qxIntrinsicContentSize
-                    if let e = collapseInfo[i] {
+                    var wh = view.natureSize
+                    if let e = compressInfo[i] {
                         wh = e
                     }
                     let w = min(wh.w, bounds.width - padding.left - padding.right)
@@ -142,7 +133,7 @@ open class QXStackView: QXView {
                     case .right:
                         offsetX = bounds.width - w - padding.right
                     }
-                    view.frame = CGRect(x: offsetX, y: offsetY, width: w, height: wh.h)
+                    view.updateRect(QXRect(offsetX, offsetY, w, wh.h))
                     offsetY += wh.h + viewMargin
                 }
                 if let h = flexInfo[i] {
@@ -150,21 +141,28 @@ open class QXStackView: QXView {
                 }
             }
         } else {
-            let size = viewsIntrinsicSize
-            var collapseInfo: [Int: QXSize] = [:]
+            let size = viewsfixSizeWithoutFlexs()
+            var compressInfo: [Int: QXSize] = [:]
             var flexInfo: [Int: CGFloat] = [:]
             if size.w >= bounds.width {
                 var needCollapseW = size.w - bounds.width
-                for i in collapseOrder {
+                for i in compressOrder {
                     let view = views[i]
-                    if view.isDisplay && !(view is QXFlexView) {
-                        let size = view.qxIntrinsicContentSize
+                    if let view = view as? QXView, view.isDisplay {
+                        let size = view.natureSize
                         if size.w > needCollapseW {
-                            collapseInfo[i] = QXSize(size.w - needCollapseW, size.h)
+                            compressInfo[i] = QXSize(size.w - needCollapseW, size.h)
                             break
                         } else {
-                            needCollapseW -= size.w - collapseMinSize.w
-                            collapseInfo[i] = QXSize(collapseMinSize.w, size.h)
+                            var w = compressMinSize.w
+                            if w > size.w {
+                                w = size.w
+                            }
+                            if let e = view.minWidth {
+                                w = max(e, w)
+                            }
+                            needCollapseW -= size.w - w
+                            compressInfo[i] = QXSize(w, size.h)
                         }
                     }
                 }
@@ -172,7 +170,7 @@ open class QXStackView: QXView {
                 var flexs: [(Int, CGFloat)] = []
                 var total: CGFloat = 0
                 for (i, view) in views.enumerated() {
-                    if let e = view as? QXFlexView {
+                    if let e = view as? QXFlexSpace {
                         flexs.append((i, e.ratio))
                         total += e.ratio
                     }
@@ -199,9 +197,9 @@ open class QXStackView: QXView {
                 }
             }
             for (i, view) in views.enumerated() {
-                if view.isDisplay && !(view is QXFlexView) {
-                    var wh = view.qxIntrinsicContentSize
-                    if let e = collapseInfo[i] {
+                if !(view is QXFlexSpace) && view.isDisplay {
+                    var wh = view.natureSize
+                    if let e = compressInfo[i] {
                         wh = e
                     }
                     let h = min(wh.h, bounds.height - padding.top - padding.bottom)
@@ -214,7 +212,7 @@ open class QXStackView: QXView {
                     case .bottom:
                         offsetY = bounds.height - h - padding.bottom
                     }
-                    view.frame = CGRect(x: offsetX, y: offsetY, width: wh.w, height: h)
+                    view.updateRect(QXRect(offsetX, offsetY, wh.w, h))
                     offsetX += wh.w + viewMargin
                 }
                 if let w = flexInfo[i] {
@@ -225,35 +223,42 @@ open class QXStackView: QXView {
 
     }
     
-    public var intrinsicWidth: CGFloat?
-    public var intrinsicHeight: CGFloat?
-    override open var intrinsicContentSize: CGSize {
-        if views.count == 0 || !isDisplay {
-            return CGSize.zero
+    open override func natureContentSize() -> QXSize {
+        if views.count == 0 {
+            return QXSize.zero
         }
-        if let e = intrinsicSize {
-            return e.cgSize
-        }
-        let wh = viewsIntrinsicSize
+        let wh = viewsfixSizeWithoutFlexs()
         var w: CGFloat = wh.w
         var h: CGFloat = wh.h
-        if let e = intrinsicWidth {
-            w = max(w, e)
+        if let e = fixWidth ?? maxWidth {
+            w = e
+        } else {
+            if !isVertical {
+                if let _ = views.first(where: { $0 is QXFlexSpace }) {
+                    w = QXView.extendLength
+                }
+            }
         }
-        if let e = intrinsicHeight {
-            h = max(h, e)
+        if let e = fixHeight ?? maxHeight {
+            h = e
+        } else {
+            if isVertical {
+               if let _ = views.first(where: { $0 is QXFlexSpace }) {
+                   h = QXView.extendLength
+               }
+            }
         }
-        return CGSize(width: w, height: h)
+        return QXSize(w, h)
     }
-    
-    private var viewsIntrinsicSize: QXSize {
+
+    private func viewsfixSizeWithoutFlexs() -> QXSize {
         var w: CGFloat = 0
         var h: CGFloat = 0
         var showCount: Int = 0
         if isVertical {
             for view in views {
                 if view.isDisplay {
-                    let size = view.qxIntrinsicContentSize
+                    let size = view.natureSize
                     h += size.h
                     w = max(w, size.w)
                     showCount += 1
@@ -266,8 +271,8 @@ open class QXStackView: QXView {
             w += padding.left + padding.right
         } else {
             for view in views {
-                if view.isDisplay && !(view is QXFlexView) {
-                    let size = view.qxIntrinsicContentSize
+                if !(view is QXFlexSpace) && view.isDisplay {
+                    let size = view.natureSize
                     w += size.w
                     h = max(h, size.h)
                     showCount += 1

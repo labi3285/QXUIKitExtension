@@ -68,18 +68,10 @@ open class QXButton: QXView {
         backView.qxRect = qxRect.absoluteRect.rectByReduce(padding)
     }
     
-    override open var intrinsicContentSize: CGSize {
-        if isDisplay {
-            if let e = intrinsicSize {
-                return e.cgSize
-            } else {
-                return CGSize.zero
-            }
-        } else {
-            return CGSize.zero
-        }
+    open override func natureContentSize() -> QXSize {
+        return QXSize(44, 44)
     }
-    
+
     open func update() {
         if isEnabled {
             isUserInteractionEnabled = true
@@ -236,7 +228,8 @@ open class QXButton: QXView {
 open class QXTitleButton: QXButton {
     
     open var title: String = "" { didSet { update() } }
-    open var font: QXFont = QXFont(fmt: "14 #333333")
+    open var font: QXFont = QXFont(fmt: "14 #333333") { didSet { update() } }
+    
     open var richTitles: [QXRichText]? { didSet { update() } }
     open var richTitle: QXRichText? {
         set {
@@ -321,26 +314,10 @@ open class QXTitleButton: QXButton {
         label.qxRect = backView.qxRect.absoluteRect.rectByReduce(padding)
     }
     
-    public var intrinsicMinHeight: CGFloat?
-    public var intrinsicWidth: CGFloat?
-    override open var intrinsicContentSize: CGSize {
-        if isDisplay {
-            if let e = intrinsicSize {
-                return e.cgSize
-            } else {
-                var size = label.qxIntrinsicContentSize
-                size = size.sizeByAdd(titlePadding).sizeByAdd(padding)
-                if let e = intrinsicMinHeight {
-                   size = QXSize(size.w, max(size.h, e))
-                }
-                if let e = intrinsicWidth {
-                    size = QXSize(max(size.w, e), size.h)
-                }
-                return size.cgSize
-            }
-        } else {
-            return CGSize.zero
-        }
+    open override func natureContentSize() -> QXSize {
+        var size = label.qxIntrinsicContentSize
+        size = size.sizeByAdd(titlePadding).sizeByAdd(padding)
+        return size
     }
     
     override open func handlePrepareOrigins() {
@@ -432,51 +409,43 @@ open class QXImageButton: QXButton {
         imageView.qxRect = backView.qxRect.absoluteRect
     }
     
-    public var intrinsicWidth: CGFloat? = nil
-    public var intrinsicHeight: CGFloat? = nil
-    override open var intrinsicContentSize: CGSize {
-        if isDisplay {
-            if let e = intrinsicSize {
-                return e.cgSize
-            } else if let e = intrinsicWidth {
-                let size = imageView.qxIntrinsicContentSize
-                if size.isZero {
-                    return size.cgSize
-                } else {
-                    if size.w <= e - padding.left - padding.right {
-                        return size.sizeByAdd(padding).cgSize
-                    } else {
-                        let w = e - padding.left - padding.right
-                        let h = w * size.h / size.w
-                        return QXSize(w, h).sizeByAdd(padding).cgSize
-                    }
-                }
-            } else if let e = intrinsicHeight {
-                let size = imageView.qxIntrinsicContentSize
-                if size.isZero {
-                   return size.cgSize
-                } else {
-                   if size.h <= e - padding.top - padding.bottom {
-                       return size.sizeByAdd(padding).cgSize
-                   } else {
-                       let h = e - padding.top - padding.bottom
-                       let w = h * size.w / size.h
-                       return QXSize(w, h).sizeByAdd(padding).cgSize
-                   }
-                }
+    open override func natureContentSize() -> QXSize {
+        if let e = fixWidth ?? maxWidth {
+            let size = imageView.qxIntrinsicContentSize
+            if size.isZero {
+                return size
             } else {
-                let size = imageView.qxIntrinsicContentSize
-                if size.isZero {
-                    return size.cgSize
+                if size.w <= e - padding.left - padding.right {
+                    return size.sizeByAdd(padding)
                 } else {
-                    return size.sizeByAdd(padding).cgSize
+                    let w = e - padding.left - padding.right
+                    let h = w * size.h / size.w
+                    return QXSize(w, h).sizeByAdd(padding)
+                }
+            }
+        } else if let e = fixHeight ?? maxHeight {
+            let size = imageView.qxIntrinsicContentSize
+            if size.isZero {
+                return size
+            } else {
+                if size.h <= e - padding.top - padding.bottom {
+                    return size.sizeByAdd(padding)
+                } else {
+                    let h = e - padding.top - padding.bottom
+                    let w = h * size.w / size.h
+                    return QXSize(w, h).sizeByAdd(padding)
                 }
             }
         } else {
-            return CGSize.zero
+            let size = imageView.qxIntrinsicContentSize
+            if size.isZero {
+                return size
+            } else {
+                return size.sizeByAdd(padding)
+            }
         }
     }
-    
+
     override open func handlePrepareOrigins() {
         super.handlePrepareOrigins()
         if imageHighlighted != nil {
@@ -543,29 +512,12 @@ open class QXStackButton: QXButton {
         stackView.qxRect = backView.qxRect.absoluteRect.rectByReduce(stackPadding)
     }
     
-    public var intrinsicMinWidth: CGFloat?
-    public var intrinsicMinHeight: CGFloat?
-    override open var intrinsicContentSize: CGSize {
-        if isDisplay {
-            if let e = intrinsicSize {
-                return e.cgSize
-            } else {
-                let size = stackView.qxIntrinsicContentSize
-                if size.isZero {
-                    return size.cgSize
-                } else {
-                    var size = size.sizeByAdd(stackPadding).sizeByAdd(padding)
-                    if let e = intrinsicMinWidth {
-                        size = QXSize(max(size.w, e), size.h)
-                    }
-                    if let e = intrinsicMinHeight {
-                        size = QXSize(size.w, max(size.h, e))
-                    }
-                    return size.cgSize
-                }
-            }
+    open override func natureContentSize() -> QXSize {
+        let size = stackView.qxIntrinsicContentSize
+        if size.isZero {
+            return size
         } else {
-            return CGSize.zero
+            return size.sizeByAdd(stackPadding).sizeByAdd(padding)
         }
     }
     

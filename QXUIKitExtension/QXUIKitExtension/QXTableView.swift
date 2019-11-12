@@ -9,13 +9,6 @@
 import UIKit
 import MJRefresh
 
-public struct QXSpace {
-    let space: CGFloat
-    public init(_ space: CGFloat) {
-        self.space = space
-    }
-}
-
 public let QXTableViewAutoHeight: CGFloat = UITableView.automaticDimension
 public let QXTableViewNoneHeight: CGFloat = 0.0001
 
@@ -50,6 +43,8 @@ public class QXTableViewSection {
     public var models: [Any?] = []
     public var footer: Any? = nil
     
+    public var isDisplay: Bool = true
+    
     public init(_ models: [Any?]) {
         self.models = models
     }
@@ -61,13 +56,145 @@ public class QXTableViewSection {
     
 }
 
+extension QXTableView {
+    
+    public struct Adapter {
+        private let cellsInfoDic: [String: QXTableViewCell.Type]
+        private let headerViewsInfoDic: [String: QXTableViewHeaderFooterView.Type]?
+        private let footerViewsInfoDic: [String: QXTableViewHeaderFooterView.Type]?
+        public init(_ cellMappings: (Any.Type, QXTableViewCell.Type)...) {
+            self.init(cellMappings, nil, nil)
+        }
+        public init(_ cellMappings: [(Any.Type, QXTableViewCell.Type)]) {
+            self.init(cellMappings, nil, nil)
+        }
+        public init(_ cellMappings: [(Any.Type, QXTableViewCell.Type)],
+             _ headerViewMappings: [(Any.Type, QXTableViewHeaderFooterView.Type)]?,
+             _ footerViewMappings: [(Any.Type, QXTableViewHeaderFooterView.Type)]?) {
+            do {
+                var dic = [String: QXTableViewCell.Type]()
+                for e in cellMappings {
+                    dic["\(e.0)"] = e.1
+                }
+                self.cellsInfoDic = dic
+            }
+            if let ms = headerViewMappings {
+                var dic = [String: QXTableViewHeaderFooterView.Type]()
+                for e in ms {
+                    dic["\(e.0)"] = e.1
+                }
+                self.headerViewsInfoDic = dic
+            } else {
+                self.headerViewsInfoDic = nil
+            }
+            if let ms = footerViewMappings {
+                var dic = [String: QXTableViewHeaderFooterView.Type]()
+                for e in ms {
+                    dic["\(e.0)"] = e.1
+                }
+                self.footerViewsInfoDic = dic
+            } else {
+                self.footerViewsInfoDic = nil
+            }
+        }
+        public func cellClass(_ model: Any?) -> QXTableViewCell.Type? {
+            if let m = model {
+                return cellsInfoDic["\(type(of: m))"]
+            }
+            return nil
+        }
+        public func headerViewClass(_ model: Any?) -> QXTableViewHeaderFooterView.Type? {
+            if let m = model, let ms = headerViewsInfoDic {
+                return ms["\(type(of: m))"]
+            }
+            return nil
+        }
+        public func footerViewClass(_ model: Any?) -> QXTableViewHeaderFooterView.Type? {
+            if let m = model, let ms = footerViewsInfoDic {
+                return ms["\(type(of: m))"]
+            }
+            return nil
+        }
+    }
+    
+}
+
 open class QXTableView: QXView {
     
+    public var adapter: Adapter?
     public weak var delegate: QXTableViewDelegate?
-    public var sections: [QXTableViewSection] = []
     
+    open var sections: [QXTableViewSection] = [] {
+        didSet {
+            var ss: [QXTableViewSection] = []
+            for s in sections {
+                if s.isDisplay {
+                    var ms: [Any?] = []
+                    for c in s.models {
+                        if let c = c as? QXStaticBaseCell {
+                            if c.isDisplay {
+                                ms.append(c)
+                            }
+                        } else {
+                            ms.append(c)
+                        }
+                    }
+                    if ms.count > 0 {
+                        let s = QXTableViewSection(ms, s.header, s.footer)
+                        ss.append(s)
+                    }
+                }
+            }
+            _cacheSections = ss
+        }
+    }
+
     public var sectionHeaderSpace: CGFloat = QXTableViewNoneHeight
     public var sectionFooterSpace: CGFloat = QXTableViewNoneHeight
+    
+    public var headView: UIView? {
+        set {
+            if let e = newValue {
+                if e.frame.width == 0 && e.frame.height == 0 {
+                    let h = e.intrinsicContentSize.height
+                    e.frame = CGRect(x: 0, y: 0, width: 1, height: h)
+                }
+                uiTableView.tableHeaderView = e
+            } else {
+                uiTableView.tableHeaderView = nil
+            }
+        }
+        get {
+            return uiTableView.tableHeaderView
+        }
+    }
+    public func updateHeadView() {
+        if let e = uiTableView.tableHeaderView {
+            uiTableView.tableHeaderView = nil
+            uiTableView.tableHeaderView = e
+        }
+    }
+    
+    public var footView: UIView? {
+       set {
+           if let e = newValue {
+               if e.frame.width == 0 && e.frame.height == 0 {
+                   let h = e.intrinsicContentSize.height
+                   e.frame = CGRect(x: 0, y: 0, width: 1, height: h)
+               }
+               uiTableView.tableFooterView = e
+           }
+       }
+       get {
+           return uiTableView.tableFooterView
+       }
+    }
+    public func updateFootView() {
+        if let e = uiTableView.tableFooterView {
+            uiTableView.tableFooterView = nil
+            uiTableView.tableFooterView = e
+        }
+    }
     
     open func setNeedsUpdate() {
         if _isNeedsUpdate {
@@ -134,17 +261,19 @@ open class QXTableView: QXView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    fileprivate var _cacheSections: [QXTableViewSection] = []
+
 }
 extension QXTableView: UITableViewDelegate, UITableViewDataSource {
     
     open func numberOfSections(in tableView: UITableView) -> Int {
-        return sections.count
+        return _cacheSections.count
     }
     open func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return sections[section].models.count
+        return _cacheSections[section].models.count
     }
     open func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let section = sections[indexPath.section]
+        let section = _cacheSections[indexPath.section]
         let model = section.models[indexPath.row]
         let cell: QXTableViewCell
         if let e = model as? QXStaticBaseCell {
@@ -157,7 +286,7 @@ extension QXTableView: UITableViewDelegate, UITableViewDataSource {
                 id = "NULL"
             }
             let cls: QXTableViewCell.Type
-            if let e = delegate?.qxTableViewCellClass(model) {
+            if let e = adapter?.cellClass(model) ?? delegate?.qxTableViewCellClass(model) {
                 cls = e
             } else {
                 if model is QXSpace {
@@ -181,13 +310,16 @@ extension QXTableView: UITableViewDelegate, UITableViewDataSource {
         return cell
     }
     open func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        let section = sections[indexPath.section]
+        let section = _cacheSections[indexPath.section]
         let model = section.models[indexPath.row]
         if let e = model as? QXStaticBaseCell {
+            if !e.isDisplay {
+                return 0
+            }
             if let e = type(of: e).height(model, uiTableView.bounds.width) {
                 return e
             }
-        } else if let e = delegate?.qxTableViewCellClass(model) {
+        } else if let e = adapter?.cellClass(model) ?? delegate?.qxTableViewCellClass(model) {
             if let e = e.height(model, uiTableView.bounds.width) {
                 return e
             }
@@ -198,7 +330,7 @@ extension QXTableView: UITableViewDelegate, UITableViewDataSource {
     }
     
     open func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let _section = sections[section]
+        let _section = _cacheSections[section]
         let model = _section.header
         let view: QXTableViewHeaderFooterView?
         if let e = model as? QXStaticBaseHeaderFooterView {
@@ -230,7 +362,7 @@ extension QXTableView: UITableViewDelegate, UITableViewDataSource {
         return nil
     }
     open func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        let _section = sections[section]
+        let _section = _cacheSections[section]
         let model = _section.footer
         let view: QXTableViewHeaderFooterView?
         if let e = model as? QXStaticBaseHeaderFooterView {
@@ -263,7 +395,7 @@ extension QXTableView: UITableViewDelegate, UITableViewDataSource {
     }
          
     open func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        let section = sections[section]
+        let section = _cacheSections[section]
         let model = section.header
         if let e = model as? QXStaticBaseHeaderFooterView {
            if let e = type(of: e).height(model, uiTableView.bounds.width) {
@@ -279,7 +411,7 @@ extension QXTableView: UITableViewDelegate, UITableViewDataSource {
         return sectionHeaderSpace
     }
     open func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        let section = sections[section]
+        let section = _cacheSections[section]
         let model = section.footer
         if let e = model as? QXStaticBaseHeaderFooterView {
            if let e = type(of: e).height(model, uiTableView.bounds.width) {
@@ -295,41 +427,49 @@ extension QXTableView: UITableViewDelegate, UITableViewDataSource {
         return sectionHeaderSpace
     }
     open func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-        let section = sections[indexPath.section]
+        let section = _cacheSections[indexPath.section]
         let model = section.models[indexPath.row]
-        if let e = delegate?.qxTableViewCellClass(model)?.estimatedHeight(model, uiTableView.bounds.width) {
-            return e
+        if let e = adapter?.cellClass(model) ?? delegate?.qxTableViewCellClass(model) {
+            return e.estimatedHeight(model, uiTableView.bounds.width)
         }
         return QXTableViewAutoHeight
     }
-        
+    
+    public func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+//        let section = _cacheSections[indexPath.section]
+//        let model = section.models[indexPath.row]
+//        if let e = adapter?.cellClass(model) ?? delegate?.qxTableViewCellClass(model) {
+//            return e.editingStyle(model)
+//        }
+        return .none
+    }
     open func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        let section = sections[indexPath.section]
+        let section = _cacheSections[indexPath.section]
         let model = section.models[indexPath.row]
-        if let e = delegate?.qxTableViewCellClass(model)?.editActions(model) {
-            return e.count > 0
+        if let e = adapter?.cellClass(model) ?? delegate?.qxTableViewCellClass(model) {
+            return e.canEdit(model)
         }
         return false
     }
     open func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        let section = sections[indexPath.section]
-        let model = section.models[indexPath.row]
-        if let e = delegate?.qxTableViewCellClass(model)?.canMove(model) {
-          return e.count > 0
-        }
+//        let section = _cacheSections[indexPath.section]
+//        let model = section.models[indexPath.row]
+//        if let e = adapter?.cellClass(model) ?? delegate?.qxTableViewCellClass(model) {
+//            return e.canMove(model)
+//        }
         return false
     }
     
     open func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        let section = sections[indexPath.section]
-        let model = section.models[indexPath.row]
-        delegate?.qxTableViewCellClass(model)?.editCommit(model, editingStyle)
+//        let section = _cacheSections[indexPath.section]
+//        let model = section.models[indexPath.row]
+//        (adapter?.cellClass(model) ?? delegate?.qxTableViewCellClass(model))?.editCommit(model, editingStyle)
     }
     
     open func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
-        let section = sections[indexPath.section]
+        let section = _cacheSections[indexPath.section]
         let model = section.models[indexPath.row]
-        return delegate?.qxTableViewCellClass(model)?.editActions(model)
+        return (adapter?.cellClass(model) ?? delegate?.qxTableViewCellClass(model))?.editActions(model)
     }
 
     open func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
@@ -382,6 +522,7 @@ extension QXTableView: QXRefreshableViewProtocol {
             let section = QXTableViewSection(models, nil, nil)
             self.sections = [section]
         }
+        qxReloadData()
     }
 }
 
@@ -396,9 +537,13 @@ open class QXTableViewCell: UITableViewCell {
     public fileprivate(set) var cellWidth: CGFloat = 0
 
     open class func height(_ model: Any?, _ width: CGFloat) -> CGFloat? { return nil }
+    
+//    open class func editingStyle(_ model: Any?) -> UITableViewCell.EditingStyle { return .insert }
+    
+    open class func canEdit(_ model: Any?) -> Bool { return false }
     open class func editActions(_ model: Any?) -> [UITableViewRowAction]? { return nil }
-    open class func editCommit(_ model: Any?, _ editingStyle: UITableViewCell.EditingStyle) {}
-    open class func canMove(_ model: Any?) -> [UITableViewRowAction]? { return nil }
+//    open class func editCommit(_ model: Any?, _ editingStyle: UITableViewCell.EditingStyle) {}
+//    open class func canMove(_ model: Any?) -> Bool { return true }
     open class func estimatedHeight(_ model: Any?, _ width: CGFloat) -> CGFloat { QXTableViewAutoHeight }
     open func willDisplay() { }
     open func didEndDisplaying() { }
@@ -517,7 +662,7 @@ class QXTableViewDebugCell: QXTableViewBreakLineCell {
     
     override open func initializedWithTable() {
         super.initializedWithTable()
-        label.intrinsicWidth = cellWidth
+        label.fixWidth = cellWidth
     }
     
     override var model: Any? {
@@ -564,7 +709,7 @@ class QXDebugTableViewHeaderFooterView: QXTableViewHeaderFooterView {
     
     override open func initializedWithTable() {
         super.initializedWithTable()
-        label.intrinsicWidth = viewWidth
+        label.fixWidth = viewWidth
     }
     
     override var model: Any? {

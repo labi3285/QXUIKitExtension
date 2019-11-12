@@ -17,6 +17,9 @@ open class QXStaticBaseCell: QXTableViewCell {
         }
     }
     
+    open var isDisplay: Bool = true
+    open var isEnabled: Bool = true
+
     open func height(_ model: Any?, _ width: CGFloat) -> CGFloat? {
         return fixHeight
     }
@@ -32,6 +35,7 @@ open class QXStaticBaseCell: QXTableViewCell {
     required public init() {
         super.init("static")
         backButton.isDisplay = false
+        contentView.clipsToBounds = true
     }
     required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")

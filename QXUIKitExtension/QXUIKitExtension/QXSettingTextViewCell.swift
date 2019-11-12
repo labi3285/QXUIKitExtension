@@ -11,8 +11,15 @@ import QXConsMaker
 
 open class QXSettingTextViewCell: QXSettingCell {
 
+    open override var isEnabled: Bool {
+        didSet {
+            textView.isEnabled = isEnabled
+            super.isEnabled = isEnabled
+        }
+    }
+    
     override open func height(_ model: Any?, _ width: CGFloat) -> CGFloat? {
-        textView.intrinsicWidth = width - textView.padding.left - textView.padding.right
+        textView.maxWidth = width - textView.padding.left - textView.padding.right
         let h = textView.intrinsicContentSize.height
         if let _h = fixHeight {
             return max(_h, h)

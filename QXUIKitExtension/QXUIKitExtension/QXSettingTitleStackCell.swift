@@ -29,7 +29,7 @@ open class QXSettingTitleStackCell: QXSettingCell {
         e.alignmentX = .left
         e.viewMargin = 10
         e.padding = QXEdgeInsets(5, 15, 5, 15)
-        e.setupViews([self.titleLabel, QXFlexView(), self.stackView], collapseOrder: [0, 2, 1])
+        e.setupViews(self.titleLabel, QXFlexSpace(), self.stackView)
         return e
     }()
     

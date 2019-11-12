@@ -10,7 +10,6 @@ import UIKit
 
 open class QXNavigationBar: QXView {
     
-    public var fixHeight: CGFloat = 44
     public var leftMargin: CGFloat = 10
     public var rightMargin: CGFloat = 10
     
@@ -120,12 +119,11 @@ open class QXNavigationBar: QXView {
         }
     }
     
-    public var intrinsicWidth: CGFloat?
-    override open var intrinsicContentSize: CGSize {
-        if let e = intrinsicWidth {
-            return CGSize(width: e, height: QXDevice.statusBarHeight + QXDevice.navigationBarHeight)
+    open override func natureContentSize() -> QXSize {
+        if let e = fixWidth ?? maxWidth {
+            return QXSize(e, QXDevice.statusBarHeight + QXDevice.navigationBarHeight)
         }
-        return CGSize(width: 9999, height: QXDevice.statusBarHeight + QXDevice.navigationBarHeight)
+        return QXSize(QXView.extendLength, QXDevice.statusBarHeight + QXDevice.navigationBarHeight)
     }
     
 }
@@ -144,9 +142,9 @@ extension QXNavigationBar {
             let label = QXLabel()
             label.font = font ?? QXFont(fmt: "14 #333333")
             label.text = title
-            label.intrinsicMaxWidth = 100
+            label.maxWidth = 100
             button.views = [imageView, label]
-            button.intrinsicMinHeight = 32
+            button.minHeight = 32
             leftViewA = button
             return button
         } else if let image = image {
@@ -154,7 +152,7 @@ extension QXNavigationBar {
             let imageView = QXImageView()
             imageView.image = image
             button.views = [imageView]
-            button.intrinsicMinHeight = 32
+            button.minHeight = 32
             leftViewA = button
             return button
         } else if let title = title {
@@ -162,9 +160,9 @@ extension QXNavigationBar {
             let label = QXLabel()
             label.font = font ?? QXFont(fmt: "14 #333333")
             label.text = title
-            label.intrinsicMaxWidth = 100
+            label.maxWidth = 100
             button.views = [label]
-            button.intrinsicMinHeight = 32
+            button.minHeight = 32
             leftViewA = button
             return button
         }
@@ -188,9 +186,9 @@ extension QXNavigationBar {
             let label = QXLabel()
             label.font = font ?? QXFont(fmt: "14 #333333")
             label.text = title
-            label.intrinsicMaxWidth = 100
+            label.maxWidth = 100
             button.views = [imageView, label]
-            button.intrinsicMinHeight = 32
+            button.minHeight = 32
             if isDismissAtLeft {
                 leftViewA = button
             } else {
@@ -202,7 +200,7 @@ extension QXNavigationBar {
             let imageView = QXImageView()
             imageView.image = image
             button.views = [imageView]
-            button.intrinsicMinHeight = 32
+            button.minHeight = 32
             if isDismissAtLeft {
                 leftViewA = button
             } else {
@@ -214,9 +212,9 @@ extension QXNavigationBar {
             let label = QXLabel()
             label.font = font ?? QXFont(fmt: "14 #333333")
             label.text = title
-            label.intrinsicMaxWidth = 100
+            label.maxWidth = 100
             button.views = [label]
-            button.intrinsicMinHeight = 32
+            button.minHeight = 32
             if isDismissAtLeft {
                 leftViewA = button
             } else {

@@ -26,9 +26,7 @@ open class QXActivityIndicatorView: QXView {
     public func stopAnimating() {
         systemView?.stopAnimating()
     }
-    
-    open var margin: QXEdgeInsets = QXEdgeInsets.zero
-    
+        
     public init(systemView: UIActivityIndicatorView) {
         self.systemView = systemView
         super.init()
@@ -39,24 +37,17 @@ open class QXActivityIndicatorView: QXView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override open var intrinsicContentSize: CGSize {
-        if isDisplay {
-            if let e = intrinsicSize {
-                return e.cgSize
-            } else {
-                if let e = systemView?.intrinsicContentSize {
-                    return CGSize(width: margin.left + e.width + margin.right, height: margin.top + e.height + margin.bottom)
-                } else {
-                    return CGSize.zero
-                }
-            }
+    open override func natureContentSize() -> QXSize {
+        if let e = systemView?.intrinsicContentSize {
+            return e.qxSize.sizeByAdd(padding)
         } else {
-            return CGSize.zero
+            return QXSize.zero
         }
     }
+
     override open func layoutSubviews() {
         super.layoutSubviews()
-        systemView?.frame = CGRect(x: margin.left, y: margin.top, width: bounds.width - margin.left - margin.right, height: bounds.height - margin.top - margin.bottom)
-    }    
+        systemView?.qxRect = qxBounds.rectByReduce(padding)        
+    }
     
 }

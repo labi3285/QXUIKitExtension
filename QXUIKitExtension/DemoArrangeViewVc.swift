@@ -13,18 +13,30 @@ class DemoArrangeViewVc: QXViewController {
     lazy var arrangeView: QXArrangeView = {
         let e = QXArrangeView()
         e.padding = QXEdgeInsets(10, 10, 10, 10)
-        e.intrinsicWidth = 300
-        var arr = [QXView]()
+        e.fixWidth = 300
+        var arr = [QXViewProtocol]()
         for i in 0..<10 {
-            let e = QXLabel()
-            e.numberOfLines = 0
-            e.intrinsicWidth = 60
-            e.text = QXDebugRandomText(14)
+            let e = QXTitleButton()
+            //e.numberOfLines = 0
+            e.fixWidth = 100
+            e.title = QXDebugRandomText(14)
+            e.respondClick = {
+                print("xxx\(i)")
+            }
             arr.append(e)
+            
+            if i == 0 {
+                arr.append(QXFlexSpace(5))
+            }
         }
         e.setupViews(arr)
+        e.qxDebugRandomColor()
         return e
     }()
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        print("touch back")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()

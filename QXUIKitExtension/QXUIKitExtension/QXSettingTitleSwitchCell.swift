@@ -11,6 +11,13 @@ import QXConsMaker
 
 open class QXSettingTitleSwitchCell: QXSettingCell {
     
+    open override var isEnabled: Bool {
+        didSet {
+            super.isEnabled = isEnabled
+            switchView.isEnabled = isEnabled
+        }
+    }
+    
     public lazy var titleLabel: QXLabel = {
         let e = QXLabel()
         e.numberOfLines = 1
@@ -19,6 +26,7 @@ open class QXSettingTitleSwitchCell: QXSettingCell {
     }()
     public lazy var switchView: QXSwitchView = {
         let e = QXSwitchView()
+        e.compressResistance = QXView.resistanceStable
         return e
     }()
     
@@ -28,7 +36,7 @@ open class QXSettingTitleSwitchCell: QXSettingCell {
         e.alignmentX = .left
         e.viewMargin = 10
         e.padding = QXEdgeInsets(5, 15, 5, 15)
-        e.setupViews([self.titleLabel, QXFlexView(), self.switchView])
+        e.setupViews([self.titleLabel, QXFlexSpace(), self.switchView])
         return e
     }()
     

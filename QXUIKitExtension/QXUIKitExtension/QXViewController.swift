@@ -270,7 +270,7 @@ open class QXViewController: UIViewController, UINavigationBarDelegate {
                 if let isLeft = isNavigationBarAutoDismissItemAtLeft {
                     if let image = navigationBarAutoDismissImage, let title = navigationBarAutoDismissTitle {
                         let btn = QXStackButton()
-                        btn.intrinsicMinHeight = 35
+                        btn.minHeight = 35
                         let imageView = QXImageView()
                         imageView.image = image
                         let label = QXLabel()
@@ -293,7 +293,7 @@ open class QXViewController: UIViewController, UINavigationBarDelegate {
                         }
                     } else if let title = navigationBarAutoDismissTitle {
                         let btn = QXTitleButton()
-                        btn.intrinsicMinHeight = 35
+                        btn.minHeight = 35
                         btn.font = navigationBarAutoDismissFont ?? QXFont(size: 16, color: navigationBarTintColor)
                         btn.title = title
                         btn.sizeToFit()

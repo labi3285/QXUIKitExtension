@@ -16,6 +16,18 @@ open class QXTextView: QXView, UITextViewDelegate {
     public var respondEndEditting: (() -> ())?
     public var respondNeedsUpdate: (() -> ())?
     
+    open var isEnabled: Bool = true {
+        didSet {
+            if isEnabled {
+                uiTextView.isUserInteractionEnabled = true
+                uiTextView.alpha = 1
+            } else {
+                uiTextView.isUserInteractionEnabled = false
+                uiTextView.alpha = 0.3
+            }
+        }
+    }
+    
     public var text: String {
         set {
             uiTextView.text = newValue
@@ -90,43 +102,21 @@ open class QXTextView: QXView, UITextViewDelegate {
         fatalError("init(coder:) has not been implemented")
     }
     
-    public var intrinsicWidth: CGFloat?
-    public var intrinsicMinWidth: CGFloat?
-    public var intrinsicMinHeight: CGFloat?
-    public var intrinsicMaxWidth: CGFloat?
-    public var intrinsicMaxHeight: CGFloat?
-    override open var intrinsicContentSize: CGSize {
-        if isDisplay {
-            var w: CGFloat = 0
-            var h: CGFloat = 0
-            if let e = intrinsicSize {
-                w = e.w
-                h = e.h
-            } else if let e = intrinsicWidth {
-                var size = CGSize(width: e, height: CGFloat.greatestFiniteMagnitude)
-                size = uiTextView.sizeThatFits(size)
-                w = padding.left + size.width + padding.right
-                h = padding.top + size.height + padding.bottom
-            } else {
-                let size = uiTextView.intrinsicContentSize
-                w = padding.left + size.width + padding.right
-                h = padding.top + size.height + padding.bottom
-            }
-            if let e = intrinsicMinWidth { w = max(e, w) }
-            if let e = intrinsicMaxWidth { w = min(e, w) }
-            if let e = intrinsicMinHeight { h = max(e, h) }
-            if let e = intrinsicMaxHeight { h = min(e, h) }
-            return CGSize(width: w, height: h)
+    open override func natureContentSize() -> QXSize {
+        if let e = fixWidth ?? maxWidth {
+            var size = CGSize(width: e, height: QXView.extendLength)
+            size = uiTextView.sizeThatFits(size)
+            return size.qxSize.sizeByAdd(padding)
         } else {
-            return CGSize.zero
+            return uiTextView.qxIntrinsicContentSize.sizeByAdd(padding)
         }
     }
-    
+
     override open func layoutSubviews() {
         super.layoutSubviews()
         uiTextView.qxRect = qxBounds.rectByReduce(padding)
-        let wh = placeHolderLabel.intrinsicContentSize
-        placeHolderLabel.qxRect = QXRect(0, 0, wh.width, wh.height)
+        let wh = placeHolderLabel.natureContentSize()
+        placeHolderLabel.qxRect = QXRect(wh)
     }
 
     public var hasSelectRange: Bool {

@@ -67,7 +67,7 @@ open class QXRefreshHeader: MJRefreshHeader {
     }()
     public var loadingView: QXActivityIndicatorView = {
         let e = QXActivityIndicatorView(systemView: UIActivityIndicatorView(style: .gray))
-        e.margin = QXEdgeInsets(0, 5, 0, 5)
+        e.padding = QXEdgeInsets(0, 5, 0, 5)
         return e
         }() {
         didSet {
@@ -228,7 +228,7 @@ open class QXRefreshFooter: MJRefreshAutoFooter {
     }()
     public var loadingView: QXActivityIndicatorView = {
         let e = QXActivityIndicatorView(systemView: UIActivityIndicatorView(style: .gray))
-        e.margin = QXEdgeInsets(0, 5, 0, 5)
+        e.padding = QXEdgeInsets(0, 5, 0, 5)
         return e
         }() {
         didSet {

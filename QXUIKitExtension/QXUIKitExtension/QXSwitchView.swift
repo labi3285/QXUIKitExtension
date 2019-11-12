@@ -12,6 +12,15 @@ open class QXSwitchView: QXView {
     
     public var respondChange: ((_ isOn: Bool) -> ())?
     
+    open var isEnabled: Bool {
+        set {
+            uiSwitch.isEnabled = newValue
+        }
+        get {
+            return uiSwitch.isEnabled
+        }
+    }
+    
     public var isOn: Bool {
         set {
             uiSwitch.isOn = newValue
@@ -38,18 +47,10 @@ open class QXSwitchView: QXView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override open var intrinsicContentSize: CGSize {
-        if isDisplay {
-            if let e = intrinsicSize {
-                return e.cgSize
-            } else {
-                let wh = uiSwitch.intrinsicContentSize
-                return CGSize(width: wh.width + padding.left + padding.right, height: wh.height + padding.top + padding.bottom)
-            }
-        } else {
-            return CGSize.zero
-        }
+    open override func natureContentSize() -> QXSize {
+        return uiSwitch.intrinsicContentSize.qxSize.sizeByAdd(padding)
     }
+
     override open func layoutSubviews() {
         super.layoutSubviews()
         uiSwitch.qxRect = qxBounds.rectByReduce(padding)

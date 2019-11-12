@@ -11,42 +11,42 @@ import QXConsMaker
 
 class DemoStackViewVc: QXViewController {
     
-    lazy var num1: QXLabel = {
-        let e = QXLabel()
-        e.text = "12345"
+    lazy var num1: QXTitleButton = {
+        let e = QXTitleButton()
+        e.title = "12345"
         e.font = QXFont(size: 19, fontName: "Arial-BoldMT", color: QXColor.fmtHex("#FF8F28"))
         return e
     }()
-    lazy var label1: QXLabel = {
-        let e = QXLabel()
-        e.text = "12345"
+    lazy var label1: QXTitleButton = {
+        let e = QXTitleButton()
+        e.title = "12345"
         e.font = QXFont(size: 14, color: QXColor.fmtHex("#666666"))
         return e
     }()
     
-    lazy var num2: QXLabel = {
-        let e = QXLabel()
+    lazy var num2: QXTitleButton = {
+        let e = QXTitleButton()
         e.font = QXFont(size: 19, fontName: "Arial-BoldMT", color: QXColor.fmtHex("#FF8F28"))
-        e.text = "12345"
+        e.title = "12345"
         return e
     }()
-    lazy var label2: QXLabel = {
-        let e = QXLabel()
-        e.text = "12345"
+    lazy var label2: QXTitleButton = {
+        let e = QXTitleButton()
+        e.title = "12345"
         e.font = QXFont(size: 14, color: QXColor.fmtHex("#666666"))
         return e
     }()
     
-    lazy var num3: QXLabel = {
-        let e = QXLabel()
-        e.text = "12345"
+    lazy var num3: QXTitleButton = {
+        let e = QXTitleButton()
+        e.title = "12345"
         e.font = QXFont(size: 19, fontName: "Arial-BoldMT", color: QXColor.fmtHex("#FF8F28"))
         return e
     }()
-    lazy var label3: QXLabel = {
-        let e = QXLabel()
+    lazy var label3: QXTitleButton = {
+        let e = QXTitleButton()
         e.font = QXFont(size: 14, color: QXColor.fmtHex("#666666"))
-        e.text = "12345"
+        e.title = "12345"
         return e
     }()
     
@@ -54,7 +54,7 @@ class DemoStackViewVc: QXViewController {
         let e = QXStackView()
         e.isVertical = true
         e.alignmentX = .center
-        e.setupViews(self.num1, self.label1)
+        e.setupViews(QXSpace(10), self.num1, QXFlexSpace(20), self.label1, QXSpace(5))
         return e
     }()
     lazy var stack2: QXStackView = {
@@ -74,8 +74,8 @@ class DemoStackViewVc: QXViewController {
     
     lazy var stack: QXStackView = {
         let e = QXStackView()
-        //e.intrinsicWidth = 300
-        e.setupViews(self.stack1, QXFlexView(), self.stack2, QXFlexView(), self.stack3)
+        e.fixSize = QXSize(300, 300)
+        e.setupViews(self.stack1, QXFlexSpace(), self.stack2, QXFlexSpace(), self.stack3)
         return e
     }()
     
@@ -86,6 +86,10 @@ class DemoStackViewVc: QXViewController {
         view.addSubview(stack)
         stack.IN(view).CENTER.WIDTH(300).MAKE()
         stack.qxDebugRandomColor()
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        print("touch back")
     }
 
 }

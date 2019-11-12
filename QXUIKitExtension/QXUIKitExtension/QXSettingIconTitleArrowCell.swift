@@ -1,15 +1,15 @@
 //
-//  QXSettingTitleArrowCell.swift
+//  QXSettingIconTitleStackCell.swift
 //  QXUIKitExtension
 //
-//  Created by labi3285 on 2019/10/24.
+//  Created by labi3285 on 2019/11/8.
 //  Copyright © 2019 labi3285_lab. All rights reserved.
 //
 
 import UIKit
 import QXConsMaker
 
-open class QXSettingTitleArrowCell: QXSettingCell {
+open class QXSettingIconTitleArrowCell: QXSettingCell {
         
     open override var isEnabled: Bool {
         didSet {
@@ -22,10 +22,23 @@ open class QXSettingTitleArrowCell: QXSettingCell {
         let h = super.height(model, width)
         if let e = h {
             arrowView.fixHeight = e - layoutView.padding.top - layoutView.padding.bottom
+            iconView.fixHeight = e - layoutView.padding.top - layoutView.padding.bottom
         }
         return h
     }
     
+    public lazy var iconView: QXImageView = {
+        let e = QXImageView()
+        e.qxTintColor = QXColor.hex("#666666", 1)
+        e.image = QXUIKitExtensionResources.shared.image("icon_setting.png")
+            .setSize(24, 24)
+            .setRenderingMode(.alwaysTemplate)
+        e.compressResistance = QXView.resistanceStable
+        e.respondUpdateImage = { [weak self] in
+            self?.layoutView.setNeedsLayout()
+        }
+        return e
+    }()
     public lazy var titleLabel: QXLabel = {
         let e = QXLabel()
         e.numberOfLines = 1
@@ -55,7 +68,7 @@ open class QXSettingTitleArrowCell: QXSettingCell {
         e.alignmentX = .left
         e.viewMargin = 10
         e.padding = QXEdgeInsets(5, 10, 5, 15)
-        e.setupViews(self.titleLabel, QXFlexSpace(), self.subTitleLabel, self.arrowView)
+        e.setupViews(self.iconView, self.titleLabel, QXFlexSpace(), self.subTitleLabel, self.arrowView)
         return e
     }()
         

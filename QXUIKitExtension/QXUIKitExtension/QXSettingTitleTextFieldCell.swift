@@ -11,6 +11,13 @@ import QXConsMaker
 
 open class QXSettingTitleTextFieldCell: QXSettingCell {
 
+    open override var isEnabled: Bool {
+        didSet {
+            textField.isEnabled = isEnabled
+            super.isEnabled = isEnabled
+        }
+    }
+    
     public lazy var titleLabel: QXLabel = {
         let e = QXLabel()
         e.numberOfLines = 1
@@ -19,10 +26,11 @@ open class QXSettingTitleTextFieldCell: QXSettingCell {
     }()
     public lazy var textField: QXTextField = {
         let e = QXTextField()
-        e.intrinsicSize = QXSize(9999, 99)
+        e.extendSize = true
         e.font = QXFont(fmt: "16 #333333")
         e.placeHolderfont = QXFont(fmt: "16 #999999")
         e.uiTextField.textAlignment = .right
+        e.compressResistanceX = QXView.resistanceEasyDeform
         e.placeHolder = "输入内容"
         return e
     }()
@@ -32,7 +40,7 @@ open class QXSettingTitleTextFieldCell: QXSettingCell {
         e.alignmentX = .left
         e.viewMargin = 10
         e.padding = QXEdgeInsets(5, 15, 5, 15)
-        e.setupViews([self.titleLabel, QXFlexView(), self.textField])
+        e.setupViews([self.titleLabel, QXFlexSpace(), self.textField])
         return e
     }()
 

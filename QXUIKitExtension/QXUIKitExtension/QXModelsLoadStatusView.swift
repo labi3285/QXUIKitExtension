@@ -57,7 +57,7 @@ open class QXModelsLoadStatusView<T>: QXView {
     
     open func loadModels() {
         weak var ws = self
-        api?({ models, isThereMore in
+        api?(currentPage, pageCount, { models, isThereMore in
             ws?.onLoadModelsOk(models, isThereMore: isThereMore)
         }, { err in
             ws?.onLoadModelsFailed(err)
@@ -87,15 +87,8 @@ open class QXModelsLoadStatusView<T>: QXView {
         loadStatusView.qxRect = qxBounds.rectByReduce(padding)
     }
 
-    override open var intrinsicContentSize: CGSize {
-        if isDisplay {
-            if let e = intrinsicSize {
-                return e.cgSize
-            }
-            let e = loadStatusView.intrinsicContentSize
-            return e.qxSizeByAdd(padding.uiEdgeInsets)
-        }
-        return CGSize.zero
+    open override func natureContentSize() -> QXSize {
+        return loadStatusView.intrinsicContentSize.qxSize.sizeByAdd(padding)
     }
 
     /// 是否可以下拉刷新
@@ -224,7 +217,6 @@ open class QXModelsLoadStatusView<T>: QXView {
                 models += newModels
                 currentPage += 1
             }
-            contentView.qxReloadData()
             let isThereMore = isThereMore ?? (newModels.count > 0)
             switch statusBefore {
             case .reload(status: _):

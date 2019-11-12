@@ -164,49 +164,41 @@ open class QXImageView: QXView {
         }
     }
         
-    public var intrinsicWidth: CGFloat?
-    public var intrinsicHeight: CGFloat?
-    override open var intrinsicContentSize: CGSize {
-        if isDisplay {
-            var w: CGFloat = 0
-            var h: CGFloat = 0
-            if let e = intrinsicSize {
-                w = e.w
-                h = e.h
-            } else if let e = intrinsicHeight {
-                h = e
-                var size = image?.size ?? QXSize.zero
-                if size.isZero, let e = placeHolderImage?.size {
-                     size = e
-                }
-                let _w = (h - padding.top - padding.bottom) * size.w / size.h
-                w = min(_w, size.w)
-                w = padding.left + w + padding.right
-            } else if let e = intrinsicWidth {
-                w = e
-                var size = image?.size ?? QXSize.zero
-                if size.isZero, let e = placeHolderImage?.size {
-                    size = e
-                }
-                let _h = (w - padding.left - padding.right) * size.h / size.w
-                h = min(_h, size.h)
-                h = padding.top + h + padding.bottom
-            } else {
-                var size = image?.size ?? QXSize.zero
-                if size.isZero, let e = placeHolderImage?.size {
-                    size = e
-                }
-                w = padding.left + size.w + padding.right
-                if !size.isZero {
-                    h = padding.top + size.w * size.h / size.w + padding.bottom
-                } else {
-                    h = padding.top + padding.bottom
-                }
+    
+    open override func natureContentSize() -> QXSize {
+        var w: CGFloat = 0
+        var h: CGFloat = 0
+        if let e = fixHeight ?? maxHeight {
+            h = e
+            var size = image?.size ?? QXSize.zero
+            if size.isZero, let e = placeHolderImage?.size {
+                 size = e
             }
-            return CGSize(width: w, height: h)
+            let _w = (h - padding.top - padding.bottom) * size.w / size.h
+            w = min(_w, size.w)
+            w = padding.left + w + padding.right
+        } else if let e = fixWidth ?? maxWidth {
+            w = e
+            var size = image?.size ?? QXSize.zero
+            if size.isZero, let e = placeHolderImage?.size {
+                size = e
+            }
+            let _h = (w - padding.left - padding.right) * size.h / size.w
+            h = min(_h, size.h)
+            h = padding.top + h + padding.bottom
         } else {
-            return CGSize.zero
+            var size = image?.size ?? QXSize.zero
+            if size.isZero, let e = placeHolderImage?.size {
+                size = e
+            }
+            w = padding.left + size.w + padding.right
+            if !size.isZero {
+                h = padding.top + size.w * size.h / size.w + padding.bottom
+            } else {
+                h = padding.top + padding.bottom
+            }
         }
+        return QXSize(w, h)
     }
     
     public class ImageView: UIImageView {

@@ -68,12 +68,12 @@ public enum QXRichText {
 extension NSAttributedString {
     
     public func qxSize(width: CGFloat) -> CGSize {
-        return boundingRect(with: CGSize(width: width, height: CGFloat.greatestFiniteMagnitude),
+        return boundingRect(with: CGSize(width: width, height: QXView.extendLength),
                             options: .usesLineFragmentOrigin,
                             context: nil).size
     }
     public var qxSize: CGSize {
-        return qxSize(width: CGFloat.greatestFiniteMagnitude)
+        return qxSize(width: QXView.extendLength)
     }
     
 }

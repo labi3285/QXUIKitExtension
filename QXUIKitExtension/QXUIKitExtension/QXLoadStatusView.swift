@@ -86,15 +86,8 @@ open class QXContentLoadStatusView<T>: QXView {
         loadStatusView.qxRect = qxBounds.rectByReduce(padding)
     }
     
-    override open var intrinsicContentSize: CGSize {
-        if isDisplay {
-            if let e = intrinsicSize {
-                return e.cgSize
-            }
-            let e = loadStatusView.intrinsicContentSize
-            return e.qxSizeByAdd(padding.uiEdgeInsets)
-        }
-        return CGSize.zero
+    open override func natureContentSize() -> QXSize {
+        return loadStatusView.intrinsicContentSize.qxSize.sizeByAdd(padding)
     }
     
 }
@@ -118,7 +111,7 @@ open class QXLoadStatusView: UIView {
     // loadingIcon 为nil的时候展示
     open var loadingView: QXActivityIndicatorView = {
         let e = QXActivityIndicatorView(systemView: UIActivityIndicatorView(style: .gray))
-        e.margin = QXEdgeInsets(5, 5, 5, 5)
+        e.padding = QXEdgeInsets(5, 5, 5, 5)
         return e
         }() {
         didSet {
@@ -197,7 +190,7 @@ open class QXLoadStatusView: UIView {
     override open func layoutSubviews() {
         super.layoutSubviews()
         let rect = qxRect.absoluteRect
-        contentLabel.intrinsicWidth = rect.w
+        contentLabel.fixWidth = rect.w
         let size = stackView.qxIntrinsicContentSize
         let top = (rect.h - size.h) * topBottomRatio / (topBottomRatio + 1)
         stackView.qxRect = rect.insideRect(.top(top), .center, .size(size))

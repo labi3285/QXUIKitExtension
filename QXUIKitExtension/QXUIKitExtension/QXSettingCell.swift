@@ -14,7 +14,7 @@ open class QXSettingCell: QXStaticBaseCell {
         super.initializedWithTable()
         breakLine.isHidden = isLastCellInSection || isBreakLineHidden
     }
-    
+        
     public var isBreakLineHidden: Bool = false
     public lazy var breakLine: QXLineView = {
         let e = QXLineView.breakLine
@@ -23,7 +23,7 @@ open class QXSettingCell: QXStaticBaseCell {
         e.isUserInteractionEnabled = false
         return e
     }()
-
+    
     required public init() {
         super.init()
         contentView.addSubview(breakLine)
