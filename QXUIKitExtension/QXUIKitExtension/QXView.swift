@@ -44,6 +44,10 @@ public protocol QXViewProtocol {
     /// 垂直抵抗延展的等级
     var stretchResistanceY: CGFloat { get set }
     
+    /// 在容器里面如何均摊，nil表示不均摊
+    var divideRatioX: CGFloat? { get set }
+    /// 在容器里面如何均摊，nil表示不均摊
+    var divideRatioY: CGFloat? { get set }
     
 }
 extension QXViewProtocol {
@@ -55,6 +59,9 @@ extension QXViewProtocol {
     public var compressResistanceY: CGFloat { get { return 0 } set {} }
     public var stretchResistanceX: CGFloat { get { return 0 } set {} }
     public var stretchResistanceY: CGFloat { get { return 0 } set {} }
+    public var divideRatioX: CGFloat? { get { return nil } set {} }
+    public var divideRatioY: CGFloat? { get { return nil } set {} }
+    
 }
 
 open class QXView: UIView, QXViewProtocol {
@@ -205,6 +212,9 @@ open class QXView: UIView, QXViewProtocol {
                                      (compressResistanceX + compressResistanceY) / 2)
         }
     }
+    
+    open var divideRatioX: CGFloat? = nil
+    open var divideRatioY: CGFloat? = nil
     
 }
 

@@ -30,8 +30,8 @@ open class QXSettingTextViewCell: QXSettingCell {
     public lazy var textView: QXTextView = {
         let e = QXTextView()
         e.padding = QXEdgeInsets(5, 10, 5, 10)
-        e.font = QXFont(fmt: "16 #333333")
-        e.placeHolderfont = QXFont(fmt: "16 #999999")
+        e.font = QXFont(size: 16, color: QXColor.dynamicInput)
+        e.placeHolderfont = QXFont(size: 16, color: QXColor.dynamicPlaceHolder)
         e.uiTextView.isScrollEnabled = false
         e.respondNeedsUpdate = { [weak self] in
             self?.tableView?.update()

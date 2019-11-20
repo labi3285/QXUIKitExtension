@@ -64,6 +64,7 @@ open class QXStackView: QXView {
         if isVertical {
             let size = viewsfixSizeWithoutFlexs()
             var compressInfo: [Int: QXSize] = [:]
+            var divideInfo: [Int: CGFloat] = [:]
             var flexInfo: [Int: CGFloat] = [:]
             if size.h > bounds.height {
                 var needCollapseH = size.h - bounds.height
@@ -88,18 +89,34 @@ open class QXStackView: QXView {
                     }
                 }
             } else {
-                var flexs: [(Int, CGFloat)] = []
-                var total: CGFloat = 0
+                var divides: [(Int, CGFloat)] = []
+                var totalDivide: CGFloat = 0
                 for (i, view) in views.enumerated() {
-                    if let e = view as? QXFlexSpace {
-                        flexs.append((i, e.ratio))
-                        total += e.ratio
+                    if let e = view.divideRatioY {
+                        divides.append((i, e))
+                        totalDivide += e
                     }
                 }
-                if flexs.count > 0 && total > 0 {
+                if divides.count > 0 && totalDivide > 0 {
                     let h = bounds.height - size.h
-                    for e in flexs {
-                        flexInfo[e.0] = h * e.1 / total
+                    for e in divides {
+                        divideInfo[e.0] = h * e.1 / totalDivide
+                    }
+                }
+                if divideInfo.count == 0 {
+                    var flexs: [(Int, CGFloat)] = []
+                    var total: CGFloat = 0
+                    for (i, view) in views.enumerated() {
+                        if let e = view as? QXFlexSpace {
+                            flexs.append((i, e.ratio))
+                            total += e.ratio
+                        }
+                    }
+                    if flexs.count > 0 && total > 0 {
+                        let h = bounds.height - size.h
+                        for e in flexs {
+                            flexInfo[e.0] = h * e.1 / total
+                        }
                     }
                 }
             }
@@ -109,11 +126,11 @@ open class QXStackView: QXView {
             case .top:
                 offsetY = padding.top
             case .center:
-                if flexInfo.count == 0 {
+                if divideInfo.count == 0 && flexInfo.count == 0 {
                     offsetY = (bounds.height - padding.top - padding.bottom - contentH) / 2 + padding.top
                 }
             case .bottom:
-                if flexInfo.count == 0{
+                if divideInfo.count == 0 && flexInfo.count == 0 {
                     offsetY = bounds.height - contentH - padding.bottom
                 }
             }
@@ -122,6 +139,9 @@ open class QXStackView: QXView {
                     var wh = view.natureSize
                     if let e = compressInfo[i] {
                         wh = e
+                    }
+                    if let e = divideInfo[i] {
+                        wh.h = e
                     }
                     let w = min(wh.w, bounds.width - padding.left - padding.right)
                     var offsetX: CGFloat = 0
@@ -143,6 +163,7 @@ open class QXStackView: QXView {
         } else {
             let size = viewsfixSizeWithoutFlexs()
             var compressInfo: [Int: QXSize] = [:]
+            var divideInfo: [Int: CGFloat] = [:]
             var flexInfo: [Int: CGFloat] = [:]
             if size.w >= bounds.width {
                 var needCollapseW = size.w - bounds.width
@@ -167,18 +188,37 @@ open class QXStackView: QXView {
                     }
                 }
             } else {
-                var flexs: [(Int, CGFloat)] = []
-                var total: CGFloat = 0
+                var divides: [(Int, CGFloat)] = []
+                var totalDivide: CGFloat = 0
                 for (i, view) in views.enumerated() {
-                    if let e = view as? QXFlexSpace {
-                        flexs.append((i, e.ratio))
-                        total += e.ratio
+                    if let e = view.divideRatioX {
+                        divides.append((i, e))
+                        totalDivide += e
                     }
                 }
-                if flexs.count > 0 && total > 0 {
+                if divides.count > 0 && totalDivide > 0 {
                     let w = bounds.width - size.w
-                    for e in flexs {
-                        flexInfo[e.0] = w * e.1 / total
+                    for e in divides {
+                        divideInfo[e.0] = w * e.1 / totalDivide
+                    }
+                }
+                if divideInfo.count == 0 {
+                    var flexs: [(Int, CGFloat)] = []
+                    var totalFlex: CGFloat = 0
+                    for (i, view) in views.enumerated() {
+                        if let e = view as? QXFlexSpace {
+                            flexs.append((i, e.ratio))
+                            totalFlex += e.ratio
+                        } else if let e = view.divideRatioX {
+                            divides.append((i, e))
+                            totalDivide += e
+                        }
+                    }
+                    if flexs.count > 0 && totalFlex > 0 {
+                        let w = bounds.width - size.w
+                        for e in flexs {
+                            flexInfo[e.0] = w * e.1 / totalFlex
+                        }
                     }
                 }
             }
@@ -188,11 +228,11 @@ open class QXStackView: QXView {
             case .left:
                 break
             case .center:
-                if flexInfo.count == 0 {
+                if divideInfo.count == 0 && flexInfo.count == 0 {
                     offsetX = (bounds.width - padding.left - padding.right - contentW) / 2 + padding.left
                 }
             case .right:
-                if flexInfo.count == 0 {
+                if divideInfo.count == 0 && flexInfo.count == 0 {
                     offsetX = bounds.width - contentW - padding.right
                 }
             }
@@ -201,6 +241,9 @@ open class QXStackView: QXView {
                     var wh = view.natureSize
                     if let e = compressInfo[i] {
                         wh = e
+                    }
+                    if let e = divideInfo[i] {
+                        wh.w = e
                     }
                     let h = min(wh.h, bounds.height - padding.top - padding.bottom)
                     var offsetY: CGFloat = 0
@@ -257,9 +300,11 @@ open class QXStackView: QXView {
         var showCount: Int = 0
         if isVertical {
             for view in views {
-                if view.isDisplay {
+                if !(view is QXFlexSpace) && view.isDisplay {
                     let size = view.natureSize
-                    h += size.h
+                    if view.divideRatioY == nil {
+                        h += size.h
+                    }
                     w = max(w, size.w)
                     showCount += 1
                 }
@@ -273,7 +318,9 @@ open class QXStackView: QXView {
             for view in views {
                 if !(view is QXFlexSpace) && view.isDisplay {
                     let size = view.natureSize
-                    w += size.w
+                    if view.divideRatioX == nil {
+                        w += size.w
+                    }
                     h = max(h, size.h)
                     showCount += 1
                 }

@@ -110,7 +110,7 @@ open class QXLoadStatusView: UIView {
     
     // loadingIcon 为nil的时候展示
     open var loadingView: QXActivityIndicatorView = {
-        let e = QXActivityIndicatorView(systemView: UIActivityIndicatorView(style: .gray))
+        let e = QXActivityIndicatorView()
         e.padding = QXEdgeInsets(5, 5, 5, 5)
         return e
         }() {

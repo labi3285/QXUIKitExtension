@@ -9,7 +9,7 @@
 import UIKit
 import QXConsMaker
 
-open class QXStaticFooterView: QXStaticBaseHeaderFooterView {
+open class QXStaticFooterView: QXStaticHeaderFooterView {
     
     override open func height(_ model: Any?, _ width: CGFloat) -> CGFloat? {
         label.maxWidth = width
@@ -20,7 +20,7 @@ open class QXStaticFooterView: QXStaticBaseHeaderFooterView {
         let e = QXLabel()
         e.numberOfLines = 0
         e.padding = QXEdgeInsets(5, 15, 10, 15)
-        e.font = QXFont(fmt: "14 #333333")
+        e.font = QXFont(size: 14, color: QXColor.dynamicTip)
         return e
     }()
 

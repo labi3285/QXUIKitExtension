@@ -153,12 +153,12 @@ open class QXImageView: QXView {
             return QXRect(x, y, w, h)
         }
         if isForcePlaceHolderFill {
-            placeHolderView.qxRect = qxBounds.rectByAdd(padding)
+            placeHolderView.qxRect = qxBounds.rectByReduce(padding)
         } else {
             placeHolderView.qxRect = rectForSize(placeHolderImage?.size ?? QXSize.zero)
         }
         if isForceImageFill {
-            uiImageView.qxRect = qxBounds.rectByAdd(padding)
+            uiImageView.qxRect = qxBounds.rectByReduce(padding)
         } else {
             uiImageView.qxRect = rectForSize(image?.size ?? QXSize.zero)
         }
@@ -168,28 +168,67 @@ open class QXImageView: QXView {
     open override func natureContentSize() -> QXSize {
         var w: CGFloat = 0
         var h: CGFloat = 0
-        if let e = fixHeight ?? maxHeight {
-            h = e
-            var size = image?.size ?? QXSize.zero
-            if size.isZero, let e = placeHolderImage?.size {
-                 size = e
-            }
-            let _w = (h - padding.top - padding.bottom) * size.w / size.h
-            w = min(_w, size.w)
-            w = padding.left + w + padding.right
-        } else if let e = fixWidth ?? maxWidth {
+        if let e = fixWidth {
             w = e
             var size = image?.size ?? QXSize.zero
             if size.isZero, let e = placeHolderImage?.size {
                 size = e
             }
+            if size.isZero {
+                return size
+            }
             let _h = (w - padding.left - padding.right) * size.h / size.w
-            h = min(_h, size.h)
+            if isForceImageFill {
+                h = _h
+            } else {
+                h = min(_h, size.h)
+            }
             h = padding.top + h + padding.bottom
+        } else if let e = maxWidth {
+            var size = image?.size ?? QXSize.zero
+            if size.isZero, let e = placeHolderImage?.size {
+                size = e
+            }
+            if size.isZero {
+                return size
+            }
+            w = min(e, size.w + padding.left + padding.right)
+            let _h = (w - padding.left - padding.right) * size.h / size.w
+            h = padding.top + _h + padding.bottom
+        }  else if let e = fixHeight {
+            h = e
+            var size = image?.size ?? QXSize.zero
+            if size.isZero, let e = placeHolderImage?.size {
+                 size = e
+            }
+            if size.isZero {
+                return size
+            }
+            let _w = (h - padding.top - padding.bottom) * size.w / size.h
+            if isForceImageFill {
+                w = _w
+            } else {
+                w = min(_w, size.w)
+            }
+            w = padding.left + w + padding.right
+        }  else if let e = maxHeight {
+            var size = image?.size ?? QXSize.zero
+            if size.isZero, let e = placeHolderImage?.size {
+                size = e
+            }
+            if size.isZero {
+                return size
+            }
+            h = min(e, size.h + padding.top + padding.bottom)
+            let _w = (h - padding.top - padding.bottom) * size.w / size.h
+            w = padding.left + _w + padding.right
         } else {
             var size = image?.size ?? QXSize.zero
             if size.isZero, let e = placeHolderImage?.size {
                 size = e
+            }
+            if size.isZero {
+                return size
             }
             w = padding.left + size.w + padding.right
             if !size.isZero {
@@ -213,4 +252,5 @@ open class QXImageView: QXView {
     private var _image: QXImage?
     
 }
+
 

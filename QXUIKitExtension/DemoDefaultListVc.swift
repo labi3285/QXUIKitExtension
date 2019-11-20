@@ -13,7 +13,6 @@ class DemoDefaultListVc: QXTableViewController<Any> {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "DefaultListVc"
-        view.qxBackgroundColor = QXColor.white
         tableView.sectionHeaderSpace = 10
         tableView.sectionFooterSpace = 10
         tableView.adapter = QXTableView.Adapter([
@@ -23,13 +22,12 @@ class DemoDefaultListVc: QXTableViewController<Any> {
         ])
         
         let link = QXTableViewText()
-        link.items = [
-            QXRichLabel.Item.text(string: "www.baidu.com", font: QXFont(fmt: "14 #0000ff"), linkData: "xxx")
+        link.items = [            
+            QXRichLabel.Item.text(string: "www.baidu.com", font: QXFont(fmt: "14 #1652f9"), linkData: "xxx")
         ]
         link.respondTouchLink = { a in
             print(a)
         }
-        
         
         self.contentView.models = [
             QXTableViewText(QXDebugRandomText(999)),

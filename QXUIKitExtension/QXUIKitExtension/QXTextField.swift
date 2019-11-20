@@ -31,7 +31,7 @@ open class QXTextField: QXView, UITextFieldDelegate {
         }
     }
     
-    open var font: QXFont = QXFont(size: 16, color: QXColor.black) {
+    open var font: QXFont = QXFont(size: 16, color: QXColor.dynamicInput) {
         didSet {
             uiTextField.font = font.uiFont
             uiTextField.textColor = font.color.uiColor
@@ -72,25 +72,70 @@ open class QXTextField: QXView, UITextFieldDelegate {
         }
     }
         
+    public var pickerView: QXPickerKeyboardView? {
+        didSet {
+            if let e = pickerView {
+                uiTextField.inputView = e
+                e.respondItem = { [weak self] item in
+                    self?.pickedItems = item?.items()
+                    self?.pickedItem = item
+                }
+            }
+        }
+    }
+    public private(set) var pickedItem: QXPickerView.Item?
+    public var pickedSeparator: String = "-"
+    public private(set) var pickedItems: [QXPickerView.Item]? {
+        didSet {
+            text = pickedItems?.map({ $0.text }).joined(separator: pickedSeparator) ?? ""
+            pickedItem = pickedItems?.last
+        }
+    }
+    public var bringInPickedItems: [QXPickerView.Item]? {
+        didSet {
+            pickedItems = bringInPickedItems
+            pickerView?.bringInPickedItems = bringInPickedItems
+        }
+    }
+    
+    public var pickedDate: QXDate? {
+        return pickedItem?.data as? QXDate
+    }
+    public var bringInDate: QXDate? {
+        set {
+            (pickerView as? QXDatePickerBaseKeyboardView)?.bringInDate = newValue
+            bringInPickedItems = (pickerView as? QXDatePickerBaseKeyboardView)?.bringInPickedItems
+        }
+        get {
+            return (pickerView as? QXDatePickerBaseKeyboardView)?.bringInDate
+        }
+    }
+            
     public lazy var uiTextField: UITextField = {
         let e = UITextField()
         e.clearButtonMode = .never
-        e.qxTintColor = QXColor.hex("#666666", 1)
+        e.qxTintColor = QXColor.dynamicAdorn
         e.leftViewMode = .never
         e.rightViewMode = .never
         e.delegate = self
         e.addTarget(self, action: #selector(textChange), for: .editingChanged)
         return e
     }()
-        
+    private var _originUITextFieldQXTintColor: QXColor?
+    public lazy var coverView: UIView = {
+        let e = UIView()
+        e.backgroundColor = UIColor.clear
+        e.isHidden = true
+        return e
+    }()
     public override init() {
         super.init()
         addSubview(uiTextField)
+        addSubview(coverView)
     }
     required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
     
     open override func natureContentSize() -> QXSize {
         var w: CGFloat = 0
@@ -111,6 +156,7 @@ open class QXTextField: QXView, UITextFieldDelegate {
     override open func layoutSubviews() {
         super.layoutSubviews()
         uiTextField.qxRect = qxBounds.rectByReduce(padding)
+        coverView.qxRect = uiTextField.qxRect
     }
     
     public var hasSelectRange: Bool {
@@ -129,9 +175,11 @@ open class QXTextField: QXView, UITextFieldDelegate {
     
     public func textFieldDidBeginEditing(_ textField: UITextField) {
         respondBeginEditting?()
+        coverView.isHidden = pickerView == nil
     }
     public func textFieldDidEndEditing(_ textField: UITextField) {
         respondEndEditting?()
+        coverView.isHidden = true
     }
     
     @objc func textChange() {

@@ -9,7 +9,7 @@
 import UIKit
 import QXConsMaker
 
-open class QXStaticTextCell: QXStaticBaseCell {
+open class QXStaticTextCell: QXStaticCell {
     
     override open func height(_ model: Any?, _ width: CGFloat) -> CGFloat? {
         label.maxWidth = width
@@ -19,7 +19,7 @@ open class QXStaticTextCell: QXStaticBaseCell {
     public lazy var label: QXRichLabel = {
         let e = QXRichLabel()
         e.numberOfLines = 0
-        e.font = QXFont(fmt: "15 #999999")
+        e.font = QXFont(size: 15, color: QXColor.dynamicText)
         e.padding = QXEdgeInsets(5, 15, 5, 15)
         e.isCopyEnabled = true
         return e

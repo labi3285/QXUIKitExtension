@@ -39,6 +39,9 @@ public func QXDebugText(_ length: Int) -> String {
     }
     return QXDebugText
 }
+public func QXDebugRandomInt(_ max: UInt32) -> Int {
+    return Int(arc4random_uniform(max))
+}
 
 public func QXPrint<T>(_ t: T, _ file: String = #file, _ line: Int = #line) {
     print("[\((file as NSString).lastPathComponent) \(line) release] \(t)")

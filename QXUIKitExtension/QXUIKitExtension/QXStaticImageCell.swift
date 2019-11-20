@@ -9,7 +9,7 @@
 import UIKit
 import QXConsMaker
 
-open class QXStaticImageCell: QXStaticBaseCell {
+open class QXStaticImageCell: QXStaticCell {
     
     open override func height(_ model: Any?, _ width: CGFloat) -> CGFloat? {
         myImageView.fixWidth = width

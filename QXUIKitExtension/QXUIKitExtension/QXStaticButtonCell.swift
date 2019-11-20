@@ -9,7 +9,7 @@
 import UIKit
 import QXConsMaker
 
-open class QXStaticButtonCell: QXStaticBaseCell {
+open class QXStaticButtonCell: QXStaticCell {
     
     override open func height(_ model: Any?, _ width: CGFloat) -> CGFloat? {
         button.maxWidth = width

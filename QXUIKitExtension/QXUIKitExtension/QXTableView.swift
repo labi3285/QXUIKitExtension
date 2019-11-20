@@ -131,7 +131,7 @@ open class QXTableView: QXView {
                 if s.isDisplay {
                     var ms: [Any?] = []
                     for c in s.models {
-                        if let c = c as? QXStaticBaseCell {
+                        if let c = c as? QXStaticCell {
                             if c.isDisplay {
                                 ms.append(c)
                             }
@@ -276,7 +276,7 @@ extension QXTableView: UITableViewDelegate, UITableViewDataSource {
         let section = _cacheSections[indexPath.section]
         let model = section.models[indexPath.row]
         let cell: QXTableViewCell
-        if let e = model as? QXStaticBaseCell {
+        if let e = model as? QXStaticCell {
             cell = e
         } else {
             let id: String
@@ -312,7 +312,7 @@ extension QXTableView: UITableViewDelegate, UITableViewDataSource {
     open func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         let section = _cacheSections[indexPath.section]
         let model = section.models[indexPath.row]
-        if let e = model as? QXStaticBaseCell {
+        if let e = model as? QXStaticCell {
             if !e.isDisplay {
                 return 0
             }
@@ -333,7 +333,7 @@ extension QXTableView: UITableViewDelegate, UITableViewDataSource {
         let _section = _cacheSections[section]
         let model = _section.header
         let view: QXTableViewHeaderFooterView?
-        if let e = model as? QXStaticBaseHeaderFooterView {
+        if let e = model as? QXStaticHeaderFooterView {
             view = e
         } else {
             let id: String
@@ -365,7 +365,7 @@ extension QXTableView: UITableViewDelegate, UITableViewDataSource {
         let _section = _cacheSections[section]
         let model = _section.footer
         let view: QXTableViewHeaderFooterView?
-        if let e = model as? QXStaticBaseHeaderFooterView {
+        if let e = model as? QXStaticHeaderFooterView {
             view = e
         } else {
             let id: String
@@ -397,7 +397,7 @@ extension QXTableView: UITableViewDelegate, UITableViewDataSource {
     open func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         let section = _cacheSections[section]
         let model = section.header
-        if let e = model as? QXStaticBaseHeaderFooterView {
+        if let e = model as? QXStaticHeaderFooterView {
            if let e = type(of: e).height(model, uiTableView.bounds.width) {
                return e
            }
@@ -413,7 +413,7 @@ extension QXTableView: UITableViewDelegate, UITableViewDataSource {
     open func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         let section = _cacheSections[section]
         let model = section.footer
-        if let e = model as? QXStaticBaseHeaderFooterView {
+        if let e = model as? QXStaticHeaderFooterView {
            if let e = type(of: e).height(model, uiTableView.bounds.width) {
                return e
            }
@@ -554,7 +554,7 @@ open class QXTableViewCell: UITableViewCell {
     fileprivate var respondClickCell: (() -> ())?
     public lazy var backButton: QXButton = {
         let e = QXButton()
-        e.backView.backgroundColorHighlighted = QXColor.higlightGray
+        e.backView.backgroundColorHighlighted = QXColor.dynamicHiglight
         e.respondClick = { [weak self] in
             self?.didClickCell()
         }
@@ -567,6 +567,7 @@ open class QXTableViewCell: UITableViewCell {
         contentView.backgroundColor = UIColor.clear
         backgroundColor = UIColor.clear
         contentView.addSubview(backButton)
+        selectionStyle = .none
     }
     required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -600,7 +601,7 @@ open class QXTableViewHeaderFooterView: UITableViewHeaderFooterView {
     fileprivate var respondClickView: (() -> ())?
     public lazy var backButton: QXButton = {
         let e = QXButton()
-        e.backView.backgroundColorHighlighted = QXColor.higlightGray
+        e.backView.backgroundColorHighlighted = QXColor.dynamicHiglight
         e.respondClick = { [weak self] in
             self?.didClickView()
         }
@@ -674,7 +675,9 @@ class QXTableViewDebugCell: QXTableViewBreakLineCell {
     public lazy var label: QXLabel = {
         let e = QXLabel()
         e.padding = QXEdgeInsets(10, 15, 10, 15)
-        e.font = QXFont(fmt: "14 #333333")
+        e.font = QXFont(size: 14, color: QXColor.dynamicText)
+        
+        
         e.numberOfLines = 0
         return e
     }()
@@ -721,7 +724,7 @@ class QXDebugTableViewHeaderFooterView: QXTableViewHeaderFooterView {
     public lazy var label: QXLabel = {
         let e = QXLabel()
         e.padding = QXEdgeInsets(10, 15, 10, 15)
-        e.font = QXFont(fmt: "14 #333333")
+        e.font = QXFont(size: 14, color: QXColor.dynamicText)
         e.numberOfLines = 0
         return e
     }()

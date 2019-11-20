@@ -14,7 +14,7 @@ public protocol QXRefreshHeaderDateHandlerProtocol {
 }
 public struct QXRefreshHeaderDateHandler: QXRefreshHeaderDateHandlerProtocol {
     public func qxRefreshDateToRichText(_ date: QXDate) -> QXRichText? {
-        return QXRichText.text(date.string(.nature_chinese, "--"), QXFont(fmt: "14 #333333"))
+        return QXRichText.text(date.string(.nature_chinese, "--"), QXFont(size: 14, color: QXColor.dynamicText))
     }
 }
 
@@ -27,13 +27,13 @@ open class QXRefreshHeader: MJRefreshHeader {
     }
     
     public var textNormal: QXRichText?
-        = QXRichText.text("下拉可以刷新", QXFont(fmt: "14 #333333"))
+        = QXRichText.text("下拉可以刷新", QXFont(size: 14, color: QXColor.dynamicText))
     public var textPulling: QXRichText?
-        = QXRichText.text("松开立即刷新", QXFont(fmt: "14 #333333"))
+        = QXRichText.text("松开立即刷新", QXFont(size: 14, color: QXColor.dynamicText))
     public var textLoading: QXRichText?
-        = QXRichText.text("正在刷新数据中...", QXFont(fmt: "14 #333333"))
+        = QXRichText.text("正在刷新数据中...", QXFont(size: 14, color: QXColor.dynamicText))
     public var textDatePrefix: QXRichText?
-        = QXRichText.text("上次更新时间：", QXFont(fmt: "14 #333333"))
+        = QXRichText.text("上次更新时间：", QXFont(size: 14, color: QXColor.dynamicText))
     
     public var dateHandler: QXRefreshHeaderDateHandlerProtocol = QXRefreshHeaderDateHandler()
     
@@ -42,7 +42,9 @@ open class QXRefreshHeader: MJRefreshHeader {
     public var customizedImageLoading: QXImage?
 
     public var imageRefreshArrow: QXImage?
-        = QXUIKitExtensionResources.shared.image("icon_refresh_arrow").setSize(24, 24)
+        = QXUIKitExtensionResources.shared.image("icon_refresh_arrow")
+            .setSize(24, 24)
+            .setRenderingMode(.alwaysTemplate)
     
     public lazy var messageLabel: QXLabel = {
         let e = QXLabel()
@@ -61,13 +63,14 @@ open class QXRefreshHeader: MJRefreshHeader {
     }()
     public lazy var arrowView: QXImageView = {
         let e = QXImageView()
-        e.qxTintColor = QXColor.fmtHex("#333333")
-        e.padding = QXEdgeInsets(0, 5, 0, 5)
+        e.qxTintColor = QXColor.dynamicTitle
+        e.uiImageView.qxTintColor = QXColor.dynamicTitle
+        e.padding = QXEdgeInsets(0, 10, 0, 10)
         return e
     }()
     public var loadingView: QXActivityIndicatorView = {
-        let e = QXActivityIndicatorView(systemView: UIActivityIndicatorView(style: .gray))
-        e.padding = QXEdgeInsets(0, 5, 0, 5)
+        let e = QXActivityIndicatorView()
+        e.padding = QXEdgeInsets(0, 10, 0, 10)
         return e
         }() {
         didSet {
@@ -197,11 +200,11 @@ open class QXRefreshFooter: MJRefreshAutoFooter {
     }
     
     public var textNormal: QXRichText?
-        = QXRichText.text("点击或上拉加载更多", QXFont(fmt: "14 #333333"))
+        = QXRichText.text("点击或上拉加载更多", QXFont(size: 14, color: QXColor.dynamicText))
     public var textLoading: QXRichText?
-        = QXRichText.text("正在加载更多的数据...", QXFont(fmt: "14 #333333"))
+        = QXRichText.text("正在加载更多的数据...", QXFont(size: 14, color: QXColor.dynamicText))
     public var textNoMoreData: QXRichText?
-        = QXRichText.text("已经全部加载完毕", QXFont(fmt: "14 #333333"))
+        = QXRichText.text("已经全部加载完毕", QXFont(size: 14, color: QXColor.dynamicText))
     
     public var imageNormal: QXImage?
     public var imageLoading: QXImage?
@@ -214,7 +217,6 @@ open class QXRefreshFooter: MJRefreshAutoFooter {
     public lazy var imageView: QXImageView = {
         let e = QXImageView()
         e.padding = QXEdgeInsets(0, 5, 0, 5)
-        e.backgroundColor = UIColor.red
         return e
     }()
     public lazy var backButton: QXButton = {
@@ -227,7 +229,7 @@ open class QXRefreshFooter: MJRefreshAutoFooter {
         return e
     }()
     public var loadingView: QXActivityIndicatorView = {
-        let e = QXActivityIndicatorView(systemView: UIActivityIndicatorView(style: .gray))
+        let e = QXActivityIndicatorView()
         e.padding = QXEdgeInsets(0, 5, 0, 5)
         return e
         }() {

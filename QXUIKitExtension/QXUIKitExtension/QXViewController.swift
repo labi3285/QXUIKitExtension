@@ -42,6 +42,8 @@ open class QXViewController: UIViewController, UINavigationBarDelegate {
     //MARK:- Life cycle
     override open func loadView() {
         super.loadView()
+        view.qxBackgroundColor = QXColor.dynamicWhite
+        NotificationCenter.default.addObserver(self, selector: #selector(applicationDidBecomeActive), name: UIApplication.didBecomeActiveNotification, object: nil)
     }
     
     open func viewWillFirstAppear(_ animated: Bool) {
@@ -80,9 +82,14 @@ open class QXViewController: UIViewController, UINavigationBarDelegate {
         super.viewDidAppear(animated)
         if _isFirstDidDisappear { viewDidFirstDisappear(animated); _isFirstDidDisappear = false }
     }
+    @objc open func applicationDidBecomeActive() {
+
+    }
     
     //MARK:- Navigation
-    public var customNavigationBar: QXNavigationBar?
+    
+    /// 开发中
+    var customNavigationBar: QXNavigationBar?
     
     public var navigationBarBackArrowImage: QXImage? = QXUIKitExtensionResources.shared.image("icon_back")
         .setRenderingMode(.alwaysTemplate)
@@ -90,12 +97,13 @@ open class QXViewController: UIViewController, UINavigationBarDelegate {
     public var navigationBarBackFont: QXFont?
 
     public var navigationBarTitle: String? { didSet { if _isNavigationBarInited { updateNavigationBar(false) } } }
-    public var navigationBarTitleFont: QXFont? { didSet { if _isNavigationBarInited { updateNavigationBar(false) } } }
+    public var navigationBarTitleFont: QXFont = QXFont(size: 16, color: QXColor.dynamicTitle)
+        { didSet { if _isNavigationBarInited { updateNavigationBar(false) } } }
     public var navigationBarTitleView: QXView? { didSet { if _isNavigationBarInited { updateNavigationBar(false) } } }
-    public var navigationBarTintColor: QXColor = QXColor.hex("#333333", 1)
+    public var navigationBarTintColor: QXColor = QXColor.dynamicAdorn
         { didSet { if _isNavigationBarInited { updateNavigationBar(false) } } }
     
-    public var navigationBarBackgroundColor: QXColor = QXColor.white
+    public var navigationBarBackgroundColor: QXColor = QXColor.dynamicBar
         { didSet { if _isNavigationBarInited { updateNavigationBar(false) } } }
     public var navigationBarBackgroundImage: QXImage?
         { didSet { if _isNavigationBarInited { updateNavigationBar(false) } } }
@@ -208,7 +216,7 @@ open class QXViewController: UIViewController, UINavigationBarDelegate {
             if let e = navigationBarTitleView {
                 navBar.titleView = e
             } else {
-                _ = navBar.autoCheckOrSetTitleView(title: navigationBarTitle ?? title, font:  navigationBarTitleFont ?? QXFont(size: 15, color: navigationBarTintColor))
+                _ = navBar.autoCheckOrSetTitleView(title: navigationBarTitle ?? title, font:  navigationBarTitleFont)
             }
             if let e = navigationBarBackgroundImage {
                 navBar.layer.contents = e.uiImage?.cgImage
@@ -244,11 +252,7 @@ open class QXViewController: UIViewController, UINavigationBarDelegate {
             } else {
                 if let e = navigationBarTitle ?? title {
                     let label = UILabel()
-                    if let f = navigationBarTitleFont {
-                        label.qxFont = f
-                    } else {
-                        label.qxFont = QXFont(size: 15, color: navigationBarTintColor)
-                    }
+                    label.qxFont = navigationBarTitleFont
                     label.qxText = e
                     label.HEIGHT.EQUAL(44).MAKE()
                     navigationItem.titleView = label

@@ -260,15 +260,15 @@ extension UINavigationController {
     
     public var qxNavigationBackgroundColor: QXColor? {
         set {
-            if let e = newValue?.uiImage {
-                navigationBar.setBackgroundImage(e, for: UIBarMetrics.default)
+            if let e = newValue?.uiColor {
+                navigationBar.backgroundColor = e
             } else {
-                navigationBar.setBackgroundImage(nil, for: UIBarMetrics.default)
+                navigationBar.backgroundColor = nil
             }
         }
         get {
-            if let e = navigationBar.backgroundImage(for: UIBarMetrics.default) {
-                return QXColor.image(QXImage(e))
+            if let e = navigationBar.backgroundColor {
+                return QXColor.uiColor(e)
             }
             return nil
         }

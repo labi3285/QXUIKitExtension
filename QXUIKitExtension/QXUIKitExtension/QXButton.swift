@@ -25,10 +25,10 @@ open class QXButton: QXView {
     /// 触发点击的容忍距离
     open var clickMoveTolerance: CGFloat = 20
     /// 点击的高光效果持续时间，默认0.3秒, nil 表示不会延时
-    open var clickHighlightDelaySecs: Double? = 0.3
+    open var clickHighlightDelaySecs: TimeInterval? = 0.1
     
     /// 高亮的alpha，nil表示不生效
-    open var highlightAlpha: CGFloat? = 0.3
+    open var highlightAlpha: CGFloat? //= 0.3
     /// 无效的alpha，nil表示不生效
     open var disableAlpha: CGFloat? = 0.3
     
@@ -228,7 +228,7 @@ open class QXButton: QXView {
 open class QXTitleButton: QXButton {
     
     open var title: String = "" { didSet { update() } }
-    open var font: QXFont = QXFont(fmt: "14 #333333") { didSet { update() } }
+    open var font: QXFont = QXFont(size: 14, color: QXColor.dynamicTitle) { didSet { update() } }
     
     open var richTitles: [QXRichText]? { didSet { update() } }
     open var richTitle: QXRichText? {

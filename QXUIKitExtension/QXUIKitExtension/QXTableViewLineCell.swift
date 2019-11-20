@@ -11,7 +11,7 @@ import UIKit
 open class QXTableViewLine {
     
     open var lineWidth: CGFloat = 0.5
-    open var lineColor: QXColor = QXColor.lineGray
+    open var lineColor: QXColor = QXColor.dynamicLine
     open var lineCap: CGLineCap = .round
     open var lineDash: (phase: CGFloat, lengths: [CGFloat])?
     open var padding: QXEdgeInsets = QXEdgeInsets(5, 15, 5, 15)

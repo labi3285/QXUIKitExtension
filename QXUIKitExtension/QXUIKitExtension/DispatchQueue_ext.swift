@@ -10,7 +10,7 @@ import UIKit
 
 extension DispatchQueue {
     
-    public func qxAsyncWait(_ secs: Double, _ todo: @escaping (() -> ())) {
+    public func qxAsyncWait(_ secs: TimeInterval, _ todo: @escaping (() -> ())) {
         let win = UIWindow.qxOneNormalWindow
         win?.rootViewController?.view.isUserInteractionEnabled = false
         qxAsyncAfter(secs) {
@@ -19,7 +19,7 @@ extension DispatchQueue {
         }
     }
 
-    public func qxAsyncAfter(_ secs: Double, _ todo: @escaping (() -> ())) {
+    public func qxAsyncAfter(_ secs: TimeInterval, _ todo: @escaping (() -> ())) {
         asyncAfter(deadline: DispatchTime.now() + secs) {
             todo()
         }

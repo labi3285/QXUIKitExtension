@@ -13,7 +13,6 @@ class DemoListVc: QXTableViewController<QXTableViewSection> {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "ListVc"
-        view.qxBackgroundColor = QXColor.white
         contentView.canRefresh = true
         contentView.canPage = true
         tableView.sectionHeaderSpace = 100

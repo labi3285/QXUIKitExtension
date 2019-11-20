@@ -21,17 +21,25 @@ open class QXSettingTitleTextFieldCell: QXSettingCell {
     public lazy var titleLabel: QXLabel = {
         let e = QXLabel()
         e.numberOfLines = 1
-        e.font = QXFont(fmt: "16 #333333")
+        e.font = QXFont(size: 16, color: QXColor.dynamicTitle)
         return e
     }()
     public lazy var textField: QXTextField = {
         let e = QXTextField()
         e.extendSize = true
-        e.font = QXFont(fmt: "16 #333333")
-        e.placeHolderfont = QXFont(fmt: "16 #999999")
+        e.font = QXFont(size: 16, color: QXColor.dynamicInput)
+        e.placeHolderfont = QXFont(size: 16, color: QXColor.dynamicPlaceHolder)
         e.uiTextField.textAlignment = .right
         e.compressResistanceX = QXView.resistanceEasyDeform
         e.placeHolder = "输入内容"
+        return e
+    }()
+    public lazy var suffixLabel: QXLabel = {
+        let e = QXLabel()
+        e.respondNeedsLayout = { [weak e, weak self] in
+            e?.isDisplay = !QXEmpty(e?.uiLabel.attributedText?.string ?? e?.uiLabel.text)
+            self?.layoutView.qxSetNeedsLayout()
+        }
         return e
     }()
     public lazy var layoutView: QXStackView = {
@@ -40,7 +48,7 @@ open class QXSettingTitleTextFieldCell: QXSettingCell {
         e.alignmentX = .left
         e.viewMargin = 10
         e.padding = QXEdgeInsets(5, 15, 5, 15)
-        e.setupViews([self.titleLabel, QXFlexSpace(), self.textField])
+        e.setupViews([self.titleLabel, QXFlexSpace(), self.textField, self.suffixLabel])
         return e
     }()
 
@@ -55,6 +63,28 @@ open class QXSettingTitleTextFieldCell: QXSettingCell {
     }
     required public init(_ reuseId: String) {
         fatalError("init(_:) has not been implemented")
+    }
+    
+    public class SuffixLabel: QXLabel {
+        override public var text: String {
+            didSet {
+                super.text = text
+                isDisplay = !QXEmpty(uiLabel.attributedText?.string ?? uiLabel.text)
+            }
+        }
+        override public var font: QXFont {
+            didSet {
+                super.font = font
+                isDisplay = !QXEmpty(uiLabel.attributedText?.string ?? uiLabel.text)
+            }
+        }
+        override public var richTexts: [QXRichText]? {
+            didSet {
+                super.richTexts = richTexts
+                isDisplay = !QXEmpty(uiLabel.attributedText?.string ?? uiLabel.text)
+            }
+        }
+        
     }
 
 }

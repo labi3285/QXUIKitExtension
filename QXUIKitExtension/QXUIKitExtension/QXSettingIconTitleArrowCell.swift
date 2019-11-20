@@ -29,7 +29,7 @@ open class QXSettingIconTitleArrowCell: QXSettingCell {
     
     public lazy var iconView: QXImageView = {
         let e = QXImageView()
-        e.qxTintColor = QXColor.hex("#666666", 1)
+        e.qxTintColor = QXColor.dynamicIndicator
         e.image = QXUIKitExtensionResources.shared.image("icon_setting.png")
             .setSize(24, 24)
             .setRenderingMode(.alwaysTemplate)
@@ -42,20 +42,21 @@ open class QXSettingIconTitleArrowCell: QXSettingCell {
     public lazy var titleLabel: QXLabel = {
         let e = QXLabel()
         e.numberOfLines = 1
-        e.font = QXFont(fmt: "16 #333333")
+        e.font = QXFont(size: 16, color: QXColor.dynamicTitle)
         return e
     }()
     public lazy var subTitleLabel: QXLabel = {
         let e = QXLabel()
         e.numberOfLines = 1
-        e.font = QXFont(fmt: "14 #666666")
+        e.font = QXFont(size: 14, color: QXColor.dynamicSubTitle)
         e.compressResistanceX = QXView.resistanceEasyDeform
         return e
     }()
     public lazy var arrowView: QXImageView = {
         let e = QXImageView()
-        e.qxTintColor = QXColor.hex("#666666", 1)
-        e.image = QXUIKitExtensionResources.shared.image("icon_arrow.png")        .setRenderingMode(.alwaysTemplate)
+        e.qxTintColor = QXColor.dynamicIndicator
+        e.image = QXUIKitExtensionResources.shared.image("icon_arrow.png")
+            .setRenderingMode(.alwaysTemplate)
         e.compressResistance = QXView.resistanceStable
         e.respondUpdateImage = { [weak self] in
             self?.layoutView.setNeedsLayout()

@@ -106,14 +106,11 @@ class ViewController: QXTableViewController<Any> {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         title = "首页"
-        view.qxBackgroundColor = QXColor.backgroundGray
+        view.qxBackgroundColor = QXColor.dynamicBackgroundGray
         tableView.sections = [section]
 //        isNavigationBarShow = false
-                        
-        view.backgroundColor = UIColor.yellow
-        
+                                
 //        let bar = QXNavigationBar()
 //        bar.isAutoTitle = true
 //        bar.contentView.backgroundColor = UIColor.yellow

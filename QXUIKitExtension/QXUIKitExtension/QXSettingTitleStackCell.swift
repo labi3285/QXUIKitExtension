@@ -14,7 +14,7 @@ open class QXSettingTitleStackCell: QXSettingCell {
     public lazy var titleLabel: QXLabel = {
         let e = QXLabel()
         e.numberOfLines = 1
-        e.font = QXFont(fmt: "16 #333333")
+        e.font = QXFont(size: 16, color: QXColor.dynamicTitle)
         return e
     }()
     public lazy var stackView: QXStackView = {

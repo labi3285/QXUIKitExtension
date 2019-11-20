@@ -8,7 +8,7 @@
 
 import UIKit
 
-open class QXSettingSeparateHeaderView: QXStaticBaseHeaderFooterView {
+open class QXSettingSeparateHeaderView: QXStaticHeaderFooterView {
         
     open var isEnabled: Bool = true
 
@@ -19,17 +19,18 @@ open class QXSettingSeparateHeaderView: QXStaticBaseHeaderFooterView {
         e.isUserInteractionEnabled = false
         return e
     }()
+    
     override open func layoutSubviews() {
         super.layoutSubviews()
         let h = breakLine.intrinsicContentSize.height
         breakLine.frame = CGRect(x: 0, y: contentView.frame.height - h, width: contentView.frame.width, height: h)
         bringSubviewToFront(breakLine)
-        fixHeight = 10
     }
         
     required public init() {
         super.init()
         contentView.addSubview(breakLine)
+        fixHeight = 10
     }
     required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")

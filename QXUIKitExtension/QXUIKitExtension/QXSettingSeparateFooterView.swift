@@ -8,7 +8,7 @@
 
 import UIKit
 
-open class QXSettingSeparateFooterView: QXStaticBaseHeaderFooterView {
+open class QXSettingSeparateFooterView: QXStaticHeaderFooterView {
     
     open var isEnabled: Bool = true
 

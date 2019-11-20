@@ -29,7 +29,7 @@ open class QXTableViewText {
     }
     
     open var text: String = ""
-    open var font: QXFont = QXFont(size: 14, color: QXColor.hex("#333333", 1))
+    open var font: QXFont = QXFont(size: 14, color: QXColor.dynamicText)
     open var items: [QXRichLabel.Item]?
     open var respondTouchLink: ((_ data: Any) -> ())?
     open var alignmentX: QXAlignmentX = .left
@@ -39,7 +39,7 @@ open class QXTableViewText {
     open var justified: Bool = true
     open var firstLineHeadIndent: CGFloat = 0
     open var hyphenationFactor: CGFloat = 0
-    open var highlightColor: QXColor = QXColor.hex("#66b3ff", 1)
+    open var highlightColor: QXColor = QXColor.dynamicHiglight
     open var isCopyEnabled: Bool = false
     open var padding: QXEdgeInsets = QXEdgeInsets(5, 15, 5, 15)
     
@@ -78,7 +78,7 @@ class QXTableViewTextCell: QXTableViewCell {
     }
     public lazy var label: QXRichLabel = {
         let e = QXRichLabel()
-        e.font = QXFont(fmt: "14 #333333")
+        e.font = QXFont(size: 14, color: QXColor.dynamicText)
         e.numberOfLines = 0
         e.isCopyEnabled = true
         return e

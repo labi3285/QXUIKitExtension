@@ -20,7 +20,7 @@ open class QXRichLabel: QXView {
     }
     
     /// font for single text
-    public var font: QXFont = QXFont(size: 14, color: QXColor.hex("#000000", 1)) {
+    public var font: QXFont = QXFont(size: 14, color: QXColor.dynamicText) {
         didSet {
             items = [Item.text(string: text, font: font, linkData: nil)]
         }
@@ -90,7 +90,7 @@ open class QXRichLabel: QXView {
     public var hyphenationFactor: CGFloat = 0
     
     /// highlight color
-    public var highlightColor: QXColor = QXColor.hex("#66b3ff", 1)
+    public var highlightColor: QXColor = QXColor.dynamicHiglight
     
     //MARK:- COPY
     public var isCopyEnabled: Bool = false {

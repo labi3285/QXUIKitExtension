@@ -8,7 +8,7 @@
 
 import UIKit
 
-open class QXStaticBaseCell: QXTableViewCell {
+open class QXStaticCell: QXTableViewCell {
     
     override open var model: Any? {
         didSet {
@@ -26,7 +26,7 @@ open class QXStaticBaseCell: QXTableViewCell {
     open var fixHeight: CGFloat?
     
     override open class func height(_ model: Any?, _ width: CGFloat) -> CGFloat? {
-        if let e = model as? QXStaticBaseCell {
+        if let e = model as? QXStaticCell {
             return e.height(model, width)
         }
         return nil
@@ -46,7 +46,7 @@ open class QXStaticBaseCell: QXTableViewCell {
     
 }
 
-open class QXStaticBaseHeaderFooterView: QXTableViewHeaderFooterView {
+open class QXStaticHeaderFooterView: QXTableViewHeaderFooterView {
     
     override open var model: Any? {
         didSet {
@@ -61,7 +61,7 @@ open class QXStaticBaseHeaderFooterView: QXTableViewHeaderFooterView {
     open var fixHeight: CGFloat?
     
     override open class func height(_ model: Any?, _ width: CGFloat) -> CGFloat? {
-        if let e = model as? QXStaticBaseHeaderFooterView {
+        if let e = model as? QXStaticHeaderFooterView {
             return e.height(model, width)
         }
         return nil

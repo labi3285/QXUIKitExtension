@@ -8,7 +8,7 @@
 
 import UIKit
 
-open class QXSettingCell: QXStaticBaseCell {
+open class QXSettingCell: QXStaticCell {
     
     override open func initializedWithTable() {
         super.initializedWithTable()
@@ -27,7 +27,7 @@ open class QXSettingCell: QXStaticBaseCell {
     required public init() {
         super.init()
         contentView.addSubview(breakLine)
-        contentView.qxBackgroundColor = QXColor.white
+        contentView.qxBackgroundColor = QXColor.dynamicBody
         fixHeight = 50
     }
     required public init?(coder aDecoder: NSCoder) {

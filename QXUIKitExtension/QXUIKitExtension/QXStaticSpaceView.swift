@@ -8,7 +8,7 @@
 
 import UIKit
 
-open class QXStaticSpaceView: QXStaticBaseHeaderFooterView {
+open class QXStaticSpaceView: QXStaticHeaderFooterView {
     
     convenience public init(height: CGFloat) {
         self.init()

@@ -13,7 +13,7 @@ extension QXLineView {
     public static var breakLine: QXLineView {
         let e = QXLineView()
         e.lineWidth = 0.5
-        e.lineColor = QXColor.lineGray
+        e.lineColor = QXColor.dynamicLine
         return e
     }
 }
@@ -56,8 +56,6 @@ open class QXLineView: QXView {
             }
         }
     }
-
-    var a: Bool = false
     
     override open func draw(_ rect: CGRect) {
         if let ctx = UIGraphicsGetCurrentContext() {

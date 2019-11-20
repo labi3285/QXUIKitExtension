@@ -13,9 +13,9 @@ open class QXTabBarController: UITabBarController {
     /// 在有tabBarBackgroundImage 的情况下无效
     public var isTabBarLineShow: Bool?
     
-    public var tabBarBackgroundColor: QXColor?
+    public var tabBarBackgroundColor: QXColor? = QXColor.dynamicBar
     public var tabBarBackgroundImage: QXImage?
-    public var tabBarTintColor: QXColor?
+    public var tabBarTintColor: QXColor? = QXColor.dynamicAdorn
     public var tabBarStyle: UIBarStyle?
     
     public var navigationControllers: [QXNavigationController]? {

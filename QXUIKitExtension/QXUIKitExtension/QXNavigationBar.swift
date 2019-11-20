@@ -140,7 +140,7 @@ extension QXNavigationBar {
             imageView.tintColor = tintColor
             imageView.image = image
             let label = QXLabel()
-            label.font = font ?? QXFont(fmt: "14 #333333")
+            label.font = font ?? QXFont(size: 14, color: QXColor.dynamicTitle)
             label.text = title
             label.maxWidth = 100
             button.views = [imageView, label]
@@ -158,7 +158,7 @@ extension QXNavigationBar {
         } else if let title = title {
             let button = QXStackButton()
             let label = QXLabel()
-            label.font = font ?? QXFont(fmt: "14 #333333")
+            label.font = font ?? QXFont(size: 14, color: QXColor.dynamicTitle)
             label.text = title
             label.maxWidth = 100
             button.views = [label]
@@ -184,7 +184,7 @@ extension QXNavigationBar {
             let imageView = QXImageView()
             imageView.image = image
             let label = QXLabel()
-            label.font = font ?? QXFont(fmt: "14 #333333")
+            label.font = font ?? QXFont(size: 14, color: QXColor.dynamicTitle)
             label.text = title
             label.maxWidth = 100
             button.views = [imageView, label]
@@ -210,7 +210,7 @@ extension QXNavigationBar {
         } else if let title = title {
             let button = QXStackButton()
             let label = QXLabel()
-            label.font = font ?? QXFont(fmt: "14 #333333")
+            label.font = font ?? QXFont(size: 14, color: QXColor.dynamicTitle)
             label.text = title
             label.maxWidth = 100
             button.views = [label]
@@ -232,7 +232,7 @@ extension QXNavigationBar {
         if let title = title {
             let label = QXLabel()
             label.alignmentX = .center
-            label.font = font ?? QXFont(fmt: "15 #333333")
+            label.font = font ?? QXFont(size: 14, color: QXColor.dynamicTitle)
             label.text = title
             label.padding = QXEdgeInsets(0, 10, 0, 10)
             titleView = label

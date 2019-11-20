@@ -51,10 +51,7 @@ class DemoStaticsVc: QXTableViewController<Any> {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Statics"
-        view.qxBackgroundColor = QXColor.white
-        tableView.sections = [section]
-        
-                
+        tableView.sections = [section]                
     }
     
     override func viewDidAppear(_ animated: Bool) {

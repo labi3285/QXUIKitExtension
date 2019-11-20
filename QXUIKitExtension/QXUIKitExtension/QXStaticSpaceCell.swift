@@ -9,7 +9,7 @@
 import UIKit
 import QXConsMaker
 
-open class QXStaticSpaceCell: QXStaticBaseCell {
+open class QXStaticSpaceCell: QXStaticCell {
     
     convenience public init(height: CGFloat) {
         self.init()
