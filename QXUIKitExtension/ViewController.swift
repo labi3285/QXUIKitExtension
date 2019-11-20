@@ -110,6 +110,28 @@ class ViewController: QXTableViewController<Any> {
         view.qxBackgroundColor = QXColor.dynamicBackgroundGray
         tableView.sections = [section]
 //        isNavigationBarShow = false
+        
+        navigationBarRightItem = QXBarButtonItem.titleItem("完成", {
+            print("xxx")
+        })
+        
+        navigationBarRightItems = [
+            QXBarButtonItem.titleItem("AAA", {
+                print("xxx")
+            }),
+            QXBarButtonItem.iconItem("icon_mine_ask1", {
+                print("xxx")
+            })
+        ]
+        let btn = QXTitleButton()
+        btn.title = "这是按钮"
+        btn.respondClick = {
+            print("btn xxx")
+            btn.title = "这是按钮xxx"
+        }
+        btn.padding = QXEdgeInsets(5, 5, 5, 5)
+        btn.qxDebugRandomColor()
+        navigationBarRightItem = QXBarButtonItem.stackItem(btn)
                                 
 //        let bar = QXNavigationBar()
 //        bar.isAutoTitle = true

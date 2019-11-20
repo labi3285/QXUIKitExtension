@@ -28,6 +28,13 @@ open class QXStackView: QXView {
             view.removeFromSuperview()
         }
         self.views = views
+        for e in views {
+            if let e = e as? QXView {
+                e.respondNeedsLayout = { [weak self] in
+                    self?.qxSetNeedsLayout()
+                }
+            }
+        }
         var sortInfos: [(i: Int, compressResistance: CGFloat)] = []
         for (i, v) in views.enumerated() {
             if isVertical {

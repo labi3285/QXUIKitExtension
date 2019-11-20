@@ -31,7 +31,7 @@ open class QXTextField: QXView, UITextFieldDelegate {
         }
     }
     
-    open var font: QXFont = QXFont(size: 16, color: QXColor.dynamicInput) {
+    open var font: QXFont = QXFont(16, QXColor.dynamicInput) {
         didSet {
             uiTextField.font = font.uiFont
             uiTextField.textColor = font.color.uiColor
@@ -44,7 +44,7 @@ open class QXTextField: QXView, UITextFieldDelegate {
                    qxSetNeedsLayout()
         }
     }
-    open var placeHolderfont: QXFont = QXFont(size: 16, color: QXColor.placeHolderGray) {
+    open var placeHolderfont: QXFont = QXFont(16, QXColor.dynamicPlaceHolder) {
         didSet {
             uiTextField.attributedPlaceholder = placeHolderfont.nsAttributtedString(placeHolder)
             qxSetNeedsLayout()
@@ -97,24 +97,11 @@ open class QXTextField: QXView, UITextFieldDelegate {
             pickerView?.bringInPickedItems = bringInPickedItems
         }
     }
-    
-    public var pickedDate: QXDate? {
-        return pickedItem?.data as? QXDate
-    }
-    public var bringInDate: QXDate? {
-        set {
-            (pickerView as? QXDatePickerBaseKeyboardView)?.bringInDate = newValue
-            bringInPickedItems = (pickerView as? QXDatePickerBaseKeyboardView)?.bringInPickedItems
-        }
-        get {
-            return (pickerView as? QXDatePickerBaseKeyboardView)?.bringInDate
-        }
-    }
             
     public lazy var uiTextField: UITextField = {
         let e = UITextField()
         e.clearButtonMode = .never
-        e.qxTintColor = QXColor.dynamicAdorn
+        e.qxTintColor = QXColor.dynamicAccent
         e.leftViewMode = .never
         e.rightViewMode = .never
         e.delegate = self
@@ -199,3 +186,4 @@ open class QXTextField: QXView, UITextFieldDelegate {
         }())        
     }
 }
+

@@ -16,7 +16,7 @@ open class QXLabel: QXView {
             qxSetNeedsLayout()
         }
     }
-    open var font: QXFont = QXFont(size: 14, color: QXColor.dynamicText) {
+    open var font: QXFont = QXFont(14, QXColor.dynamicText) {
         didSet {
             richTexts = nil
             uiLabel.attributedText = font.nsAttributtedString(text)

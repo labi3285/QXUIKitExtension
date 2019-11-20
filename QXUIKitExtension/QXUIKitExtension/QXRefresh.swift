@@ -14,7 +14,7 @@ public protocol QXRefreshHeaderDateHandlerProtocol {
 }
 public struct QXRefreshHeaderDateHandler: QXRefreshHeaderDateHandlerProtocol {
     public func qxRefreshDateToRichText(_ date: QXDate) -> QXRichText? {
-        return QXRichText.text(date.string(.nature_chinese, "--"), QXFont(size: 14, color: QXColor.dynamicText))
+        return QXRichText.text(date.string(.nature_chinese, "--"), QXFont(14, QXColor.dynamicText))
     }
 }
 
@@ -27,13 +27,13 @@ open class QXRefreshHeader: MJRefreshHeader {
     }
     
     public var textNormal: QXRichText?
-        = QXRichText.text("下拉可以刷新", QXFont(size: 14, color: QXColor.dynamicText))
+        = QXRichText.text("下拉可以刷新", QXFont(14, QXColor.dynamicText))
     public var textPulling: QXRichText?
-        = QXRichText.text("松开立即刷新", QXFont(size: 14, color: QXColor.dynamicText))
+        = QXRichText.text("松开立即刷新", QXFont(14, QXColor.dynamicText))
     public var textLoading: QXRichText?
-        = QXRichText.text("正在刷新数据中...", QXFont(size: 14, color: QXColor.dynamicText))
+        = QXRichText.text("正在刷新数据中...", QXFont(14, QXColor.dynamicText))
     public var textDatePrefix: QXRichText?
-        = QXRichText.text("上次更新时间：", QXFont(size: 14, color: QXColor.dynamicText))
+        = QXRichText.text("上次更新时间：", QXFont(14, QXColor.dynamicText))
     
     public var dateHandler: QXRefreshHeaderDateHandlerProtocol = QXRefreshHeaderDateHandler()
     
@@ -200,11 +200,11 @@ open class QXRefreshFooter: MJRefreshAutoFooter {
     }
     
     public var textNormal: QXRichText?
-        = QXRichText.text("点击或上拉加载更多", QXFont(size: 14, color: QXColor.dynamicText))
+        = QXRichText.text("点击或上拉加载更多", QXFont(14, QXColor.dynamicText))
     public var textLoading: QXRichText?
-        = QXRichText.text("正在加载更多的数据...", QXFont(size: 14, color: QXColor.dynamicText))
+        = QXRichText.text("正在加载更多的数据...", QXFont(14, QXColor.dynamicText))
     public var textNoMoreData: QXRichText?
-        = QXRichText.text("已经全部加载完毕", QXFont(size: 14, color: QXColor.dynamicText))
+        = QXRichText.text("已经全部加载完毕", QXFont(14, QXColor.dynamicText))
     
     public var imageNormal: QXImage?
     public var imageLoading: QXImage?

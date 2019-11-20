@@ -63,8 +63,7 @@ class DemoSettingsVc: QXTableViewController<Any> {
         return e
     }()
     
-    lazy var pickerView: QXPickerKeyboardView = {
-        
+    lazy var cityPickerView: QXPickerKeyboardView = {
         let a = QXPickerView()
         a.suffixView = {
             let e = QXLabel()
@@ -84,9 +83,7 @@ class DemoSettingsVc: QXTableViewController<Any> {
             e.text = "区"
             return e
         }()
-        
         let e = QXPickerKeyboardView([a, b, c], isLazyMode: false)
-
         var aa: [QXPickerView.Item] = []
         for i in 0..<5 {
             let item = QXPickerView.Item(i, "a\(i)", nil)
@@ -95,7 +92,7 @@ class DemoSettingsVc: QXTableViewController<Any> {
                 let item = QXPickerView.Item(j, "b\(i)\(j)", nil)
                 var cc: [QXPickerView.Item] = []
                 for k in 0..<5 {
-                    let item = QXPickerView.Item.init(k, "c\(i)\(j)\(k)", nil)
+                    let item = QXPickerView.Item(k, "c\(i)\(j)\(k)", nil)
                     cc.append(item)
                 }
                 item.children = cc
@@ -107,10 +104,10 @@ class DemoSettingsVc: QXTableViewController<Any> {
         e.items = aa
         return e
     }()
-    lazy var pickCityCell: QXSettingTitlePickerCell = {
+    lazy var cityPickerCell: QXSettingTitlePickerCell = {
         let e = QXSettingTitlePickerCell()
         e.titleLabel.text = "选择城市"
-        e.textField.pickerView = self.pickerView
+        e.textField.pickerView = self.cityPickerView
         e.textField.bringInPickedItems = [
             QXPickerView.Item.init(1, "a1"),
             QXPickerView.Item.init(1, "b11"),
@@ -118,7 +115,7 @@ class DemoSettingsVc: QXTableViewController<Any> {
         ]
         return e
     }()
-    lazy var pickYearCell: QXSettingTitlePickerCell = {
+    lazy var datePickerCell: QXSettingTitlePickerCell = {
         let e = QXSettingTitlePickerCell()
         e.titleLabel.text = "选择时间"
 //        let picker = QXYearPickerKeyboardView(minDate: QXDate(year: 1970), maxDate: QXDate(year: 2020))
@@ -157,8 +154,8 @@ class DemoSettingsVc: QXTableViewController<Any> {
     
     lazy var section: QXTableViewSection = {
         let e = QXTableViewSection([
-            self.pickCityCell,
-            self.pickYearCell,
+            self.cityPickerCell,
+            self.datePickerCell,
 
             self.arrowCell,
             self.iconArrowCell,

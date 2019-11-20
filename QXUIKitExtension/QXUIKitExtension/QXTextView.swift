@@ -38,7 +38,7 @@ open class QXTextView: QXView, UITextViewDelegate {
         }
     }
 
-    open var font: QXFont = QXFont(size: 16, color: QXColor.dynamicInput) {
+    open var font: QXFont = QXFont(16, QXColor.dynamicInput) {
         didSet {
             uiTextView.font = font.uiFont
             uiTextView.textColor = font.color.uiColor
@@ -81,13 +81,13 @@ open class QXTextView: QXView, UITextViewDelegate {
     public lazy var uiTextView: UITextView = {
         let e = UITextView()
         e.backgroundColor = UIColor.clear
-        e.qxTintColor = QXColor.dynamicAdorn
+        e.qxTintColor = QXColor.dynamicAccent
         e.delegate = self
         return e
     }()
     public lazy var placeHolderLabel: QXLabel = {
         let e = QXLabel()
-        e.font = QXFont(size: 16, color: QXColor.dynamicPlaceHolder)
+        e.font = QXFont(16, QXColor.dynamicPlaceHolder)
         e.padding = QXEdgeInsets(7, 5, 7, 5)
         e.isUserInteractionEnabled = false
         return e

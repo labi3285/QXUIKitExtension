@@ -20,7 +20,7 @@ open class QXSettingTextFooterView: QXSettingSeparateFooterView {
         let e = QXRichLabel()
         e.numberOfLines = 0
         e.padding = QXEdgeInsets(5, 15, 10, 15)
-        e.font = QXFont(size: 12, color: QXColor.dynamicTip)
+        e.font = QXFont(12, QXColor.dynamicTip)
         return e
     }()
 

@@ -11,7 +11,7 @@ import UIKit
 extension UIFont {
     
     public func qxFont(_ color: QXColor) -> QXFont {
-        return QXFont(size: qxSize, color: color)
+        return QXFont(qxSize, color)
     }
     
     public var qxSize: CGFloat {

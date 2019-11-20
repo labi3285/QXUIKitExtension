@@ -68,32 +68,48 @@ public enum QXColor {
     public static let purple: QXColor = QXColor.rgb(127, 0, 127, 255)
     public static let brown: QXColor = QXColor.rgb(165, 102, 51, 255)
 
-    public static let placeHolderGray: QXColor = QXColor.rgb(187, 187, 187, 255)
-    public static let backgroundGray: QXColor = QXColor.rgb(245, 245, 245, 255)
-    public static let higlightGray: QXColor = QXColor.rgb(245, 245, 245, 255)
-    public static let lineGray: QXColor = QXColor.rgb(224, 224, 224, 255)
-    public static let borderGray: QXColor = QXColor.rgb(166, 166, 166, 255)
-    
+    /// 导航颜色
     public static var dynamicBar: QXColor = QXColor.darkFmtHex("#ffffff", "#121212")
-    public static let dynamicBody: QXColor = QXColor.darkFmtHex("#ffffff", "#1c1c1e")
-    public static let dynamicBackgroundGray: QXColor = QXColor.darkFmtHex("#f5f5f5", "#000000")
-    public static let dynamicBackgroundKeyboard: QXColor = QXColor.darkFmtHex("#d1d3d9", "#1b1b1b")
+    /// 设置项颜色
+    public static var dynamicBody: QXColor = QXColor.darkFmtHex("#ffffff", "#1c1c1e")
+    /// 浅灰背景色
+    public static var dynamicBackgroundGray: QXColor = QXColor.darkFmtHex("#f5f5f5", "#000000")
+    /// 键盘背景色
+    public static var dynamicBackgroundKeyboard: QXColor = QXColor.darkFmtHex("#d1d3d9", "#1b1b1b")
+      
+    /// 背景白色
+    public static var dynamicWhite: QXColor = QXColor.darkFmtHex("#ffffff", "#000000")
+    /// 背景黑色
+    public static var dynamicBlack: QXColor = QXColor.darkFmtHex("#000000", "#ffffff")
+    /// 分隔线颜色
+    public static var dynamicLine: QXColor = QXColor.darkFmtHex("#e0e0e0", "#3d3d41")
+    /// 强调颜色（光标、返回、导航item等）
+    public static var dynamicAccent: QXColor = QXColor.darkFmtHex("#3478f6", "#3b82f6")
     
-    public static let dynamicWhite: QXColor = QXColor.darkFmtHex("#ffffff", "#000000")
-    public static let dynamicBlack: QXColor = QXColor.darkFmtHex("#000000", "#ffffff")
-    public static let dynamicLine: QXColor = QXColor.darkFmtHex("#e0e0e0", "#3d3d41")
-    public static let dynamicAdorn: QXColor = QXColor.darkFmtHex("#3478f6", "#3b82f6")
+    /// 按钮颜色
+    public static var dynamicButton: QXColor = QXColor.darkFmtHex("#3478f6", "#3b82f6")
+    /// 按钮文本颜色
+    public static var dynamicButtonText: QXColor = QXColor.darkFmtHex("#ffffff", "#ffffff")
 
-    public static let dynamicTitle: QXColor = QXColor.darkFmtHex("#333333", "#fefefe")
-    public static let dynamicSubTitle: QXColor = QXColor.darkFmtHex("#666666", "#98989e")
-    public static let dynamicTip: QXColor = QXColor.darkFmtHex("#999999", "#8e8e92")
-    public static let dynamicLink: QXColor = QXColor.darkFmtHex("#66b3ff", "#66b3ff")
-    public static let dynamicText: QXColor = QXColor.darkFmtHex("#666666", "#98989e")
-    public static let dynamicInput: QXColor = QXColor.darkFmtHex("#333333", "#fefefe")
-    public static let dynamicIndicator: QXColor = QXColor.darkFmtHex("#666666", "#5a5a5e")
-    public static let dynamicPlaceHolder: QXColor = QXColor.darkFmtHex("#bbbbbb", "#656569")
+    /// 标题色（导航、标题、设置项）
+    public static var dynamicTitle: QXColor = QXColor.darkFmtHex("#333333", "#fefefe")
+    /// 副标题颜色（设置项内容）
+    public static var dynamicSubTitle: QXColor = QXColor.darkFmtHex("#666666", "#98989e")
+    /// 提示颜色（header、footer）
+    public static var dynamicTip: QXColor = QXColor.darkFmtHex("#999999", "#8e8e92")
+    /// 超链接颜色
+    public static var dynamicLink: QXColor = QXColor.darkFmtHex("#66b3ff", "#66b3ff")
+    /// 文本默认颜色
+    public static var dynamicText: QXColor = QXColor.darkFmtHex("#666666", "#98989e")
+    /// 输入框文本颜色
+    public static var dynamicInput: QXColor = QXColor.darkFmtHex("#333333", "#fefefe")
+    /// 占位符颜色
+    public static var dynamicPlaceHolder: QXColor = QXColor.darkFmtHex("#bbbbbb", "#656569")
 
-    public static let dynamicHiglight: QXColor = QXColor.darkFmtHex("#f5f5f5", "#363636")
+    /// 指示箭头颜色
+    public static var dynamicIndicator: QXColor = QXColor.darkFmtHex("#666666", "#5a5a5e")
+    /// 按钮高亮颜色
+    public static var dynamicHiglight: QXColor = QXColor.darkFmtHex("#f5f5f5", "#363636")
     
     public static func random(alpha: CGFloat) -> QXColor { return QXColor.uiColor(UIColor.qxRandom(alpha: alpha)) }
     public static var random: QXColor { return QXColor.uiColor(UIColor.qxRandom) }

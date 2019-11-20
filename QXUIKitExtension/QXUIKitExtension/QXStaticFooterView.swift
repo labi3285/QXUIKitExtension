@@ -20,7 +20,7 @@ open class QXStaticFooterView: QXStaticHeaderFooterView {
         let e = QXLabel()
         e.numberOfLines = 0
         e.padding = QXEdgeInsets(5, 15, 10, 15)
-        e.font = QXFont(size: 14, color: QXColor.dynamicTip)
+        e.font = QXFont(14, QXColor.dynamicTip)
         return e
     }()
 

@@ -73,6 +73,9 @@ open class QXPickerKeyboardView: QXStackView {
     public var nonePlaceHolder: String? = "-"
     public let isLazyMode: Bool
     
+    /**
+     * isLazyMode: 在正常情况下多级picker选中上级下一级清0，lazyMode会尝试保留子级的索引，多用于日期等选择
+     */
     public required init(_ pickerViews: [QXPickerView], isLazyMode: Bool) {
         self.pickerViews = pickerViews
         self.isLazyMode = isLazyMode
@@ -221,11 +224,11 @@ open class QXPickerView: QXView, UIPickerViewDataSource, UIPickerViewDelegate {
             self.text = text
         }
         public convenience init(_ id: AnyHashable, _ text: String, _ data: Any?) {
-            let font = QXFont(size: 14, color: QXColor.dynamicTitle)
+            let font = QXFont(14, QXColor.dynamicTitle)
              self.init(id, text, font, data)
         }
         public convenience init(_ id: AnyHashable, _ text: String) {
-            let font = QXFont(size: 14, color: QXColor.dynamicTitle)
+            let font = QXFont(14, QXColor.dynamicTitle)
             self.init(id, text, font, nil)
         }
         public static func placeHolder(_ text: String, _ font: QXFont) -> Item {

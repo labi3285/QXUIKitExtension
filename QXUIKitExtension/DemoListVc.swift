@@ -26,8 +26,8 @@ class DemoListVc: QXTableViewController<QXTableViewSection> {
             DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1) {
                 let ms = (0..<10).map { _ in QXDebugRandomText(999) }
                 let s = QXTableViewSection(ms, QXSpace(10), QXSpace(10))
-                ok([s], nil)
-    //            self.onLoadModelsFailed(QXError.unknown)
+//                ok([s], nil)
+                failed(QXError.unknown)
             }
         }
         contentView.reloadData()

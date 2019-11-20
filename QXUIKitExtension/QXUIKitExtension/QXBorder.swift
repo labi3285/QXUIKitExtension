@@ -31,9 +31,6 @@ open class QXBorder {
         self.color = QXColor.fmtHex(fmtHex)
     }
     
-    public static var border: QXBorder {
-        return QXBorder().setColor(QXColor.borderGray).setLineWidth(1).setCornerRadius(5)
-    }
 }
 
 extension CALayer {

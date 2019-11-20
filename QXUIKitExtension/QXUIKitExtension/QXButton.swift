@@ -228,7 +228,7 @@ open class QXButton: QXView {
 open class QXTitleButton: QXButton {
     
     open var title: String = "" { didSet { update() } }
-    open var font: QXFont = QXFont(size: 14, color: QXColor.dynamicTitle) { didSet { update() } }
+    open var font: QXFont = QXFont(14, QXColor.dynamicTitle) { didSet { update() } }
     
     open var richTitles: [QXRichText]? { didSet { update() } }
     open var richTitle: QXRichText? {
@@ -294,7 +294,7 @@ open class QXTitleButton: QXButton {
     
     open var titlePadding: QXEdgeInsets = QXEdgeInsets.zero
 
-    public lazy var label: UILabel = {
+    public lazy var uiLabel: UILabel = {
         let e = UILabel()
         e.textAlignment = .center
         e.isUserInteractionEnabled = false
@@ -303,7 +303,7 @@ open class QXTitleButton: QXButton {
     
     public override init() {
         super.init()
-        backView.addSubview(label)
+        backView.addSubview(uiLabel)
     }
     required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -311,11 +311,11 @@ open class QXTitleButton: QXButton {
     
     override open func layoutSubviews() {
         super.layoutSubviews()
-        label.qxRect = backView.qxRect.absoluteRect.rectByReduce(padding)
+        uiLabel.qxRect = backView.qxRect.absoluteRect.rectByReduce(titlePadding)
     }
     
     open override func natureContentSize() -> QXSize {
-        var size = label.qxIntrinsicContentSize
+        var size = uiLabel.qxIntrinsicContentSize
         size = size.sizeByAdd(titlePadding).sizeByAdd(padding)
         return size
     }
@@ -332,50 +332,50 @@ open class QXTitleButton: QXButton {
     
     override open func handleNormalize() {
         if let e = richTitles {
-            label.qxRichTexts = e
+            uiLabel.qxRichTexts = e
         } else {
-            label.qxRichText = QXRichText.text(title, font)
+            uiLabel.qxRichText = QXRichText.text(title, font)
         }
         super.handleNormalize()
     }
     override open func handleHighlighted() {
         if let e = richTitlesHighlighted {
-            label.qxRichTexts = e
+            uiLabel.qxRichTexts = e
         } else if let e = titleHighlighted {
-            label.qxRichText = QXRichText.text(e, font)
+            uiLabel.qxRichText = QXRichText.text(e, font)
         } else {
            if let e = richTitles {
-              label.qxRichTexts = e
+              uiLabel.qxRichTexts = e
            } else {
-              label.qxRichText = QXRichText.text(title, font)
+              uiLabel.qxRichText = QXRichText.text(title, font)
            }
         }
         super.handleHighlighted()
     }
     override open func handleSelected() {
         if let e = richTitlesSelected {
-            label.qxRichTexts = e
+            uiLabel.qxRichTexts = e
         } else if let e = titleSelected {
-            label.qxRichText = QXRichText.text(e, font)
+            uiLabel.qxRichText = QXRichText.text(e, font)
         } else {
             if let e = richTitles {
-               label.qxRichTexts = e
+               uiLabel.qxRichTexts = e
             } else {
-               label.qxRichText = QXRichText.text(title, font)
+               uiLabel.qxRichText = QXRichText.text(title, font)
             }
         }
         super.handleSelected()
     }
     override open func handleDisabled(isSelected: Bool) {
         if let e = richTitlesDisabled {
-            label.qxRichTexts = e
+            uiLabel.qxRichTexts = e
         } else if let e = titleDisabled {
-            label.qxRichText = QXRichText.text(e, font)
+            uiLabel.qxRichText = QXRichText.text(e, font)
         } else {
             if let e = richTitles {
-                label.qxRichTexts = e
+                uiLabel.qxRichTexts = e
             } else {
-                label.qxRichText = QXRichText.text(title, font)
+                uiLabel.qxRichText = QXRichText.text(title, font)
             }
         }
         super.handleDisabled(isSelected: isSelected)

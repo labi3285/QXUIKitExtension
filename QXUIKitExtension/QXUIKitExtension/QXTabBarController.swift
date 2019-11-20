@@ -15,7 +15,7 @@ open class QXTabBarController: UITabBarController {
     
     public var tabBarBackgroundColor: QXColor? = QXColor.dynamicBar
     public var tabBarBackgroundImage: QXImage?
-    public var tabBarTintColor: QXColor? = QXColor.dynamicAdorn
+    public var tabBarTintColor: QXColor? = QXColor.dynamicAccent
     public var tabBarStyle: UIBarStyle?
     
     public var navigationControllers: [QXNavigationController]? {

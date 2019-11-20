@@ -10,66 +10,37 @@ import UIKit
 
 open class QXBarButtonItem: UIBarButtonItem {
     
-    public static func backItem(title: String, styles: QXControlStateStyles?) -> QXBarButtonItem {
+    public static func backItem(_ title: String) -> QXBarButtonItem {
         let e = QXBarButtonItem()
         e.title = title
-        if let styles = styles {
-            do {
-                let style = styles.normal
-                if let dic = style.font?.nsAttributtes {
-                    e.setTitleTextAttributes(dic, for: .normal)
-                }
-            }
-            if let style = styles.disabled {
-                if let dic = style.font?.nsAttributtes {
-                    e.setTitleTextAttributes(dic, for: .disabled)
-                }
-            }
-            if let style = styles.highlighted {
-                if let dic = style.font?.nsAttributtes {
-                    e.setTitleTextAttributes(dic, for: .highlighted)
-                }
-            }
-            if let style = styles.selected {
-                if let dic = style.font?.nsAttributtes {
-                    e.setTitleTextAttributes(dic, for: .selected)
-                }
-            }
-        }
         return e
     }
     
-    public static func titleItem(title: String, styles: QXControlStateStyles?) -> QXBarButtonItem {
+    public static func titleItem(_ title: String, _ handler: @escaping () -> ()) -> QXBarButtonItem {
         let e = QXBarButtonItem(title: title, style: .plain, target: nil, action: #selector(itemClick))
         e.target = e
-        if let styles = styles {
-            do {
-                let style = styles.normal
-                if let dic = style.font?.nsAttributtes {
-                    e.setTitleTextAttributes(dic, for: .normal)
-                }
-            }
-            if let style = styles.disabled {
-                if let dic = style.font?.nsAttributtes {
-                    e.setTitleTextAttributes(dic, for: .disabled)
-                }
-            }
-            if let style = styles.highlighted {
-                if let dic = style.font?.nsAttributtes {
-                    e.setTitleTextAttributes(dic, for: .highlighted)
-                }
-            }
-            if let style = styles.selected {
-                if let dic = style.font?.nsAttributtes {
-                    e.setTitleTextAttributes(dic, for: .selected)
-                }
-            }
-        }
+        e.respondClick = handler
         return e
     }
     
-    public static func iconItem(icon: String, styles: QXControlStateStyles?) -> QXBarButtonItem {
-        let e = QXBarButtonItem(image: UIImage(named: icon), style: .plain, target: self, action: #selector(itemClick))
+    public static func iconItem(_ icon: String, _ handler: @escaping () -> ()) -> QXBarButtonItem {
+        let e = QXBarButtonItem(image: UIImage(named: icon), style: .plain, target: nil, action: #selector(itemClick))
+        e.target = e
+        e.respondClick = handler
+        return e
+    }
+    
+    public static func stackItem(_ views: QXViewProtocol...) -> QXBarButtonItem {
+        return stackItem(views)
+    }
+    public static func stackItem(_ views: [QXViewProtocol]) -> QXBarButtonItem {
+        let stack = QXStackView()
+        stack.setupViews(views)
+        stack.sizeToFit()
+        let e = QXBarButtonItem(customView: stack)
+        stack.respondNeedsLayout = { [weak stack] in
+            stack?.sizeToFit()
+        }
         return e
     }
     

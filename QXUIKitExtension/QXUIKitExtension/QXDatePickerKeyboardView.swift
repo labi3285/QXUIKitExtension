@@ -8,6 +8,23 @@
 
 import UIKit
 
+extension QXTextField {
+    
+    public var pickedDate: QXDate? {
+        return pickedItem?.data as? QXDate
+    }
+    public var bringInDate: QXDate? {
+        set {
+            (pickerView as? QXDatePickerBaseKeyboardView)?.bringInDate = newValue
+            bringInPickedItems = (pickerView as? QXDatePickerBaseKeyboardView)?.bringInPickedItems
+        }
+        get {
+            return (pickerView as? QXDatePickerBaseKeyboardView)?.bringInDate
+        }
+    }
+    
+}
+
 open class QXYearMonthDayPickerKeyboardView: QXDatePickerBaseKeyboardView {
         
     open override var bringInDate: QXDate? {

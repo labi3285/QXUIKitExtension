@@ -14,8 +14,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-                
-        //QXColor.isSupportDarkMode = false
+                        
+//        QXColor.isSupportDarkMode = false
         
         let vc = ViewController()
         let nav = QXNavigationController(rootViewController: vc)

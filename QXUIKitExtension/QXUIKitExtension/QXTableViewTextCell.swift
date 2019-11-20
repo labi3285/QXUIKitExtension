@@ -29,7 +29,7 @@ open class QXTableViewText {
     }
     
     open var text: String = ""
-    open var font: QXFont = QXFont(size: 14, color: QXColor.dynamicText)
+    open var font: QXFont = QXFont(14, QXColor.dynamicText)
     open var items: [QXRichLabel.Item]?
     open var respondTouchLink: ((_ data: Any) -> ())?
     open var alignmentX: QXAlignmentX = .left
@@ -78,7 +78,7 @@ class QXTableViewTextCell: QXTableViewCell {
     }
     public lazy var label: QXRichLabel = {
         let e = QXRichLabel()
-        e.font = QXFont(size: 14, color: QXColor.dynamicText)
+        e.font = QXFont(14, QXColor.dynamicText)
         e.numberOfLines = 0
         e.isCopyEnabled = true
         return e

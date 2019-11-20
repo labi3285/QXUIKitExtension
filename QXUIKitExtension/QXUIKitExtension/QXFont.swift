@@ -137,10 +137,10 @@ open class QXFont {
         self.bold = false
     }
     
-    public convenience init(size: CGFloat, color: QXColor) {
-        self.init(size: size, color: color, bold: false)
+    public convenience init(_ size: CGFloat, _ color: QXColor) {
+        self.init(size, color, bold: false)
     }
-    public init(size: CGFloat, color: QXColor, bold: Bool) {
+    public init(_ size: CGFloat, _ color: QXColor, bold: Bool) {
         self.size = size
         self.color = color
         self.bold = bold

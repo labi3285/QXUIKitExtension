@@ -20,7 +20,7 @@ class DemoStackViewVc: QXViewController {
 //    lazy var label1: QXTitleButton = {
 //        let e = QXTitleButton()
 //        e.title = "12345"
-//        e.font = QXFont(size: 14, color: QXColor.dynamicTitle)
+//        e.font = QXFont(14, QXColor.dynamicTitle)
 //        return e
 //    }()
 //
@@ -33,7 +33,7 @@ class DemoStackViewVc: QXViewController {
 //    lazy var label2: QXTitleButton = {
 //        let e = QXTitleButton()
 //        e.title = "12345"
-//        e.font = QXFont(size: 14, color: QXColor.dynamicTitle)
+//        e.font = QXFont(14, QXColor.dynamicTitle)
 //        return e
 //    }()
 //
@@ -45,7 +45,7 @@ class DemoStackViewVc: QXViewController {
 //    }()
 //    lazy var label3: QXTitleButton = {
 //        let e = QXTitleButton()
-//        e.font = QXFont(size: 14, color: QXColor.dynamicTitle)
+//        e.font = QXFont(14, QXColor.dynamicTitle)
 //        e.title = "12345"
 //        return e
 //    }()

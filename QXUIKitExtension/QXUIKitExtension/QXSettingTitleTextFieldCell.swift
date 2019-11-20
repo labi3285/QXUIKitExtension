@@ -21,14 +21,14 @@ open class QXSettingTitleTextFieldCell: QXSettingCell {
     public lazy var titleLabel: QXLabel = {
         let e = QXLabel()
         e.numberOfLines = 1
-        e.font = QXFont(size: 16, color: QXColor.dynamicTitle)
+        e.font = QXFont(16, QXColor.dynamicTitle)
         return e
     }()
     public lazy var textField: QXTextField = {
         let e = QXTextField()
         e.extendSize = true
-        e.font = QXFont(size: 16, color: QXColor.dynamicInput)
-        e.placeHolderfont = QXFont(size: 16, color: QXColor.dynamicPlaceHolder)
+        e.font = QXFont(16, QXColor.dynamicInput)
+        e.placeHolderfont = QXFont(16, QXColor.dynamicPlaceHolder)
         e.uiTextField.textAlignment = .right
         e.compressResistanceX = QXView.resistanceEasyDeform
         e.placeHolder = "输入内容"

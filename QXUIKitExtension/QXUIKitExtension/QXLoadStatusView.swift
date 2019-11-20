@@ -124,9 +124,9 @@ open class QXLoadStatusView: UIView {
         }
     }
     
-    open var loadingTextFont: QXFont = QXFont(13, "#848484")
-    open var emptyTextFont: QXFont = QXFont(13, "#848484")
-    open var errorTextFont: QXFont = QXFont(13, "#848484")
+    open var loadingTextFont: QXFont = QXFont(13, QXColor.dynamicPlaceHolder)
+    open var emptyTextFont: QXFont = QXFont(13, QXColor.dynamicPlaceHolder)
+    open var errorTextFont: QXFont = QXFont(13, QXColor.dynamicPlaceHolder)
     
     open var defaultLoadingText: String? = "加载中"
     open var defaultEmptyText: String? = "暂无内容"
@@ -141,7 +141,7 @@ open class QXLoadStatusView: UIView {
     open lazy var iconView: QXImageView = {
         let e = QXImageView()
         e.padding = QXEdgeInsets.zero
-        e.qxTintColor = QXColor.fmtHex("#848484")
+        e.qxTintColor = QXColor.dynamicPlaceHolder
         e.respondNeedsLayout = { [weak self] in
             self?.layoutSubviews()
         }
@@ -160,8 +160,9 @@ open class QXLoadStatusView: UIView {
     }()
     public lazy var retryButton: QXTitleButton = {
         let e = QXTitleButton()
-        e.backView.qxBorder = QXBorder.border
-        e.font = QXFont(14, "#848484")
+        e.backView.qxBorder = QXBorder().setCornerRadius(5)
+        e.backView.qxBackgroundColor = QXColor.dynamicButton
+        e.font = QXFont(14, QXColor.dynamicButtonText)
         e.title = "点击重试"
         e.padding = QXEdgeInsets(7, 10, 7, 10)
         e.titlePadding = QXEdgeInsets(7, 10, 7, 10)

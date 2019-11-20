@@ -19,7 +19,7 @@ open class QXSettingTextCell: QXSettingCell {
     public lazy var label: QXRichLabel = {
         let e = QXRichLabel()
         e.numberOfLines = 0
-        e.font = QXFont(size: 15, color: QXColor.dynamicText)
+        e.font = QXFont(15, QXColor.dynamicText)
         e.padding = QXEdgeInsets(10, 15, 10, 15)
         e.isCopyEnabled = true
         return e

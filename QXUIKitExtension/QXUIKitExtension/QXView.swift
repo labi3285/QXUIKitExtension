@@ -76,6 +76,11 @@ open class QXView: UIView, QXViewProtocol {
         fatalError("init(coder:) has not been implemented")
     }
     
+    open override func layoutSubviews() {
+        super.layoutSubviews()
+        setNeedsDisplay()
+    }
+    
     public var respondNeedsLayout: (() -> ())?
     
     override open func invalidateIntrinsicContentSize() {

@@ -675,7 +675,7 @@ class QXTableViewDebugCell: QXTableViewBreakLineCell {
     public lazy var label: QXLabel = {
         let e = QXLabel()
         e.padding = QXEdgeInsets(10, 15, 10, 15)
-        e.font = QXFont(size: 14, color: QXColor.dynamicText)
+        e.font = QXFont(14, QXColor.dynamicText)
         
         
         e.numberOfLines = 0
@@ -724,7 +724,7 @@ class QXDebugTableViewHeaderFooterView: QXTableViewHeaderFooterView {
     public lazy var label: QXLabel = {
         let e = QXLabel()
         e.padding = QXEdgeInsets(10, 15, 10, 15)
-        e.font = QXFont(size: 14, color: QXColor.dynamicText)
+        e.font = QXFont(14, QXColor.dynamicText)
         e.numberOfLines = 0
         return e
     }()

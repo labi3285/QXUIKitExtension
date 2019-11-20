@@ -20,7 +20,7 @@ open class QXRichLabel: QXView {
     }
     
     /// font for single text
-    public var font: QXFont = QXFont(size: 14, color: QXColor.dynamicText) {
+    public var font: QXFont = QXFont(14, QXColor.dynamicText) {
         didSet {
             items = [Item.text(string: text, font: font, linkData: nil)]
         }
@@ -406,7 +406,7 @@ extension QXRichLabel {
         let buffer = UnsafeMutablePointer<Attachment>.allocate(capacity: 1)
         buffer.initialize(to: attach)
         let runDelegate = CTRunDelegateCreate(&callBacks, buffer)!
-        let font = QXFont(size: attach.size.height, color: QXColor.hex("#000000", 1))
+        let font = QXFont(attach.size.height, QXColor.hex("#000000", 1))
         let attri = font.nsAttributtedString("\u{FFFC}")
         let mAttri = NSMutableAttributedString(attributedString: attri)
         mAttri.addAttribute(kCTRunDelegateAttributeName as NSAttributedString.Key, value: runDelegate, range: NSRange(location: 0, length: mAttri.length))

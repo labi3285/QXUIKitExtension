@@ -29,13 +29,13 @@ open class QXSettingTitleArrowCell: QXSettingCell {
     public lazy var titleLabel: QXLabel = {
         let e = QXLabel()
         e.numberOfLines = 1
-        e.font = QXFont(size: 16, color: QXColor.dynamicTitle)
+        e.font = QXFont(16, QXColor.dynamicTitle)
         return e
     }()
     public lazy var subTitleLabel: QXLabel = {
         let e = QXLabel()
         e.numberOfLines = 1
-        e.font = QXFont(size: 14, color: QXColor.dynamicSubTitle)
+        e.font = QXFont(14, QXColor.dynamicSubTitle)
         e.compressResistanceX = QXView.resistanceEasyDeform
         return e
     }()

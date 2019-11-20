@@ -91,16 +91,52 @@ open class QXViewController: UIViewController, UINavigationBarDelegate {
     /// 开发中
     var customNavigationBar: QXNavigationBar?
     
-    public var navigationBarBackArrowImage: QXImage? = QXUIKitExtensionResources.shared.image("icon_back")
+    public var navigationBarBackArrowImage: QXImage = QXUIKitExtensionResources.shared.image("icon_back")
         .setRenderingMode(.alwaysTemplate)
     public var navigationBarBackTitle: String?
-    public var navigationBarBackFont: QXFont?
+    public var navigationBarBackFont: QXFont = QXFont(16, QXColor.dynamicAccent) {
+        didSet {
+            navigationItem.backBarButtonItem?
+                .setTitleTextAttributes(navigationBarBackFont.nsAttributtes, for: .normal)
+        }
+    }
+    public var navigationBarItemFont: QXFont = QXFont(16, QXColor.dynamicAccent, bold: true) {
+        didSet {
+            navigationItem.rightBarButtonItem?
+                .setTitleTextAttributes(navigationBarItemFont.nsAttributtes, for: .normal)
+        }
+    }
 
+    public var navigationBarRightItem: QXBarButtonItem? {
+        set {
+            if let e = newValue {
+                navigationBarRightItems = [e]
+            } else {
+                navigationBarRightItems = []
+            }
+        }
+        get {
+            return navigationBarRightItems.first
+        }
+    }
+    public var navigationBarRightItems: [QXBarButtonItem] {
+        set {
+            for e in newValue {
+                e.setTitleTextAttributes(navigationBarItemFont.nsAttributtes, for: .normal)
+            }
+            navigationItem.rightBarButtonItems = newValue.reversed()
+        }
+        get {
+            return navigationItem.rightBarButtonItems as? [QXBarButtonItem] ?? []
+        }
+    }
+    
+    
     public var navigationBarTitle: String? { didSet { if _isNavigationBarInited { updateNavigationBar(false) } } }
-    public var navigationBarTitleFont: QXFont = QXFont(size: 16, color: QXColor.dynamicTitle)
+    public var navigationBarTitleFont: QXFont = QXFont(16, QXColor.dynamicTitle)
         { didSet { if _isNavigationBarInited { updateNavigationBar(false) } } }
     public var navigationBarTitleView: QXView? { didSet { if _isNavigationBarInited { updateNavigationBar(false) } } }
-    public var navigationBarTintColor: QXColor = QXColor.dynamicAdorn
+    public var navigationBarTintColor: QXColor = QXColor.dynamicAccent
         { didSet { if _isNavigationBarInited { updateNavigationBar(false) } } }
     
     public var navigationBarBackgroundColor: QXColor = QXColor.dynamicBar
@@ -141,7 +177,7 @@ open class QXViewController: UIViewController, UINavigationBarDelegate {
             }
             if let navBar = vc.customNavigationBar {
                 navBar.qxTintColor = vc.navigationBarTintColor
-                if let button = navBar.autoCheckOrSetBackButton(image: vc.navigationBarBackArrowImage, title: vc.navigationBarBackTitle ?? baseVc.navigationBarTitle ?? baseVc.title, font: vc.navigationBarBackFont ?? QXFont.init(size: 16, color: navigationBarTintColor)) {
+                if let button = navBar.autoCheckOrSetBackButton(image: vc.navigationBarBackArrowImage, title: vc.navigationBarBackTitle ?? baseVc.navigationBarTitle ?? baseVc.title, font: vc.navigationBarBackFont) {
                     button.respondClick = { [weak vc] in
                         if let e = vc {
                             if e.shouldPop() {
@@ -152,12 +188,15 @@ open class QXViewController: UIViewController, UINavigationBarDelegate {
                 }
             }
             if let t = vc.navigationBarBackTitle ?? baseVc.navigationBarTitle ?? baseVc.title {
-                navigationItem.backBarButtonItem = QXBarButtonItem.backItem(title: t, styles: QXControlStateStyles(font: vc.navigationBarBackFont ?? QXFont.init(size: 17, color: navigationBarTintColor)))
+                let e = QXBarButtonItem.backItem(t)
+                let font = vc.navigationBarBackFont
+                e.setTitleTextAttributes(font.nsAttributtes, for: .normal)
+                navigationItem.backBarButtonItem = e
             } else {
                 navigationItem.backBarButtonItem = nil
             }
-            navigationController?.navigationBar.backIndicatorImage = vc.navigationBarBackArrowImage?.uiImage
-            navigationController?.navigationBar.backIndicatorTransitionMaskImage = vc.navigationBarBackArrowImage?.uiImage
+            navigationController?.navigationBar.backIndicatorImage = vc.navigationBarBackArrowImage.uiImage
+            navigationController?.navigationBar.backIndicatorTransitionMaskImage = vc.navigationBarBackArrowImage.uiImage
             vc.hidesBottomBarWhenPushed = true
             vc.viewControllerBefore = self
             
@@ -231,9 +270,12 @@ open class QXViewController: UIViewController, UINavigationBarDelegate {
                 navBar.lineView = nil
             }
             
-            if let isLeft = isNavigationBarAutoDismissItemAtLeft, presentingViewController != nil, isNavigationRootViewController {
-                navBar.isDismissAtLeft = isLeft
-                if let button = navBar.autoCheckOrSetDismissButton(image: navigationBarAutoDismissImage, title: navigationBarAutoDismissTitle, font: navigationBarAutoDismissFont ?? QXFont.init(size: 16, color: navigationBarTintColor)) {
+            if navigationItem.leftBarButtonItem == nil
+                && navigationItem.leftBarButtonItems == nil
+                && presentingViewController != nil
+                && isNavigationRootViewController {
+                navBar.isDismissAtLeft = true
+                if let button = navBar.autoCheckOrSetDismissButton(image: navigationBarAutoDismissImage, title: navigationBarAutoDismissTitle, font: navigationBarAutoDismissFont ?? QXFont(16, navigationBarTintColor)) {
                     button.respondClick = { [weak self] in
                         if let s = self {
                             if s.shouldDismiss() {
@@ -271,14 +313,14 @@ open class QXViewController: UIViewController, UINavigationBarDelegate {
                 navigationController?.qxNavigationBackgroundImage = QXImage(QXColor.clear)
             }
             if presentingViewController != nil && isNavigationRootViewController {
-                if let isLeft = isNavigationBarAutoDismissItemAtLeft {
+                if navigationItem.leftBarButtonItem == nil && navigationItem.leftBarButtonItems == nil {
                     if let image = navigationBarAutoDismissImage, let title = navigationBarAutoDismissTitle {
                         let btn = QXStackButton()
                         btn.minHeight = 35
                         let imageView = QXImageView()
                         imageView.image = image
                         let label = QXLabel()
-                        label.font = navigationBarAutoDismissFont ?? QXFont(size: 16, color: navigationBarTintColor)
+                        label.font = navigationBarAutoDismissFont ?? QXFont(16, navigationBarTintColor)
                         label.text = title
                         btn.views = [imageView, label]
                         btn.sizeToFit()
@@ -290,26 +332,18 @@ open class QXViewController: UIViewController, UINavigationBarDelegate {
                                 }
                             }
                         }
-                        if isLeft {
-                            navigationItem.leftBarButtonItem = item
-                        } else {
-                            navigationItem.rightBarButtonItem = item
-                        }
+                        navigationItem.leftBarButtonItem = item
                     } else if let title = navigationBarAutoDismissTitle {
                         let btn = QXTitleButton()
                         btn.minHeight = 35
-                        btn.font = navigationBarAutoDismissFont ?? QXFont(size: 16, color: navigationBarTintColor)
+                        btn.font = navigationBarAutoDismissFont ?? QXFont(16, navigationBarTintColor)
                         btn.title = title
                         btn.sizeToFit()
                         let item = QXBarButtonItem(customView: btn)
                         btn.respondClick = { [weak self] in
                             self?.dismiss(animated: true, completion: nil)
                         }
-                        if isLeft {
-                            navigationItem.leftBarButtonItem = item
-                        } else {
-                            navigationItem.rightBarButtonItem = item
-                        }
+                        navigationItem.leftBarButtonItem = item
                     } else if let image = navigationBarAutoDismissImage {
                         let btn = QXImageButton()
                         btn.image = image
@@ -318,11 +352,7 @@ open class QXViewController: UIViewController, UINavigationBarDelegate {
                         btn.respondClick = { [weak self] in
                             self?.dismiss(animated: true, completion: nil)
                         }
-                        if isLeft {
-                            navigationItem.leftBarButtonItem = item
-                        } else {
-                            navigationItem.rightBarButtonItem = item
-                        }
+                        navigationItem.leftBarButtonItem = item
                     }
                 }
             }
