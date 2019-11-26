@@ -162,6 +162,8 @@ class ViewController: QXTableViewController<Any> {
         btn.padding = QXEdgeInsets(5, 5, 5, 5)
         btn.qxDebugRandomColor()
         navigationBarRightItem = QXBarButtonItem.stackItem(btn)
+        
+        print(QXDate.now.weekDay)
                                 
 //        let bar = QXNavigationBar()
 //        bar.isAutoTitle = true

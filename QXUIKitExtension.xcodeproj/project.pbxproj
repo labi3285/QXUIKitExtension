@@ -87,6 +87,9 @@
 		757D6C3D236174B800BF1788 /* QXStaticFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 757D6C3C236174B800BF1788 /* QXStaticFooterView.swift */; };
 		757D6C3F2361757E00BF1788 /* QXStaticButtonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 757D6C3E2361757E00BF1788 /* QXStaticButtonCell.swift */; };
 		75887840238CEFEF00AA0EF6 /* test.html in Resources */ = {isa = PBXBuildFile; fileRef = 7588783F238CEFEF00AA0EF6 /* test.html */; };
+		75887856238D15BC00AA0EF6 /* QXApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75887855238D15BC00AA0EF6 /* QXApi.swift */; };
+		75887858238D19B200AA0EF6 /* QXApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75887857238D19B200AA0EF6 /* QXApp.swift */; };
+		7588785A238D30B900AA0EF6 /* QXMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75887859238D30B900AA0EF6 /* QXMock.swift */; };
 		758B220D237018CC00A03539 /* QXTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 758B220C237018CC00A03539 /* QXTransition.swift */; };
 		758B220F23703ABB00A03539 /* QXMaskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 758B220E23703ABB00A03539 /* QXMaskViewController.swift */; };
 		75929C8022D03518006577AD /* QXControlStateStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75929C7F22D03518006577AD /* QXControlStateStyle.swift */; };
@@ -209,6 +212,9 @@
 		757D6C3C236174B800BF1788 /* QXStaticFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QXStaticFooterView.swift; sourceTree = "<group>"; };
 		757D6C3E2361757E00BF1788 /* QXStaticButtonCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QXStaticButtonCell.swift; sourceTree = "<group>"; };
 		7588783F238CEFEF00AA0EF6 /* test.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = test.html; sourceTree = "<group>"; };
+		75887855238D15BC00AA0EF6 /* QXApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QXApi.swift; sourceTree = "<group>"; };
+		75887857238D19B200AA0EF6 /* QXApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QXApp.swift; sourceTree = "<group>"; };
+		75887859238D30B900AA0EF6 /* QXMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QXMock.swift; sourceTree = "<group>"; };
 		758B220C237018CC00A03539 /* QXTransition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QXTransition.swift; sourceTree = "<group>"; };
 		758B220E23703ABB00A03539 /* QXMaskViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QXMaskViewController.swift; sourceTree = "<group>"; };
 		75929C7F22D03518006577AD /* QXControlStateStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QXControlStateStyle.swift; sourceTree = "<group>"; };
@@ -326,6 +332,9 @@
 				75929CB522D83024006577AD /* QXSize.swift */,
 				752D7E2423753EB300B7C811 /* QXSpace.swift */,
 				751558A522E7F70E00EFF37A /* QXRequest.swift */,
+				75887855238D15BC00AA0EF6 /* QXApi.swift */,
+				75887859238D30B900AA0EF6 /* QXMock.swift */,
+				75887857238D19B200AA0EF6 /* QXApp.swift */,
 				751558AD22E8255700EFF37A /* QXRequest_jsonExt.swift */,
 				751558AF22E8258900EFF37A /* QXRequest_modelExt.swift */,
 				757806AA22E2BA5D009DD0DA /* QXMargin.swift */,
@@ -553,6 +562,7 @@
 				756A50BA22BDFABF00E692DA /* QXImage.swift in Sources */,
 				7578068F22E162F0009DD0DA /* QXLoadStatusView.swift in Sources */,
 				7578A87A23618D72006CFDD5 /* QXSettingTitleStackCell.swift in Sources */,
+				7588785A238D30B900AA0EF6 /* QXMock.swift in Sources */,
 				75929CB622D83024006577AD /* QXSize.swift in Sources */,
 				758B220F23703ABB00A03539 /* QXMaskViewController.swift in Sources */,
 				75D85228236847DF000F4157 /* UIImage_gif.swift in Sources */,
@@ -596,6 +606,7 @@
 				75FE018422EC29C0007646A3 /* QXDate.swift in Sources */,
 				756A50C422BE141E00E692DA /* QXLocation.swift in Sources */,
 				75929CBC22D8733F006577AD /* QXBorder.swift in Sources */,
+				75887856238D15BC00AA0EF6 /* QXApi.swift in Sources */,
 				7553C80322CEF5910058239B /* UserDefaults_ext.swift in Sources */,
 				75929C8022D03518006577AD /* QXControlStateStyle.swift in Sources */,
 				751558AC22E8033000EFF37A /* QXRespond.swift in Sources */,
@@ -654,6 +665,7 @@
 				75AB06862387B97A00B2F5DF /* QXWebView.swift in Sources */,
 				7553C7FF22CEE2A80058239B /* UIImage_ext.swift in Sources */,
 				7578069622E1662D009DD0DA /* QXUIKitExtensionConfigs.swift in Sources */,
+				75887858238D19B200AA0EF6 /* QXApp.swift in Sources */,
 				7578A88723619B6D006CFDD5 /* QXTextField.swift in Sources */,
 				7578069022E162F0009DD0DA /* QXLoadStatusViewController.swift in Sources */,
 				7574AA86230BCF9F00ABF6AD /* QXLineView.swift in Sources */,

@@ -72,13 +72,99 @@ open class QXPickerKeyboardView: QXStackView {
 
     public var nonePlaceHolder: String? = "-"
     public let isLazyMode: Bool
+    public let isCleanShow: Bool
+    
+    public func checkOrPerformSelectAtInit() {
+        if !isCleanShow {
+            if let picker = pickerViews.first, let item = picker.selectItem {
+                picker.respondPick?(item)
+            }
+        }
+    }
     
     /**
      * isLazyMode: 在正常情况下多级picker选中上级下一级清0，lazyMode会尝试保留子级的索引，多用于日期等选择
      */
-    public required init(_ pickerViews: [QXPickerView], isLazyMode: Bool) {
+    public required init(_ pickerViews: [QXPickerView]) {
         self.pickerViews = pickerViews
-        self.isLazyMode = isLazyMode
+        self.isLazyMode = false
+        self.isCleanShow = true
+        super.init()
+        if QXDevice.isLiuHaiScreen {
+            self.frame = CGRect(x: 0, y: 0, width: 0, height: 230 + 25)
+        } else {
+            self.frame = CGRect(x: 0, y: 0, width: 0, height: 230)
+        }
+        qxBackgroundColor = QXColor.dynamicBackgroundKeyboard
+        viewMargin = 0
+        alignmentX = .center
+        alignmentY = .center
+        if QXDevice.isLiuHaiScreen {
+            padding = QXEdgeInsets(20, 20, 20 + 25, 20)
+        } else {
+            padding = QXEdgeInsets(20, 20, 20, 20)
+        }
+        var views: [QXViewProtocol] = []
+        for (i, e) in pickerViews.enumerated() {
+            if e.fixHeight == nil {
+                e.extendHeight = true
+            }
+            if e.divideRatioX == nil && e.fixWidth == nil {
+                e.divideRatioX = 1
+            }
+            if let e = e.prefixView {
+                views.append(e)
+            }
+            views.append(e)
+            if let e = e.suffixView {
+                views.append(e)
+            }
+            if i < pickerViews.count - 1 {
+                views.append(QXSpace(10))
+            }
+        }
+        for (i, e) in pickerViews.enumerated() {
+            if i + 1 <= pickerViews.count - 1 {
+                e.nextPickerView = pickerViews[i + 1]
+            }
+        }
+        setupViews(views)
+
+        for e in pickerViews {
+            if let n = e.nextPickerView {
+                e.respondAutoPick = { [weak self, weak n] item in
+                    guard let n = n else { return }
+                    var children = item.children
+                    if children.count == 0 {
+                        let e = QXPickerView.Item(item.id, item.text, item.data)
+                        e.parent = item.parent
+                        children.append(e)
+                    }
+                    if n.nextPickerView == nil, let s = self?.nonePlaceHolder {
+                        let e = QXPickerView.Item.placeHolder(s, children.first!.font)
+                        children.insert(e, at: 0)
+                    }
+                    let first = children[0]
+                    n.items = children
+                    n.selectItem = first
+                    n.respondAutoPick?(first)
+                }
+            } else {
+                e.respondPick = { [weak self] item in
+                    if item.isPlaceHolder {
+                        self?.respondItem?(nil)
+                    } else {
+                        self?.respondItem?(item)
+                    }
+                }
+            }
+        }
+
+    }
+    public required init(_ lazyPickerViews: [QXPickerView], isCleanShow: Bool) {
+        self.pickerViews = lazyPickerViews
+        self.isLazyMode = true
+        self.isCleanShow = isCleanShow
         super.init()
         if QXDevice.isLiuHaiScreen {
             self.frame = CGRect(x: 0, y: 0, width: 0, height: 230 + 25)
@@ -120,85 +206,51 @@ open class QXPickerKeyboardView: QXStackView {
         }
         setupViews(views)
         
-        if isLazyMode {
-            for e in pickerViews {
-                if let n = e.nextPickerView {
-                    e.respondPick = { [weak self, weak n] item in
-                        guard let n = n else { return }
-                        var children = item.children
-                        if children.count == 0 {
-                            let e = QXPickerView.Item(item.id, item.text, item.font, item.data)
-                            e.parent = item.parent
-                            children.append(e)
-                        }
-                        if n.nextPickerView == nil, let s = self?.nonePlaceHolder {
-                            let e = QXPickerView.Item.placeHolder(s, children.first!.font)
-                            children.insert(e, at: 0)
-                        }
-                        n.items = children
-                        if let i = n._selectIndex {
-                            var e = children.first!
-                            var d = abs(i - 0)
-                            for (_i, _e) in children.enumerated() {
-                                if abs(i - _i) < d {
-                                    d = abs(i - _i)
-                                    e = _e
-                                }
-                            }
-                            n.selectItem = e
-                            n.respondPick?(e)                            
-                        } else {
-                            if let e = children.first {
-                                n.selectItem = e
-                                n.respondPick?(children.first!)
-                            }
-                        }
+        for e in pickerViews {
+            if let n = e.nextPickerView {
+                e.respondPick = { [weak self, weak n] item in
+                    guard let n = n else { return }
+                    var children = item.children
+                    if children.count == 0 {
+                        let e = QXPickerView.Item(item.id, item.text, item.font, item.data)
+                        e.parent = item.parent
+                        children.append(e)
                     }
-                } else {
-                    e.respondPick = { [weak self] item in
-                        if item.isPlaceHolder {
-                            self?.respondItem?(nil)
-                        } else {
-                            self?.respondItem?(item)
+                    if isCleanShow, n.nextPickerView == nil, let s = self?.nonePlaceHolder {
+                        let e = QXPickerView.Item.placeHolder(s, children.first!.font)
+                        children.insert(e, at: 0)
+                    }
+                    n.items = children
+                    if let i = n._selectIndex {
+                        var e = children.first!
+                        var d = abs(i - 0)
+                        for (_i, _e) in children.enumerated() {
+                            if abs(i - _i) < d {
+                                d = abs(i - _i)
+                                e = _e
+                            }
+                        }
+                        n.selectItem = e
+                        n.respondPick?(e)
+                    } else {
+                        if let e = children.first {
+                            n.selectItem = e
+                            n.respondPick?(children.first!)
                         }
                     }
                 }
-            }
-            
-        } else {
-            for e in pickerViews {
-                if let n = e.nextPickerView {
-                    e.respondAutoPick = { [weak self, weak n] item in
-                        guard let n = n else { return }
-                        var children = item.children
-                        if children.count == 0 {
-                            let e = QXPickerView.Item(item.id, item.text, item.data)
-                            e.parent = item.parent
-                            children.append(e)
-                        }
-                        if n.nextPickerView == nil, let s = self?.nonePlaceHolder {
-                            let e = QXPickerView.Item.placeHolder(s, children.first!.font)
-                            children.insert(e, at: 0)
-                        }
-                        let first = children[0]
-                        n.items = children
-                        n.selectItem = first
-                        n.respondAutoPick?(first)
-                    }
-                } else {
-                    e.respondPick = { [weak self] item in
-                        if item.isPlaceHolder {
-                            self?.respondItem?(nil)
-                        } else {
-                            self?.respondItem?(item)
-                        }
+            } else {
+                e.respondPick = { [weak self] item in
+                    if item.isPlaceHolder {
+                        self?.respondItem?(nil)
+                    } else {
+                        self?.respondItem?(item)
                     }
                 }
             }
         }
-
     }
-    required public init?(coder aDecoder: NSCoder) {
+    public required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
@@ -255,6 +307,7 @@ open class QXPickerView: QXView, UIPickerViewDataSource, UIPickerViewDelegate {
     open var respondPick: ((_ item: Item) -> ())?
     open var items: [Item] = [] {
         didSet {
+            _selectItem = items.first
             uiPickerView.reloadAllComponents()
         }
     }

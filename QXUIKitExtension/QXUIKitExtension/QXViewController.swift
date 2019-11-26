@@ -14,14 +14,14 @@ open class QXViewController: UIViewController, UINavigationBarDelegate {
     public var respondRefresh: (() -> ())?
     
     //MARK:- Init
-    required public init() {
+    public required init() {
         super.init(nibName: nil, bundle: nil)
         // make sure view init at start
         _ = view
         automaticallyAdjustsScrollViewInsets = false
         edgesForExtendedLayout = UIRectEdge(rawValue: 0)
     }
-    required public init?(coder aDecoder: NSCoder) {
+    public required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     deinit {

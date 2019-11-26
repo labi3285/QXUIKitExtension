@@ -22,14 +22,20 @@ class DemoListVc: QXTableViewController<QXTableViewSection> {
             (String.self, QXTableViewDebugCell.self)
         ])
         
-        contentView.api = { page, size, ok, failed in
+        var api = QXModelsApi<QXTableViewSection> { (page, size, succeed, failed) in
             DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1) {
-                let ms = (0..<10).map { _ in QXDebugRandomText(999) }
-                let s = QXTableViewSection(ms, QXSpace(10), QXSpace(10))
-//                ok([s], nil)
                 failed(QXError.unknown)
             }
         }
+        let ms = (0..<10).map { _ in QXDebugRandomText(999) }
+        let s = QXTableViewSection(ms, QXSpace(10), QXSpace(10))
+        let mock = QXModelsMock<QXTableViewSection> { (page, size) -> [QXTableViewSection] in
+            return [s]
+        }
+        api.mock = mock
+        
+        contentView.api = api
+        
         contentView.reloadData()
     }
     

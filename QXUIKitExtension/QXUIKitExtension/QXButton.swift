@@ -60,7 +60,7 @@ open class QXButton: QXView {
         super.init()
         addSubview(backView)
     }
-    required public init?(coder aDecoder: NSCoder) {
+    public required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     override open func layoutSubviews() {
@@ -282,7 +282,7 @@ open class QXTitleButton: QXButton {
         super.init()
         backView.addSubview(uiLabel)
     }
-    required public init?(coder aDecoder: NSCoder) {
+    public required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
@@ -377,7 +377,7 @@ open class QXImageButton: QXButton {
         super.init()
         backView.addSubview(imageView)
     }
-    required public init?(coder aDecoder: NSCoder) {
+    public required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
@@ -474,7 +474,7 @@ open class QXStackButton: QXButton {
         super.init()
         backView.addSubview(stackView)
     }
-    required public init?(coder aDecoder: NSCoder) {
+    public required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     

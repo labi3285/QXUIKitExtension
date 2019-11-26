@@ -31,7 +31,7 @@ open class QXContentLoadStatusView<T>: QXView {
     
     open func reloadData() {
         weak var ws = self
-        api?({ model in
+        api?.api({ model in
            if model == nil {
                 ws?.loadStatus = .empty(ws?.emptyMessage)
            } else {
@@ -185,7 +185,7 @@ open class QXLoadStatusView: UIView {
         addSubview(stackView)
         self.isHidden = true
     }
-    required public init?(coder aDecoder: NSCoder) {
+    public required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     override open func layoutSubviews() {

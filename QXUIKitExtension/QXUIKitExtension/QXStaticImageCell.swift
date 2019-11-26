@@ -25,15 +25,15 @@ open class QXStaticImageCell: QXStaticCell {
         return one
     }()
 
-    required public init() {
+    public required init() {
         super.init()
         contentView.addSubview(myImageView)
         myImageView.IN(contentView).LEFT.RIGHT.TOP.BOTTOM.MAKE()
     }
-    required public init?(coder aDecoder: NSCoder) {
+    public required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    required public init(_ reuseId: String) {
+    public required init(_ reuseId: String) {
         fatalError("init(_:) has not been implemented")
     }
     

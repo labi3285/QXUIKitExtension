@@ -7,7 +7,7 @@
 //
 
 import UIKit
-
+import IQKeyboardManagerSwift
 
 open class QXTextView: QXView, UITextViewDelegate {
 
@@ -47,6 +47,7 @@ open class QXTextView: QXView, UITextViewDelegate {
     
     open var placeHolder: String = "" {
         didSet {
+            toolbarPlaceholder = placeHolder
             placeHolderLabel.text = placeHolder
         }
     }
@@ -98,7 +99,7 @@ open class QXTextView: QXView, UITextViewDelegate {
         addSubview(uiTextView)
         uiTextView.addSubview(placeHolderLabel)
     }
-    required public init?(coder aDecoder: NSCoder) {
+    public required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     

@@ -222,6 +222,19 @@ public struct QXDate: CustomStringConvertible {
         return DateFormats.segments.date(segmentFormateString)!
     }
     
+    public static let calendar: Calendar = Calendar(identifier: Calendar.Identifier.chinese)
+    
+    /// day index in a week, 1 - 7
+    public var weekDay: Int {
+        var i = QXDate.calendar.component(.weekday, from: nsDate)
+        if i == 1 {
+            i = 7
+        } else {
+            i -= 1
+        }
+        return i
+    }
+    
     /// date formate string
     public var segmentFormateString: String {
         return "\(year) \(month) \(day) \(hour) \(minute) \(second)"

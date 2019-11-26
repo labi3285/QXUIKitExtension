@@ -41,7 +41,7 @@ open class QXYearMonthDayPickerKeyboardView: QXDatePickerBaseKeyboardView {
     public let yearPickerView: QXPickerView
     public let monthPickerView: QXPickerView
     public let dayPickerView: QXPickerView
-    public required init(minDate: QXDate, maxDate: QXDate) {
+    public required init(minDate: QXDate, maxDate: QXDate, isCleanShow: Bool) {
         yearPickerView = QXPickerView()
         yearPickerView.suffixView = {
             let e = QXLabel()
@@ -60,7 +60,7 @@ open class QXYearMonthDayPickerKeyboardView: QXDatePickerBaseKeyboardView {
             e.text = "日"
             return e
         }()
-        super.init([yearPickerView, monthPickerView, dayPickerView], isLazyMode: true)
+        super.init([yearPickerView, monthPickerView, dayPickerView], isCleanShow: isCleanShow)
         
         var years: [QXPickerView.Item] = []
         for y in minDate.year...maxDate.year {
@@ -98,11 +98,14 @@ open class QXYearMonthDayPickerKeyboardView: QXDatePickerBaseKeyboardView {
         }
         items = years
     }
-    required public init?(coder aDecoder: NSCoder) {
+    public required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    public required init(_ pickerViews: [QXPickerView], isLazyMode: Bool) {
+    public required init(_ pickerViews: [QXPickerView]) {
         fatalError("init(_:) has not been implemented")
+    }
+    public required init(_ lazyPickerViews: [QXPickerView], isCleanShow: Bool) {
+        fatalError("init(_:isCleanShow:) has not been implemented")
     }
     
 }
@@ -121,7 +124,7 @@ open class QXYearMonthPickerKeyboardView: QXDatePickerBaseKeyboardView {
     }
     public let yearPickerView: QXPickerView
     public let monthPickerView: QXPickerView
-    public required init(minDate: QXDate, maxDate: QXDate) {
+    public required init(minDate: QXDate, maxDate: QXDate, isCleanShow: Bool) {
         yearPickerView = QXPickerView()
         yearPickerView.suffixView = {
             let e = QXLabel()
@@ -134,7 +137,7 @@ open class QXYearMonthPickerKeyboardView: QXDatePickerBaseKeyboardView {
             e.text = "月"
             return e
         }()
-        super.init([yearPickerView, monthPickerView], isLazyMode: true)
+        super.init([yearPickerView, monthPickerView], isCleanShow: isCleanShow)
         
         var years: [QXPickerView.Item] = []
         for y in minDate.year...maxDate.year {
@@ -157,11 +160,14 @@ open class QXYearMonthPickerKeyboardView: QXDatePickerBaseKeyboardView {
         }
         items = years
     }
-    required public init?(coder aDecoder: NSCoder) {
+    public required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    public required init(_ pickerViews: [QXPickerView], isLazyMode: Bool) {
+    public required init(_ pickerViews: [QXPickerView]) {
         fatalError("init(_:) has not been implemented")
+    }
+    public required init(_ lazyPickerViews: [QXPickerView], isCleanShow: Bool) {
+        fatalError("init(_:isCleanShow:) has not been implemented")
     }
 }
 
@@ -179,7 +185,7 @@ open class QXMonthDayPickerKeyboardView: QXDatePickerBaseKeyboardView {
     }
     public let monthPickerView: QXPickerView
     public let dayPickerView: QXPickerView
-    public required init(minDate: QXDate, maxDate: QXDate) {
+    public required init(minDate: QXDate, maxDate: QXDate, isCleanShow: Bool) {
         monthPickerView = QXPickerView()
         monthPickerView.suffixView = {
             let e = QXLabel()
@@ -192,7 +198,7 @@ open class QXMonthDayPickerKeyboardView: QXDatePickerBaseKeyboardView {
             e.text = "日"
             return e
         }()
-        super.init([monthPickerView, dayPickerView], isLazyMode: true)
+        super.init([monthPickerView, dayPickerView], isCleanShow: isCleanShow)
         
         var months: [QXPickerView.Item] = []
         for m in minDate.month...maxDate.month {
@@ -216,11 +222,14 @@ open class QXMonthDayPickerKeyboardView: QXDatePickerBaseKeyboardView {
         }
         items = months
     }
-    required public init?(coder aDecoder: NSCoder) {
+    public required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    public required init(_ pickerViews: [QXPickerView], isLazyMode: Bool) {
+    public required init(_ pickerViews: [QXPickerView]) {
         fatalError("init(_:) has not been implemented")
+    }
+    public required init(_ lazyPickerViews: [QXPickerView], isCleanShow: Bool) {
+        fatalError("init(_:isCleanShow:) has not been implemented")
     }
     
 }
@@ -241,7 +250,7 @@ open class QXHourMinuteSecondPickerKeyboardView: QXDatePickerBaseKeyboardView {
     public let hourPickerView: QXPickerView
     public let minutePickerView: QXPickerView
     public let secondPickerView: QXPickerView
-    public required init(minDate: QXDate, maxDate: QXDate) {
+    public required init(minDate: QXDate, maxDate: QXDate, isCleanShow: Bool) {
         hourPickerView = QXPickerView()
         hourPickerView.suffixView = {
             let e = QXLabel()
@@ -260,7 +269,7 @@ open class QXHourMinuteSecondPickerKeyboardView: QXDatePickerBaseKeyboardView {
             e.text = "秒"
             return e
         }()
-        super.init([hourPickerView, minutePickerView, secondPickerView], isLazyMode: true)
+        super.init([hourPickerView, minutePickerView, secondPickerView], isCleanShow: isCleanShow)
         
         var hours: [QXPickerView.Item] = []
         for h in minDate.hour...maxDate.hour {
@@ -297,11 +306,14 @@ open class QXHourMinuteSecondPickerKeyboardView: QXDatePickerBaseKeyboardView {
         }
         items = hours
     }
-    required public init?(coder aDecoder: NSCoder) {
+    public required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    public required init(_ pickerViews: [QXPickerView], isLazyMode: Bool) {
+    public required init(_ pickerViews: [QXPickerView]) {
         fatalError("init(_:) has not been implemented")
+    }
+    public required init(_ lazyPickerViews: [QXPickerView], isCleanShow: Bool) {
+        fatalError("init(_:isCleanShow:) has not been implemented")
     }
     
 }
@@ -317,7 +329,7 @@ open class QXYearPickerKeyboardView: QXDatePickerBaseKeyboardView {
         }
     }
     public let pickerView: QXPickerView
-    public required init(minDate: QXDate, maxDate: QXDate) {
+    public required init(minDate: QXDate, maxDate: QXDate, isCleanShow: Bool) {
         pickerView = QXPickerView()
         pickerView.suffixView = {
             let e = QXLabel()
@@ -325,16 +337,19 @@ open class QXYearPickerKeyboardView: QXDatePickerBaseKeyboardView {
             return e
         }()
         pickerView.fixWidth = 120
-        super.init([pickerView], isLazyMode: true)
+        super.init([pickerView], isCleanShow: isCleanShow)
         items = (minDate.year...maxDate.year).map { (year) -> QXPickerView.Item in
             return QXPickerView.Item(year, "\(year)", QXDate(year: year))
         }
     }
-    required public init?(coder aDecoder: NSCoder) {
+    public required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    public required init(_ pickerViews: [QXPickerView], isLazyMode: Bool) {
+    public required init(_ pickerViews: [QXPickerView]) {
         fatalError("init(_:) has not been implemented")
+    }
+    public required init(_ lazyPickerViews: [QXPickerView], isCleanShow: Bool) {
+        fatalError("init(_:isCleanShow:) has not been implemented")
     }
 }
 
@@ -349,7 +364,7 @@ open class QXMonthPickerKeyboardView: QXDatePickerBaseKeyboardView {
         }
     }
     public let pickerView: QXPickerView
-    public required init(minDate: QXDate, maxDate: QXDate) {
+    public required init(minDate: QXDate, maxDate: QXDate, isCleanShow: Bool) {
         pickerView = QXPickerView()
         pickerView.suffixView = {
             let e = QXLabel()
@@ -357,16 +372,19 @@ open class QXMonthPickerKeyboardView: QXDatePickerBaseKeyboardView {
             return e
         }()
         pickerView.fixWidth = 120
-        super.init([pickerView], isLazyMode: true)
+        super.init([pickerView], isCleanShow: isCleanShow)
         items = (minDate.month...maxDate.month).map { (month) -> QXPickerView.Item in
             return QXPickerView.Item(month, "\(month)", QXDate(month: month))
         }
     }
-    required public init?(coder aDecoder: NSCoder) {
+    public required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    public required init(_ pickerViews: [QXPickerView], isLazyMode: Bool) {
+    public required init(_ pickerViews: [QXPickerView]) {
         fatalError("init(_:) has not been implemented")
+    }
+    public required init(_ lazyPickerViews: [QXPickerView], isCleanShow: Bool) {
+        fatalError("init(_:isCleanShow:) has not been implemented")
     }
 }
 
@@ -381,7 +399,7 @@ open class QXDayPickerKeyboardView: QXDatePickerBaseKeyboardView {
         }
     }
     public let pickerView: QXPickerView
-    public required init(minDate: QXDate, maxDate: QXDate) {
+    public required init(minDate: QXDate, maxDate: QXDate, isCleanShow: Bool) {
         pickerView = QXPickerView()
         pickerView.suffixView = {
             let e = QXLabel()
@@ -389,16 +407,19 @@ open class QXDayPickerKeyboardView: QXDatePickerBaseKeyboardView {
             return e
         }()
         pickerView.fixWidth = 120
-        super.init([pickerView], isLazyMode: true)
+        super.init([pickerView], isCleanShow: isCleanShow)
         items = (minDate.day...maxDate.day).map { (day) -> QXPickerView.Item in
             return QXPickerView.Item(day, "\(day)", QXDate(day: day))
         }
     }
-    required public init?(coder aDecoder: NSCoder) {
+    public required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    public required init(_ pickerViews: [QXPickerView], isLazyMode: Bool) {
+    public required init(_ pickerViews: [QXPickerView]) {
         fatalError("init(_:) has not been implemented")
+    }
+    public required init(_ lazyPickerViews: [QXPickerView], isCleanShow: Bool) {
+        fatalError("init(_:isCleanShow:) has not been implemented")
     }
 }
 
@@ -413,7 +434,7 @@ open class QXHourPickerKeyboardView: QXDatePickerBaseKeyboardView {
         }
     }
     public let pickerView: QXPickerView
-    public required init(minDate: QXDate, maxDate: QXDate) {
+    public required init(minDate: QXDate, maxDate: QXDate, isCleanShow: Bool) {
         pickerView = QXPickerView()
         pickerView.suffixView = {
             let e = QXLabel()
@@ -421,16 +442,19 @@ open class QXHourPickerKeyboardView: QXDatePickerBaseKeyboardView {
             return e
         }()
         pickerView.fixWidth = 120
-        super.init([pickerView], isLazyMode: true)
+        super.init([pickerView], isCleanShow: isCleanShow)
         items = (minDate.hour...maxDate.hour).map { (hour) -> QXPickerView.Item in
             return QXPickerView.Item(hour, "\(hour)", QXDate(hour: hour))
         }
     }
-    required public init?(coder aDecoder: NSCoder) {
+    public required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    public required init(_ pickerViews: [QXPickerView], isLazyMode: Bool) {
+    public required init(_ pickerViews: [QXPickerView]) {
         fatalError("init(_:) has not been implemented")
+    }
+    public required init(_ lazyPickerViews: [QXPickerView], isCleanShow: Bool) {
+        fatalError("init(_:isCleanShow:) has not been implemented")
     }
 }
 
@@ -445,7 +469,7 @@ open class QXMinutePickerKeyboardView: QXDatePickerBaseKeyboardView {
         }
     }
     public let pickerView: QXPickerView
-    public required init(minDate: QXDate, maxDate: QXDate) {
+    public required init(minDate: QXDate, maxDate: QXDate, isCleanShow: Bool) {
         pickerView = QXPickerView()
         pickerView.suffixView = {
             let e = QXLabel()
@@ -453,16 +477,19 @@ open class QXMinutePickerKeyboardView: QXDatePickerBaseKeyboardView {
             return e
         }()
         pickerView.fixWidth = 120
-        super.init([pickerView], isLazyMode: true)
+        super.init([pickerView], isCleanShow: isCleanShow)
         items = (minDate.minute...maxDate.minute).map { (minute) -> QXPickerView.Item in
             return QXPickerView.Item(minute, "\(minute)", QXDate(minute: minute))
         }
     }
-    required public init?(coder aDecoder: NSCoder) {
+    public required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    public required init(_ pickerViews: [QXPickerView], isLazyMode: Bool) {
+    public required init(_ pickerViews: [QXPickerView]) {
         fatalError("init(_:) has not been implemented")
+    }
+    public required init(_ lazyPickerViews: [QXPickerView], isCleanShow: Bool) {
+        fatalError("init(_:isCleanShow:) has not been implemented")
     }
 }
 
@@ -477,7 +504,7 @@ open class QXSecondPickerKeyboardView: QXDatePickerBaseKeyboardView {
         }
     }
     public let pickerView: QXPickerView
-    public required init(minDate: QXDate, maxDate: QXDate) {
+    public required init(minDate: QXDate, maxDate: QXDate, isCleanShow: Bool) {
         pickerView = QXPickerView()
         pickerView.suffixView = {
             let e = QXLabel()
@@ -485,16 +512,19 @@ open class QXSecondPickerKeyboardView: QXDatePickerBaseKeyboardView {
             return e
         }()
         pickerView.fixWidth = 120
-        super.init([pickerView], isLazyMode: true)
+        super.init([pickerView], isCleanShow: isCleanShow)
         items = (minDate.second...maxDate.second).map { (second) -> QXPickerView.Item in
             return QXPickerView.Item(second, "\(second)", QXDate(second: second))
         }
     }
-    required public init?(coder aDecoder: NSCoder) {
+    public required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    public required init(_ pickerViews: [QXPickerView], isLazyMode: Bool) {
+    public required init(_ pickerViews: [QXPickerView]) {
         fatalError("init(_:) has not been implemented")
+    }
+    public required init(_ lazyPickerViews: [QXPickerView], isCleanShow: Bool) {
+        fatalError("init(_:isCleanShow:) has not been implemented")
     }
 }
 

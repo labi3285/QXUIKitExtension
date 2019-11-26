@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
 s.name         = "QXUIKitExtension"
-s.version      = "0.2.5"
+s.version      = "0.2.6"
 s.summary      = "UIKit extensions in swift5."
 s.description  = <<-DESC
 UIKit extensions in swift. Just enjoy!
@@ -23,9 +23,9 @@ s.dependency 'MJRefresh', '~> 3.1.15.7'
 s.dependency 'QXJSON', '~> 0.1.1'
 s.dependency 'QXMessageView', '~> 0.0.3'
 s.dependency 'SAMKeychain', '~> 1.5.3'
-s.dependency 'QXConsMaker', '~> 0.0.7'
+s.dependency 'QXConsMaker', '~> 0.0.8'
 s.dependency 'TZImagePickerController', '~> 3.2.6'
-s.dependency 'IQKeyboardManagerSwift', '~> 6.5.2'
+s.dependency 'IQKeyboardManagerSwift', '~> 6.5.4'
 s.dependency 'DSImageBrowse' , '~> 1.0.2'
 s.dependency 'YYWebImage' , '~> 1.0.5'
 

@@ -54,6 +54,7 @@ class DemoSettingsVc: QXTableViewController<Any> {
     final lazy var titleTextFieldCell: QXSettingTitleTextFieldCell = {
         let e = QXSettingTitleTextFieldCell()
         e.titleLabel.text = "输入框"
+        e.textField.filter = QXTextFilter.number(limit: 6)
         e.textField.placeHolder = "输入内容"
         return e
     }()
@@ -83,7 +84,7 @@ class DemoSettingsVc: QXTableViewController<Any> {
             e.text = "区"
             return e
         }()
-        let e = QXPickerKeyboardView([a, b, c], isLazyMode: false)
+        let e = QXPickerKeyboardView([a, b, c])
         var aa: [QXPickerView.Item] = []
         for i in 0..<5 {
             let item = QXPickerView.Item(i, "a\(i)", nil)
@@ -109,35 +110,35 @@ class DemoSettingsVc: QXTableViewController<Any> {
         e.titleLabel.text = "选择城市"
         e.textField.pickerView = self.cityPickerView
         e.textField.bringInPickedItems = [
-            QXPickerView.Item.init(1, "a1"),
-            QXPickerView.Item.init(1, "b11"),
-            QXPickerView.Item.init(1, "c111"),
+            QXPickerView.Item(1, "a1"),
+            QXPickerView.Item(1, "b11"),
+            QXPickerView.Item(1, "c111"),
         ]
         return e
     }()
     final lazy var datePickerCell: QXSettingTitlePickerCell = {
         let e = QXSettingTitlePickerCell()
         e.titleLabel.text = "选择时间"
-//        let picker = QXYearPickerKeyboardView(minDate: QXDate(year: 1970), maxDate: QXDate(year: 2020))
-//        let picker = QXMonthPickerKeyboardView(minDate: QXDate(month: 1), maxDate: QXDate(month: 12))
-//        let picker = QXDayPickerKeyboardView(minDate: QXDate(day: 1), maxDate: QXDate(day: 31))
-//        let picker = QXHourPickerKeyboardView(minDate: QXDate(hour: 1), maxDate: QXDate(hour: 24))
+//        let picker = QXYearPickerKeyboardView(minDate: QXDate(year: 1970), maxDate: QXDate(year: 2020), isCleanShow: true)
+//        let picker = QXMonthPickerKeyboardView(minDate: QXDate(month: 1), maxDate: QXDate(month: 12), isCleanShow: true)
+//        let picker = QXDayPickerKeyboardView(minDate: QXDate(day: 1), maxDate: QXDate(day: 31), isCleanShow: true)
+//        let picker = QXHourPickerKeyboardView(minDate: QXDate(hour: 1), maxDate: QXDate(hour: 24), isCleanShow: true)
 //        let picker = QXMinutePickerKeyboardView(minDate: QXDate(minute: 1), maxDate: QXDate(minute: 60))
-//        let picker = QXSecondPickerKeyboardView(minDate: QXDate(second: 1), maxDate: QXDate(second: 60))
+//        let picker = QXSecondPickerKeyboardView(minDate: QXDate(second: 1), maxDate: QXDate(second: 60), isCleanShow: true)
 
                 
 //        let picker = QXYearMonthDayPickerKeyboardView(minDate: QXDate(year: 2000, month: 1, day: 1),
-//                                                      maxDate: QXDate(year: 2020, month: 12, day: 31))
+//                                                      maxDate: QXDate(year: 2020, month: 12, day: 31), isCleanShow: true)
         
 //        let picker = QXYearMonthPickerKeyboardView(minDate: QXDate(year: 2000, month: 1),
-//                                                   maxDate: QXDate(year: 2020, month: 12))
+//                                                   maxDate: QXDate(year: 2020, month: 12), isCleanShow: true)
         
                                                    
 //        let picker = QXMonthDayPickerKeyboardView(minDate: QXDate(month: 1, day: 1),
-//                                                  maxDate: QXDate(month: 12, day: 31))
+//                                                  maxDate: QXDate(month: 12, day: 31), isCleanShow: true)
         
         let picker = QXHourMinuteSecondPickerKeyboardView(minDate: QXDate(hour: 1, minute: 0, second: 0),
-                                                          maxDate: QXDate(hour: 23, minute: 30, second: 30))
+                                                          maxDate: QXDate(hour: 23, minute: 30, second: 30), isCleanShow: false)
         e.textField.pickedTextParser = { strs in
             return strs?.joined(separator: ":")
         }

@@ -32,15 +32,15 @@ open class QXStaticCell: QXTableViewCell {
         return nil
     }
     
-    required public init() {
+    public required init() {
         super.init("static")
         backButton.isDisplay = false
         contentView.clipsToBounds = true
     }
-    required public init?(coder aDecoder: NSCoder) {
+    public required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    required public init(_ reuseId: String) {
+    public required init(_ reuseId: String) {
         fatalError("init(_:) has not been implemented")
     }
     
@@ -67,14 +67,14 @@ open class QXStaticHeaderFooterView: QXTableViewHeaderFooterView {
         return nil
     }
     
-    required public init() {
+    public required init() {
         super.init("static")
         backButton.isDisplay = false
     }
-    required public init?(coder aDecoder: NSCoder) {
+    public required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    required public init(_ reuseId: String) {
+    public required init(_ reuseId: String) {
         fatalError("init(_:) has not been implemented")
     }
     

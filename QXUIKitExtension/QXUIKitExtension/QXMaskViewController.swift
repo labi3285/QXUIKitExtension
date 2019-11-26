@@ -30,18 +30,14 @@ open class QXMaskViewController: UIViewController {
         transitioningDelegate = self
         modalPresentationStyle = .custom
     }
-    required public init?(coder: NSCoder) {
+    public required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
     override open func viewDidLoad() {
         super.viewDidLoad()
     }
-    
-    override open func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        dismiss(animated: true, completion: nil)
-    }
-    
+
     open func viewRect(_ containerBounds: QXRect) -> QXRect {
         let h = containerBounds.h - QXDevice.statusBarHeight - 20 - 20
         let top = QXDevice.statusBarHeight + 20

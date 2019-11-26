@@ -121,7 +121,7 @@ open class QXTextField: QXView, UITextFieldDelegate {
         addSubview(uiTextField)
         addSubview(coverView)
     }
-    required public init?(coder aDecoder: NSCoder) {
+    public required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
@@ -164,6 +164,9 @@ open class QXTextField: QXView, UITextFieldDelegate {
     public func textFieldDidBeginEditing(_ textField: UITextField) {
         respondBeginEditting?()
         coverView.isHidden = pickerView == nil
+        if QXEmpty(textField.text) {
+            pickerView?.checkOrPerformSelectAtInit()
+        }
     }
     public func textFieldDidEndEditing(_ textField: UITextField) {
         respondEndEditting?()

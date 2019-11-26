@@ -11,10 +11,10 @@ import QXConsMaker
 
 open class QXSettingTitlePickerCell: QXSettingTitleTextFieldCell {
 
-    required public init() {
+    public required init() {
         super.init()
         textField.placeHolder = "选择"
-        let pickerView = QXPickerKeyboardView([QXPickerView()], isLazyMode: false)
+        let pickerView = QXPickerKeyboardView([QXPickerView()])
         pickerView.items = [
             QXPickerView.Item(0, "A", nil),
             QXPickerView.Item(1, "B", nil),
@@ -22,10 +22,10 @@ open class QXSettingTitlePickerCell: QXSettingTitleTextFieldCell {
         ]
         textField.pickerView = pickerView
     }
-    required public init?(coder aDecoder: NSCoder) {
+    public required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    required public init(_ reuseId: String) {
+    public required init(_ reuseId: String) {
         fatalError("init(_:) has not been implemented")
     }
 

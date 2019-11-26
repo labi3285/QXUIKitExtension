@@ -16,7 +16,7 @@ open class QXModel {
         __json = json
     }
     
-    required public init() {
+    public required init() {
         
     }
     

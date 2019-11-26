@@ -39,16 +39,16 @@ open class QXSettingTextViewCell: QXSettingCell {
         return e
     }()
 
-    required public init() {
+    public required init() {
         super.init()
         contentView.addSubview(textView)
         textView.IN(contentView).LEFT.TOP.RIGHT.BOTTOM.MAKE()
         fixHeight = 100
     }
-    required public init?(coder aDecoder: NSCoder) {
+    public required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    required public init(_ reuseId: String) {
+    public required init(_ reuseId: String) {
         fatalError("init(_:) has not been implemented")
     }
 

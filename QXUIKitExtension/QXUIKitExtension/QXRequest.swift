@@ -10,14 +10,11 @@ import UIKit
 import Alamofire
 import QXJSON
 
-public typealias QXNetworkModelOk<T> = (_ model: T?) -> ()
-public typealias QXNetworkModelsOk<T> = (_ models: [T], _ isThereMore: Bool?) -> ()
-public typealias QXNetworkError = (_ err: QXError?) -> ()
-
-public typealias QXModelsApi<T> = (_ page: Int, _ size: Int, _ onOk: @escaping QXNetworkModelsOk<T>, _ onError: @escaping QXNetworkError) -> ()
-public typealias QXModelApi<T> = (_ onOk: @escaping QXNetworkModelOk<T>, _ onError: @escaping QXNetworkError) -> ()
-
-
+//public protocol QXApiProtocol {
+//
+//    var api:
+//
+//}
 
 extension QXRequest {
     

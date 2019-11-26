@@ -57,7 +57,7 @@ open class QXModelsLoadStatusView<T>: QXView {
     
     open func loadModels() {
         weak var ws = self
-        api?(currentPage, pageCount, { models, isThereMore in
+        api?.execute(currentPage, pageCount, { models, isThereMore in
             ws?.onLoadModelsOk(models, isThereMore: isThereMore)
         }, { err in
             ws?.onLoadModelsFailed(err)

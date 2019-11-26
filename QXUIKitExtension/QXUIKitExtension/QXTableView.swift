@@ -257,7 +257,7 @@ open class QXTableView: QXView {
         updateUITableView()
     }
     
-    required public init?(coder aDecoder: NSCoder) {
+    public required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
@@ -561,7 +561,7 @@ open class QXTableViewCell: UITableViewCell {
         return e
     }()
     
-    required public init(_ reuseId: String) {
+    public required init(_ reuseId: String) {
         super.init(style: .default, reuseIdentifier: reuseId)
         backgroundView = UIView()
         contentView.backgroundColor = UIColor.clear
@@ -569,7 +569,7 @@ open class QXTableViewCell: UITableViewCell {
         contentView.addSubview(backButton)
         selectionStyle = .none
     }
-    required public init?(coder aDecoder: NSCoder) {
+    public required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     override open func layoutSubviews() {
@@ -608,14 +608,14 @@ open class QXTableViewHeaderFooterView: UITableViewHeaderFooterView {
         return e
     }()
 
-    required public init(_ reuseId: String) {
+    public required init(_ reuseId: String) {
         super.init(reuseIdentifier: reuseId)
         backgroundView = UIView()
         contentView.backgroundColor = UIColor.clear
         backgroundColor = UIColor.clear
         contentView.addSubview(backButton)
     }
-    required public init?(coder aDecoder: NSCoder) {
+    public required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     override open func layoutSubviews() {
@@ -643,11 +643,11 @@ open class QXTableViewBreakLineCell: QXTableViewCell {
         return e
     }()
     
-    required public init(_ reuseId: String) {
+    public required init(_ reuseId: String) {
         super.init(reuseId)
         contentView.addSubview(breakLine)
     }
-    required public init?(coder aDecoder: NSCoder) {
+    public required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     override open func layoutSubviews() {
@@ -687,7 +687,7 @@ class QXTableViewDebugCell: QXTableViewBreakLineCell {
         label.IN(contentView).LEFT.RIGHT.TOP.BOTTOM.MAKE()
         breakLine.padding = QXEdgeInsets(0, 15, 0, 15)
     }
-    required public init?(coder aDecoder: NSCoder) {
+    public required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
@@ -703,7 +703,7 @@ class QXTableViewSpaceCell: QXTableViewBreakLineCell {
         super.init(reuseId)
         backButton.isDisplay = false
     }
-    required public init?(coder aDecoder: NSCoder) {
+    public required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 }
@@ -733,7 +733,7 @@ class QXDebugTableViewHeaderFooterView: QXTableViewHeaderFooterView {
         contentView.addSubview(label)
         label.IN(contentView).LEFT.RIGHT.TOP.BOTTOM.MAKE()
     }
-    required public init?(coder aDecoder: NSCoder) {
+    public required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
