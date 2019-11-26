@@ -11,19 +11,19 @@ import QXConsMaker
 
 open class QXSettingTitleStackCell: QXSettingCell {
     
-    public lazy var titleLabel: QXLabel = {
+    public final lazy var titleLabel: QXLabel = {
         let e = QXLabel()
         e.numberOfLines = 1
         e.font = QXFont(16, QXColor.dynamicTitle)
         return e
     }()
-    public lazy var stackView: QXStackView = {
+    public final lazy var stackView: QXStackView = {
         let e = QXStackView()
         e.alignmentY = .center
         e.alignmentX = .right
         return e
     }()
-    public lazy var layoutView: QXStackView = {
+    public final lazy var layoutView: QXStackView = {
         let e = QXStackView()
         e.alignmentY = .center
         e.alignmentX = .left

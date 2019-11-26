@@ -10,36 +10,36 @@ import UIKit
 
 class DemoStaticsVc: QXTableViewController<Any> {
     
-    lazy var headerView: QXStaticHeaderView = {
+    final lazy var headerView: QXStaticHeaderView = {
         let e = QXStaticHeaderView()
         e.label.text = "头部"
         return e
     }()
 
-    lazy var textCell: QXStaticTextCell = {
+    final lazy var textCell: QXStaticTextCell = {
         let e = QXStaticTextCell()
         e.label.text = "文本" + QXDebugText(999)
         return e
     }()
     
-    lazy var imageCell: QXStaticImageCell = {
+    final lazy var imageCell: QXStaticImageCell = {
         let e = QXStaticImageCell()
         e.myImageView.image = QXImage("icon_mine_ask1")
         return e
     }()
         
-    lazy var buttonCell: QXStaticButtonCell = {
+    final lazy var buttonCell: QXStaticButtonCell = {
         let e = QXStaticButtonCell()
         return e
     }()
       
-    lazy var footerView: QXStaticFooterView = {
+    final lazy var footerView: QXStaticFooterView = {
         let e = QXStaticFooterView()
         e.label.text = "尾部"
         return e
     }()
     
-    lazy var section: QXTableViewSection = {
+    final lazy var section: QXTableViewSection = {
         let e = QXTableViewSection([
             self.textCell,
             self.imageCell,

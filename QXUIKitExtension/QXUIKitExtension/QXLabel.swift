@@ -65,7 +65,7 @@ open class QXLabel: QXView {
         get { return uiLabel.numberOfLines }
     }
     
-    public lazy var uiLabel: UILabel = {
+    public final lazy var uiLabel: UILabel = {
         let e = UILabel()
         return e
     }()
@@ -127,7 +127,7 @@ open class QXLabel: QXView {
             }
         }
     }
-    private lazy var longGestureRecognizer: UILongPressGestureRecognizer = {
+    private final lazy var longGestureRecognizer: UILongPressGestureRecognizer = {
         let e = UILongPressGestureRecognizer(target: self, action: #selector(longPressed))
         return e
     }()

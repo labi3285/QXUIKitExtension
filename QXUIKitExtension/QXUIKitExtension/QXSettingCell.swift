@@ -16,7 +16,7 @@ open class QXSettingCell: QXStaticCell {
     }
         
     public var isBreakLineHidden: Bool = false
-    public lazy var breakLine: QXLineView = {
+    public final lazy var breakLine: QXLineView = {
         let e = QXLineView.breakLine
         e.isVertical = false
         e.padding = QXEdgeInsets(0, 0, 0, 15)

@@ -47,7 +47,7 @@ class QXTableViewImageCell: QXTableViewCell {
         }
     }
     
-    public lazy var myImageView: QXImageView = {
+    public final lazy var myImageView: QXImageView = {
         let one = QXImageView()
         one.padding = QXEdgeInsets(5, 15, 5, 15)
         one.respondUpdateImage = { [weak self] in

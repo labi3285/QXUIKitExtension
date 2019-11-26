@@ -12,7 +12,7 @@ open class QXMaskViewController: UIViewController {
     
     public var isDismissOnTapCover: Bool = true
     
-    public lazy var coverButton: UIButton = {
+    public final lazy var coverButton: UIButton = {
         let e = UIButton()
         e.backgroundColor = UIColor(white: 0, alpha: 0.3)
         e.addTarget(self, action: #selector(coverButtonClick), for: .touchUpInside)

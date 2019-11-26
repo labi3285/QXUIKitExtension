@@ -16,7 +16,7 @@ open class QXSettingTextFooterView: QXSettingSeparateFooterView {
         return label.intrinsicContentSize.height
     }
     
-    public lazy var label: QXRichLabel = {
+    public final lazy var label: QXRichLabel = {
         let e = QXRichLabel()
         e.numberOfLines = 0
         e.padding = QXEdgeInsets(5, 15, 10, 15)

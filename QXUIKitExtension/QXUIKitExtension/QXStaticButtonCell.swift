@@ -16,7 +16,7 @@ open class QXStaticButtonCell: QXStaticCell {
         return button.intrinsicContentSize.height
     }
     
-    public lazy var button: QXTitleButton = {
+    public final lazy var button: QXTitleButton = {
         let e = QXTitleButton()
         e.titlePadding = QXEdgeInsets(7, 10, 7, 10)
         e.padding = QXEdgeInsets(10, 15, 10, 15)

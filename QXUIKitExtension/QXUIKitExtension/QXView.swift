@@ -223,6 +223,30 @@ open class QXView: UIView, QXViewProtocol {
     
 }
 
+extension QXView {
+    
+    public var viewController: QXViewController? {
+        return qxViewController as? QXViewController
+    }
+    
+}
+
+extension UIView {
+    
+    public var qxViewController: UIViewController? {
+        var next: UIResponder? = self
+        repeat {
+            next = next?.next
+            if let vc = next as? UIViewController {
+                return vc
+            }
+            
+        } while next != nil
+        return nil
+    }
+    
+}
+
 
 extension UIView {
     
@@ -267,9 +291,6 @@ extension UIView {
            removeFromSuperview()
         }
     }
-    
-    
-    
     
 }
 

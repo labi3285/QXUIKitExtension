@@ -10,11 +10,11 @@ import UIKit
 
 open class QXLoadStatusViewController<Model>: QXViewController {
 
-    public lazy var loadStatusView: QXLoadStatusView = {
+    public final lazy var loadStatusView: QXLoadStatusView = {
         let e = QXLoadStatusView()
         return e
     }()
-    public lazy var contentView: QXContentLoadStatusView<Model> = {
+    public final lazy var contentView: QXContentLoadStatusView<Model> = {
         let e = QXContentLoadStatusView<Model>(contentView: UIView(), loadStatusView: self.loadStatusView)
         return e
     }()

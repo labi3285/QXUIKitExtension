@@ -37,7 +37,7 @@ class QXTableViewLineCell: QXTableViewCell {
             }
         }
     }
-    public lazy var lineView: QXLineView = {
+    public final lazy var lineView: QXLineView = {
         let e = QXLineView()
         return e
     }()

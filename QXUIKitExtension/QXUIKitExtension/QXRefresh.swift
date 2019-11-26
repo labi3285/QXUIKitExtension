@@ -46,22 +46,22 @@ open class QXRefreshHeader: MJRefreshHeader {
             .setSize(24, 24)
             .setRenderingMode(.alwaysTemplate)
     
-    public lazy var messageLabel: QXLabel = {
+    public final lazy var messageLabel: QXLabel = {
         let e = QXLabel()
         e.uiLabel.textAlignment = .center
         return e
     }()
-    public lazy var dateLabel: QXLabel = {
+    public final lazy var dateLabel: QXLabel = {
         let e = QXLabel()
         e.uiLabel.textAlignment = .center
         return e
     }()
-    public lazy var imageView: QXImageView = {
+    public final lazy var imageView: QXImageView = {
         let e = QXImageView()
         e.padding = QXEdgeInsets(0, 5, 0, 5)
         return e
     }()
-    public lazy var arrowView: QXImageView = {
+    public final lazy var arrowView: QXImageView = {
         let e = QXImageView()
         e.qxTintColor = QXColor.dynamicTitle
         e.uiImageView.qxTintColor = QXColor.dynamicTitle
@@ -210,16 +210,16 @@ open class QXRefreshFooter: MJRefreshAutoFooter {
     public var imageLoading: QXImage?
     public var imageNoMoreData: QXImage?
     
-    public lazy var messageLabel: QXLabel = {
+    public final lazy var messageLabel: QXLabel = {
         let e = QXLabel()
         return e
     }()
-    public lazy var imageView: QXImageView = {
+    public final lazy var imageView: QXImageView = {
         let e = QXImageView()
         e.padding = QXEdgeInsets(0, 5, 0, 5)
         return e
     }()
-    public lazy var backButton: QXButton = {
+    public final lazy var backButton: QXButton = {
         let e = QXButton()
         e.respondClick = { [weak self] in
             if let s = self, s.state == .idle {

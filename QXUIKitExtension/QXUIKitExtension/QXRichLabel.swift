@@ -102,7 +102,7 @@ open class QXRichLabel: QXView {
             }
         }
     }
-    private lazy var longGestureRecognizer: UILongPressGestureRecognizer = {
+    private final lazy var longGestureRecognizer: UILongPressGestureRecognizer = {
         let e = UILongPressGestureRecognizer(target: self, action: #selector(longPressed(_:)))
         return e
     }()

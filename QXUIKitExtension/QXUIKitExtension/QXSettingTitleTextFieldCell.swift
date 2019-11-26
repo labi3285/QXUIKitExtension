@@ -18,13 +18,13 @@ open class QXSettingTitleTextFieldCell: QXSettingCell {
         }
     }
     
-    public lazy var titleLabel: QXLabel = {
+    public final lazy var titleLabel: QXLabel = {
         let e = QXLabel()
         e.numberOfLines = 1
         e.font = QXFont(16, QXColor.dynamicTitle)
         return e
     }()
-    public lazy var textField: QXTextField = {
+    public final lazy var textField: QXTextField = {
         let e = QXTextField()
         e.extendSize = true
         e.font = QXFont(16, QXColor.dynamicInput)
@@ -34,7 +34,7 @@ open class QXSettingTitleTextFieldCell: QXSettingCell {
         e.placeHolder = "输入内容"
         return e
     }()
-    public lazy var suffixLabel: QXLabel = {
+    public final lazy var suffixLabel: QXLabel = {
         let e = QXLabel()
         e.respondNeedsLayout = { [weak e, weak self] in
             e?.isDisplay = !QXEmpty(e?.uiLabel.attributedText?.string ?? e?.uiLabel.text)
@@ -42,7 +42,7 @@ open class QXSettingTitleTextFieldCell: QXSettingCell {
         }
         return e
     }()
-    public lazy var layoutView: QXStackView = {
+    public final lazy var layoutView: QXStackView = {
         let e = QXStackView()
         e.alignmentY = .center
         e.alignmentX = .left

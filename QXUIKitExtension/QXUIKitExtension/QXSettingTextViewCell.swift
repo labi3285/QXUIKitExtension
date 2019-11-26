@@ -27,7 +27,7 @@ open class QXSettingTextViewCell: QXSettingCell {
         return h
     }
 
-    public lazy var textView: QXTextView = {
+    public final lazy var textView: QXTextView = {
         let e = QXTextView()
         e.padding = QXEdgeInsets(5, 10, 5, 10)
         e.font = QXFont(16, QXColor.dynamicInput)

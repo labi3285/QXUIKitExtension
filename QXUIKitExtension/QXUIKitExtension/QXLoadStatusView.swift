@@ -138,7 +138,7 @@ open class QXLoadStatusView: UIView {
     open var isRetryButtonShow: Bool = true
     open var isFullScreenRetry: Bool = false
     
-    open lazy var iconView: QXImageView = {
+    public final lazy var iconView: QXImageView = {
         let e = QXImageView()
         e.padding = QXEdgeInsets.zero
         e.qxTintColor = QXColor.dynamicPlaceHolder
@@ -147,7 +147,7 @@ open class QXLoadStatusView: UIView {
         }
         return e
     }()
-    open lazy var contentLabel: QXLabel = {
+    public final lazy var contentLabel: QXLabel = {
         let e = QXLabel()
         e.padding = QXEdgeInsets(10, 20, 10, 20)
         e.numberOfLines = 0
@@ -158,7 +158,7 @@ open class QXLoadStatusView: UIView {
         }
         return e
     }()
-    public lazy var retryButton: QXTitleButton = {
+    public final lazy var retryButton: QXTitleButton = {
         let e = QXTitleButton()
         e.backView.qxBorder = QXBorder().setCornerRadius(5)
         e.backView.qxBackgroundColor = QXColor.dynamicButton
@@ -171,7 +171,7 @@ open class QXLoadStatusView: UIView {
         }
         return e
     }()
-    public lazy var stackView: QXStackView = {
+    public final lazy var stackView: QXStackView = {
         let e = QXStackView()
         e.setupViews([self.loadingView, self.iconView, self.contentLabel, self.retryButton])
         e.isVertical = true

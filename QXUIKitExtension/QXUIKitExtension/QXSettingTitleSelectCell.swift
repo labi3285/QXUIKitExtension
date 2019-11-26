@@ -33,14 +33,14 @@ open class QXSettingTitleSelectCell: QXSettingCell {
         return h
     }
     
-    public lazy var titleLabel: QXLabel = {
+    public final lazy var titleLabel: QXLabel = {
         let e = QXLabel()
         e.numberOfLines = 1
         e.font = QXFont(16, QXColor.dynamicTitle)
         e.compressResistanceX = 1
         return e
     }()
-    public lazy var iconView: QXImageView = {
+    public final lazy var iconView: QXImageView = {
         let e = QXImageView()
         e.qxTintColor = QXColor.hex("#20a464", 1)
         e.image = QXUIKitExtensionResources.shared.image("icon_check.png")
@@ -54,7 +54,7 @@ open class QXSettingTitleSelectCell: QXSettingCell {
         e.isHidden = true
         return e
     }()
-    public lazy var layoutView: QXStackView = {
+    public final lazy var layoutView: QXStackView = {
         let e = QXStackView()
         e.alignmentY = .center
         e.alignmentX = .left

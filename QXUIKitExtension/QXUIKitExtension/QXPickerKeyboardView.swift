@@ -294,7 +294,7 @@ open class QXPickerView: QXView, UIPickerViewDataSource, UIPickerViewDelegate {
         uiPickerView.reloadAllComponents()
     }
 
-    public lazy var uiPickerView: UIPickerView = {
+    public final lazy var uiPickerView: UIPickerView = {
         let e = UIPickerView()
         e.delegate = self
         e.dataSource = self

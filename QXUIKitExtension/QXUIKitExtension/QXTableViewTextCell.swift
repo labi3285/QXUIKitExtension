@@ -76,7 +76,7 @@ class QXTableViewTextCell: QXTableViewCell {
             }
         }
     }
-    public lazy var label: QXRichLabel = {
+    public final lazy var label: QXRichLabel = {
         let e = QXRichLabel()
         e.font = QXFont(14, QXColor.dynamicText)
         e.numberOfLines = 0

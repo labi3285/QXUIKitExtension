@@ -18,19 +18,19 @@ open class QXSettingTitleSwitchCell: QXSettingCell {
         }
     }
     
-    public lazy var titleLabel: QXLabel = {
+    public final lazy var titleLabel: QXLabel = {
         let e = QXLabel()
         e.numberOfLines = 1
         e.font = QXFont(16, QXColor.dynamicTitle)
         return e
     }()
-    public lazy var switchView: QXSwitchView = {
+    public final lazy var switchView: QXSwitchView = {
         let e = QXSwitchView()
         e.compressResistance = QXView.resistanceStable
         return e
     }()
     
-    public lazy var layoutView: QXStackView = {
+    public final lazy var layoutView: QXStackView = {
         let e = QXStackView()
         e.alignmentY = .center
         e.alignmentX = .left

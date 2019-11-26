@@ -84,10 +84,11 @@ open class QXTextField: QXView, UITextFieldDelegate {
         }
     }
     public private(set) var pickedItem: QXPickerView.Item?
-    public var pickedSeparator: String = "-"
+    public var pickedTextParser: ([String]?) -> String?
+        = { strs in strs?.joined(separator: "-") }
     public private(set) var pickedItems: [QXPickerView.Item]? {
         didSet {
-            text = pickedItems?.map({ $0.text }).joined(separator: pickedSeparator) ?? ""
+            text = pickedTextParser(pickedItems?.map{ $0.text }) ?? ""
             pickedItem = pickedItems?.last
         }
     }
@@ -98,7 +99,7 @@ open class QXTextField: QXView, UITextFieldDelegate {
         }
     }
             
-    public lazy var uiTextField: UITextField = {
+    public final lazy var uiTextField: UITextField = {
         let e = UITextField()
         e.clearButtonMode = .never
         e.qxTintColor = QXColor.dynamicAccent
@@ -109,7 +110,7 @@ open class QXTextField: QXView, UITextFieldDelegate {
         return e
     }()
     private var _originUITextFieldQXTintColor: QXColor?
-    public lazy var coverView: UIView = {
+    public final lazy var coverView: UIView = {
         let e = UIView()
         e.backgroundColor = UIColor.clear
         e.isHidden = true

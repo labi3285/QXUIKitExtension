@@ -20,6 +20,14 @@ public enum QXURL {
     
     public static let invaild: QXURL = QXURL.url("invalid")
     
+    public static func file(_ file: String, in bundle: Bundle) -> QXURL {
+        if let e = bundle.url(forResource: file, withExtension: nil) {
+            return QXURL.nsUrl(e)
+        } else {
+            return QXDebugFatalError("invalid", QXURL.invaild)
+        }
+    }
+    
     public var nsUrl: URL? {
         switch self {
         case .url(let e):

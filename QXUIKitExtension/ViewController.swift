@@ -7,10 +7,11 @@
 //
 
 import UIKit
+import QXJSON
 
 class ViewController: QXTableViewController<Any> {
     
-    lazy var testCell: QXSettingTitleArrowCell = {
+    final lazy var testCell: QXSettingTitleArrowCell = {
         let e = QXSettingTitleArrowCell()
         e.titleLabel.text = "Test"
         e.subTitleLabel.text = QXDebugText(99)
@@ -21,7 +22,35 @@ class ViewController: QXTableViewController<Any> {
         return e
     }()
     
-    lazy var maskCell: QXSettingTitleArrowCell = {
+    final lazy var webCell: QXSettingTitleArrowCell = {
+        let e = QXSettingTitleArrowCell()
+        e.titleLabel.text = "QXWebView"
+        e.backButton.respondClick = { [weak self] in
+            let cfg = QXWebViewConfig()
+            cfg.javaScriptBridges = [
+                "helloIOS": { json in
+                    print(json)
+                }
+            ]
+            let vc = QXWebViewController(cfg)
+            vc.webView.url = QXURL.file("test.html", in: Bundle.main)
+//            vc.webView.url = QXUIKitExtensionResources.shared.url(for: "error-code.html")
+//            vc.webView.url = QXURL.url("https://www.baidu.com")
+            weak var wk_webView = vc.webView
+            vc.navigationBarRightItem = QXBarButtonItem.titleItem("callJS", {
+                var json = QXJSON([:])
+                json["name"] = "小华";
+                json["age"] = 12;
+                wk_webView?.callJavaScriptFunction("demoFuncForIOSToCall", json, { (json) in
+                    print(json)
+                })
+            })
+            self?.push(vc)
+        }
+        return e
+    }()
+    
+    final lazy var maskCell: QXSettingTitleArrowCell = {
         let e = QXSettingTitleArrowCell()
         e.titleLabel.text = "QXMaskViewController"
         e.backButton.respondClick = { [weak self] in
@@ -31,7 +60,7 @@ class ViewController: QXTableViewController<Any> {
         }
         return e
     }()
-    lazy var arrangeCell: QXSettingTitleArrowCell = {
+    final lazy var arrangeCell: QXSettingTitleArrowCell = {
         let e = QXSettingTitleArrowCell()
         e.titleLabel.text = "QXArrangeView"
         e.backButton.respondClick = { [weak self] in
@@ -40,7 +69,7 @@ class ViewController: QXTableViewController<Any> {
         }
         return e
     }()
-    lazy var stackCell: QXSettingTitleArrowCell = {
+    final lazy var stackCell: QXSettingTitleArrowCell = {
         let e = QXSettingTitleArrowCell()
         e.titleLabel.text = "QXStackView"
         e.backButton.respondClick = { [weak self] in
@@ -50,7 +79,7 @@ class ViewController: QXTableViewController<Any> {
         return e
     }()
         
-    lazy var listCell: QXSettingTitleArrowCell = {
+    final lazy var listCell: QXSettingTitleArrowCell = {
         let e = QXSettingTitleArrowCell()
         e.titleLabel.text = "List"
         e.backButton.respondClick = { [weak self] in
@@ -59,7 +88,7 @@ class ViewController: QXTableViewController<Any> {
         }
         return e
     }()
-    lazy var defaultListCell: QXSettingTitleArrowCell = {
+    final lazy var defaultListCell: QXSettingTitleArrowCell = {
         let e = QXSettingTitleArrowCell()
         e.titleLabel.text = "DefaultList"
         e.backButton.respondClick = { [weak self] in
@@ -70,7 +99,7 @@ class ViewController: QXTableViewController<Any> {
     }()
     
     
-    lazy var staticCell: QXSettingTitleArrowCell = {
+    final lazy var staticCell: QXSettingTitleArrowCell = {
         let e = QXSettingTitleArrowCell()
         e.titleLabel.text = "QXStatics"
         e.backButton.respondClick = { [weak self] in
@@ -80,7 +109,7 @@ class ViewController: QXTableViewController<Any> {
         return e
     }()
     
-    lazy var settingCell: QXSettingTitleArrowCell = {
+    final lazy var settingCell: QXSettingTitleArrowCell = {
         let e = QXSettingTitleArrowCell()
         e.titleLabel.text = "QXSetting"
         e.backButton.respondClick = { [weak self] in
@@ -90,9 +119,10 @@ class ViewController: QXTableViewController<Any> {
         return e
     }()
     
-    lazy var section: QXTableViewSection = {
+    final lazy var section: QXTableViewSection = {
         let e = QXTableViewSection([
             self.testCell,
+            self.webCell,
             self.maskCell,
             self.arrangeCell,
             self.stackCell,

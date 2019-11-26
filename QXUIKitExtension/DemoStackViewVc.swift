@@ -11,60 +11,60 @@ import QXConsMaker
 
 class DemoStackViewVc: QXViewController {
     
-//    lazy var num1: QXTitleButton = {
+//    final lazy var num1: QXTitleButton = {
 //        let e = QXTitleButton()
 //        e.title = "12345"
 //        e.font = QXFont(size: 19, fontName: "Arial-BoldMT", color: QXColor.fmtHex("#FF8F28"))
 //        return e
 //    }()
-//    lazy var label1: QXTitleButton = {
+//    final lazy var label1: QXTitleButton = {
 //        let e = QXTitleButton()
 //        e.title = "12345"
 //        e.font = QXFont(14, QXColor.dynamicTitle)
 //        return e
 //    }()
 //
-//    lazy var num2: QXTitleButton = {
+//    final lazy var num2: QXTitleButton = {
 //        let e = QXTitleButton()
 //        e.font = QXFont(size: 19, fontName: "Arial-BoldMT", color: QXColor.fmtHex("#FF8F28"))
 //        e.title = "12345"
 //        return e
 //    }()
-//    lazy var label2: QXTitleButton = {
+//    final lazy var label2: QXTitleButton = {
 //        let e = QXTitleButton()
 //        e.title = "12345"
 //        e.font = QXFont(14, QXColor.dynamicTitle)
 //        return e
 //    }()
 //
-//    lazy var num3: QXTitleButton = {
+//    final lazy var num3: QXTitleButton = {
 //        let e = QXTitleButton()
 //        e.title = "12345"
 //        e.font = QXFont(size: 19, fontName: "Arial-BoldMT", color: QXColor.fmtHex("#FF8F28"))
 //        return e
 //    }()
-//    lazy var label3: QXTitleButton = {
+//    final lazy var label3: QXTitleButton = {
 //        let e = QXTitleButton()
 //        e.font = QXFont(14, QXColor.dynamicTitle)
 //        e.title = "12345"
 //        return e
 //    }()
 //
-//    lazy var stack1: QXStackView = {
+//    final lazy var stack1: QXStackView = {
 //        let e = QXStackView()
 //        e.isVertical = true
 //        e.alignmentX = .center
 //        e.setupViews(QXSpace(10), self.num1, QXFlexSpace(20), self.label1, QXSpace(5))
 //        return e
 //    }()
-//    lazy var stack2: QXStackView = {
+//    final lazy var stack2: QXStackView = {
 //        let e = QXStackView()
 //        e.isVertical = true
 //        e.alignmentX = .center
 //        e.setupViews(self.num2, self.label2)
 //        return e
 //    }()
-//    lazy var stack3: QXStackView = {
+//    final lazy var stack3: QXStackView = {
 //        let e = QXStackView()
 //        e.isVertical = true
 //        e.alignmentX = .center
@@ -72,32 +72,32 @@ class DemoStackViewVc: QXViewController {
 //        return e
 //    }()
 //
-//    lazy var stack: QXStackView = {
+//    final lazy var stack: QXStackView = {
 //        let e = QXStackView()
 //        e.fixSize = QXSize(300, 300)
 //        e.setupViews(self.stack1, QXFlexSpace(), self.stack2, QXFlexSpace(), self.stack3)
 //        return e
 //    }()
 //
-    lazy var v1: QXView = {
+    final lazy var v1: QXView = {
         let e = QXView()
         e.extendHeight = true
         e.divideRatioX = 1
         return e
     }()
-    lazy var v2: QXView = {
+    final lazy var v2: QXView = {
         let e = QXView()
         e.extendHeight = true
         e.divideRatioX = 2
         return e
     }()
-    lazy var v3: QXView = {
+    final lazy var v3: QXView = {
         let e = QXView()
         e.extendHeight = true
         e.fixWidth = 10
         return e
     }()
-    lazy var stack: QXStackView = {
+    final lazy var stack: QXStackView = {
         let e = QXStackView()
         e.fixSize = QXSize(300, 300)
         e.viewMargin = 10

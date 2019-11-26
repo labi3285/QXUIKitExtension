@@ -16,7 +16,7 @@ open class QXSettingTextCell: QXSettingCell {
         return label.intrinsicContentSize.height
     }
 
-    public lazy var label: QXRichLabel = {
+    public final lazy var label: QXRichLabel = {
         let e = QXRichLabel()
         e.numberOfLines = 0
         e.font = QXFont(15, QXColor.dynamicText)

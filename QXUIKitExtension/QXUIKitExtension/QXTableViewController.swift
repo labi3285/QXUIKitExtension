@@ -10,17 +10,17 @@ import UIKit
 
 open class QXTableViewController<Model>: QXViewController, QXTableViewDelegate {
 
-    public lazy var tableView: QXTableView = {
+    public final lazy var tableView: QXTableView = {
         let e = QXTableView()
         e.delegate = self
         return e
     }()
-    public lazy var loadStatusView: QXLoadStatusView = {
+    public final lazy var loadStatusView: QXLoadStatusView = {
         let e = QXLoadStatusView()
         return e
     }()
     
-    public lazy var contentView: QXModelsLoadStatusView<Model> = {
+    public final lazy var contentView: QXModelsLoadStatusView<Model> = {
         let e = QXModelsLoadStatusView<Model>(contentView: self.tableView, loadStatusView: self.loadStatusView)
          return e
     }()

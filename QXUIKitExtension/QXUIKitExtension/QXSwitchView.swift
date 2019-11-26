@@ -30,7 +30,7 @@ open class QXSwitchView: QXView {
         }
     }
         
-    public lazy var uiSwitch: UISwitch = {
+    public final lazy var uiSwitch: UISwitch = {
         let e = UISwitch()
         e.addTarget(self, action: #selector(valueChanged), for: .valueChanged)
         return e

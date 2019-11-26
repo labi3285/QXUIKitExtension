@@ -26,20 +26,20 @@ open class QXSettingTitleArrowCell: QXSettingCell {
         return h
     }
     
-    public lazy var titleLabel: QXLabel = {
+    public final lazy var titleLabel: QXLabel = {
         let e = QXLabel()
         e.numberOfLines = 1
         e.font = QXFont(16, QXColor.dynamicTitle)
         return e
     }()
-    public lazy var subTitleLabel: QXLabel = {
+    public final lazy var subTitleLabel: QXLabel = {
         let e = QXLabel()
         e.numberOfLines = 1
         e.font = QXFont(14, QXColor.dynamicSubTitle)
         e.compressResistanceX = QXView.resistanceEasyDeform
         return e
     }()
-    public lazy var arrowView: QXImageView = {
+    public final lazy var arrowView: QXImageView = {
         let e = QXImageView()
         e.qxTintColor = QXColor.dynamicIndicator
         e.image = QXUIKitExtensionResources.shared.image("icon_arrow.png")
@@ -50,7 +50,7 @@ open class QXSettingTitleArrowCell: QXSettingCell {
         }
         return e
     }()
-    public lazy var layoutView: QXStackView = {
+    public final lazy var layoutView: QXStackView = {
         let e = QXStackView()
         e.alignmentY = .center
         e.alignmentX = .left

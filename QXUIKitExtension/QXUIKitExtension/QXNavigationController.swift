@@ -56,7 +56,7 @@ open class QXNavigationController: UINavigationController, UINavigationBarDelega
 //        self.delegate = self
     }
     
-//    public lazy var screenEdgePanGestureRecognizer: UIScreenEdgePanGestureRecognizer = {
+//    public final lazy var screenEdgePanGestureRecognizer: UIScreenEdgePanGestureRecognizer = {
 //        let e = UIScreenEdgePanGestureRecognizer(target: self, action: #selector(handleScreenEdgePanGestureRecognizer(_:)))
 //        e.edges = .left
 //        return e
@@ -262,8 +262,10 @@ extension UINavigationController {
         set {
             if let e = newValue?.uiColor {
                 navigationBar.backgroundColor = e
+                navigationBar.barTintColor = e
             } else {
                 navigationBar.backgroundColor = nil
+                navigationBar.barTintColor = nil
             }
         }
         get {

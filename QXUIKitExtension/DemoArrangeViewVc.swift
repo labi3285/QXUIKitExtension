@@ -10,7 +10,7 @@ import UIKit
 
 class DemoArrangeViewVc: QXViewController {
     
-    lazy var arrangeView: QXArrangeView = {
+    final lazy var arrangeView: QXArrangeView = {
         let e = QXArrangeView()
         e.padding = QXEdgeInsets(10, 10, 10, 10)
         e.fixWidth = 300
@@ -18,7 +18,6 @@ class DemoArrangeViewVc: QXViewController {
         for i in 0..<10 {
             let e = QXTitleButton()
             //e.numberOfLines = 0
-            e.fixWidth = 100
             e.title = QXDebugRandomText(14)
             e.respondClick = {
                 print("xxx\(i)")

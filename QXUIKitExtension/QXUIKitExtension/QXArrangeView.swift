@@ -13,7 +13,7 @@ open class QXArrangeView: QXView {
     public var viewMarginX: CGFloat = 10
     public var viewMarginY: CGFloat = 10
     public var lineAlignment: QXAlignmentY = .center
-    
+        
     public private(set) var views: [QXViewProtocol] = []
     
     public func setupViews(_ views: QXViewProtocol...) {

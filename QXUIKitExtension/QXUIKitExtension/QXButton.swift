@@ -28,14 +28,14 @@ open class QXButton: QXView {
     open var clickHighlightDelaySecs: TimeInterval? = 0.1
     
     /// 高亮的alpha，nil表示不生效
-    open var highlightAlpha: CGFloat? //= 0.3
+    open var highlightAlpha: CGFloat? = 0.3
     /// 无效的alpha，nil表示不生效
     open var disableAlpha: CGFloat? = 0.3
     
     /// 是否高亮
     public private(set) var isHighlighted: Bool = false
     
-    public lazy var backView: BackView = {
+    public final lazy var backView: BackView = {
         let e = BackView()
         e.isUserInteractionEnabled = false
         return e
@@ -119,18 +119,10 @@ open class QXButton: QXView {
             handlePrepareOrigins()
             _isOriginPrepared = true
         }
-        if let e = backView.backgroundColorHighlighted {
-            backView.qxBackgroundColor = e
-        }
-        if let e = backView.shadowHighlighted {
-            backView.qxShadow = e
-        }
-        if let e = backView.borderHighlighted {
-            backView.qxBorder = e
-        }
-        if let e = highlightAlpha {
-            backView.alpha = e
-        }
+        backView.qxBackgroundColor = backView.backgroundColorHighlighted ?? _originBackgoundColor
+        backView.qxShadow = backView.shadowHighlighted ?? _originShadow
+        backView.qxBorder = backView.borderHighlighted ?? _originBorder
+        backView.alpha = highlightAlpha ?? _originAlpha ?? 1
         qxSetNeedsLayout()
     }
     open func handleSelected() {
@@ -138,15 +130,9 @@ open class QXButton: QXView {
             handlePrepareOrigins()
             _isOriginPrepared = true
         }
-        if let e = backView.backgroundColorSelected {
-            backView.qxBackgroundColor = e
-        }
-        if let e = backView.shadowSelected {
-            backView.qxShadow = e
-        }
-        if let e = backView.borderSelected {
-            backView.qxBorder = e
-        }
+        backView.qxBackgroundColor = backView.backgroundColorSelected ?? _originBackgoundColor
+        backView.qxShadow = backView.shadowSelected ?? _originShadow
+        backView.qxBorder = backView.borderSelected ?? _originBorder
         backView.alpha = _originAlpha ?? 1
         qxSetNeedsLayout()
     }
@@ -155,19 +141,10 @@ open class QXButton: QXView {
             handlePrepareOrigins()
             _isOriginPrepared = true
         }
-        if let e = backView.backgroundColorDisabled {
-            backView.qxBackgroundColor = e
-        }
-        if let e = backView.shadowDisabled {
-            backView.qxShadow = e
-        }
-        if let e = backView.borderDisabled {
-            backView.qxBorder = e
-        }
-        if let e = disableAlpha {
-            backView.alpha = e
-        }
-        backView.alpha = _originAlpha ?? 1
+        backView.qxBackgroundColor = backView.backgroundColorDisabled ?? _originBackgoundColor
+        backView.qxShadow = backView.shadowDisabled ?? _originShadow
+        backView.qxBorder = backView.borderDisabled ?? _originBorder
+        backView.alpha = disableAlpha ?? _originAlpha ?? 1
         qxSetNeedsLayout()
     }
     
@@ -294,7 +271,7 @@ open class QXTitleButton: QXButton {
     
     open var titlePadding: QXEdgeInsets = QXEdgeInsets.zero
 
-    public lazy var uiLabel: UILabel = {
+    public final lazy var uiLabel: UILabel = {
         let e = UILabel()
         e.textAlignment = .center
         e.isUserInteractionEnabled = false
@@ -391,7 +368,7 @@ open class QXImageButton: QXButton {
     open var imageSelected: QXImage?
     open var imageDisabled: QXImage?
         
-    public lazy var imageView: QXImageView = {
+    public final lazy var imageView: QXImageView = {
         let e = QXImageView()
         return e
     }()
@@ -461,21 +438,15 @@ open class QXImageButton: QXButton {
         super.handleNormalize()
     }
     override open func handleHighlighted() {
-        if let e = imageHighlighted {
-            imageView.image = e
-        }
+        imageView.image = imageHighlighted ?? image
         super.handleHighlighted()
     }
     override open func handleSelected() {
-        if let e = imageSelected {
-            imageView.image = e
-        }
+        imageView.image = imageSelected ?? image
         super.handleSelected()
     }
     override open func handleDisabled(isSelected: Bool) {
-        if let e = imageDisabled {
-            imageView.image = e
-        }
+        imageView.image = imageSelected ?? image
         super.handleDisabled(isSelected: isSelected)
     }
     
@@ -492,7 +463,7 @@ open class QXStackButton: QXButton {
     
     open var stackPadding: QXEdgeInsets = QXEdgeInsets.zero
     
-    public lazy var stackView: QXStackView = {
+    public final lazy var stackView: QXStackView = {
         let e = QXStackView()
         e.alignmentX = .center
         e.alignmentY = .center

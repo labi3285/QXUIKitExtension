@@ -16,7 +16,7 @@ open class QXStaticHeaderView: QXStaticHeaderFooterView {
         return label.intrinsicContentSize.height
     }
     
-    public lazy var label: QXLabel = {
+    public final lazy var label: QXLabel = {
         let e = QXLabel()
         e.numberOfLines = 0
         e.padding = QXEdgeInsets(10, 15, 5, 15)

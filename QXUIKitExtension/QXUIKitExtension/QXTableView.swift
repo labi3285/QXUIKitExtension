@@ -552,7 +552,7 @@ open class QXTableViewCell: UITableViewCell {
     open func initializedWithTable() { }
     
     fileprivate var respondClickCell: (() -> ())?
-    public lazy var backButton: QXButton = {
+    public final lazy var backButton: QXButton = {
         let e = QXButton()
         e.backView.backgroundColorHighlighted = QXColor.dynamicHiglight
         e.respondClick = { [weak self] in
@@ -599,7 +599,7 @@ open class QXTableViewHeaderFooterView: UITableViewHeaderFooterView {
     open func initializedWithTable() { }
     
     fileprivate var respondClickView: (() -> ())?
-    public lazy var backButton: QXButton = {
+    public final lazy var backButton: QXButton = {
         let e = QXButton()
         e.backView.backgroundColorHighlighted = QXColor.dynamicHiglight
         e.respondClick = { [weak self] in
@@ -635,7 +635,7 @@ open class QXTableViewBreakLineCell: QXTableViewCell {
         breakLine.isHidden = isLastCellInSection
     }
 
-    public lazy var breakLine: QXLineView = {
+    public final lazy var breakLine: QXLineView = {
         let e = QXLineView.breakLine
         e.isVertical = false
         e.isHidden = false
@@ -672,7 +672,7 @@ class QXTableViewDebugCell: QXTableViewBreakLineCell {
             label.text = "\(model ?? "nil")"
         }
     }
-    public lazy var label: QXLabel = {
+    public final lazy var label: QXLabel = {
         let e = QXLabel()
         e.padding = QXEdgeInsets(10, 15, 10, 15)
         e.font = QXFont(14, QXColor.dynamicText)
@@ -721,7 +721,7 @@ class QXDebugTableViewHeaderFooterView: QXTableViewHeaderFooterView {
             label.text = "\(model ?? "nil")"
         }
     }
-    public lazy var label: QXLabel = {
+    public final lazy var label: QXLabel = {
         let e = QXLabel()
         e.padding = QXEdgeInsets(10, 15, 10, 15)
         e.font = QXFont(14, QXColor.dynamicText)

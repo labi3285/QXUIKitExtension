@@ -18,7 +18,7 @@ open class QXSettingTextFieldCell: QXSettingCell {
         }
     }
 
-    public lazy var textField: QXTextField = {
+    public final lazy var textField: QXTextField = {
         let e = QXTextField()
         e.extendSize = true
         e.font = QXFont(16, QXColor.dynamicInput)

@@ -12,7 +12,7 @@ open class QXSettingSeparateFooterView: QXStaticHeaderFooterView {
     
     open var isEnabled: Bool = true
 
-    public lazy var breakLine: QXLineView = {
+    public final lazy var breakLine: QXLineView = {
         let e = QXLineView.breakLine
         e.isVertical = false
         e.isHidden = false

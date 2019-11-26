@@ -51,7 +51,7 @@ open class QXImageView: QXView {
         }
     }
     
-    public lazy var uiImageView: ImageView = {
+    public final lazy var uiImageView: ImageView = {
         let e = ImageView()
         e.contentMode = .scaleAspectFill
         e.isUserInteractionEnabled = false
@@ -63,7 +63,7 @@ open class QXImageView: QXView {
         }
         return e
     }()
-    public lazy var placeHolderView: ImageView = {
+    public final lazy var placeHolderView: ImageView = {
         let e = ImageView()
         e.isUserInteractionEnabled = false
         e.isHidden = true
