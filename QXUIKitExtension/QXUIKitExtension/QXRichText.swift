@@ -39,6 +39,15 @@ public enum QXRichText {
         }
     }
     
+    public var qxImage: QXImage {
+        switch self {
+        case .text(let t, let f):
+            return f.qxImage(t)
+        case .image(let i, let r):
+            return i.setSize(r.w, r.h)
+        }
+    }
+    
     public static func size(_ arr: [QXRichText]?, width: CGFloat) -> CGSize? {
         return nsAttributedString(arr)?.qxSize(width: width)
     }

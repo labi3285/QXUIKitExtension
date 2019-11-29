@@ -180,7 +180,7 @@ extension UIImageView {
             } else {
                 weak var ws = self
                 if qxIsThumbnail {
-                    if let e = newValue.thumbUrl?.nsUrl ?? newValue.url?.nsUrl  {
+                    if let e = newValue.thumbUrl?.nsURL ?? newValue.url?.nsURL  {
                         yy_setImage(with: e, placeholder: nil, options: [.showNetworkActivity, .ignorePlaceHolder, .avoidSetImage]) { (image, url, from, stage, err) in
                             if let e = image {
                                 if let r = newValue.renderingMode {
@@ -196,7 +196,7 @@ extension UIImageView {
                         self.image = placeHolder?.uiImage
                     }
                 } else {
-                    if let e = newValue.url?.nsUrl ?? newValue.thumbUrl?.nsUrl  {
+                    if let e = newValue.url?.nsURL ?? newValue.thumbUrl?.nsURL  {
                         yy_setImage(with: e, placeholder: nil, options: [.showNetworkActivity, .ignorePlaceHolder, .avoidSetImage]) { (image, url, from, stage, err) in
                            if let e = image {
                                if let r = newValue.renderingMode {

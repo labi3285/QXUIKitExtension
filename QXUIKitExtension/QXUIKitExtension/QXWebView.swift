@@ -15,20 +15,16 @@ open class QXWebViewConfig: NSObject, WKScriptMessageHandler {
     /**
      * js端调用方法：
      * window.webkit.messageHandlers.funcName.postMessage(params);
+     *  请注意！！！！，params没有也随便写一个参数，不然不会发起
      */
     
     /// js交互消息
-    public var javaScriptBridges: [String: (_ json: QXJSON) -> ()]? {
-        didSet {
-            wkWebViewConfiguration.userContentController.removeAllUserScripts()
-            if let dic = javaScriptBridges {
-                for (k, _) in dic {
-                    wkWebViewConfiguration.userContentController.add(self, name: k)
-                }
-            }
-        }
-    }
-    
+    public var javaScriptBridges: [String: (_ json: QXJSON) -> ()]?
+    public var commonJavaScriptBridges: [String: (_ json: QXJSON) -> ()]?
+
+    /// 框架内部使用
+    internal var autoJavaScriptBridges: [String: (_ json: QXJSON) -> ()]?
+            
     public let wkWebViewConfiguration: WKWebViewConfiguration = WKWebViewConfiguration()
     
     open func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
@@ -40,12 +36,46 @@ open class QXWebViewConfig: NSObject, WKScriptMessageHandler {
         } else {
             json.string = "\(message.body)"
         }
-        QXDebugPrint("jscall-\(message.name):\(json)")
+        QXDebugPrint("JSCALL->\(message.name):\(json)")
+
+        if let dic = autoJavaScriptBridges {
+            for (k, v) in dic {
+                if message.name == k {
+                    v(json)
+                }
+            }
+        }
+        if let dic = commonJavaScriptBridges {
+            for (k, v) in dic {
+                if message.name == k {
+                    v(json)
+                }
+            }
+        }
         if let dic = javaScriptBridges {
             for (k, v) in dic {
                 if message.name == k {
                     v(json)
                 }
+            }
+        }
+
+    }
+    
+    open func setup() {
+        if let dic = autoJavaScriptBridges {
+            for (k, _) in dic {
+                 wkWebViewConfiguration.userContentController.add(self, name: k)
+             }
+        }
+        if let dic = commonJavaScriptBridges {
+            for (k, _) in dic {
+                 wkWebViewConfiguration.userContentController.add(self, name: k)
+             }
+        }
+        if let dic = javaScriptBridges {
+            for (k, _) in dic {
+                wkWebViewConfiguration.userContentController.add(self, name: k)
             }
         }
     }
@@ -67,43 +97,75 @@ public protocol QXWebViewDelegate: class {
 
 open class QXWebView: QXView {
     
+    open func reloadData() {
+        let e = self.url
+        self.url = e
+    }
+    
     open var url: QXURL? {
         didSet {
-            if let e = url?.nsUrl {
+            if let e = url?.nsURL {
                 let r = URLRequest(url: e, cachePolicy: cachePolicy, timeoutInterval: timeoutInterval)
+                isLoading = true
                 wkWebView.load(r)
                 delegate?.qxWebViewUpdateNavigationInfo()
             }
         }
     }
     
-    public weak var delegate: QXWebViewDelegate?
+    public private(set) var isLoading: Bool = false
     
-    public func callJavaScriptFunction(_ funcName: String) {
-        callJavaScriptFunction(funcName, nil, nil)
+    public weak var delegate: QXWebViewDelegate?
+
+    public func executeJavaScriptFunction(_ funcName: String) {
+        executeJavaScriptFunction(funcName, nil, nil)
     }
-    public func callJavaScriptFunction(_ funcName: String, _ json: QXJSON) {
-        callJavaScriptFunction(funcName, json, nil)
+    public func executeJavaScriptFunction(_ funcName: String, _ json: QXJSON) {
+        executeJavaScriptFunction(funcName, json, nil)
     }
-    public func callJavaScriptFunction(_ funcName: String, _ json: QXJSON?, _ resultHandler: ((_ json: QXJSON) -> ())?) {
+    public func executeJavaScriptFunction(_ funcName: String, _ json: QXJSON?, _ resultHandler: ((_ json: QXJSON) -> ())?) {
         var js: String = funcName
         js += "("
         if let e = json?.jsonString {
             js += e
         }
         js += ");"
-        wkWebView.evaluateJavaScript(js) { (data, err) in
-            var json = QXJSON()
-            if let dic = data as? NSDictionary as? [String: Any] {
-                json.dictionary = dic
-            } else if let arr = data as? NSArray {
-                json.array = arr as? [Any]
-            } else {
-                if let e = data {
-                    json.string = "\(e)"
+        executeJavaScript(js, resultHandler)
+    }
+    
+    public func executeJavaScript(_ js: String) {
+        executeJavaScript(js, nil)
+    }
+    public func executeJavaScript(_ js: String, _ resultHandler: ((_ json: QXJSON) -> ())?) {
+        weak var ws = self
+        let todo: () -> () = {
+            ws?.wkWebView.evaluateJavaScript(js) { (data, err) in
+                var json = QXJSON()
+                if let dic = data as? NSDictionary as? [String: Any] {
+                    json.dictionary = dic
+                } else if let arr = data as? NSArray {
+                    json.array = arr as? [Any]
+                } else {
+                    if let e = data {
+                        json.string = "\(e)"
+                    }
                 }
+                resultHandler?(json)
             }
-            resultHandler?(json)
+        }
+        if isLoading {
+            _javaScriptCallClosurePool.append(todo)
+        } else {
+            todo()
+        }
+    }
+    private var _javaScriptCallClosurePool: [() -> ()] = []
+    private func _checkOrPerformJavaScriptCallsInPool() {
+        if _javaScriptCallClosurePool.count > 0 {
+            for e in _javaScriptCallClosurePool {
+                e()
+            }
+            _javaScriptCallClosurePool.removeAll()
         }
     }
 
@@ -112,6 +174,13 @@ open class QXWebView: QXView {
     
     public let config: QXWebViewConfig
     public final lazy var wkWebView: WKWebView = {
+        weak var ws = self
+        self.config.autoJavaScriptBridges = [
+            "reloadData": { json in
+
+            },
+        ]
+        self.config.setup()
         let e = WKWebView(frame: CGRect.zero, configuration: self.config.wkWebViewConfiguration)
         e.uiDelegate = self
         e.navigationDelegate = self
@@ -262,36 +331,40 @@ extension QXWebView: WKNavigationDelegate {
         decisionHandler(WKNavigationActionPolicy.allow, preferences)
     }
     open func webView(_ webView: WKWebView, decidePolicyFor navigationResponse: WKNavigationResponse, decisionHandler: @escaping (WKNavigationResponsePolicy) -> Void) {
+        isLoading = true
         decisionHandler(WKNavigationResponsePolicy.allow)
     }
     open func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
+        isLoading = true
         delegate?.qxWebViewNavigationBegin()
         delegate?.qxWebViewUpdateNavigationInfo()
     }
     open func webView(_ webView: WKWebView, didReceiveServerRedirectForProvisionalNavigation navigation: WKNavigation!) {
+        isLoading = true
         delegate?.qxWebViewUpdateNavigationInfo()
     }
+    
     open func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
+        isLoading = false
         let err = error as NSError
         delegate?.qxWebViewNavigationFailed(QXError(err.code, err.domain))
         delegate?.qxWebViewUpdateNavigationInfo()
-        if let url = QXUIKitExtensionResources.shared.url(for: "error.html").nsUrl {
-              let request = URLRequest(url: url)
-              webView.load(request)
-        }
     }
     open func webView(_ webView: WKWebView, didCommit navigation: WKNavigation!) {
+        isLoading = true
         delegate?.qxWebViewUpdateNavigationInfo()
     }
     open func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+        isLoading = false
         delegate?.qxWebViewNavigationSucceed()
         delegate?.qxWebViewUpdateNavigationInfo()
+        _checkOrPerformJavaScriptCallsInPool()
     }
     open func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
-        if let url = QXUIKitExtensionResources.shared.url(for: "error.html").nsUrl {
-            let request = URLRequest(url: url)
-            webView.load(request)
-        }
+        isLoading = false
+        let err = error as NSError
+        delegate?.qxWebViewNavigationFailed(QXError(err.code, err.domain))
+        delegate?.qxWebViewUpdateNavigationInfo()
     }
 //    open func webView(_ webView: WKWebView, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
 //

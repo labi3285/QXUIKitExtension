@@ -159,9 +159,13 @@ open class QXFont {
         self.bold = false
     }
     
-    open var uiFont: UIFont? {
+    open var uiFont: UIFont {
         if let fontName = fontName {
-            return UIFont(name: fontName, size: size)
+            if let e = UIFont(name: fontName, size: size) {
+                return e
+            } else {
+                return QXDebugFatalError("invalid font", UIFont.systemFont(ofSize: size))
+            }
         } else {
             if bold {
                 return UIFont.boldSystemFont(ofSize: size)
@@ -210,6 +214,12 @@ open class QXFont {
         return dic
     }
     
+    open func qxImage(_ text: String) -> QXImage {
+        let image = UIImage.qxCreate(text: text, font: uiFont, color: color.uiColor, ext: nsAttributtes)
+        let size = image.qxSize.sizeByScale(1/UIScreen.main.scale)
+        return QXImage(image).setSize(size)
+    }
+        
 }
 
 extension UILabel {

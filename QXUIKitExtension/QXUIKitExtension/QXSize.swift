@@ -36,6 +36,11 @@ public struct QXSize {
         self.h = CGFloat(h)
     }
     
+    public mutating func apply(_ scale: CGFloat) {
+        w = w * scale
+        h = h * scale
+    }
+    
 }
 
 extension CGSize {

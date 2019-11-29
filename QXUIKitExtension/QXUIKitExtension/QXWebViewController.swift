@@ -8,7 +8,7 @@
 
 import UIKit
 
-class QXWebViewController: QXViewController, QXWebViewDelegate {
+open class QXWebViewController: QXViewController, QXWebViewDelegate {
 
     public convenience required init() {
         self.init(QXWebViewConfig())
@@ -30,6 +30,15 @@ class QXWebViewController: QXViewController, QXWebViewDelegate {
         e.qxTintColor = QXColor.dynamicAccent
         e.backgroundColor = .clear
         e.trackTintColor = .clear
+        return e
+    }()
+    public final lazy var loadStatusView: QXLoadStatusView = {
+        let e = QXLoadStatusView()
+        e.qxBackgroundColor = QXColor.white
+        e.qxLoadStatusViewRetryHandler { [weak self] in
+            self?.webView.reloadData()
+        }
+        e.qxLoadStatusViewUpdateStatus(.succeed)
         return e
     }()
     public let webView: QXWebView
@@ -150,15 +159,17 @@ class QXWebViewController: QXViewController, QXWebViewDelegate {
 //    public private(set) var isForceBottomViewShow: Bool = true
         
     private var navigationBottomCons: NSLayoutConstraint?
-    override func viewDidLoad() {
+    override open func viewDidLoad() {
         super.viewDidLoad()
         view.addSubview(webView)
+        view.addSubview(loadStatusView)
         view.addSubview(progressView)
         view.addSubview(bottomView)
         
         progressView.IN(view).LEFT.RIGHT.TOP.HEIGHT(1.5).MAKE()
         webView.IN(view).LEFT.RIGHT.TOP.MAKE()
         webView.BOTTOM.EQUAL(bottomView).TOP.MAKE()
+        loadStatusView.IN(webView).LEFT.RIGHT.TOP.BOTTOM.MAKE()
         bottomView.IN(view).LEFT.RIGHT.MAKE()
         navigationBottomCons = bottomView.BOTTOM.EQUAL(view).OFFSET(bottomView.natureContentSize().h).MAKE()
     }
@@ -197,13 +208,15 @@ class QXWebViewController: QXViewController, QXWebViewDelegate {
         view.setNeedsLayout()
     }
     open func qxWebViewNavigationBegin() {
-        
+        loadStatusView.isHidden = true
     }
     open func qxWebViewNavigationSucceed() {
-
+        loadStatusView.isHidden = true
     }
     open func qxWebViewNavigationFailed(_ error: QXError) {
-
+        loadStatusView.isHidden = false
+        loadStatusView.errorIcon = QXRichText.text("\(error.code)", QXFont(35, "#333333")).qxImage
+        loadStatusView.qxLoadStatusViewUpdateStatus(.failed(error))
     }
 
 }

@@ -57,7 +57,7 @@ extension QXUIKitExtensionResources {
      */
     public func url(for name: String) -> QXURL {
         if let e = bundle.url(forResource: name, withExtension: nil) {
-            return QXURL.nsUrl(e)
+            return QXURL.nsURL(e)
         }
         return QXDebugFatalError("无效资源", QXURL.invaild)
     }

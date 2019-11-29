@@ -10,8 +10,8 @@ import UIKit
 
 public enum QXLoadStatus {
     case loading(_ msg: String?)
-    case ok
-    case error(_ err: QXError?)
+    case succeed
+    case failed(_ err: QXError?)
     case empty(_ msg: String?)
 }
 
@@ -35,17 +35,17 @@ open class QXContentLoadStatusView<T>: QXView {
            if model == nil {
                 ws?.loadStatus = .empty(ws?.emptyMessage)
            } else {
-                ws?.loadStatus = .ok
+                ws?.loadStatus = .succeed
            }
         }, { err in
-            ws?.loadStatus = .error(err)
+            ws?.loadStatus = .failed(err)
         })
     }
     
-    open var loadStatus: QXLoadStatus = .ok {
+    open var loadStatus: QXLoadStatus = .succeed {
         didSet {
             switch loadStatus {
-            case .ok:
+            case .succeed:
                 loadStatusView.isHidden = true
                 contentView.isHidden = false
             case .loading(msg: _):
@@ -56,7 +56,7 @@ open class QXContentLoadStatusView<T>: QXView {
                 loadStatusView.isHidden = false
                 contentView.isHidden = true
                 loadStatusView.qxLoadStatusViewUpdateStatus(loadStatus)
-            case .error(err: _):
+            case .failed(err: _):
                 loadStatusView.isHidden = false
                 contentView.isHidden = true
                 loadStatusView.qxLoadStatusViewUpdateStatus(loadStatus)
@@ -203,7 +203,7 @@ extension QXLoadStatusView: QXLoadStatusViewProtocol {
     
      public func qxLoadStatusViewUpdateStatus(_ status: QXLoadStatus) {
         switch status {
-           case .ok:
+           case .succeed:
                self.isHidden = true
            case .loading(let msg):
                self.isHidden = false
@@ -230,7 +230,7 @@ extension QXLoadStatusView: QXLoadStatusViewProtocol {
                iconView.isDisplay = emptyIcon != nil
                contentLabel.isDisplay = text != nil
                retryButton.isDisplay = isEmptyRetryEnabled && isRetryButtonShow
-           case .error(let err):
+           case .failed(let err):
                self.isHidden = false
                let text = err?.message ?? defaultErrorText
                loadingView.stopAnimating()

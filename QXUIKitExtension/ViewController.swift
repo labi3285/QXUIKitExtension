@@ -33,15 +33,15 @@ class ViewController: QXTableViewController<Any> {
                 }
             ]
             let vc = QXWebViewController(cfg)
-            vc.webView.url = QXURL.file("test.html", in: Bundle.main)
+//            vc.webView.url = QXURL.file("test.html", in: Bundle.main)
 //            vc.webView.url = QXUIKitExtensionResources.shared.url(for: "error-code.html")
-//            vc.webView.url = QXURL.url("https://www.baidu.com")
+            vc.webView.url = QXURL.url("https://www.baidu.com")
             weak var wk_webView = vc.webView
             vc.navigationBarRightItem = QXBarButtonItem.titleItem("callJS", {
                 var json = QXJSON([:])
                 json["name"] = "小华";
                 json["age"] = 12;
-                wk_webView?.callJavaScriptFunction("demoFuncForIOSToCall", json, { (json) in
+                wk_webView?.executeJavaScriptFunction("demoFuncForIOSToCall", json, { (json) in
                     print(json)
                 })
             })
@@ -137,6 +137,7 @@ class ViewController: QXTableViewController<Any> {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "首页"
+        
         view.qxBackgroundColor = QXColor.dynamicBackgroundGray
         tableView.sections = [section]
 //        isNavigationBarShow = false
@@ -163,13 +164,9 @@ class ViewController: QXTableViewController<Any> {
         btn.qxDebugRandomColor()
         navigationBarRightItem = QXBarButtonItem.stackItem(btn)
         
-        print(QXDate.now.weekDay)
-                                
-//        let bar = QXNavigationBar()
-//        bar.isAutoTitle = true
-//        bar.contentView.backgroundColor = UIColor.yellow
-//        customNavigationBar = bar
-
+        let e = QXURL.url("https://www.baidu.com")
+        
+        print(e)
     }
 
 }

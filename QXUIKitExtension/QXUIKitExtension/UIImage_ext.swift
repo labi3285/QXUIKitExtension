@@ -14,6 +14,25 @@ extension UIImage {
         return QXImage(self)
     }
     
+    public static func qxCreate(text: String, font: UIFont, color: UIColor) -> UIImage {
+        return qxCreate(text: text, font: font, color: color, ext: nil)
+    }
+    public static func qxCreate(text: String, font: UIFont, color: UIColor, ext: [NSAttributedString.Key : Any]?) -> UIImage {
+        var dic: [NSAttributedString.Key : Any] = [:]
+        let scaleFont = font.withSize(font.qxSize * UIScreen.main.scale)
+        if let e = ext {
+            for (k,v) in e {
+                dic[k] = v
+            }
+        }
+        dic[NSAttributedString.Key.font] = scaleFont
+        dic[NSAttributedString.Key.foregroundColor] = color
+        let attri = NSAttributedString(string: text, attributes: dic)
+        return qxCreate(size: attri.size(), render: { (ctx, rect) in
+            attri.draw(at: CGPoint.zero)
+        })
+    }
+    
     public static func qxCreate(color: UIColor, size: CGSize = CGSize(width: 1, height: 1)) -> UIImage {
         return qxCreate(size: size, render: { (ctx, rect) in
             ctx.setFillColor(color.cgColor)

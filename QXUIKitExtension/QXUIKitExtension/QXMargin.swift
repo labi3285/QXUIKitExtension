@@ -63,23 +63,54 @@ extension UIEdgeInsets {
 
 extension QXRect {
     
+//    public mutating func reduce(_ edgeInsets: QXEdgeInsets) {
+//        x = x + edgeInsets.left
+//        y = y + edgeInsets.top
+//        w = w - edgeInsets.left - edgeInsets.right
+//        h = h - edgeInsets.top - edgeInsets.bottom
+//    }
+//    public mutating func add(_ edgeInsets: QXEdgeInsets) {
+//        x = x - edgeInsets.left
+//        y = y - edgeInsets.top
+//        w = w + edgeInsets.left + edgeInsets.right
+//        h = h + edgeInsets.top + edgeInsets.bottom
+//    }
+    
     public func rectByReduce(_ edgeInsets: QXEdgeInsets) -> QXRect {
         return QXRect(x + edgeInsets.left,
                       y + edgeInsets.top,
                       w - edgeInsets.left - edgeInsets.right,
                       h - edgeInsets.top - edgeInsets.bottom)
     }
-    
     public func rectByAdd(_ edgeInsets: QXEdgeInsets) -> QXRect {
         return QXRect(x - edgeInsets.left,
                       y - edgeInsets.top,
                       w + edgeInsets.left + edgeInsets.right,
                       h + edgeInsets.top + edgeInsets.bottom)
     }
+    public func rectByScale(_ scale: CGFloat) -> QXRect {
+        return QXRect(x * scale,
+                      y * scale,
+                      w * scale,
+                      h * scale)
+    }
     
 }
 
 extension QXSize {
+    
+    public mutating func reduce(_ edgeInsets: QXEdgeInsets) {
+        w = w - edgeInsets.left - edgeInsets.right
+        h = h - edgeInsets.top - edgeInsets.bottom
+    }
+    public mutating func scale(_ scale: CGFloat) {
+        w = w * scale
+        h = h * scale
+    }
+    public mutating func add(_ edgeInsets: QXEdgeInsets) {
+        w = w + edgeInsets.left + edgeInsets.right
+        h = h + edgeInsets.top + edgeInsets.bottom
+    }
     
     public func sizeByReduce(_ edgeInsets: QXEdgeInsets) -> QXSize {
         return QXSize(w - edgeInsets.left - edgeInsets.right, h - edgeInsets.top - edgeInsets.bottom)
@@ -87,9 +118,33 @@ extension QXSize {
     public func sizeByAdd(_ edgeInsets: QXEdgeInsets) -> QXSize {
         return QXSize(w + edgeInsets.left + edgeInsets.right, h + edgeInsets.top + edgeInsets.bottom)
     }
+    public func sizeByScale(_ scale: CGFloat) -> QXSize {
+        return QXSize(w * scale, h * scale)
+    }
+    
 }
 
 extension CGRect {
+    
+    public mutating func qxReduce(_ edgeInsets: UIEdgeInsets) {
+        origin.x = origin.x + edgeInsets.left
+        origin.y = origin.y + edgeInsets.top
+        size.width = size.width - edgeInsets.left - edgeInsets.right
+        size.height = size.height - edgeInsets.top - edgeInsets.bottom
+    }
+    
+    public mutating func qxAdd(_ edgeInsets: UIEdgeInsets) {
+        origin.x = origin.x - edgeInsets.left
+        origin.y = origin.y - edgeInsets.top
+        size.width = size.width + edgeInsets.left + edgeInsets.right
+        size.height = size.height + edgeInsets.top + edgeInsets.bottom
+    }
+    public mutating func qxScale(_ scale: CGFloat) {
+        origin.x = origin.x * scale
+        origin.y = origin.y * scale
+        size.width = size.width * scale
+        size.height = size.height * scale
+    }
     
     public func qxFrameByReduce(_ edgeInsets: UIEdgeInsets) -> CGRect {
         return CGRect(x: minX + edgeInsets.left,
@@ -104,16 +159,38 @@ extension CGRect {
                       width: width + edgeInsets.left + edgeInsets.right,
                       height: height + edgeInsets.top + edgeInsets.bottom)
     }
+    public func qxFrameByScale(_ scale: CGFloat) -> CGRect {
+        return CGRect(x: minX * scale,
+                      y: minY * scale,
+                      width: width * scale,
+                      height: height * scale)
+    }
     
 }
 
 extension CGSize {
+    
+    public mutating func qxReduce(_ inserts: UIEdgeInsets) {
+        width = width - inserts.left - inserts.right
+        height = height - inserts.top - inserts.bottom
+    }
+    public mutating func qxAdd(_ inserts: UIEdgeInsets) {
+        width = width + inserts.left + inserts.right
+        height = height + inserts.top + inserts.bottom
+    }
+    public mutating func qxScale(_ scale: CGFloat) {
+        width = width * scale
+        height = height * scale
+    }
     
     public func qxSizeByReduce(_ inserts: UIEdgeInsets) -> CGSize {
         return CGSize(width: width - inserts.left - inserts.right, height: height - inserts.top - inserts.bottom)
     }
     public func qxSizeByAdd(_ inserts: UIEdgeInsets) -> CGSize {
         return CGSize(width: width - inserts.left - inserts.right, height: height - inserts.top - inserts.bottom)
+    }
+    public func qxSizeByScale(_ scale: CGFloat) -> CGSize {
+        return CGSize(width: width * scale, height: height * scale)
     }
     
 }
