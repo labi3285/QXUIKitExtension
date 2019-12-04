@@ -102,7 +102,7 @@ class DemoStackViewVc: QXViewController {
         e.fixSize = QXSize(300, 300)
         e.viewMargin = 10
         e.padding = QXEdgeInsets(10, 10, 10, 10)
-        e.setupViews(self.v1, self.v2, self.v3)
+        e.views = [self.v1, self.v2, self.v3]
         return e
     }()
     

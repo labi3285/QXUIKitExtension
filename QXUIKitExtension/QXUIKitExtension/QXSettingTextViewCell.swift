@@ -19,7 +19,7 @@ open class QXSettingTextViewCell: QXSettingCell {
     }
     
     override open func height(_ model: Any?, _ width: CGFloat) -> CGFloat? {
-        textView.maxWidth = width - textView.padding.left - textView.padding.right
+        textView.fixWidth = width - textView.padding.left - textView.padding.right
         let h = textView.intrinsicContentSize.height
         if let _h = fixHeight {
             return max(_h, h)

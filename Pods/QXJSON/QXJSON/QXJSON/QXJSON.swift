@@ -80,8 +80,7 @@ extension QXJSON {
             return QXJSON.null
         }
     }
-    
-    
+        
     public subscript(key: String) -> QXJSON {
         set {
             if let metaData = metaData {

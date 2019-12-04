@@ -15,40 +15,36 @@ open class QXStackView: QXView {
     public var alignmentY: QXAlignmentY = .top
     
     public var viewMargin: CGFloat = 0
-    public private(set) var views: [QXViewProtocol] = []
     public private(set) var compressOrder: [Int] = []
     public var compressMinSize: QXSize = QXSize(30, 30)
     
-    public func setupViews(_ views: QXViewProtocol...) {
-        setupViews(views)
-    }
-
-    public func setupViews(_ views: [QXViewProtocol]) {
-        for view in subviews {
-            view.removeFromSuperview()
+    open var views: [QXViewProtocol] = [] {
+        didSet {
+            for view in subviews {
+                 view.removeFromSuperview()
+             }
+             for e in views {
+                 if let e = e as? QXView {
+                     e.respondNeedsLayout = { [weak self] in
+                         self?.qxSetNeedsLayout()
+                     }
+                 }
+             }
+             var sortInfos: [(i: Int, compressResistance: CGFloat)] = []
+             for (i, v) in views.enumerated() {
+                 if isVertical {
+                     sortInfos.append((i, v.compressResistanceY))
+                 } else {
+                     sortInfos.append((i, v.compressResistanceX))
+                 }
+             }
+             sortInfos = sortInfos.reversed().sorted(by: { $0.compressResistance < $1.compressResistance })
+             self.compressOrder = sortInfos.map({ $0.i })
+             for view in views {
+                 view.addAsQXSubview(self)
+             }
+             qxSetNeedsLayout()
         }
-        self.views = views
-        for e in views {
-            if let e = e as? QXView {
-                e.respondNeedsLayout = { [weak self] in
-                    self?.qxSetNeedsLayout()
-                }
-            }
-        }
-        var sortInfos: [(i: Int, compressResistance: CGFloat)] = []
-        for (i, v) in views.enumerated() {
-            if isVertical {
-                sortInfos.append((i, v.compressResistanceY))
-            } else {
-                sortInfos.append((i, v.compressResistanceX))
-            }
-        }
-        sortInfos = sortInfos.reversed().sorted(by: { $0.compressResistance < $1.compressResistance })
-        self.compressOrder = sortInfos.map({ $0.i })
-        for view in views {
-            view.addAsQXSubview(self)
-        }
-        qxSetNeedsLayout()
     }
     
     override open func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
@@ -280,8 +276,9 @@ open class QXStackView: QXView {
         let wh = viewsfixSizeWithoutFlexs()
         var w: CGFloat = wh.w
         var h: CGFloat = wh.h
-        if let e = fixWidth ?? maxWidth {
-            w = e
+        
+        if let e = maxWidth {
+            w = min(e, w)
         } else {
             if !isVertical {
                 if let _ = views.first(where: { $0 is QXFlexSpace }) {
@@ -289,8 +286,8 @@ open class QXStackView: QXView {
                 }
             }
         }
-        if let e = fixHeight ?? maxHeight {
-            h = e
+        if let e = maxHeight {
+            h = min(e, h)
         } else {
             if isVertical {
                if let _ = views.first(where: { $0 is QXFlexSpace }) {
@@ -340,4 +337,5 @@ open class QXStackView: QXView {
         }
         return QXSize(w, h)
     }
+    
 }

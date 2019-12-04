@@ -56,7 +56,7 @@ open class QXSettingTitleArrowCell: QXSettingCell {
         e.alignmentX = .left
         e.viewMargin = 10
         e.padding = QXEdgeInsets(5, 10, 5, 15)
-        e.setupViews(self.titleLabel, QXFlexSpace(), self.subTitleLabel, self.arrowView)
+        e.views = [self.titleLabel, QXFlexSpace(), self.subTitleLabel, self.arrowView]
         return e
     }()
         

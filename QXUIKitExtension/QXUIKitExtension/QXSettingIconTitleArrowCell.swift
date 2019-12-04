@@ -69,7 +69,7 @@ open class QXSettingIconTitleArrowCell: QXSettingCell {
         e.alignmentX = .left
         e.viewMargin = 10
         e.padding = QXEdgeInsets(5, 10, 5, 15)
-        e.setupViews(self.iconView, self.titleLabel, QXFlexSpace(), self.subTitleLabel, self.arrowView)
+        e.views = [self.iconView, self.titleLabel, QXFlexSpace(), self.subTitleLabel, self.arrowView]
         return e
     }()
         

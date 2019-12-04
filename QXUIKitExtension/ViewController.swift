@@ -22,6 +22,16 @@ class ViewController: QXTableViewController<Any> {
         return e
     }()
     
+    final lazy var segPageCell: QXSettingTitleArrowCell = {
+        let e = QXSettingTitleArrowCell()
+        e.titleLabel.text = "QXPageViewController"
+        e.backButton.respondClick = { [weak self] in
+            let vc = DemoSegPageVc()
+            self?.push(vc)
+        }
+        return e
+    }()
+    
     final lazy var webCell: QXSettingTitleArrowCell = {
         let e = QXSettingTitleArrowCell()
         e.titleLabel.text = "QXWebView"
@@ -35,12 +45,13 @@ class ViewController: QXTableViewController<Any> {
             let vc = QXWebViewController(cfg)
 //            vc.webView.url = QXURL.file("test.html", in: Bundle.main)
 //            vc.webView.url = QXUIKitExtensionResources.shared.url(for: "error-code.html")
-            vc.webView.url = QXURL.url("https://www.baidu.com")
+            vc.webView.url = QXURL.url("https://public-api.wordpress.com/oauth2/authorize")
             weak var wk_webView = vc.webView
             vc.navigationBarRightItem = QXBarButtonItem.titleItem("callJS", {
                 var json = QXJSON([:])
                 json["name"] = "小华";
-                json["age"] = 12;
+                let a: Int = 12
+                json["age"] = 12
                 wk_webView?.executeJavaScriptFunction("demoFuncForIOSToCall", json, { (json) in
                     print(json)
                 })
@@ -122,6 +133,7 @@ class ViewController: QXTableViewController<Any> {
     final lazy var section: QXTableViewSection = {
         let e = QXTableViewSection([
             self.testCell,
+            self.segPageCell,
             self.webCell,
             self.maskCell,
             self.arrangeCell,
@@ -164,9 +176,6 @@ class ViewController: QXTableViewController<Any> {
         btn.qxDebugRandomColor()
         navigationBarRightItem = QXBarButtonItem.stackItem(btn)
         
-        let e = QXURL.url("https://www.baidu.com")
-        
-        print(e)
     }
 
 }

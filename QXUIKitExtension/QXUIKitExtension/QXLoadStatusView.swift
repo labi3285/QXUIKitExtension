@@ -24,9 +24,9 @@ public protocol QXContentViewDelegate: class {
     func qxContentViewNeedsReloadData()
 }
 
-open class QXContentLoadStatusView<T>: QXView {
+open class QXContentLoadStatusView<Model>: QXView {
         
-    public var api: QXModelApi<T>?
+    public var api: QXModelApi<Model>?
     public var emptyMessage: String = "暂无内容"
     
     open func reloadData() {
@@ -87,7 +87,7 @@ open class QXContentLoadStatusView<T>: QXView {
     }
     
     open override func natureContentSize() -> QXSize {
-        return loadStatusView.intrinsicContentSize.qxSize.sizeByAdd(padding)
+        return loadStatusView.qxIntrinsicContentSize.sizeByAdd(padding)
     }
     
 }
@@ -173,7 +173,7 @@ open class QXLoadStatusView: UIView {
     }()
     public final lazy var stackView: QXStackView = {
         let e = QXStackView()
-        e.setupViews([self.loadingView, self.iconView, self.contentLabel, self.retryButton])
+        e.views = [self.loadingView, self.iconView, self.contentLabel, self.retryButton]
         e.isVertical = true
         e.alignmentX = .center
         e.alignmentY = .center
@@ -192,7 +192,7 @@ open class QXLoadStatusView: UIView {
         super.layoutSubviews()
         let rect = qxRect.absoluteRect
         contentLabel.fixWidth = rect.w
-        let size = stackView.qxIntrinsicContentSize
+        let size = stackView.natureSize
         let top = (rect.h - size.h) * topBottomRatio / (topBottomRatio + 1)
         stackView.qxRect = rect.insideRect(.top(top), .center, .size(size))
     }

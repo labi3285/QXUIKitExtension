@@ -12,7 +12,7 @@ import QXConsMaker
 open class QXStaticButtonCell: QXStaticCell {
     
     override open func height(_ model: Any?, _ width: CGFloat) -> CGFloat? {
-        button.maxWidth = width
+        button.fixWidth = width
         return button.intrinsicContentSize.height
     }
     

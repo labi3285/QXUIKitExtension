@@ -9,30 +9,34 @@
 import Foundation
 import QXJSON
 
-public typealias QXClosureApiModel<T> = (_ model: T?) -> ()
-public typealias QXClosureApiModels<T> = (_ models: [T], _ isThereMore: Bool?) -> ()
-public typealias QXClosureApiError = (_ err: QXError?) -> ()
+public typealias QXClosureApiModel<Model>
+    = (_ model: Model?) -> ()
+public typealias QXClosureApiModels<Model>
+    = (_ models: [Model], _ isThereMore: Bool?) -> ()
+public typealias QXClosureApiError
+    = (_ err: QXError?) -> ()
 
-public typealias QXClosureModelsApi<T> = (_ page: Int, _ size: Int, _ onSucceed: @escaping QXClosureApiModels<T>, _ onFailed: @escaping QXClosureApiError) -> ()
-public typealias QXClosureModelApi<T> = (_ onSucceed: @escaping QXClosureApiModel<T>, _ onFailed: @escaping QXClosureApiError) -> ()
+public typealias QXClosureModelsApi<Model>
+    = (_ filter: QXFilter, _ onSucceed: @escaping QXClosureApiModels<Model>, _ onFailed: @escaping QXClosureApiError) -> ()
+public typealias QXClosureModelApi<Model> = (_ onSucceed: @escaping QXClosureApiModel<Model>, _ onFailed: @escaping QXClosureApiError) -> ()
 
-public struct QXModelsApi<T> {
+open class QXModelsApi<Model> {
     
-    public let api: QXClosureModelsApi<T>
-    public var mock: QXModelsMock<T>?
+    public let api: QXClosureModelsApi<Model>
+    public var mock: QXModelsMock<Model>?
     
-    public init(api: @escaping QXClosureModelsApi<T>) {
+    public init(api: @escaping QXClosureModelsApi<Model>) {
         self.api = api
     }
     
-    public func execute(_ page: Int, _ size: Int, _ onSucceed: @escaping QXClosureApiModels<T>, _ onFailed: @escaping QXClosureApiError) {
+    public func execute(_ filter: QXFilter, _ onSucceed: @escaping QXClosureApiModels<Model>, _ onFailed: @escaping QXClosureApiError) {
         if QXApp.isRelease {
-            api(page, size, onSucceed, onFailed)
+            api(filter, onSucceed, onFailed)
         } else {
             if let e = mock {
-                e.execute(page, size, onSucceed, onFailed)
+                e.execute(filter, onSucceed, onFailed)
             } else {
-                api(page, size, onSucceed, onFailed)
+                api(filter, onSucceed, onFailed)
             }
         }
     }
@@ -42,7 +46,7 @@ public struct QXModelsApi<T> {
 public struct QXModelApi<T> {
     
     public let api: QXClosureModelApi<T>
-    var mock: QXModelMock<T>?
+    public var mock: QXModelMock<T>?
     
     public init(api: @escaping QXClosureModelApi<T>) {
         self.api = api

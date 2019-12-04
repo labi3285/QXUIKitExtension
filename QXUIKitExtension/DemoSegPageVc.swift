@@ -1,15 +1,14 @@
 //
-//  DemoTestVc.swift
+//  DemoSegPageVc.swift
 //  QXUIKitExtension
 //
-//  Created by labi3285 on 2019/10/29.
+//  Created by labi3285 on 2019/12/4.
 //  Copyright © 2019 labi3285_lab. All rights reserved.
 //
 
 import UIKit
-import WebKit
 
-class DemoTestVc: QXViewController {
+class DemoSegPageVc: QXViewController {
     
     public final lazy var segmentsView: QXSegmentsView<String> = {
         let e = QXSegmentsView<String>()
@@ -44,6 +43,7 @@ class DemoTestVc: QXViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        title = "QXPageViewController"
         view.addSubview(segmentsView)
         view.addSubview(pageVc.view)
         addChild(pageVc)

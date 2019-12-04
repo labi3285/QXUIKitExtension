@@ -20,16 +20,80 @@ extension QXLineView {
 
 open class QXLineView: QXView {
     
-    public var lineWidth: CGFloat = 1
-    public var lineColor: QXColor = QXColor.black
-    public var lineCap: CGLineCap = .round
-    public var lineDash: (phase: CGFloat, lengths: [CGFloat])?
+    public var lineWidth: CGFloat {
+        set {
+            lineLayer.lineWidth = newValue
+        }
+        get {
+            return lineLayer.lineWidth
+        }
+    }
+    public var lineColor: QXColor {
+        set {
+            lineLayer.strokeColor = newValue.uiColor.cgColor
+        }
+        get {
+            if let e = lineLayer.strokeColor {
+                return QXColor.cgColor(e)
+            }
+            return QXColor.cgColor(UIColor.black.cgColor)
+        }
+    }
+    public var lineCap: CGLineCap {
+        set {
+            switch newValue {
+            case .butt:
+                lineLayer.lineCap = CAShapeLayerLineCap(rawValue: "butt")
+            case .round:
+                lineLayer.lineCap = CAShapeLayerLineCap(rawValue: "round")
+            case .square:
+                lineLayer.lineCap = CAShapeLayerLineCap(rawValue: "square")
+            @unknown default:
+                lineLayer.lineCap = CAShapeLayerLineCap(rawValue: "butt")
+            }
+        }
+        get {
+            switch lineLayer.lineCap.rawValue {
+            case "round":
+                return .round
+            case "square":
+                return .square
+            default:
+                return .butt
+            }
+        }
     
+    }
+    public var lineDashPhase: CGFloat? {
+        set {
+            lineLayer.lineDashPhase = newValue ?? 0
+        }
+        get {
+            return lineLayer.lineDashPhase
+        }
+    }
+    public var lineDashPattern: [CGFloat]? {
+        set {
+            lineLayer.lineDashPattern = newValue as [NSNumber]?
+        }
+        get {
+            return lineLayer.lineDashPattern as? [CGFloat]
+        }
+    }
+
     public var isVertical: Bool = false
-    
+        
+    public final lazy var lineLayer: CAShapeLayer = {
+        let e = CAShapeLayer()
+        e.lineWidth = 1
+        e.strokeColor = UIColor.black.cgColor
+        e.lineCap = CAShapeLayerLineCap(rawValue: "butt")
+        return e
+    }()
+        
     public override init() {
         super.init()
-        backgroundColor = UIColor.clear
+        layer.addSublayer(lineLayer)
     }
     public required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -57,28 +121,26 @@ open class QXLineView: QXView {
         }
     }
     
-    override open func draw(_ rect: CGRect) {
-        if let ctx = UIGraphicsGetCurrentContext() {
-            if isVertical {
-                let y = padding.top
-                let x = padding.left + (rect.width - padding.left - padding.right) / 2
-                let h = rect.height - padding.top - padding.bottom
-                ctx.move(to: CGPoint(x: x, y: y))
-                ctx.addLine(to: CGPoint(x: x, y: y + h))
-            } else {
-                let x = padding.left
-                let y = padding.top + (rect.height - padding.top - padding.bottom) / 2
-                let w = rect.width - padding.left - padding.right
-                ctx.move(to: CGPoint(x: x, y: y))
-                ctx.addLine(to: CGPoint(x: x + w, y: y))
-            }
-            ctx.setStrokeColor(lineColor.uiColor.cgColor)
-            ctx.setLineCap(lineCap)
-            if let e = lineDash {
-                ctx.setLineDash(phase: e.phase, lengths: e.lengths)
-            }
-            ctx.setLineWidth(lineWidth)
-            ctx.strokePath()
+    open override func layoutSubviews() {
+        super.layoutSubviews()
+        if isVertical {
+            let y = padding.top
+            let x = padding.left + (bounds.width - padding.left - padding.right) / 2
+            let h = bounds.height - padding.top - padding.bottom
+            let path = UIBezierPath()
+            path.move(to: CGPoint.zero)
+            path.addLine(to: CGPoint(x: 0, y: h))
+            lineLayer.path = path.cgPath
+            lineLayer.frame = CGRect(x: x, y: y, width: lineLayer.lineWidth, height: h)
+        } else {
+            let x = padding.left
+            let y = padding.top + (bounds.height - padding.top - padding.bottom) / 2
+            let w = bounds.width - padding.left - padding.right
+            let path = UIBezierPath()
+            path.move(to: CGPoint.zero)
+            path.addLine(to: CGPoint(x: w, y: 0))
+            lineLayer.path = path.cgPath
+            lineLayer.frame = CGRect(x: x, y: y, width: w, height: lineLayer.lineWidth)
         }
     }
     

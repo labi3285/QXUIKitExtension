@@ -42,6 +42,7 @@ open class QXWebViewConfig: NSObject, WKScriptMessageHandler {
             for (k, v) in dic {
                 if message.name == k {
                     v(json)
+                    break
                 }
             }
         }
@@ -49,6 +50,7 @@ open class QXWebViewConfig: NSObject, WKScriptMessageHandler {
             for (k, v) in dic {
                 if message.name == k {
                     v(json)
+                    break
                 }
             }
         }
@@ -56,6 +58,7 @@ open class QXWebViewConfig: NSObject, WKScriptMessageHandler {
             for (k, v) in dic {
                 if message.name == k {
                     v(json)
+                    break
                 }
             }
         }

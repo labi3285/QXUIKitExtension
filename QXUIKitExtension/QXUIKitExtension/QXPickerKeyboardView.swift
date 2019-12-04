@@ -128,7 +128,7 @@ open class QXPickerKeyboardView: QXStackView {
                 e.nextPickerView = pickerViews[i + 1]
             }
         }
-        setupViews(views)
+        self.views = views
 
         for e in pickerViews {
             if let n = e.nextPickerView {
@@ -204,7 +204,7 @@ open class QXPickerKeyboardView: QXStackView {
                 e.nextPickerView = pickerViews[i + 1]
             }
         }
-        setupViews(views)
+        self.views = views
         
         for e in pickerViews {
             if let n = e.nextPickerView {

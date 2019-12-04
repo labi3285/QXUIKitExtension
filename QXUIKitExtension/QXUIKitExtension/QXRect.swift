@@ -16,6 +16,8 @@ public struct QXRect {
     /// default init
     public init() { }
     
+    public static let zero = QXRect()
+    
     /// init with x/y/width/height
     public init(_ x: CGFloat, _ y: CGFloat, _ w: CGFloat, _ h: CGFloat) {
         self.x = x

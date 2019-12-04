@@ -13,9 +13,10 @@ open class QXTableViewLine {
     open var lineWidth: CGFloat = 0.5
     open var lineColor: QXColor = QXColor.dynamicLine
     open var lineCap: CGLineCap = .round
-    open var lineDash: (phase: CGFloat, lengths: [CGFloat])?
+    open var lineDashPhase: CGFloat?
+    open var lineDashPattern: [CGFloat]?
     open var padding: QXEdgeInsets = QXEdgeInsets(5, 15, 5, 15)
-
+    
 }
 
 class QXTableViewLineCell: QXTableViewCell {
@@ -33,7 +34,8 @@ class QXTableViewLineCell: QXTableViewCell {
                 lineView.lineWidth = e.lineWidth
                 lineView.lineColor = e.lineColor
                 lineView.lineCap = e.lineCap
-                lineView.lineDash = e.lineDash
+                lineView.lineDashPhase = e.lineDashPhase
+                lineView.lineDashPattern = e.lineDashPattern
             }
         }
     }

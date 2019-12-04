@@ -81,7 +81,7 @@ open class QXWebViewController: QXViewController, QXWebViewDelegate {
         e.qxBackgroundColor = QXColor.dynamicBar
         e.viewMargin = 10
         e.alignmentX = .center
-        e.setupViews(self.backButton, QXSpace(20), self.forwardButton)
+        e.views = [self.backButton, QXSpace(20), self.forwardButton]
         if QXDevice.isLiuHaiScreen {
             e.padding = QXEdgeInsets(5, 15, 30, 15)
         } else {
@@ -214,9 +214,13 @@ open class QXWebViewController: QXViewController, QXWebViewDelegate {
         loadStatusView.isHidden = true
     }
     open func qxWebViewNavigationFailed(_ error: QXError) {
-        loadStatusView.isHidden = false
-        loadStatusView.errorIcon = QXRichText.text("\(error.code)", QXFont(35, "#333333")).qxImage
-        loadStatusView.qxLoadStatusViewUpdateStatus(.failed(error))
+        if error.code >= 400 {
+            loadStatusView.isHidden = false
+            loadStatusView.errorIcon = QXRichText.text("\(error.code)", QXFont(35, "#333333")).qxImage
+            loadStatusView.qxLoadStatusViewUpdateStatus(.failed(error))
+        } else {
+            loadStatusView.isHidden = true
+        }
     }
 
 }

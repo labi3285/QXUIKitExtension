@@ -15,7 +15,7 @@ public enum QXModelsLoadStatus {
         switch self {
         case .page(status: let s):
             switch s {
-            case .refreshing, .refreshSucceed, .refreshFailed(_):
+            case .refreshing, .refreshOk, .refreshError(_):
                 return true
             default:
                 return false
@@ -28,27 +28,27 @@ public enum QXModelsLoadStatus {
 
 public enum QXModelsPageStatus {
     case refreshing
-    case refreshSucceed
-    case refreshFailed(_ err: QXError?)
+    case refreshOk
+    case refreshError(_ err: QXError?)
     case paging
     case pageOk
-    case pageFailed(_ err: QXError?)
+    case pageError(_ err: QXError?)
     case pageEmpty(_ msg: String?)
     case pageNoMore(_ msg: String?)
 }
 
-open class QXModelsLoadStatusView<T>: QXView {
+open class QXModelsLoadStatusView<Model>: QXView {
         
-    public var api: QXModelsApi<T>?
+    public var api: QXModelsApi<Model>?
     
     open func reloadData() {
-        currentPage = 1
+        _currentPage = filter
         modelsLoadStatus = .reload(.loading(nil))
         loadModels()
     }
 
     /// 模型
-    open var models: [T] = [] {
+    open var models: [Model] = [] {
         didSet {
             contentView.isHidden = models.count == 0
             contentView.qxUpdateModels(models)
@@ -57,13 +57,15 @@ open class QXModelsLoadStatusView<T>: QXView {
     
     open func loadModels() {
         weak var ws = self
-        api?.execute(currentPage, pageCount, { models, isThereMore in
+        api?.execute(currentPage, { models, isThereMore in
             ws?.onLoadModelsOk(models, isThereMore: isThereMore)
         }, { err in
             ws?.onLoadModelsFailed(err)
         })
     }
 
+    public var filter: QXFilter = QXFilter.firstPage()
+    
     public let contentView: UIView & QXRefreshableViewProtocol
     public let loadStatusView: UIView & QXLoadStatusViewProtocol
     public required init(contentView: UIView & QXRefreshableViewProtocol, loadStatusView: UIView & QXLoadStatusViewProtocol) {
@@ -159,10 +161,10 @@ open class QXModelsLoadStatusView<T>: QXView {
                     refreshHeader.beginRefreshing()
                     refreshFooter.resetNoMoreData()
                     contentView.qxSetRefreshFooter(nil)
-                case .refreshSucceed:
+                case .refreshOk:
                     refreshHeader.endRefreshing()
                     updateCanPage()
-                case .refreshFailed(let err):
+                case .refreshError(let err):
                     if let e = err?.message {
                         showFailure(msg: e)
                     }
@@ -171,7 +173,7 @@ open class QXModelsLoadStatusView<T>: QXView {
                 case .paging:
                     refreshFooter.beginRefreshing()
                     contentView.qxSetRefreshHeader(nil)
-                case .pageFailed(let err):
+                case .pageError(let err):
                     if let e = err?.message {
                         showFailure(msg: e)
                     }
@@ -193,7 +195,7 @@ open class QXModelsLoadStatusView<T>: QXView {
     }
 
     open func headerStartRefresh() {
-        currentPage = 1
+        _currentPage = filter
         modelsLoadStatus = .page(.refreshing)
         loadModels()
     }
@@ -202,20 +204,20 @@ open class QXModelsLoadStatusView<T>: QXView {
         loadModels()
     }
         
-    /// 默认从1开始
-    public var isPageStartFromZero: Bool = false
-    public private(set) var currentPage: Int = 1
-    public var pageCount: Int = 10
+    public var currentPage: QXFilter {
+        return _currentPage ?? filter
+    }
+    public private(set) var _currentPage: QXFilter?
     
     /// 拿到分页数据的界面更新
-    open func onLoadModelsOk(_ newModels: [T], isThereMore: Bool? = nil) {
+    open func onLoadModelsOk(_ newModels: [Model], isThereMore: Bool? = nil) {
         let statusBefore = modelsLoadStatus
         if canPage {
             if statusBefore.isRefresh {
                 models = newModels
             } else {
                 models += newModels
-                currentPage += 1
+                _currentPage = QXFilter.nextPage(currentPage)
             }
             let isThereMore = isThereMore ?? (newModels.count > 0)
             switch statusBefore {
@@ -234,7 +236,7 @@ open class QXModelsLoadStatusView<T>: QXView {
                 case .refreshing:
                     if models.count > 0 {
                         if isThereMore {
-                            modelsLoadStatus = .page(.refreshSucceed)
+                            modelsLoadStatus = .page(.refreshOk)
                         } else {
                             modelsLoadStatus = .page(.pageNoMore("没有更多内容"))
                         }
@@ -269,7 +271,7 @@ open class QXModelsLoadStatusView<T>: QXView {
                         modelsLoadStatus = .reload(.empty(nil))
                     }
                 default:
-                    fatalError("请设置canPage=true")
+                    QXDebugFatalError("请设置canPage=true")
                 }
             case .reload(status: _):
                 if models.count > 0 {
@@ -289,11 +291,11 @@ open class QXModelsLoadStatusView<T>: QXView {
         case .page(let s):
             switch s {
             case .refreshing:
-                modelsLoadStatus = .page(.refreshFailed(err))
+                modelsLoadStatus = .page(.refreshError(err))
             case .paging:
-                modelsLoadStatus = .page(.pageFailed(err))
+                modelsLoadStatus = .page(.pageError(err))
             default:
-                fatalError("初始化状态只能有reload、paging、refreshing三种")
+                QXDebugFatalError("初始化状态只能有reload、paging、refreshing三种")
             }
         }
     }

@@ -35,7 +35,7 @@ open class QXBarButtonItem: UIBarButtonItem {
     }
     public static func stackItem(_ views: [QXViewProtocol]) -> QXBarButtonItem {
         let stack = QXStackView()
-        stack.setupViews(views)
+        stack.views = views
         stack.sizeToFit()
         let e = QXBarButtonItem(customView: stack)
         stack.respondNeedsLayout = { [weak stack] in

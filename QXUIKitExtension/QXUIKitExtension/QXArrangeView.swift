@@ -14,21 +14,16 @@ open class QXArrangeView: QXView {
     public var viewMarginY: CGFloat = 10
     public var lineAlignment: QXAlignmentY = .center
         
-    public private(set) var views: [QXViewProtocol] = []
-    
-    public func setupViews(_ views: QXViewProtocol...) {
-        setupViews(views)
-    }
-
-    public func setupViews(_ views: [QXViewProtocol]) {
-        for view in subviews {
-            view.removeFromSuperview()
+    open var views: [QXViewProtocol] = [] {
+        didSet {
+            for view in subviews {
+                view.removeFromSuperview()
+            }
+            for view in views {
+                view.addAsQXSubview(self)
+            }
+            qxSetNeedsLayout()
         }
-        self.views = views
-        for view in views {
-            view.addAsQXSubview(self)
-        }
-        qxSetNeedsLayout()
     }
     
     override open func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {

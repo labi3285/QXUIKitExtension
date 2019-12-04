@@ -15,28 +15,35 @@ class DemoListVc: QXTableViewController<QXTableViewSection> {
         title = "ListVc"
         contentView.canRefresh = true
         contentView.canPage = true
-        tableView.sectionHeaderSpace = 100
-        tableView.sectionFooterSpace = 100
+        //tableView.sectionHeaderSpace = 100
+        //tableView.sectionFooterSpace = 100
         
         tableView.adapter = QXTableView.Adapter([
             (String.self, QXTableViewDebugCell.self)
         ])
         
-        var api = QXModelsApi<QXTableViewSection> { (page, size, succeed, failed) in
+        let api = QXModelsApi<QXTableViewSection> { (filter, succeed, failed) in
             DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1) {
                 failed(QXError.unknown)
             }
         }
         let ms = (0..<10).map { _ in QXDebugRandomText(999) }
-        let s = QXTableViewSection(ms, QXSpace(10), QXSpace(10))
-        let mock = QXModelsMock<QXTableViewSection> { (page, size) -> [QXTableViewSection] in
+        let s = QXTableViewSection(ms)
+        let mock = QXModelsMock<QXTableViewSection> { (filter) -> [QXTableViewSection] in
             return [s]
         }
         api.mock = mock
         
+        
+        contentView.filter.dictionary["123"] = 456
         contentView.api = api
         
         contentView.reloadData()
+        
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
     }
     
 //    override func qxTableViewCellClass(_ model: Any?) -> QXTableViewCell.Type? {

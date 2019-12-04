@@ -33,6 +33,9 @@ public protocol QXViewProtocol {
     var natureSize: QXSize { get }
     /// 添加到父视图
     func addAsQXSubview(_ superview: UIView)
+    /// 从父视图移除
+    func removeFromSuperview()
+    
     /// 更新尺寸
     func updateRect(_ rect: QXRect)
     /// 水平抵抗拉伸的等级
@@ -48,12 +51,14 @@ public protocol QXViewProtocol {
     var divideRatioX: CGFloat? { get set }
     /// 在容器里面如何均摊，nil表示不均摊
     var divideRatioY: CGFloat? { get set }
-    
+        
 }
 extension QXViewProtocol {
     public var isDisplay: Bool { get { return true } set {} }
     public var natureSize: QXSize { return QXSize.zero  }
     public func addAsQXSubview(_ superview: UIView) { }
+    public func removeFromSuperview() { }
+    
     public func updateRect(_ rect: QXRect) { }
     public var compressResistanceX: CGFloat { get { return 0 } set {} }
     public var compressResistanceY: CGFloat { get { return 0 } set {} }
@@ -62,6 +67,8 @@ extension QXViewProtocol {
     public var divideRatioX: CGFloat? { get { return nil } set {} }
     public var divideRatioY: CGFloat? { get { return nil } set {} }
     
+    public var isSelected: Bool { get { return false } set {} }
+
 }
 
 open class QXView: UIView, QXViewProtocol {
@@ -120,16 +127,16 @@ open class QXView: UIView, QXViewProtocol {
         return sizeThatFits(targetSize)
     }
     open override func sizeThatFits(_ size: CGSize) -> CGSize {
-        let wh = intrinsicContentSize
-        var w = wh.width
-        var h = wh.height
+        let wh = natureSize
+        var w = wh.w
+        var h = wh.h
         w = min(size.width, w)
         h = min(size.height, h)
         return CGSize(width: w, height: h)
     }
     override open func sizeToFit() {
-        let wh = intrinsicContentSize
-        frame = CGRect(x: frame.minX, y: frame.minY, width: wh.width, height: wh.height)
+        let wh = natureSize
+        frame = CGRect(x: frame.minX, y: frame.minY, width: wh.w, height: wh.h)
     }
 
     //MARK:- QXViewProtocol
@@ -142,6 +149,10 @@ open class QXView: UIView, QXViewProtocol {
     open func addAsQXSubview(_ superview: UIView) {
         superview.addSubview(self)
     }
+    override open func removeFromSuperview() {
+        super.removeFromSuperview()
+    }
+    
     open func updateRect(_ rect: QXRect) {
         qxRect = rect
     }
@@ -220,7 +231,7 @@ open class QXView: UIView, QXViewProtocol {
     
     open var divideRatioX: CGFloat? = nil
     open var divideRatioY: CGFloat? = nil
-    
+        
 }
 
 extension QXView {

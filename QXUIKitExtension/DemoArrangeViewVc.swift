@@ -28,7 +28,7 @@ class DemoArrangeViewVc: QXViewController {
                 arr.append(QXFlexSpace(5))
             }
         }
-        e.setupViews(arr)
+        e.views = arr
         e.qxDebugRandomColor()
         return e
     }()

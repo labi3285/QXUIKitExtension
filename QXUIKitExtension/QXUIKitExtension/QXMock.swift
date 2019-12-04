@@ -9,9 +9,9 @@
 import Foundation
 import QXJSON
 
-public class QXModelsMock<T> {
+public class QXModelsMock<Model> {
     
-    public init(factor: ((_ page: Int, _ size: Int) -> [T])?) {
+    public init(factor: ((_ filter: QXFilter) -> [Model])?) {
         self.factor = factor
         self.error = nil
     }
@@ -20,18 +20,18 @@ public class QXModelsMock<T> {
         self.error = error
     }
     
-    public let factor: ((_ page: Int, _ size: Int) -> [T])?
+    public let factor: ((_ filter: QXFilter) -> [Model])?
     public let error: QXError?
     public var requestSecs: TimeInterval = 1
     
-    public func execute(_ page: Int, _ size: Int, _ onSucceed: @escaping QXClosureApiModels<T>, _ onFailed: @escaping QXClosureApiError) {
+    public func execute(_ filter: QXFilter, _ onSucceed: @escaping QXClosureApiModels<Model>, _ onFailed: @escaping QXClosureApiError) {
         DispatchQueue.main.qxAsyncAfter(requestSecs) {
             if let e = self.error {
                 onFailed(e)
             } else {
                 if let f = self.factor {
-                    let ms = f(page, size)
-                    onSucceed(ms, ms.count > 0)
+                    let ms = f(filter)
+                    onSucceed(ms, true)
                 } else {
                     onSucceed([], false)
                 }

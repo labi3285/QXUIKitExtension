@@ -48,7 +48,7 @@ open class QXSwitchView: QXView {
     }
     
     open override func natureContentSize() -> QXSize {
-        return uiSwitch.intrinsicContentSize.qxSize.sizeByAdd(padding)
+        return uiSwitch.qxIntrinsicContentSize.sizeByAdd(padding)
     }
 
     override open func layoutSubviews() {

@@ -9,7 +9,7 @@
 import UIKit
 
 open class QXTableViewController<Model>: QXViewController, QXTableViewDelegate {
-
+    
     public final lazy var tableView: QXTableView = {
         let e = QXTableView()
         e.delegate = self
@@ -30,7 +30,7 @@ open class QXTableViewController<Model>: QXViewController, QXTableViewDelegate {
         view.addSubview(contentView)
         contentView.IN(view).LEFT.RIGHT.TOP.BOTTOM.MAKE()
         
-//        contentView.canPage = true
+//        contentView.canPageFilter = true
 //        contentView.canRefresh = true
 //        contentView.api = { ok, failed in
 //             DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1) {

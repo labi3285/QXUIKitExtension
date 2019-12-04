@@ -9,6 +9,43 @@
 import Foundation
 import QXJSON
 
+open class QXFilter {
+        
+    public var dictionary: [String: Any] = [:]
+        
+    open var page: Int {
+        set {
+            dictionary["page"] = newValue
+        }
+        get {
+            return dictionary["page"] as? Int ?? 0
+        }
+    }
+    open var size: Int {
+        set {
+            dictionary["size"] = newValue
+        }
+        get {
+            return dictionary["size"] as? Int ?? 0
+        }
+    }
+        
+    open class func firstPage() -> QXFilter {
+        let e = QXFilter()
+        e.page = 1
+        e.size = 15
+        return e
+    }
+    
+    open class func nextPage(_ filter: QXFilter) -> QXFilter {
+        let e = QXFilter()
+        e.dictionary = filter.dictionary
+        e.page = filter.page + 1
+        return e
+    }
+    
+}
+
 public class QXPage<T: QXModel>: QXModel {
     open var models: [T]?
     open var pageIndex: Int = 0

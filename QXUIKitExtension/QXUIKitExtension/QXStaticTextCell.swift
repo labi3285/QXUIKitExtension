@@ -12,7 +12,7 @@ import QXConsMaker
 open class QXStaticTextCell: QXStaticCell {
     
     override open func height(_ model: Any?, _ width: CGFloat) -> CGFloat? {
-        label.maxWidth = width
+        label.fixWidth = width
         return label.intrinsicContentSize.height
     }
 

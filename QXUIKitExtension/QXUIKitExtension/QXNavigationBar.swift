@@ -63,17 +63,17 @@ open class QXNavigationBar: QXView {
         contentView.qxRect = qxRect.insideRect(.top(QXDevice.statusBarHeight))
         let rect = contentView.qxRect.absoluteRect
         var leftViewsInfo: [(QXView, QXSize)] = []
-        if let e = leftViewA { leftViewsInfo.append((e, e.qxIntrinsicContentSize)) }
-        if let e = leftViewB { leftViewsInfo.append((e, e.qxIntrinsicContentSize)) }
-        if let e = leftViewC { leftViewsInfo.append((e, e.qxIntrinsicContentSize)) }
+        if let e = leftViewA { leftViewsInfo.append((e, e.natureSize)) }
+        if let e = leftViewB { leftViewsInfo.append((e, e.natureSize)) }
+        if let e = leftViewC { leftViewsInfo.append((e, e.natureSize)) }
         var leftTotalW: CGFloat = 0
         for e in leftViewsInfo {
             leftTotalW += e.1.w
         }
         var rightViewsInfo: [(QXView, QXSize)] = []
-        if let e = rightViewC { rightViewsInfo.append((e, e.qxIntrinsicContentSize)) }
-        if let e = rightViewB { rightViewsInfo.append((e, e.qxIntrinsicContentSize)) }
-        if let e = rightViewA { rightViewsInfo.append((e, e.qxIntrinsicContentSize)) }
+        if let e = rightViewC { rightViewsInfo.append((e, e.natureSize)) }
+        if let e = rightViewB { rightViewsInfo.append((e, e.natureSize)) }
+        if let e = rightViewA { rightViewsInfo.append((e, e.natureSize)) }
         var rightTotalW: CGFloat = 0
         for e in rightViewsInfo {
             rightTotalW += e.1.w
@@ -82,7 +82,7 @@ open class QXNavigationBar: QXView {
         let titleSpace = contentW - leftTotalW - rightTotalW
         var x: CGFloat = leftMargin
         if let titleView = titleView {
-            let titleSize = titleView.qxIntrinsicContentSize
+            let titleSize = titleView.natureSize
             let leftRemain = contentW / 2 - leftTotalW
             let rightRemain = contentW / 2 - rightTotalW
             for e in leftViewsInfo {
@@ -114,7 +114,7 @@ open class QXNavigationBar: QXView {
             }
         }
         if let lineView = lineView {
-            let size = lineView.qxIntrinsicContentSize
+            let size = lineView.natureSize
             lineView.qxRect = rect.insideRect(.bottom(0), .left(0), .right(0), .height(size.h))
         }
     }

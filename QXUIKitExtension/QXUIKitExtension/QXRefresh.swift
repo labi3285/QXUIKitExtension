@@ -96,22 +96,22 @@ open class QXRefreshHeader: MJRefreshHeader {
         qxCheckOrAddSubview(messageLabel)
         qxCheckOrAddSubview(dateLabel)
         if isCustomised {
-            let imageSize = imageView.intrinsicContentSize
+            let imageSize = imageView.natureSize
             let rect = self.qxBounds
             imageView.qxRect = rect.insideRect(.center, .size(imageSize))
         } else {
-            let loadingSize = loadingView.intrinsicContentSize
-            let arrowSize = arrowView.intrinsicContentSize
-            let messageSize = messageLabel.intrinsicContentSize
-            let dateSize = dateLabel.intrinsicContentSize
-            let textWidth = max(dateSize.width, messageSize.width)
-            let iconWidth = max(arrowSize.width, loadingSize.width)
+            let loadingSize = loadingView.natureSize
+            let arrowSize = arrowView.natureSize
+            let messageSize = messageLabel.natureSize
+            let dateSize = dateLabel.natureSize
+            let textWidth = max(dateSize.w, messageSize.w)
+            let iconWidth = max(arrowSize.w, loadingSize.w)
             let rect = self.qxBounds
             let left = (rect.w - iconWidth - textWidth) / 2
             loadingView.qxRect = rect.insideRect(.left(left), .center, .size(loadingSize))
             arrowView.qxRect = rect.insideRect(.left(left), .center, .size(arrowSize))
-            messageLabel.qxRect = rect.insideRect(.left(left + iconWidth), .top(7), .size(textWidth, messageSize.height))
-            dateLabel.qxRect = rect.insideRect(.left(left + iconWidth), .bottom(7), .size(textWidth, dateSize.height))
+            messageLabel.qxRect = rect.insideRect(.left(left + iconWidth), .top(7), .size(textWidth, messageSize.h))
+            dateLabel.qxRect = rect.insideRect(.left(left + iconWidth), .bottom(7), .size(textWidth, dateSize.h))
         }
     }
     private var isCustomised: Bool = false

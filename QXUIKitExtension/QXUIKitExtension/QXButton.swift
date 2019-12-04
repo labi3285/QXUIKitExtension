@@ -10,7 +10,7 @@ import UIKit
 
 open class QXButton: QXView {
     
-    open var isEnabled: Bool =  true { didSet { update() } }
+    open var isEnabled: Bool = true { didSet { update() } }
     open var isSelected: Bool = false { didSet { update() } }
 
     open var respondTouchUpInside: (() -> ())?
@@ -324,7 +324,7 @@ open class QXTitleButton: QXButton {
            if let e = richTitles {
               uiLabel.qxRichTexts = e
            } else {
-              uiLabel.qxRichText = QXRichText.text(title, font)
+              uiLabel.qxRichText = QXRichText.text(title, fontHighlighted ?? font)
            }
         }
         super.handleHighlighted()
@@ -338,7 +338,7 @@ open class QXTitleButton: QXButton {
             if let e = richTitles {
                uiLabel.qxRichTexts = e
             } else {
-               uiLabel.qxRichText = QXRichText.text(title, font)
+               uiLabel.qxRichText = QXRichText.text(title, fontSelected ?? font)
             }
         }
         super.handleSelected()
@@ -352,7 +352,7 @@ open class QXTitleButton: QXButton {
             if let e = richTitles {
                 uiLabel.qxRichTexts = e
             } else {
-                uiLabel.qxRichText = QXRichText.text(title, font)
+                uiLabel.qxRichText = QXRichText.text(title, fontDisabled ?? font)
             }
         }
         super.handleDisabled(isSelected: isSelected)
@@ -388,7 +388,7 @@ open class QXImageButton: QXButton {
     
     open override func natureContentSize() -> QXSize {
         if let e = fixWidth ?? maxWidth {
-            let size = imageView.qxIntrinsicContentSize
+            let size = imageView.natureSize
             if size.isZero {
                 return size
             } else {
@@ -401,7 +401,7 @@ open class QXImageButton: QXButton {
                 }
             }
         } else if let e = fixHeight ?? maxHeight {
-            let size = imageView.qxIntrinsicContentSize
+            let size = imageView.natureSize
             if size.isZero {
                 return size
             } else {
@@ -414,7 +414,7 @@ open class QXImageButton: QXButton {
                 }
             }
         } else {
-            let size = imageView.qxIntrinsicContentSize
+            let size = imageView.natureSize
             if size.isZero {
                 return size
             } else {
@@ -484,7 +484,7 @@ open class QXStackButton: QXButton {
     }
     
     open override func natureContentSize() -> QXSize {
-        let size = stackView.qxIntrinsicContentSize
+        let size = stackView.natureSize
         if size.isZero {
             return size
         } else {
@@ -503,24 +503,24 @@ open class QXStackButton: QXButton {
     }
     
     override open func handleNormalize() {
-        stackView.setupViews(views)
+        stackView.views = views
         super.handleNormalize()
     }
     override open func handleHighlighted() {
         if let e = viewsHighlighted {
-            stackView.setupViews(e)
+            stackView.views = e
         }
         super.handleHighlighted()
     }
     override open func handleSelected() {
         if let e = viewsSelected {
-            stackView.setupViews(e)
+            stackView.views = e
         }
         super.handleSelected()
     }
     override open func handleDisabled(isSelected: Bool) {
         if let e = viewsDisabled {
-            stackView.setupViews(e)
+            stackView.views = e
         }
         super.handleDisabled(isSelected: isSelected)
     }
