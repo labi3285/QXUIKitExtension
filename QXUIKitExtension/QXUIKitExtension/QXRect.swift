@@ -573,7 +573,7 @@ extension QXRect {
     }
     
     public var isZero: Bool {
-        return x == 0 && y == 0 && w == 0 && h == 0
+        return w == 0 || h == 0
     }
     
 }

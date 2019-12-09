@@ -49,7 +49,7 @@ open class QXLineView: QXView {
             case .square:
                 lineLayer.lineCap = CAShapeLayerLineCap(rawValue: "square")
             @unknown default:
-                lineLayer.lineCap = CAShapeLayerLineCap(rawValue: "butt")
+                lineLayer.lineCap = CAShapeLayerLineCap(rawValue: "round")
             }
         }
         get {
@@ -87,7 +87,7 @@ open class QXLineView: QXView {
         let e = CAShapeLayer()
         e.lineWidth = 1
         e.strokeColor = UIColor.black.cgColor
-        e.lineCap = CAShapeLayerLineCap(rawValue: "butt")
+        e.lineCap = CAShapeLayerLineCap(rawValue: "round")
         return e
     }()
         

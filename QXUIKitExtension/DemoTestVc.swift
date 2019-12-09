@@ -11,45 +11,37 @@ import WebKit
 
 class DemoTestVc: QXViewController {
     
-    public final lazy var segmentsView: QXSegmentsView<String> = {
-        let e = QXSegmentsView<String>()
-        e.compressResistance = QXView.resistanceStable
-        var arr: [QXSegmentView<String>] = self.vcs.map { (e) -> QXSegmentView<String> in
-            let e = QXSegmentView<String>(e.title ?? "xxx")
-            return e
-        }
-        e.segmentViews = arr
-        e.respondSelect = { [weak self] i, t in
-            self?.pageVc.scrollTo(index: i, animated: true)
-        }
-        return e
-    }()
-    lazy var pageVc: QXPageViewController = {
-        let e = QXPageViewController(self.vcs)
-        e.respondIndex = { [weak self] i in
-            self?.segmentsView.scrollTo(index: i, animated: true)
-        }
-        return e
-    }()
+//    public final lazy var arrowView: QXImageButton = {
+//        let e = QXImageButton()
+//        e.image = QXImage("icon_mine_ask1")
+//        e.fixSize = QXSize(60, 60)
+//        e.padding = QXEdgeInsets(5, 5, 5, 5)
+//        e.qxDebugRandomColor()
+//        return e
+//    }()
     
-    lazy var vcs: [QXViewController] = {
-        var es = [QXViewController]()
-        for i in 0...5 {
-            let e = DemoListVc()
-            e.title = "标题\(i)"
-            es.append(e)
-        }
-        return es
+    public final lazy var lineView: QXLineView = {
+        let e = QXLineView()
+        e.lineWidth = 10
+        e.fixWidth = 100
+        return e
     }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.addSubview(segmentsView)
-        view.addSubview(pageVc.view)
-        addChild(pageVc)
-        segmentsView.IN(view).TOP.LEFT.RIGHT.MAKE()
-        pageVc.view.IN(view).LEFT.RIGHT.BOTTOM.MAKE()
-        pageVc.view.TOP.EQUAL(segmentsView).BOTTOM.MAKE()
+        
+        view.backgroundColor = UIImage(named: "test_dot")?.qxMainColor
+        
+        view.addSubview(lineView)
+        lineView.IN(view).CENTER.MAKE()
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+
+        for i in 0..<1000 {
+            let c = UIImage(named: "test_dot")?.qxMainColor
+            print("xxx - \(c)")
+        }
     }
     
 }

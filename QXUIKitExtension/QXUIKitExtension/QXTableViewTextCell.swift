@@ -42,7 +42,8 @@ open class QXTableViewText {
     open var highlightColor: QXColor = QXColor.dynamicHiglight
     open var isCopyEnabled: Bool = false
     open var padding: QXEdgeInsets = QXEdgeInsets(5, 15, 5, 15)
-    
+    open var numberOfLines: Int = 0
+
 }
 
 class QXTableViewTextCell: QXTableViewCell {
@@ -65,6 +66,7 @@ class QXTableViewTextCell: QXTableViewCell {
                 label.firstLineHeadIndent = e.firstLineHeadIndent
                 label.hyphenationFactor = e.hyphenationFactor
                 label.highlightColor = e.highlightColor
+                label.numberOfLines = e.numberOfLines
                 label.isCopyEnabled = e.isCopyEnabled
                 label.padding = e.padding
                 if let e = e.items {

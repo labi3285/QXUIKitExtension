@@ -16,12 +16,10 @@ open class QXTableViewImage {
     
     open var image: QXImage?
 
-    open var isForceImageFill: Bool = false
-    open var isForcePlaceHolderFill: Bool = false
+    open var contentMode: UIView.ContentMode = .scaleAspectFit
     open var isThumbnail: Bool = false
-    open var alignmentX: QXAlignmentX = .center
-    open var alignmentY: QXAlignmentY = .center
     open var placeHolderImage: QXImage?
+    open var padding: QXEdgeInsets = QXEdgeInsets(5, 15, 5, 15)
 
 }
 
@@ -36,20 +34,17 @@ class QXTableViewImageCell: QXTableViewCell {
         didSet {
             super.model = model
             if let e = model as? QXTableViewImage {
-                myImageView.isForceImageFill = e.isForceImageFill
-                myImageView.isForcePlaceHolderFill = e.isForcePlaceHolderFill
+                myImageView.contentMode = e.contentMode
                 myImageView.isThumbnail = e.isThumbnail
-                myImageView.alignmentX = e.alignmentX
-                myImageView.alignmentY = e.alignmentY
                 myImageView.placeHolderImage = e.placeHolderImage
                 myImageView.image = e.image
+                myImageView.padding = e.padding
             }
         }
     }
     
     public final lazy var myImageView: QXImageView = {
         let one = QXImageView()
-        one.padding = QXEdgeInsets(5, 15, 5, 15)
         one.respondUpdateImage = { [weak self] in
             self?.tableView?.setNeedsUpdate()
         }

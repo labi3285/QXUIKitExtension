@@ -10,7 +10,7 @@ import UIKit
 
 open class QXButton: QXView {
     
-    open var isEnabled: Bool = true { didSet { update() } }
+    open var isEnabled: Bool =  true { didSet { update() } }
     open var isSelected: Bool = false { didSet { update() } }
 
     open var respondTouchUpInside: (() -> ())?
@@ -324,7 +324,7 @@ open class QXTitleButton: QXButton {
            if let e = richTitles {
               uiLabel.qxRichTexts = e
            } else {
-              uiLabel.qxRichText = QXRichText.text(title, fontHighlighted ?? font)
+              uiLabel.qxRichText = QXRichText.text(title, font)
            }
         }
         super.handleHighlighted()
@@ -338,7 +338,7 @@ open class QXTitleButton: QXButton {
             if let e = richTitles {
                uiLabel.qxRichTexts = e
             } else {
-               uiLabel.qxRichText = QXRichText.text(title, fontSelected ?? font)
+               uiLabel.qxRichText = QXRichText.text(title, font)
             }
         }
         super.handleSelected()
@@ -352,7 +352,7 @@ open class QXTitleButton: QXButton {
             if let e = richTitles {
                 uiLabel.qxRichTexts = e
             } else {
-                uiLabel.qxRichText = QXRichText.text(title, fontDisabled ?? font)
+                uiLabel.qxRichText = QXRichText.text(title, font)
             }
         }
         super.handleDisabled(isSelected: isSelected)
@@ -367,7 +367,7 @@ open class QXImageButton: QXButton {
     open var imageHighlighted: QXImage?
     open var imageSelected: QXImage?
     open var imageDisabled: QXImage?
-        
+    
     public final lazy var imageView: QXImageView = {
         let e = QXImageView()
         return e
@@ -383,44 +383,11 @@ open class QXImageButton: QXButton {
     
     override open func layoutSubviews() {
         super.layoutSubviews()
-        imageView.qxRect = backView.qxRect.absoluteRect
+        imageView.qxRect = backView.qxBounds
     }
     
     open override func natureContentSize() -> QXSize {
-        if let e = fixWidth ?? maxWidth {
-            let size = imageView.natureSize
-            if size.isZero {
-                return size
-            } else {
-                if size.w <= e - padding.left - padding.right {
-                    return size.sizeByAdd(padding)
-                } else {
-                    let w = e - padding.left - padding.right
-                    let h = w * size.h / size.w
-                    return QXSize(w, h).sizeByAdd(padding)
-                }
-            }
-        } else if let e = fixHeight ?? maxHeight {
-            let size = imageView.natureSize
-            if size.isZero {
-                return size
-            } else {
-                if size.h <= e - padding.top - padding.bottom {
-                    return size.sizeByAdd(padding)
-                } else {
-                    let h = e - padding.top - padding.bottom
-                    let w = h * size.w / size.h
-                    return QXSize(w, h).sizeByAdd(padding)
-                }
-            }
-        } else {
-            let size = imageView.natureSize
-            if size.isZero {
-                return size
-            } else {
-                return size.sizeByAdd(padding)
-            }
-        }
+        return imageView.natureSize.sizeByAdd(padding)
     }
 
     override open func handlePrepareOrigins() {
@@ -452,17 +419,14 @@ open class QXImageButton: QXButton {
     
 }
 
-
 open class QXStackButton: QXButton {
     
-    open var views: [QXView] = [] { didSet { update() } }
+    open var views: [QXViewProtocol] = [] { didSet { update() } }
     
-    open var viewsHighlighted: [QXView]?
-    open var viewsSelected: [QXView]?
-    open var viewsDisabled: [QXView]?
-    
-    open var stackPadding: QXEdgeInsets = QXEdgeInsets.zero
-    
+    open var viewsHighlighted: [QXViewProtocol]?
+    open var viewsSelected: [QXViewProtocol]?
+    open var viewsDisabled: [QXViewProtocol]?
+        
     public final lazy var stackView: QXStackView = {
         let e = QXStackView()
         e.alignmentX = .center
@@ -480,16 +444,11 @@ open class QXStackButton: QXButton {
     
     override open func layoutSubviews() {
         super.layoutSubviews()
-        stackView.qxRect = backView.qxRect.absoluteRect.rectByReduce(stackPadding)
+        stackView.qxRect = backView.qxBounds
     }
     
     open override func natureContentSize() -> QXSize {
-        let size = stackView.natureSize
-        if size.isZero {
-            return size
-        } else {
-            return size.sizeByAdd(stackPadding).sizeByAdd(padding)
-        }
+        return stackView.natureSize.sizeByAdd(padding)
     }
     
     override open func handlePrepareOrigins() {

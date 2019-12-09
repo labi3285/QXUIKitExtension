@@ -21,8 +21,9 @@ open class QXStaticCardCell: QXStaticCell {
                 }
             }
         }
+        layoutView.fixWidth = width
         cardView.fixWidth = cardW
-        return cardView.natureSize.h
+        return layoutView.natureSize.h
     }
     
     public final lazy var cardView: QXStackView = {

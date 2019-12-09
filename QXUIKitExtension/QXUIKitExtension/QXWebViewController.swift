@@ -25,7 +25,7 @@ open class QXWebViewController: QXViewController, QXWebViewDelegate {
         fatalError("init(coder:) has not been implemented")
     }
     
-    public final lazy var progressView: UIProgressView = { [unowned self] in
+    public final lazy var progressView: UIProgressView = {
         let e = UIProgressView(progressViewStyle: .bar)
         e.qxTintColor = QXColor.dynamicAccent
         e.backgroundColor = .clear

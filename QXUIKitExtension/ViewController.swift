@@ -22,11 +22,38 @@ class ViewController: QXTableViewController<Any> {
         return e
     }()
     
+    final lazy var slogonCell: QXSettingTitleArrowCell = {
+        let e = QXSettingTitleArrowCell()
+        e.titleLabel.text = "QXSlogonView"
+        e.backButton.respondClick = { [weak self] in
+            let vc = DemoSlogonVc()
+            self?.push(vc)
+        }
+        return e
+    }()
     final lazy var segPageCell: QXSettingTitleArrowCell = {
         let e = QXSettingTitleArrowCell()
         e.titleLabel.text = "QXPageViewController"
         e.backButton.respondClick = { [weak self] in
             let vc = DemoSegPageVc()
+            self?.push(vc)
+        }
+        return e
+    }()
+    final lazy var bannerCell: QXSettingTitleArrowCell = {
+        let e = QXSettingTitleArrowCell()
+        e.titleLabel.text = "QXBannerView"
+        e.backButton.respondClick = { [weak self] in
+            let vc = DemoBannerVc()
+            self?.push(vc)
+        }
+        return e
+    }()
+    final lazy var shapeCell: QXSettingTitleArrowCell = {
+        let e = QXSettingTitleArrowCell()
+        e.titleLabel.text = "QXShape"
+        e.backButton.respondClick = { [weak self] in
+            let vc = DemoShapeVc()
             self?.push(vc)
         }
         return e
@@ -43,9 +70,8 @@ class ViewController: QXTableViewController<Any> {
                 }
             ]
             let vc = QXWebViewController(cfg)
-//            vc.webView.url = QXURL.file("test.html", in: Bundle.main)
+            vc.webView.url = QXURL.file("test.html", in: Bundle.main)
 //            vc.webView.url = QXUIKitExtensionResources.shared.url(for: "error-code.html")
-            vc.webView.url = QXURL.url("https://public-api.wordpress.com/oauth2/authorize")
             weak var wk_webView = vc.webView
             vc.navigationBarRightItem = QXBarButtonItem.titleItem("callJS", {
                 var json = QXJSON([:])
@@ -133,7 +159,10 @@ class ViewController: QXTableViewController<Any> {
     final lazy var section: QXTableViewSection = {
         let e = QXTableViewSection([
             self.testCell,
+            self.slogonCell,
             self.segPageCell,
+            self.bannerCell,
+            self.shapeCell,
             self.webCell,
             self.maskCell,
             self.arrangeCell,
@@ -149,7 +178,6 @@ class ViewController: QXTableViewController<Any> {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "首页"
-        
         view.qxBackgroundColor = QXColor.dynamicBackgroundGray
         tableView.sections = [section]
 //        isNavigationBarShow = false

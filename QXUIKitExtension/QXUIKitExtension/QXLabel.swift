@@ -24,6 +24,15 @@ open class QXLabel: QXView {
         }
     }
     
+    public var adjustsFontSizeToFitWidth: Bool {
+        set {
+            uiLabel.adjustsFontSizeToFitWidth = newValue
+        }
+        get {
+            return uiLabel.adjustsFontSizeToFitWidth
+        }
+    }
+    
     open var alignmentX: QXAlignmentX = .left {
         didSet {
             switch alignmentX {

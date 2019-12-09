@@ -190,7 +190,7 @@ open class QXWebView: QXView {
         e.scrollView.delegate = self
         return e
     }()
-    private final lazy var progressView: UIProgressView = { [unowned self] in
+    private final lazy var progressView: UIProgressView = {
          let e = UIProgressView(progressViewStyle: .bar)
          e.backgroundColor = .clear
          e.trackTintColor = .clear

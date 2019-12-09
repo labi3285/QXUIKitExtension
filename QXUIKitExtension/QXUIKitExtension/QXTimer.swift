@@ -10,20 +10,20 @@
 
 import UIKit
 
-enum QXTimerType {
+public enum QXTimerType {
     case timer
     case displayLink
 }
 
-enum QXTimerLinkMode {
+public enum QXTimerLinkMode {
     case `default`
     case commons
 }
 
-class QXTimer: NSObject {
+open class QXTimer: NSObject {
     
-    var loop: ((_ timer: QXTimer) -> ())?
-    func remove() {
+    public var loop: ((_ timer: QXTimer) -> ())?
+    public func remove() {
         switch _type {
         case .timer:
             _timer?.invalidate()
@@ -38,13 +38,13 @@ class QXTimer: NSObject {
         }
     }
     
-    init(duration: TimeInterval) {
+    public init(duration: TimeInterval) {
         super.init()
         self._type = .timer
         self._timer = Timer.scheduledTimer(timeInterval: duration, target: self, selector: #selector(QXTimer._loop), userInfo: nil, repeats: true)
     }
     
-    init(triggerCount: CGFloat? = nil, runLoop: RunLoop = RunLoop.main, mode: QXTimerLinkMode) {
+    public init(triggerCount: CGFloat? = nil, runLoop: RunLoop = RunLoop.main, mode: QXTimerLinkMode) {
         super.init()
         self._type = .displayLink
         self._displayLink = CADisplayLink(target: self, selector: #selector(QXTimer._loop))

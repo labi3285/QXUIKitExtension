@@ -48,17 +48,17 @@ public enum QXRichText {
         }
     }
     
-    public static func size(_ arr: [QXRichText]?, width: CGFloat) -> CGSize? {
-        return nsAttributedString(arr)?.qxSize(width: width)
+    public static func size(_ arr: [QXRichText]?, width: CGFloat) -> QXSize {
+        return nsAttributedString(arr)?.qxSize(width: width).qxSize ?? QXSize.zero
     }
-    public static func size(_ arr: [QXRichText]?) -> CGSize? {
-        return nsAttributedString(arr)?.qxSize
+    public static func size(_ arr: [QXRichText]?) -> QXSize {
+        return nsAttributedString(arr)?.qxSize.qxSize ?? QXSize.zero
     }
-    public func size(width: CGFloat) -> CGSize? {
-        return nsAttributedString.qxSize(width: width)
+    public func size(width: CGFloat) -> QXSize {
+        return nsAttributedString.qxSize(width: width).qxSize
     }
-    public var size: CGSize {
-        return nsAttributedString.qxSize
+    public var size: QXSize {
+        return nsAttributedString.qxSize.qxSize
     }
     
     public static func nsAttributedString(_ arr: [QXRichText]?) -> NSAttributedString? {
