@@ -240,8 +240,8 @@ open class QXModelsLoadStatusView<Model>: QXView {
                 models = newModels
             } else {
                 models += newModels
-                filter.page += 1
             }
+            filter.page += 1
             let isThereMore = isThereMore ?? (newModels.count > 0)
             switch statusBefore {
             case .reload(status: _):
