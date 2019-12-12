@@ -20,11 +20,7 @@ open class QXWebViewConfig: NSObject, WKScriptMessageHandler {
     
     /// js交互消息
     public var javaScriptBridges: [String: (_ json: QXJSON) -> ()]?
-    public var commonJavaScriptBridges: [String: (_ json: QXJSON) -> ()]?
 
-    /// 框架内部使用
-    internal var autoJavaScriptBridges: [String: (_ json: QXJSON) -> ()]?
-            
     public let wkWebViewConfiguration: WKWebViewConfiguration = WKWebViewConfiguration()
     
     open func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
@@ -38,22 +34,6 @@ open class QXWebViewConfig: NSObject, WKScriptMessageHandler {
         }
         QXDebugPrint("JSCALL->\(message.name):\(json)")
 
-        if let dic = autoJavaScriptBridges {
-            for (k, v) in dic {
-                if message.name == k {
-                    v(json)
-                    break
-                }
-            }
-        }
-        if let dic = commonJavaScriptBridges {
-            for (k, v) in dic {
-                if message.name == k {
-                    v(json)
-                    break
-                }
-            }
-        }
         if let dic = javaScriptBridges {
             for (k, v) in dic {
                 if message.name == k {
@@ -66,18 +46,9 @@ open class QXWebViewConfig: NSObject, WKScriptMessageHandler {
     }
     
     open func setup() {
-        if let dic = autoJavaScriptBridges {
-            for (k, _) in dic {
-                 wkWebViewConfiguration.userContentController.add(self, name: k)
-             }
-        }
-        if let dic = commonJavaScriptBridges {
-            for (k, _) in dic {
-                 wkWebViewConfiguration.userContentController.add(self, name: k)
-             }
-        }
         if let dic = javaScriptBridges {
             for (k, _) in dic {
+                wkWebViewConfiguration.userContentController.removeScriptMessageHandler(forName: k)
                 wkWebViewConfiguration.userContentController.add(self, name: k)
             }
         }
@@ -178,11 +149,6 @@ open class QXWebView: QXView {
     public let config: QXWebViewConfig
     public final lazy var wkWebView: WKWebView = {
         weak var ws = self
-        self.config.autoJavaScriptBridges = [
-            "reloadData": { json in
-
-            },
-        ]
         self.config.setup()
         let e = WKWebView(frame: CGRect.zero, configuration: self.config.wkWebViewConfiguration)
         e.uiDelegate = self
@@ -377,3 +343,4 @@ extension QXWebView: WKNavigationDelegate {
 //    }
     
 }
+

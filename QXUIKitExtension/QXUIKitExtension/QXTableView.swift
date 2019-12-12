@@ -692,7 +692,7 @@ class QXTableViewDebugCell: QXTableViewBreakLineCell {
     }
     
 }
-class QXTableViewSpaceCell: QXTableViewBreakLineCell {
+class QXTableViewSpaceCell: QXTableViewCell {
     override class func height(_ model: Any?, _ width: CGFloat) -> CGFloat? {
         if let e = model as? QXSpace {
             return e.space

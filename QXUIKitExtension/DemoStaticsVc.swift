@@ -67,7 +67,16 @@ class DemoStaticsVc: QXTableViewController<Any> {
         super.viewDidLoad()
         title = "Statics"
 //        view.qxBackgroundColor = QXColor.yellow
-        tableView.sections = [section]                
+        tableView.sections = [section]
+        
+        
+        contentView.reloadData()
+        
+//        contentView.filter.json
+    }
+    
+    override func loadData(_ filter: QXFilter, _ done: @escaping (QXRequest.Respond<[Any]>) -> ()) {
+        done(.failed(QXError.noData))
     }
     
     override func viewDidAppear(_ animated: Bool) {

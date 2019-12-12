@@ -8,13 +8,6 @@
 
 import UIKit
 import Alamofire
-import QXJSON
-
-//public protocol QXApiProtocol {
-//
-//    var api:
-//
-//}
 
 extension QXRequest {
     
@@ -97,7 +90,7 @@ open class QXRequest {
     }
     
     public enum Respond<T> {
-        case succeed(_ data: T)
+        case succeed(_ data: T?)
         case failed(_ err: QXError)
     }
     

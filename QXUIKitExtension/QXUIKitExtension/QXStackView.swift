@@ -18,6 +18,22 @@ open class QXStackView: QXView {
     public private(set) var compressOrder: [Int] = []
     public var compressMinSize: QXSize = QXSize(30, 30)
     
+    public convenience init(views: [QXViewProtocol]) {
+        self.init()
+        self.views = views
+    }
+    public convenience init(views: [QXViewProtocol], viewMargin: CGFloat) {
+        self.init()
+        self.viewMargin = viewMargin
+        self.views = views
+    }
+    public convenience init(views: [QXViewProtocol], isVertical: Bool, viewMargin: CGFloat) {
+        self.init()
+        self.isVertical = isVertical
+        self.viewMargin = viewMargin
+        self.views = views
+    }
+    
     open var views: [QXViewProtocol] = [] {
         didSet {
             for view in subviews {

@@ -22,24 +22,29 @@ class DemoListVc: QXTableViewController<QXTableViewSection> {
             (String.self, QXTableViewDebugCell.self)
         ])
         
-        let api = QXModelsApi<QXTableViewSection> { (filter, succeed, failed) in
-            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1) {
-                failed(QXError.unknown)
-            }
-        }
-        let ms = (0..<10).map { _ in QXDebugRandomText(999) }
-        let s = QXTableViewSection(ms)
-        let mock = QXModelsMock<QXTableViewSection> { (filter) -> [QXTableViewSection] in
-            return [s]
-        }
-        api.mock = mock
-        
-        
-        contentView.filter.dictionary["123"] = 456
-        contentView.api = api
+//        let api = QXModelsApi<QXTableViewSection> { (filter, succeed, failed) in
+//            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1) {
+//                failed(QXError.unknown)
+//            }
+//        }
+//        let ms = (0..<10).map { _ in QXDebugRandomText(999) }
+//        let s = QXTableViewSection(ms)
+//        let mock = QXModelsMock<QXTableViewSection> { (filter) -> [QXTableViewSection] in
+//            return [s]
+//        }
+//        api.mock = mock
+                
+        contentView.filter.dictionary["123"] = 345
+//        contentView.api = api
         
         contentView.reloadData()
-        
+    }
+    
+    override func loadData(_ filter: QXFilter, _ done: @escaping (QXRequest.Respond<[QXTableViewSection]>) -> ()) {
+        print(filter.dictionary)
+        let ms = (0..<10).map { _ in QXDebugRandomText(999) }
+        let s = QXTableViewSection(ms)
+        done(.succeed([s]))
     }
     
     override func viewDidAppear(_ animated: Bool) {

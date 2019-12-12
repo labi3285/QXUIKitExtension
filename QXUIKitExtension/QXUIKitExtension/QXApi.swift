@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import QXJSON
 
 public typealias QXClosureApiModel<Model>
     = (_ model: Model?) -> ()

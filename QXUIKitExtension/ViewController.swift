@@ -22,6 +22,16 @@ class ViewController: QXTableViewController<Any> {
         return e
     }()
     
+    final lazy var modelsCell: QXSettingTitleArrowCell = {
+        let e = QXSettingTitleArrowCell()
+        e.titleLabel.text = "QXModel"
+        e.backButton.respondClick = { [weak self] in
+            let vc = DemoModelVc()
+            self?.push(vc)
+        }
+        return e
+    }()
+    
     final lazy var slogonCell: QXSettingTitleArrowCell = {
         let e = QXSettingTitleArrowCell()
         e.titleLabel.text = "QXSlogonView"
@@ -71,6 +81,7 @@ class ViewController: QXTableViewController<Any> {
             ]
             let vc = QXWebViewController(cfg)
             vc.webView.url = QXURL.file("test.html", in: Bundle.main)
+//            vc.webView.url = QXURL.url("https://www.baidu.com")
 //            vc.webView.url = QXUIKitExtensionResources.shared.url(for: "error-code.html")
             weak var wk_webView = vc.webView
             vc.navigationBarRightItem = QXBarButtonItem.titleItem("callJS", {
@@ -159,6 +170,7 @@ class ViewController: QXTableViewController<Any> {
     final lazy var section: QXTableViewSection = {
         let e = QXTableViewSection([
             self.testCell,
+            self.modelsCell,
             self.slogonCell,
             self.segPageCell,
             self.bannerCell,
@@ -203,6 +215,9 @@ class ViewController: QXTableViewController<Any> {
         btn.padding = QXEdgeInsets(5, 5, 5, 5)
         btn.qxDebugRandomColor()
         navigationBarRightItem = QXBarButtonItem.stackItem(btn)
+        
+        
+        
         
     }
 

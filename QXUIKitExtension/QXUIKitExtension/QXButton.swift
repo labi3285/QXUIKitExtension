@@ -311,7 +311,11 @@ open class QXTitleButton: QXButton {
         if let e = richTitles {
             uiLabel.qxRichTexts = e
         } else {
-            uiLabel.qxRichText = QXRichText.text(title, font)
+            if let e = richTitles {
+                uiLabel.qxRichTexts = e
+            } else {
+                uiLabel.qxRichText = QXRichText.text(title, font)
+            }
         }
         super.handleNormalize()
     }
@@ -321,11 +325,11 @@ open class QXTitleButton: QXButton {
         } else if let e = titleHighlighted {
             uiLabel.qxRichText = QXRichText.text(e, font)
         } else {
-           if let e = richTitles {
-              uiLabel.qxRichTexts = e
-           } else {
-              uiLabel.qxRichText = QXRichText.text(title, font)
-           }
+            if let e = richTitlesHighlighted ?? richTitles {
+                uiLabel.qxRichTexts = e
+            } else {
+                uiLabel.qxRichText = QXRichText.text(titleHighlighted ?? title, fontHighlighted ?? font)
+            }
         }
         super.handleHighlighted()
     }
@@ -335,10 +339,10 @@ open class QXTitleButton: QXButton {
         } else if let e = titleSelected {
             uiLabel.qxRichText = QXRichText.text(e, font)
         } else {
-            if let e = richTitles {
+            if let e = richTitlesSelected ?? richTitles {
                uiLabel.qxRichTexts = e
             } else {
-               uiLabel.qxRichText = QXRichText.text(title, font)
+               uiLabel.qxRichText = QXRichText.text(titleSelected ?? title, fontSelected ?? font)
             }
         }
         super.handleSelected()
@@ -484,4 +488,62 @@ open class QXStackButton: QXButton {
         super.handleDisabled(isSelected: isSelected)
     }
     
+}
+
+
+open class QXIconButton: QXStackButton {
+    
+    open var icon: QXImage? {
+        set {
+            iconView.image = newValue
+        }
+        get {
+            return iconView.image
+        }
+    }
+    
+    open var name: String {
+        set {
+            nameLabel.text = newValue
+        }
+        get {
+            return nameLabel.text
+        }
+    }
+    
+    open var isVertical: Bool {
+        set {
+            stackView.isVertical = newValue
+        }
+        get {
+            return stackView.isVertical
+        }
+    }
+    
+    public final lazy var iconView: QXImageView = {
+        let e = QXImageView()
+        e.compressResistance = QXView.resistanceStable
+        return e
+    }()
+    public final lazy var nameLabel: QXLabel = {
+        let e = QXLabel()
+        e.compressResistance = QXView.resistanceNormal
+        e.font = QXFont(12, QXColor.dynamicText)
+        return e
+    }()
+    
+    public convenience init(isVertical: Bool) {
+        self.init()
+        self.stackView.isVertical = isVertical
+    }
+    
+    public override init() {
+        super.init()
+        self.stackView.viewMargin = 5
+        self.views = [iconView, nameLabel]
+    }
+    public required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+        
 }

@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import QXJSON
 
 public class QXModelsMock<Model> {
     

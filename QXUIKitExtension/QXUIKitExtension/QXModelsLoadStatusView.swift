@@ -39,10 +39,22 @@ public enum QXModelsPageStatus {
 
 open class QXModelsLoadStatusView<Model>: QXView {
         
+    /// 优先级 ①
     public var api: QXModelsApi<Model>?
+    /// 优先级 ②
+    public var loadDataHandler: ( (QXFilter, @escaping (QXRequest.Respond<[Model]>)->() ) -> ())?
+    
+    open func loadData(_ filter: QXFilter, _ done: @escaping (QXRequest.Respond<[Model]>) -> ()) {
+        if let e = loadDataHandler {
+            e(filter, done)
+        } else {
+            /// 优先级 ③
+            done(.failed(QXError(-1, "请重写loadData或者提供api")))
+        }
+    }
     
     open func reloadData() {
-        _currentPage = filter
+        filter.page = isPageStartFromZero ? 0 : 1
         modelsLoadStatus = .reload(.loading(nil))
         loadModels()
     }
@@ -57,15 +69,31 @@ open class QXModelsLoadStatusView<Model>: QXView {
     
     open func loadModels() {
         weak var ws = self
-        api?.execute(currentPage, { models, isThereMore in
-            ws?.onLoadModelsOk(models, isThereMore: isThereMore)
-        }, { err in
-            ws?.onLoadModelsFailed(err)
-        })
+        if let e = api {
+            e.execute(filter, { models, isThereMore in
+                ws?.onLoadModelsOk(models, isThereMore: isThereMore)
+            }, { err in
+                ws?.onLoadModelsFailed(err)
+            })
+        } else {
+            loadData(filter) { (respond) in
+                switch respond {
+                case .succeed(let ms):
+                    if let ms = ms {
+                        ws?.onLoadModelsOk(ms, isThereMore: ms.count > 0)
+                    } else {
+                        ws?.onLoadModelsOk([], isThereMore: false)
+                    }
+                case .failed(let err):
+                    ws?.onLoadModelsFailed(err)
+                }
+            }
+        }
     }
 
-    public var filter: QXFilter = QXFilter.firstPage()
-    
+    public var filter: QXFilter = QXFilter()
+    public var isPageStartFromZero: Bool = true
+
     public let contentView: UIView & QXRefreshableViewProtocol
     public let loadStatusView: UIView & QXLoadStatusViewProtocol
     public required init(contentView: UIView & QXRefreshableViewProtocol, loadStatusView: UIView & QXLoadStatusViewProtocol) {
@@ -195,7 +223,7 @@ open class QXModelsLoadStatusView<Model>: QXView {
     }
 
     open func headerStartRefresh() {
-        _currentPage = filter
+        filter.page = isPageStartFromZero ? 0 : 1
         modelsLoadStatus = .page(.refreshing)
         loadModels()
     }
@@ -203,11 +231,6 @@ open class QXModelsLoadStatusView<Model>: QXView {
         modelsLoadStatus = .page(.paging)
         loadModels()
     }
-        
-    public var currentPage: QXFilter {
-        return _currentPage ?? filter
-    }
-    public private(set) var _currentPage: QXFilter?
     
     /// 拿到分页数据的界面更新
     open func onLoadModelsOk(_ newModels: [Model], isThereMore: Bool? = nil) {
@@ -217,7 +240,7 @@ open class QXModelsLoadStatusView<Model>: QXView {
                 models = newModels
             } else {
                 models += newModels
-                _currentPage = QXFilter.nextPage(currentPage)
+                filter.page += 1
             }
             let isThereMore = isThereMore ?? (newModels.count > 0)
             switch statusBefore {

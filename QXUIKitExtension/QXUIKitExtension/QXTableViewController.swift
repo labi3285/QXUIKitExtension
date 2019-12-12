@@ -22,8 +22,15 @@ open class QXTableViewController<Model>: QXViewController, QXTableViewDelegate {
     
     public final lazy var contentView: QXModelsLoadStatusView<Model> = {
         let e = QXModelsLoadStatusView<Model>(contentView: self.tableView, loadStatusView: self.loadStatusView)
-         return e
+        e.loadDataHandler = { [weak self] filter, done in
+            self?.loadData(filter, done)
+        }
+        return e
     }()
+    
+    open func loadData(_ filter: QXFilter, _ done: @escaping (QXRequest.Respond<[Model]>) -> ()) {
+        done(.failed(QXError(-1, "请重写loadData或者提供api")))
+    }
     
     override open func viewDidLoad() {
         super.viewDidLoad()

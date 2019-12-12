@@ -7,41 +7,31 @@
 //
 
 import UIKit
-import WebKit
 
-class DemoTestVc: QXViewController {
+class DemoTestVc: QXLoadStatusViewController<Any> {
     
-//    public final lazy var arrowView: QXImageButton = {
-//        let e = QXImageButton()
-//        e.image = QXImage("icon_mine_ask1")
-//        e.fixSize = QXSize(60, 60)
-//        e.padding = QXEdgeInsets(5, 5, 5, 5)
-//        e.qxDebugRandomColor()
-//        return e
-//    }()
-    
-    public final lazy var lineView: QXLineView = {
-        let e = QXLineView()
-        e.lineWidth = 10
-        e.fixWidth = 100
+    lazy var btn: QXIconButton = {
+        let e = QXIconButton()
+        e.isVertical = true
+        e.icon = QXImage("icon_mine_recommend").setSize(40, 40)
+        e.name = "菜单"
         return e
     }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        title = "测试模型解析"
+        view.addSubview(btn)
+        btn.IN(view).CENTER.MAKE()
         
-        view.backgroundColor = UIImage(named: "test_dot")?.qxMainColor
         
-        view.addSubview(lineView)
-        lineView.IN(view).CENTER.MAKE()
+        contentView.reloadData()
     }
     
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-
-        for i in 0..<1000 {
-            let c = UIImage(named: "test_dot")?.qxMainColor
-            print("xxx - \(c)")
-        }
+    override func loadData(_ done: @escaping (QXRequest.Respond<Any>) -> ()) {
+        
+        done(.succeed(123))
+        
     }
     
 }

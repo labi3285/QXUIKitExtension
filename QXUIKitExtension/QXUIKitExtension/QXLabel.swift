@@ -24,15 +24,6 @@ open class QXLabel: QXView {
         }
     }
     
-    public var adjustsFontSizeToFitWidth: Bool {
-        set {
-            uiLabel.adjustsFontSizeToFitWidth = newValue
-        }
-        get {
-            return uiLabel.adjustsFontSizeToFitWidth
-        }
-    }
-    
     open var alignmentX: QXAlignmentX = .left {
         didSet {
             switch alignmentX {
@@ -110,7 +101,7 @@ open class QXLabel: QXView {
         case .center:
             x = (bounds.width - padding.left - padding.right - w) / 2 + padding.left
         case .right:
-            x = (bounds.width - padding.right - w) / 2 + padding.top
+            x = (bounds.width - padding.left - padding.right - w) + padding.left
         }
         let y: CGFloat
         switch alignmentY {
@@ -166,3 +157,4 @@ open class QXLabel: QXView {
     }
 
 }
+

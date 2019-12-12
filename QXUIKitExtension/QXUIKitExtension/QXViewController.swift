@@ -14,10 +14,8 @@ open class QXViewController: UIViewController, UINavigationBarDelegate {
     public var respondRefresh: (() -> ())?
     
     //MARK:- Init
-    public required init() {
+    public init() {
         super.init(nibName: nil, bundle: nil)
-        // make sure view init at start
-        _ = view
         automaticallyAdjustsScrollViewInsets = false
         edgesForExtendedLayout = UIRectEdge(rawValue: 0)
     }
@@ -59,11 +57,12 @@ open class QXViewController: UIViewController, UINavigationBarDelegate {
         
     }
     
+    private var _isViewDidSetupCalled: Bool = false
     private var _isFirstWillAppear: Bool = true
     private var _isFirstDidAppear: Bool = true
     private var _isFirstWillDisappear: Bool = true
     private var _isFirstDidDisappear: Bool = true
-
+    
     override open func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         if _isFirstWillAppear { viewWillFirstAppear(animated); _isFirstWillAppear = false }

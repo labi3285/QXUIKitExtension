@@ -13,6 +13,17 @@ open class QXArrangeView: QXView {
     public var viewMarginX: CGFloat = 10
     public var viewMarginY: CGFloat = 10
     public var lineAlignment: QXAlignmentY = .center
+    
+    public convenience init(views: [QXViewProtocol]) {
+        self.init()
+        self.views = views
+    }
+    public convenience init(views: [QXViewProtocol], viewMarginX: CGFloat, viewMarginY: CGFloat) {
+        self.init()
+        self.viewMarginX = viewMarginX
+        self.viewMarginY = viewMarginY
+        self.views = views
+    }
         
     open var views: [QXViewProtocol] = [] {
         didSet {

@@ -8,6 +8,10 @@
 
 import UIKit
 
+@objc public protocol QXReloadDataProtocol {
+    func reloadData()
+}
+
 public enum QXLoadStatus {
     case loading(_ msg: String?)
     case succeed
@@ -27,19 +31,45 @@ public protocol QXContentViewDelegate: class {
 open class QXContentLoadStatusView<Model>: QXView {
         
     public var api: QXModelApi<Model>?
-    public var emptyMessage: String = "暂无内容"
+    public var loadDataHandler: ( (@escaping (QXRequest.Respond<Model>)->() ) -> ())?
     
+    open func loadData(done: @escaping (QXRequest.Respond<Model>) -> ()) {
+        if let e = loadDataHandler {
+            e(done)
+        } else {
+            /// 优先级 ③
+            done(.failed(QXError(-1, "请重写loadData或者提供api")))
+        }
+    }
+    
+    public var emptyMessage: String = "暂无内容"
+        
     open func reloadData() {
         weak var ws = self
-        api?.api({ model in
-           if model == nil {
-                ws?.loadStatus = .empty(ws?.emptyMessage)
-           } else {
-                ws?.loadStatus = .succeed
-           }
-        }, { err in
-            ws?.loadStatus = .failed(err)
-        })
+        if let e = api {
+            e.api({ model in
+               if model == nil {
+                    ws?.loadStatus = .empty(ws?.emptyMessage)
+               } else {
+                    ws?.loadStatus = .succeed
+               }
+            }, { err in
+                ws?.loadStatus = .failed(err)
+            })
+        } else {
+            loadData { (respond) in
+                switch respond {
+                case .succeed(let m):
+                    if m == nil {
+                        ws?.loadStatus = .empty(ws?.emptyMessage)
+                    } else {
+                        ws?.loadStatus = .succeed
+                    }
+                case .failed(let err):
+                    ws?.loadStatus = .failed(err)
+                }
+            }
+        }
     }
     
     open var loadStatus: QXLoadStatus = .succeed {

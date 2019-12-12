@@ -311,4 +311,14 @@ extension UIButton {
     
 }
 
-
+extension UIFont {
+    
+    public func qxFont(_ color: QXColor) -> QXFont {
+        return QXFont(qxSize, color)
+    }
+    
+    public var qxSize: CGFloat {
+        return fontDescriptor.object(forKey: .size) as? CGFloat ?? 0
+    }
+    
+}
