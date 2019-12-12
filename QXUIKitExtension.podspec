@@ -28,6 +28,7 @@ s.dependency 'TZImagePickerController', '~> 3.2.6'
 s.dependency 'IQKeyboardManagerSwift', '~> 6.5.4'
 s.dependency 'DSImageBrowse' , '~> 1.0.2'
 s.dependency 'YYWebImage' , '~> 1.0.5'
+s.dependency 'HandyJSON' , '~> 5.0.1'
 
 # pod trunk push QXUIKitExtension.podspec --allow-warnings
 
