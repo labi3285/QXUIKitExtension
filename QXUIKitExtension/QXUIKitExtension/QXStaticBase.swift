@@ -21,7 +21,7 @@ open class QXStaticCell: QXTableViewCell {
     open var isEnabled: Bool = true
 
     open func height(_ model: Any?, _ width: CGFloat) -> CGFloat? {
-        return fixHeight
+        return nil
     }
     open var fixHeight: CGFloat?
     
@@ -56,7 +56,7 @@ open class QXStaticHeaderFooterView: QXTableViewHeaderFooterView {
     }
     
     open func height(_ model: Any?, _ width: CGFloat) -> CGFloat? {
-        return fixHeight
+        return nil
     }
     open var fixHeight: CGFloat?
     

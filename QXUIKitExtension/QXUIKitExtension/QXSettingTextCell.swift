@@ -29,6 +29,7 @@ open class QXSettingTextCell: QXSettingCell {
         super.init()
         contentView.addSubview(label)
         label.IN(contentView).LEFT.RIGHT.TOP.BOTTOM.MAKE()
+        fixHeight = nil
     }
     public required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")

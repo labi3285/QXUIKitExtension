@@ -31,6 +31,12 @@ open class QXLayer {
         e.endPoint = endAnchor.cgPoint
         return QXLayer(e)
     }
+    
+    public static func imageLayer(image: QXImage) -> QXLayer {
+        let e = CALayer()
+        e.contents = image.uiImage?.cgImage
+        return QXLayer(e)
+    }
  
 }
 
@@ -57,3 +63,4 @@ open class QXLayersView: QXView {
     }
     
 }
+

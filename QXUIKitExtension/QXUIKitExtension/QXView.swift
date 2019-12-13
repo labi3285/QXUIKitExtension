@@ -78,6 +78,29 @@ open class QXView: UIView, QXViewProtocol {
     public init() {
         super.init(frame: CGRect.zero)
     }
+    public var backLayers: [QXLayer]? {
+        didSet {
+            if let es = oldValue {
+                for e in es {
+                    e.layer.removeFromSuperlayer()
+                }
+            }
+            if let es = backLayers {
+                for e in es {
+                    backLayersContainerLayer.addSublayer(e.layer)
+                }
+                if backLayersContainerLayer.superlayer == nil {
+                    layer.insertSublayer(backLayersContainerLayer, at: 0)
+                }
+            }
+            setNeedsLayout()
+        }
+    }
+    
+    public final lazy var backLayersContainerLayer: CALayer = {
+        let e = CALayer()
+        return e
+    }()
     
     public required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -86,6 +109,14 @@ open class QXView: UIView, QXViewProtocol {
     open override func layoutSubviews() {
         super.layoutSubviews()
         setNeedsDisplay()
+        if let es = backLayers {
+            backLayersContainerLayer.frame = bounds
+            backLayersContainerLayer.cornerRadius = layer.cornerRadius
+            for e in es {
+                e.layer.frame = bounds
+                e.layer.cornerRadius = layer.cornerRadius
+            }
+        }
     }
     
     public var respondNeedsLayout: (() -> ())?
@@ -310,5 +341,6 @@ extension QXView {
         return "\(type(of: self))\(self.frame)"
     }
 }
+
 
 

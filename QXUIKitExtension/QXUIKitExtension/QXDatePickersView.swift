@@ -15,17 +15,17 @@ extension QXTextField {
     }
     public var bringInDate: QXDate? {
         set {
-            (pickerView as? QXDatePickerBaseKeyboardView)?.bringInDate = newValue
-            bringInPickedItems = (pickerView as? QXDatePickerBaseKeyboardView)?.bringInPickedItems
+            (pickerView as? QXDatePickersView)?.bringInDate = newValue
+            bringInPickedItems = (pickerView as? QXDatePickersView)?.bringInPickedItems
         }
         get {
-            return (pickerView as? QXDatePickerBaseKeyboardView)?.bringInDate
+            return (pickerView as? QXDatePickersView)?.bringInDate
         }
     }
     
 }
 
-open class QXYearMonthDayPickerKeyboardView: QXDatePickerBaseKeyboardView {
+open class QXYearMonthDayPickersView: QXDatePickersView {
         
     open override var bringInDate: QXDate? {
         didSet {
@@ -110,7 +110,7 @@ open class QXYearMonthDayPickerKeyboardView: QXDatePickerBaseKeyboardView {
     
 }
 
-open class QXYearMonthPickerKeyboardView: QXDatePickerBaseKeyboardView {
+open class QXYearMonthPickersView: QXDatePickersView {
         
     open override var bringInDate: QXDate? {
         didSet {
@@ -171,7 +171,7 @@ open class QXYearMonthPickerKeyboardView: QXDatePickerBaseKeyboardView {
     }
 }
 
-open class QXMonthDayPickerKeyboardView: QXDatePickerBaseKeyboardView {
+open class QXMonthDayPickersView: QXDatePickersView {
         
     open override var bringInDate: QXDate? {
         didSet {
@@ -234,7 +234,7 @@ open class QXMonthDayPickerKeyboardView: QXDatePickerBaseKeyboardView {
     
 }
 
-open class QXHourMinuteSecondPickerKeyboardView: QXDatePickerBaseKeyboardView {
+open class QXHourMinuteSecondPickersView: QXDatePickersView {
         
     open override var bringInDate: QXDate? {
         didSet {
@@ -318,7 +318,7 @@ open class QXHourMinuteSecondPickerKeyboardView: QXDatePickerBaseKeyboardView {
     
 }
 
-open class QXYearPickerKeyboardView: QXDatePickerBaseKeyboardView {
+open class QXYearPickersView: QXDatePickersView {
     open override var bringInDate: QXDate? {
         didSet {
             if let e = bringInDate {
@@ -353,7 +353,7 @@ open class QXYearPickerKeyboardView: QXDatePickerBaseKeyboardView {
     }
 }
 
-open class QXMonthPickerKeyboardView: QXDatePickerBaseKeyboardView {
+open class QXMonthPickersView: QXDatePickersView {
     open override var bringInDate: QXDate? {
         didSet {
             if let e = bringInDate {
@@ -388,7 +388,7 @@ open class QXMonthPickerKeyboardView: QXDatePickerBaseKeyboardView {
     }
 }
 
-open class QXDayPickerKeyboardView: QXDatePickerBaseKeyboardView {
+open class QXDayPickersView: QXDatePickersView {
     open override var bringInDate: QXDate? {
         didSet {
             if let e = bringInDate {
@@ -423,7 +423,7 @@ open class QXDayPickerKeyboardView: QXDatePickerBaseKeyboardView {
     }
 }
 
-open class QXHourPickerKeyboardView: QXDatePickerBaseKeyboardView {
+open class QXHourPickersView: QXDatePickersView {
     open override var bringInDate: QXDate? {
         didSet {
             if let e = bringInDate {
@@ -458,7 +458,7 @@ open class QXHourPickerKeyboardView: QXDatePickerBaseKeyboardView {
     }
 }
 
-open class QXMinutePickerKeyboardView: QXDatePickerBaseKeyboardView {
+open class QXMinutePickersView: QXDatePickersView {
     open override var bringInDate: QXDate? {
         didSet {
             if let e = bringInDate {
@@ -493,7 +493,7 @@ open class QXMinutePickerKeyboardView: QXDatePickerBaseKeyboardView {
     }
 }
 
-open class QXSecondPickerKeyboardView: QXDatePickerBaseKeyboardView {
+open class QXSecondPickersView: QXDatePickersView {
     open override var bringInDate: QXDate? {
         didSet {
             if let e = bringInDate {
@@ -528,6 +528,6 @@ open class QXSecondPickerKeyboardView: QXDatePickerBaseKeyboardView {
     }
 }
 
-open class QXDatePickerBaseKeyboardView: QXPickerKeyboardView {
+open class QXDatePickersView: QXPickersView {
     open var bringInDate: QXDate?
 }

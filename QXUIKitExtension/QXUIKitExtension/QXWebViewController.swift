@@ -11,6 +11,13 @@ import UIKit
 open class QXWebViewController: QXViewController {
 
     public let webView: QXNavigationWebView
+    public var fixTitle: String? {
+        didSet {
+            if let e = fixTitle {
+                title = e
+            }
+        }
+    }
 
     public override convenience init() {
         self.init(QXWebViewConfig())
@@ -21,6 +28,11 @@ open class QXWebViewController: QXViewController {
             self.webView.padding = QXEdgeInsets(0, 0, 25, 0)
         }
         super.init()
+        self.webView.respondTitle = { [weak self] title in
+            if self?.fixTitle == nil {
+                self?.title = title
+            }
+        }
     }
     
     public required init?(coder aDecoder: NSCoder) {

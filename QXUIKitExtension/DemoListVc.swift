@@ -18,8 +18,8 @@ class DemoListVc: QXTableViewController<QXTableViewSection> {
         //tableView.sectionHeaderSpace = 100
         //tableView.sectionFooterSpace = 100
         
-        tableView.adapter = QXTableView.Adapter([
-            (String.self, QXTableViewDebugCell.self)
+        tableView.adapter = QXTableViewAdapter([
+            String.self >> QXTableViewDebugCell.self,
         ])
         
 //        let api = QXModelsApi<QXTableViewSection> { (filter, succeed, failed) in

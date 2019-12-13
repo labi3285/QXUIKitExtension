@@ -10,19 +10,25 @@ import UIKit
 
 class DemoTestVc: QXLoadStatusViewController<Any> {
     
-    lazy var btn: QXIconButton = {
-        let e = QXIconButton()
-        e.isVertical = true
-        e.icon = QXImage("icon_mine_recommend").setSize(40, 40)
-        e.name = "菜单"
+    lazy var btn: QXFoldButton = {
+        let e = QXFoldButton()
+        e.title = "菜单"
+        e.respondClick = { [unowned e] in
+            e.isFold = !e.isFold 
+        }
+        return e
+    }()
+    
+    lazy var mask: QXMaskButton = {
+        let e = QXMaskButton(view: btn)
         return e
     }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "测试模型解析"
-        view.addSubview(btn)
-        btn.IN(view).CENTER.MAKE()
+        title = "测试"
+        view.addSubview(mask)
+        mask.IN(view).CENTER.SIZE(300, 300).MAKE()
         
         
         contentView.reloadData()

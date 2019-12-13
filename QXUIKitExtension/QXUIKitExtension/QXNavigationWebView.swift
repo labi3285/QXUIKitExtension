@@ -10,6 +10,8 @@ import UIKit
 
 open class QXNavigationWebView: QXWebView, QXWebViewDelegate {
     
+    public var respondTitle: ((String?) -> ())?
+    
     public required init(_ config: QXWebViewConfig) {
         super.init(config)
         addSubview(loadStatusView)
@@ -106,7 +108,7 @@ open class QXNavigationWebView: QXWebView, QXWebViewDelegate {
     
     //MARK:- QXWebViewDelegate
     open func qxWebViewUpdateTitle(_ title: String?) {
-//        self.title = title
+        respondTitle?(title)
     }
     open func qxWebViewUpdateEstimatedProgress(_ progress: CGFloat?) {
         progressView.isHidden = progress == nil

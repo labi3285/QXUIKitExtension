@@ -56,73 +56,81 @@ public class QXTableViewSection {
     
 }
 
-extension QXTableView {
-    
-    public struct Adapter {
-        private let cellsInfoDic: [String: QXTableViewCell.Type]
-        private let headerViewsInfoDic: [String: QXTableViewHeaderFooterView.Type]?
-        private let footerViewsInfoDic: [String: QXTableViewHeaderFooterView.Type]?
-        public init(_ cellMappings: (Any.Type, QXTableViewCell.Type)...) {
-            self.init(cellMappings, nil, nil)
-        }
-        public init(_ cellMappings: [(Any.Type, QXTableViewCell.Type)]) {
-            self.init(cellMappings, nil, nil)
-        }
-        public init(_ cellMappings: [(Any.Type, QXTableViewCell.Type)],
-             _ headerViewMappings: [(Any.Type, QXTableViewHeaderFooterView.Type)]?,
-             _ footerViewMappings: [(Any.Type, QXTableViewHeaderFooterView.Type)]?) {
-            do {
-                var dic = [String: QXTableViewCell.Type]()
-                for e in cellMappings {
-                    dic["\(e.0)"] = e.1
-                }
-                self.cellsInfoDic = dic
-            }
-            if let ms = headerViewMappings {
-                var dic = [String: QXTableViewHeaderFooterView.Type]()
-                for e in ms {
-                    dic["\(e.0)"] = e.1
-                }
-                self.headerViewsInfoDic = dic
-            } else {
-                self.headerViewsInfoDic = nil
-            }
-            if let ms = footerViewMappings {
-                var dic = [String: QXTableViewHeaderFooterView.Type]()
-                for e in ms {
-                    dic["\(e.0)"] = e.1
-                }
-                self.footerViewsInfoDic = dic
-            } else {
-                self.footerViewsInfoDic = nil
-            }
-        }
-        public func cellClass(_ model: Any?) -> QXTableViewCell.Type? {
-            if let m = model {
-                return cellsInfoDic["\(type(of: m))"]
-            }
-            return nil
-        }
-        public func headerViewClass(_ model: Any?) -> QXTableViewHeaderFooterView.Type? {
-            if let m = model, let ms = headerViewsInfoDic {
-                return ms["\(type(of: m))"]
-            }
-            return nil
-        }
-        public func footerViewClass(_ model: Any?) -> QXTableViewHeaderFooterView.Type? {
-            if let m = model, let ms = footerViewsInfoDic {
-                return ms["\(type(of: m))"]
-            }
-            return nil
-        }
-    }
-    
+public func >> (lhs: Any.Type, rhs: QXTableViewCell.Type) -> (Any.Type, QXTableViewCell.Type) {
+    return (lhs, rhs)
+}
+public func >> (lhs: Any.Type, rhs: QXTableViewHeaderFooterView.Type) -> (Any.Type, QXTableViewHeaderFooterView.Type) {
+    return (lhs, rhs)
 }
 
-open class QXTableView: QXView {
+public struct QXTableViewAdapter {
     
-    public var adapter: Adapter?
+    private let cellsInfoDic: [String: QXTableViewCell.Type]
+    private let headerViewsInfoDic: [String: QXTableViewHeaderFooterView.Type]?
+    private let footerViewsInfoDic: [String: QXTableViewHeaderFooterView.Type]?
+    
+    public init(_ cellsMappings: [(Any.Type, QXTableViewCell.Type)]) {
+        self.init(cellsMappings, headerMappings: nil, footerMappings: nil)
+    }
+    public init(_ cellsMappings: [(Any.Type, QXTableViewCell.Type)],
+                headerMappings: [(Any.Type, QXTableViewHeaderFooterView.Type)]?,
+                footerMappings: [(Any.Type, QXTableViewHeaderFooterView.Type)]?) {
+        do {
+            var dic = [String: QXTableViewCell.Type]()
+            for e in cellsMappings {
+                dic["\(e.0)"] = e.1
+            }
+            self.cellsInfoDic = dic
+        }
+        if let ms = headerMappings {
+            var dic = [String: QXTableViewHeaderFooterView.Type]()
+            for e in ms {
+                dic["\(e.0)"] = e.1
+            }
+            self.headerViewsInfoDic = dic
+        } else {
+            self.headerViewsInfoDic = nil
+        }
+        if let ms = footerMappings {
+            var dic = [String: QXTableViewHeaderFooterView.Type]()
+            for e in ms {
+                dic["\(e.0)"] = e.1
+            }
+            self.footerViewsInfoDic = dic
+        } else {
+            self.footerViewsInfoDic = nil
+        }
+    }
+    public func cellClass(_ model: Any?) -> QXTableViewCell.Type? {
+        if let m = model {
+            return cellsInfoDic["\(type(of: m))"]
+        }
+        return nil
+    }
+    public func headerViewClass(_ model: Any?) -> QXTableViewHeaderFooterView.Type? {
+        if let m = model, let ms = headerViewsInfoDic {
+            return ms["\(type(of: m))"]
+        }
+        return nil
+    }
+    public func footerViewClass(_ model: Any?) -> QXTableViewHeaderFooterView.Type? {
+        if let m = model, let ms = footerViewsInfoDic {
+            return ms["\(type(of: m))"]
+        }
+        return nil
+    }
+}
+
+open class QXTableView: QXView, UIGestureRecognizerDelegate {
+    
+    public var adapter: QXTableViewAdapter?
     public weak var delegate: QXTableViewDelegate?
+    
+    public var respondTapBackground: (() -> ())?
+    
+    public func reloadData() {
+        uiTableView.reloadData()
+    }
     
     open var sections: [QXTableViewSection] = [] {
         didSet {
@@ -148,6 +156,7 @@ open class QXTableView: QXView {
             _cacheSections = ss
         }
     }
+    fileprivate var _cacheSections: [QXTableViewSection] = []
 
     public var sectionHeaderSpace: CGFloat = QXTableViewNoneHeight
     public var sectionFooterSpace: CGFloat = QXTableViewNoneHeight
@@ -252,20 +261,40 @@ open class QXTableView: QXView {
         uiTableView.frame = bounds.qxSubRect(padding.uiEdgeInsets)
     }
     
+//    open override func natureContentSize() -> QXSize {
+//        var h: CGFloat = 0
+//        for (i, e) in _cacheSections.enumerated() {
+//
+//
+//        }
+//
+//
+//    }
+        
     required override public init() {
         super.init()
         updateUITableView()
+        let tap = UITapGestureRecognizer(target: self, action: #selector(handleTapOnBackground))
+        tap.delegate = self
+        addGestureRecognizer(tap)
     }
-    
     public required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    fileprivate var _cacheSections: [QXTableViewSection] = []
+    public func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
+        if touch.view === uiTableView || touch.view === self {
+            return true
+        }
+        return false
+    }
+    @objc func handleTapOnBackground() {
+        respondTapBackground?()
+    }
 
 }
 extension QXTableView: UITableViewDelegate, UITableViewDataSource {
-    
+        
     open func numberOfSections(in tableView: UITableView) -> Int {
         return _cacheSections.count
     }
@@ -316,7 +345,9 @@ extension QXTableView: UITableViewDelegate, UITableViewDataSource {
             if !e.isDisplay {
                 return 0
             }
-            if let e = type(of: e).height(model, uiTableView.bounds.width) {
+            if let e = e.fixHeight {
+                return e
+            } else if let e = type(of: e).height(model, uiTableView.bounds.width) {
                 return e
             }
         } else if let e = adapter?.cellClass(model) ?? delegate?.qxTableViewCellClass(model) {
@@ -398,13 +429,15 @@ extension QXTableView: UITableViewDelegate, UITableViewDataSource {
         let section = _cacheSections[section]
         let model = section.header
         if let e = model as? QXStaticHeaderFooterView {
-           if let e = type(of: e).height(model, uiTableView.bounds.width) {
-               return e
-           }
+            if let e = e.fixHeight {
+                return e
+            } else if let e = type(of: e).height(model, uiTableView.bounds.width) {
+                return e
+            }
         } else if let e = delegate?.qxTableViewHeaderViewClass(model) {
-           if let e = e.height(model, uiTableView.bounds.width) {
-               return e
-           }
+            if let e = e.height(model, uiTableView.bounds.width) {
+                return e
+            }
         } else if let e = model as? QXSpace {
             return e.space
         }
@@ -414,13 +447,15 @@ extension QXTableView: UITableViewDelegate, UITableViewDataSource {
         let section = _cacheSections[section]
         let model = section.footer
         if let e = model as? QXStaticHeaderFooterView {
-           if let e = type(of: e).height(model, uiTableView.bounds.width) {
-               return e
-           }
+            if let e = e.fixHeight {
+                return e
+            } else if let e = type(of: e).height(model, uiTableView.bounds.width) {
+                return e
+            }
         } else if let e = delegate?.qxTableViewFooterViewClass(model) {
-           if let e = e.height(model, uiTableView.bounds.width) {
-               return e
-           }
+            if let e = e.height(model, uiTableView.bounds.width) {
+                return e
+            }
         } else if let e = model as? QXSpace {
             return e.space
         }
@@ -513,7 +548,7 @@ extension QXTableView: QXRefreshableViewProtocol {
         uiTableView.mj_footer = footer
     }
     public func qxReloadData() {
-        uiTableView.reloadData()
+        reloadData()
     }
     public func qxUpdateModels(_ models: [Any]) {
         if let e = models as? [QXTableViewSection] {
@@ -522,7 +557,7 @@ extension QXTableView: QXRefreshableViewProtocol {
             let section = QXTableViewSection(models, nil, nil)
             self.sections = [section]
         }
-        qxReloadData()
+        reloadData()
     }
 }
 
@@ -738,3 +773,5 @@ class QXDebugTableViewHeaderFooterView: QXTableViewHeaderFooterView {
     }
     
 }
+
+

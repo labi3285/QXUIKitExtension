@@ -14,7 +14,7 @@ open class QXSettingTitlePickerCell: QXSettingTitleTextFieldCell {
     public required init() {
         super.init()
         textField.placeHolder = "选择"
-        let pickerView = QXPickerKeyboardView([QXPickerView()])
+        let pickerView = QXPickersView([QXPickerView()])
         pickerView.items = [
             QXPickerView.Item(0, "A", nil),
             QXPickerView.Item(1, "B", nil),

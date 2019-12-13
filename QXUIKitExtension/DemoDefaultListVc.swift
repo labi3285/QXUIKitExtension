@@ -15,10 +15,10 @@ class DemoDefaultListVc: QXTableViewController<Any> {
         title = "DefaultListVc"
         tableView.sectionHeaderSpace = 10
         tableView.sectionFooterSpace = 10
-        tableView.adapter = QXTableView.Adapter([
-            (QXTableViewText.self, QXTableViewTextCell.self),
-            (QXTableViewLine.self, QXTableViewLineCell.self),
-            (QXTableViewImage.self, QXTableViewImageCell.self),
+        tableView.adapter = QXTableViewAdapter([
+            QXTableViewText.self >> QXTableViewTextCell.self,
+            QXTableViewLine.self >> QXTableViewLineCell.self,
+            QXTableViewImage.self >> QXTableViewImageCell.self,
         ])
         
         let link = QXTableViewText()

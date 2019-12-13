@@ -502,12 +502,12 @@ open class QXIconButton: QXStackButton {
         }
     }
     
-    open var name: String {
+    open var title: String {
         set {
-            nameLabel.text = newValue
+            titleLabel.text = newValue
         }
         get {
-            return nameLabel.text
+            return titleLabel.text
         }
     }
     
@@ -525,7 +525,7 @@ open class QXIconButton: QXStackButton {
         e.compressResistance = QXView.resistanceStable
         return e
     }()
-    public final lazy var nameLabel: QXLabel = {
+    public final lazy var titleLabel: QXLabel = {
         let e = QXLabel()
         e.compressResistance = QXView.resistanceNormal
         e.font = QXFont(12, QXColor.dynamicText)
@@ -540,10 +540,117 @@ open class QXIconButton: QXStackButton {
     public override init() {
         super.init()
         self.stackView.viewMargin = 5
-        self.views = [iconView, nameLabel]
+        self.views = [iconView, titleLabel]
     }
     public required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
         
+}
+
+open class QXFoldButton: QXStackButton {
+    
+    open var title: String {
+        set {
+            titleLabel.text = newValue
+        }
+        get {
+            return titleLabel.text
+        }
+    }
+    
+    open var isFold: Bool = true {
+        didSet {
+            if isFold {
+                iconView.transform = CGAffineTransform.identity
+            } else {
+                iconView.transform = CGAffineTransform(rotationAngle: CGFloat.pi)
+            }
+        }
+    }
+    
+    public final lazy var iconView: QXImageView = {
+        let e = QXImageView()
+        e.image = QXImage.shapTriangleFill(w: 10, h: 5, direction: .down, color: QXColor.dynamicIndicator)
+        e.compressResistance = QXView.resistanceStable
+        return e
+    }()
+    public final lazy var titleLabel: QXLabel = {
+        let e = QXLabel()
+        e.compressResistance = QXView.resistanceNormal
+        e.font = QXFont(14, QXColor.dynamicText)
+        return e
+    }()
+    public override init() {
+        super.init()
+        self.stackView.viewMargin = 5
+        self.padding = QXEdgeInsets(5, 5, 5, 5)
+        self.views = [titleLabel, iconView]
+    }
+    public required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+        
+}
+
+open class QXMaskButton: QXView, UIGestureRecognizerDelegate {
+    
+    open var respondTapBackground: (() -> ())?
+    
+    open var alignmentX: QXAlignmentX = .center
+    open var alignmentY: QXAlignmentY = .center
+
+    public let view: QXView
+    public required init(view: QXView) {
+        self.view = view
+        super.init()
+        addSubview(view)
+        let tap = UITapGestureRecognizer(target: self, action: #selector(handleTapOnBackground))
+        tap.delegate = self
+        addGestureRecognizer(tap)
+        qxBackgroundColor = QXColor.hex("#000000", 0.5)
+    }
+    public required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    override open func layoutSubviews() {
+        super.layoutSubviews()
+        let wh = view.natureSize
+        let w = min(wh.w, bounds.width - padding.left - padding.right)
+        let h = min(wh.h, bounds.height - padding.top - padding.bottom)
+        var x = padding.left
+        switch alignmentX {
+        case .left:
+            break
+        case .center:
+            x += (bounds.width - padding.left - padding.right - w) / 2
+        case .right:
+            x += bounds.width - padding.left - padding.right - w
+        }
+        var y = padding.top
+        switch alignmentY {
+        case .top:
+            break
+        case .center:
+            y += (bounds.height - padding.top - padding.bottom - h) / 2
+        case .bottom:
+            y += bounds.height - padding.top - padding.bottom - h
+        }
+        view.qxRect = QXRect(x, y, w, h)
+    }
+
+    open override func natureContentSize() -> QXSize {
+        return view.natureSize.sizeByAdd(padding)
+    }
+    
+    public func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
+        if touch.view == self {
+            return true
+        }
+        return false
+    }
+    @objc func handleTapOnBackground() {
+        respondTapBackground?()
+    }
+    
 }

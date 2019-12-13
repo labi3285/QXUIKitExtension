@@ -8,7 +8,7 @@
 
 import UIKit
 
-open class QXPickerKeyboardView: QXStackView {
+open class QXPickersView: QXStackView {
     
     public var respondItem: ((_ item: QXPickerView.Item?) -> ())?
 
@@ -90,20 +90,10 @@ open class QXPickerKeyboardView: QXStackView {
         self.isLazyMode = false
         self.isCleanShow = true
         super.init()
-        if QXDevice.isLiuHaiScreen {
-            self.frame = CGRect(x: 0, y: 0, width: 0, height: 230 + 25)
-        } else {
-            self.frame = CGRect(x: 0, y: 0, width: 0, height: 230)
-        }
         qxBackgroundColor = QXColor.dynamicBackgroundKeyboard
         viewMargin = 0
         alignmentX = .center
         alignmentY = .center
-        if QXDevice.isLiuHaiScreen {
-            padding = QXEdgeInsets(20, 20, 20 + 25, 20)
-        } else {
-            padding = QXEdgeInsets(20, 20, 20, 20)
-        }
         var views: [QXViewProtocol] = []
         for (i, e) in pickerViews.enumerated() {
             if e.fixHeight == nil {
@@ -166,20 +156,10 @@ open class QXPickerKeyboardView: QXStackView {
         self.isLazyMode = true
         self.isCleanShow = isCleanShow
         super.init()
-        if QXDevice.isLiuHaiScreen {
-            self.frame = CGRect(x: 0, y: 0, width: 0, height: 230 + 25)
-        } else {
-            self.frame = CGRect(x: 0, y: 0, width: 0, height: 230)
-        }
         qxBackgroundColor = QXColor.dynamicBackgroundKeyboard
         viewMargin = 0
         alignmentX = .center
         alignmentY = .center
-        if QXDevice.isLiuHaiScreen {
-            padding = QXEdgeInsets(20, 20, 20 + 25, 20)
-        } else {
-            padding = QXEdgeInsets(20, 20, 20, 20)
-        }
         var views: [QXViewProtocol] = []
         for (i, e) in pickerViews.enumerated() {
             if e.fixHeight == nil {

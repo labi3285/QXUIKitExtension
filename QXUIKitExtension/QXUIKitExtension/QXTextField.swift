@@ -72,10 +72,10 @@ open class QXTextField: QXView, UITextFieldDelegate {
         }
     }
         
-    public var pickerView: QXPickerKeyboardView? {
+    public var pickerView: QXPickersView? {
         didSet {
             if let e = pickerView {
-                uiTextField.inputView = e
+                uiTextField.inputView = QXKeyboardView(e)
                 e.respondItem = { [weak self] item in
                     self?.pickedItems = item?.items()
                     self?.pickedItem = item

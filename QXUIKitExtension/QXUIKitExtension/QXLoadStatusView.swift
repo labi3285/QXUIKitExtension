@@ -8,10 +8,6 @@
 
 import UIKit
 
-@objc public protocol QXReloadDataProtocol {
-    func reloadData()
-}
-
 public enum QXLoadStatus {
     case loading(_ msg: String?)
     case succeed

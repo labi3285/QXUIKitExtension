@@ -42,7 +42,7 @@
 		7560573D2398AA7000118E69 /* QXPageIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7560573C2398AA7000118E69 /* QXPageIndicatorView.swift */; };
 		7560573F2398C2AE00118E69 /* QXImageShapes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7560573E2398C2AE00118E69 /* QXImageShapes.swift */; };
 		75690F4B237E7CC600C9BA43 /* QXSettingTitlePickerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75690F4A237E7CC600C9BA43 /* QXSettingTitlePickerCell.swift */; };
-		75690F4D237E835D00C9BA43 /* QXPickerKeyboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75690F4C237E835D00C9BA43 /* QXPickerKeyboardView.swift */; };
+		75690F4D237E835D00C9BA43 /* QXPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75690F4C237E835D00C9BA43 /* QXPickerView.swift */; };
 		756A50A522BDF9FD00E692DA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 756A50A422BDF9FD00E692DA /* AppDelegate.swift */; };
 		756A50A722BDF9FD00E692DA /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 756A50A622BDF9FD00E692DA /* ViewController.swift */; };
 		756A50AC22BDF9FE00E692DA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 756A50AB22BDF9FE00E692DA /* Assets.xcassets */; };
@@ -111,7 +111,7 @@
 		75944D4522E304EC006FD18E /* QXActivityIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75944D4422E304EC006FD18E /* QXActivityIndicatorView.swift */; };
 		75944D4922E59AAE006FD18E /* QXMessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75944D4822E59AAE006FD18E /* QXMessageView.swift */; };
 		75954A8A230A33DF00FE6C4F /* QXNavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75954A89230A33DF00FE6C4F /* QXNavigationBar.swift */; };
-		75A402A32383F278009DA1B4 /* QXDatePickerKeyboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75A402A22383F278009DA1B4 /* QXDatePickerKeyboardView.swift */; };
+		75A402A32383F278009DA1B4 /* QXDatePickersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75A402A22383F278009DA1B4 /* QXDatePickersView.swift */; };
 		75AB06862387B97A00B2F5DF /* QXWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75AB06852387B97A00B2F5DF /* QXWebView.swift */; };
 		75AB06882387D75200B2F5DF /* QXWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75AB06872387D75200B2F5DF /* QXWebViewController.swift */; };
 		75B0AF212398D47D00B0E817 /* test_dot@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 75B0AF202398D47D00B0E817 /* test_dot@3x.png */; };
@@ -134,6 +134,7 @@
 		75D852262368214C000F4157 /* QXArrangeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75D852252368214C000F4157 /* QXArrangeView.swift */; };
 		75D85228236847DF000F4157 /* UIImage_gif.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75D85227236847DF000F4157 /* UIImage_gif.swift */; };
 		75D8522A236926F2000F4157 /* icon_big.png in Resources */ = {isa = PBXBuildFile; fileRef = 75D85229236926F2000F4157 /* icon_big.png */; };
+		75DCCBBE23A3846500215D8F /* QXKeyboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75DCCBBD23A3846500215D8F /* QXKeyboardView.swift */; };
 		75E214F122E6AD44004A12DB /* QXRefresh.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75E214F022E6AD44004A12DB /* QXRefresh.swift */; };
 		75F5D94723A229B100C68C16 /* QXNavigationWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75F5D94623A229B100C68C16 /* QXNavigationWebView.swift */; };
 		75FE018422EC29C0007646A3 /* QXDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75FE018322EC29C0007646A3 /* QXDate.swift */; };
@@ -178,7 +179,7 @@
 		7560573C2398AA7000118E69 /* QXPageIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QXPageIndicatorView.swift; sourceTree = "<group>"; };
 		7560573E2398C2AE00118E69 /* QXImageShapes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QXImageShapes.swift; sourceTree = "<group>"; };
 		75690F4A237E7CC600C9BA43 /* QXSettingTitlePickerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QXSettingTitlePickerCell.swift; sourceTree = "<group>"; };
-		75690F4C237E835D00C9BA43 /* QXPickerKeyboardView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QXPickerKeyboardView.swift; sourceTree = "<group>"; };
+		75690F4C237E835D00C9BA43 /* QXPickerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QXPickerView.swift; sourceTree = "<group>"; };
 		756A50A122BDF9FD00E692DA /* QXUIKitExtension.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = QXUIKitExtension.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		756A50A422BDF9FD00E692DA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		756A50A622BDF9FD00E692DA /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -249,7 +250,7 @@
 		75944D4422E304EC006FD18E /* QXActivityIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QXActivityIndicatorView.swift; sourceTree = "<group>"; };
 		75944D4822E59AAE006FD18E /* QXMessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QXMessageView.swift; sourceTree = "<group>"; };
 		75954A89230A33DF00FE6C4F /* QXNavigationBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QXNavigationBar.swift; sourceTree = "<group>"; };
-		75A402A22383F278009DA1B4 /* QXDatePickerKeyboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QXDatePickerKeyboardView.swift; sourceTree = "<group>"; };
+		75A402A22383F278009DA1B4 /* QXDatePickersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QXDatePickersView.swift; sourceTree = "<group>"; };
 		75AB06852387B97A00B2F5DF /* QXWebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QXWebView.swift; sourceTree = "<group>"; };
 		75AB06872387D75200B2F5DF /* QXWebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QXWebViewController.swift; sourceTree = "<group>"; };
 		75B0AF202398D47D00B0E817 /* test_dot@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "test_dot@3x.png"; sourceTree = "<group>"; };
@@ -272,6 +273,7 @@
 		75D852252368214C000F4157 /* QXArrangeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QXArrangeView.swift; sourceTree = "<group>"; };
 		75D85227236847DF000F4157 /* UIImage_gif.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImage_gif.swift; sourceTree = "<group>"; };
 		75D85229236926F2000F4157 /* icon_big.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_big.png; sourceTree = "<group>"; };
+		75DCCBBD23A3846500215D8F /* QXKeyboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QXKeyboardView.swift; sourceTree = "<group>"; };
 		75E214F022E6AD44004A12DB /* QXRefresh.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QXRefresh.swift; sourceTree = "<group>"; };
 		75F5D94623A229B100C68C16 /* QXNavigationWebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QXNavigationWebView.swift; sourceTree = "<group>"; };
 		75FE018322EC29C0007646A3 /* QXDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QXDate.swift; sourceTree = "<group>"; };
@@ -455,8 +457,9 @@
 				7553C80822CF0CB60058239B /* UIApplication_ext.swift */,
 				75944D4822E59AAE006FD18E /* QXMessageView.swift */,
 				75B0AF392398F85B00B0E817 /* QXSlogonView.swift */,
-				75690F4C237E835D00C9BA43 /* QXPickerKeyboardView.swift */,
-				75A402A22383F278009DA1B4 /* QXDatePickerKeyboardView.swift */,
+				75690F4C237E835D00C9BA43 /* QXPickerView.swift */,
+				75A402A22383F278009DA1B4 /* QXDatePickersView.swift */,
+				75DCCBBD23A3846500215D8F /* QXKeyboardView.swift */,
 				7560573C2398AA7000118E69 /* QXPageIndicatorView.swift */,
 				7553C7FC22CEE0CE0058239B /* QXError.swift */,
 				7551F7932395EF65008AF832 /* QXSegmentView.swift */,
@@ -606,6 +609,7 @@
 			files = (
 				75D8522423682068000F4157 /* DemoArrangeViewVc.swift in Sources */,
 				756A50BA22BDFABF00E692DA /* QXImage.swift in Sources */,
+				75DCCBBE23A3846500215D8F /* QXKeyboardView.swift in Sources */,
 				7578068F22E162F0009DD0DA /* QXLoadStatusView.swift in Sources */,
 				7578A87A23618D72006CFDD5 /* QXSettingTitleStackCell.swift in Sources */,
 				7588785A238D30B900AA0EF6 /* QXMock.swift in Sources */,
@@ -638,12 +642,12 @@
 				7551F7942395EF65008AF832 /* QXSegmentView.swift in Sources */,
 				75729FAC236170450007D1B1 /* QXStaticHeaderView.swift in Sources */,
 				751558A822E7FCFA00EFF37A /* QXPage.swift in Sources */,
-				75690F4D237E835D00C9BA43 /* QXPickerKeyboardView.swift in Sources */,
+				75690F4D237E835D00C9BA43 /* QXPickerView.swift in Sources */,
 				75929C8C22D2CDE7006577AD /* QXTabBarController.swift in Sources */,
 				756A50BC22BDFCB800E692DA /* String_ext.swift in Sources */,
 				751558A622E7F70E00EFF37A /* QXRequest.swift in Sources */,
 				75729FA0236133CC0007D1B1 /* QXStaticTextCell.swift in Sources */,
-				75A402A32383F278009DA1B4 /* QXDatePickerKeyboardView.swift in Sources */,
+				75A402A32383F278009DA1B4 /* QXDatePickersView.swift in Sources */,
 				7578069A22E18D1D009DD0DA /* QXAlignment.swift in Sources */,
 				7578A8972362A69D006CFDD5 /* DemoSettingsVc.swift in Sources */,
 				751B76E8236A903A004F3265 /* QXModelsLoadStatusView.swift in Sources */,
