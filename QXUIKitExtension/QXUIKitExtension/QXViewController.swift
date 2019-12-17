@@ -18,7 +18,7 @@ open class QXViewController: UIViewController, UINavigationBarDelegate {
         super.init(nibName: nil, bundle: nil)
         automaticallyAdjustsScrollViewInsets = false
         edgesForExtendedLayout = UIRectEdge(rawValue: 0)
-        _ = self.view
+//        _ = self.view
     }
     public required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -69,9 +69,16 @@ open class QXViewController: UIViewController, UINavigationBarDelegate {
     private var _isFirstWillDisappear: Bool = true
     private var _isFirstDidDisappear: Bool = true
     
+    open override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+    }
+    open override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        if !_isSetup { didSetup(); _isSetup = true }
+    }
+    
     override open func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        if !_isSetup { didSetup(); _isSetup = true }
         if _isFirstWillAppear { viewWillFirstAppear(animated); _isFirstWillAppear = false }
         _isNavigationBarInited = true
         updateNavigationBar(animated)

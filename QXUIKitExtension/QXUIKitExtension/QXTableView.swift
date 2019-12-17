@@ -121,22 +121,35 @@ public struct QXTableViewAdapter {
     }
 }
 
-open class QXTableView: QXView, UIGestureRecognizerDelegate {
+open class QXTableView: QXView {
     
     public var adapter: QXTableViewAdapter?
     public weak var delegate: QXTableViewDelegate?
-    
-    public var respondTapBackground: (() -> ())?
-    
+        
     public func reloadData() {
         uiTableView.reloadData()
     }
     
     open var sections: [QXTableViewSection] = [] {
         didSet {
+            _cacheFlexRatioTotal = 0
+            _cacheTotalFlexSpace = 0
             var ss: [QXTableViewSection] = []
             for s in sections {
                 if s.isDisplay {
+                    var header: Any?
+                    if let e = s.header {
+                        if let e = e as? QXStaticHeaderFooterView {
+                            if e.isDisplay {
+                                header = e
+                            }
+                        } else {
+                            if let c = e as? QXFlexSpace {
+                                _cacheFlexRatioTotal += c.ratio
+                            }
+                            header = e
+                        }
+                    }
                     var ms: [Any?] = []
                     for c in s.models {
                         if let c = c as? QXStaticCell {
@@ -144,19 +157,41 @@ open class QXTableView: QXView, UIGestureRecognizerDelegate {
                                 ms.append(c)
                             }
                         } else {
+                            if let c = c as? QXFlexSpace {
+                                _cacheFlexRatioTotal += c.ratio
+                            }
                             ms.append(c)
                         }
                     }
-                    if ms.count > 0 {
-                        let s = QXTableViewSection(ms, s.header, s.footer)
-                        ss.append(s)
+                    var footer: Any?
+                    if let e = s.footer {
+                        if let e = e as? QXStaticHeaderFooterView {
+                            if e.isDisplay {
+                                footer = e
+                            }
+                        } else {
+                            if let c = e as? QXFlexSpace {
+                                _cacheFlexRatioTotal += c.ratio
+                            }
+                            footer = e
+                        }
                     }
+                    let s = QXTableViewSection(ms, header, footer)
+                    ss.append(s)
                 }
             }
             _cacheSections = ss
+            if _cacheFlexRatioTotal > 0 {
+                _cacheTotalFlexSpace = uiTableView.bounds.height - uiTableViewSize(for: uiTableView.bounds.width).h
+                if _cacheTotalFlexSpace <= 0 {
+                    _cacheTotalFlexSpace = 0
+                }
+            }
         }
     }
     fileprivate var _cacheSections: [QXTableViewSection] = []
+    fileprivate var _cacheFlexRatioTotal: CGFloat = 0
+    fileprivate var _cacheTotalFlexSpace: CGFloat = 0
 
     public var sectionHeaderSpace: CGFloat = QXTableViewNoneHeight
     public var sectionFooterSpace: CGFloat = QXTableViewNoneHeight
@@ -261,49 +296,60 @@ open class QXTableView: QXView, UIGestureRecognizerDelegate {
         uiTableView.frame = bounds.qxSubRect(padding.uiEdgeInsets)
     }
     
-//    open override func natureContentSize() -> QXSize {
-//        var h: CGFloat = 0
-//        for (i, e) in _cacheSections.enumerated() {
-//
-//
-//        }
-//
-//
-//    }
+    open override func natureContentSize() -> QXSize {
+        let w: CGFloat
+        if let e = fixWidth ?? maxWidth {
+            w = e - padding.left - padding.right
+        } else {
+            w = uiTableView.bounds.width
+        }
+        return uiTableViewSize(for: w).sizeByAdd(padding)
+    }
         
     required override public init() {
         super.init()
         updateUITableView()
-        let tap = UITapGestureRecognizer(target: self, action: #selector(handleTapOnBackground))
-        tap.delegate = self
-        addGestureRecognizer(tap)
     }
     public required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    public func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
-        if touch.view === uiTableView || touch.view === self {
-            return true
+    open func uiTableViewSize(for uiTableViewWidth: CGFloat) -> QXSize {
+        var h: CGFloat = 0
+        for e in _cacheSections {
+            if let e = headerViewHeight(for: e.header, uiTableViewWidth: uiTableViewWidth) {
+                h += e
+            } else {
+                if let e = headerView(for: e.header, uiTableViewWidth: uiTableViewWidth) {
+                    var size = CGSize(width: uiTableViewWidth, height: 0)
+                    size = e.systemLayoutSizeFitting(size, withHorizontalFittingPriority: .required, verticalFittingPriority: .defaultLow)
+                    h += size.height
+                }
+            }
+            for m in e.models {
+                if let e = cellHeight(for: m, uiTableViewWidth: uiTableViewWidth) {
+                    h += e
+                } else {
+                    let e = cell(for: m, uiTableViewWidth: uiTableViewWidth)
+                    var size = CGSize(width: uiTableViewWidth, height: 0)
+                    size = e.systemLayoutSizeFitting(size, withHorizontalFittingPriority: .required, verticalFittingPriority: .defaultLow)
+                    h += size.height
+                }
+            }
+            if let e = footerViewHeight(for: e.footer, uiTableViewWidth: uiTableViewWidth) {
+                h += e
+            } else {
+                if let e = footerView(for: e.footer, uiTableViewWidth: uiTableViewWidth) {
+                    var size = CGSize(width: uiTableViewWidth, height: 0)
+                    size = e.systemLayoutSizeFitting(size, withHorizontalFittingPriority: .required, verticalFittingPriority: .defaultLow)
+                    h += size.height
+                }
+            }
         }
-        return false
+        return QXSize(uiTableViewWidth, h)
     }
-    @objc func handleTapOnBackground() {
-        respondTapBackground?()
-    }
-
-}
-extension QXTableView: UITableViewDelegate, UITableViewDataSource {
-        
-    open func numberOfSections(in tableView: UITableView) -> Int {
-        return _cacheSections.count
-    }
-    open func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return _cacheSections[section].models.count
-    }
-    open func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let section = _cacheSections[indexPath.section]
-        let model = section.models[indexPath.row]
+    
+    open func cell(for model: Any?, uiTableViewWidth: CGFloat) -> QXTableViewCell {
         let cell: QXTableViewCell
         if let e = model as? QXStaticCell {
             cell = e
@@ -318,7 +364,7 @@ extension QXTableView: UITableViewDelegate, UITableViewDataSource {
             if let e = adapter?.cellClass(model) ?? delegate?.qxTableViewCellClass(model) {
                 cls = e
             } else {
-                if model is QXSpace {
+                if model is QXSpace || model is QXFlexSpace {
                     cls = QXTableViewSpaceCell.self
                 } else {
                     cls = QXTableViewDebugCell.self
@@ -327,10 +373,7 @@ extension QXTableView: UITableViewDelegate, UITableViewDataSource {
             cell = cls.init(id)
         }
         cell.tableView = self
-        cell.indexPath = indexPath
-        cell.isFirstCellInSection = indexPath.row == 0
-        cell.isLastCellInSection = indexPath.row == section.models.count - 1
-        cell.cellWidth = uiTableView.bounds.width
+        cell.cellWidth = uiTableViewWidth
         cell.initializedWithTable()
         cell.model = model
         cell.respondClickCell = { [weak self] in
@@ -338,31 +381,28 @@ extension QXTableView: UITableViewDelegate, UITableViewDataSource {
         }
         return cell
     }
-    open func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        let section = _cacheSections[indexPath.section]
-        let model = section.models[indexPath.row]
+    open func cellHeight(for model: Any?, uiTableViewWidth: CGFloat) -> CGFloat? {
         if let e = model as? QXStaticCell {
             if !e.isDisplay {
                 return 0
             }
             if let e = e.fixHeight {
                 return e
-            } else if let e = type(of: e).height(model, uiTableView.bounds.width) {
+            } else if let e = type(of: e).height(model, uiTableViewWidth) {
                 return e
             }
         } else if let e = adapter?.cellClass(model) ?? delegate?.qxTableViewCellClass(model) {
-            if let e = e.height(model, uiTableView.bounds.width) {
+            if let e = e.height(model, uiTableViewWidth) {
                 return e
             }
         } else if let e = model as? QXSpace {
             return e.space
+        } else if let e = model as? QXFlexSpace {
+            return _cacheTotalFlexSpace * e.ratio / _cacheFlexRatioTotal
         }
-        return QXTableViewAutoHeight
+        return nil
     }
-    
-    open func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let _section = _cacheSections[section]
-        let model = _section.header
+    open func headerView(for model: Any?, uiTableViewWidth: CGFloat) -> QXTableViewHeaderFooterView? {
         let view: QXTableViewHeaderFooterView?
         if let e = model as? QXStaticHeaderFooterView {
             view = e
@@ -381,8 +421,7 @@ extension QXTableView: UITableViewDelegate, UITableViewDataSource {
         }
         if let e = view {
             e.tableView = self
-            e.section = section
-            e.viewWidth = uiTableView.bounds.width
+            e.viewWidth = uiTableViewWidth
             e.initializedWithTable()
             e.model = model
             e.respondClickView = { [weak self] in
@@ -390,11 +429,10 @@ extension QXTableView: UITableViewDelegate, UITableViewDataSource {
             }
             return e
         }
-        return nil
+        return view
     }
-    open func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        let _section = _cacheSections[section]
-        let model = _section.footer
+    
+    open func footerView(for model: Any?, uiTableViewWidth: CGFloat) -> QXTableViewHeaderFooterView? {
         let view: QXTableViewHeaderFooterView?
         if let e = model as? QXStaticHeaderFooterView {
             view = e
@@ -413,8 +451,7 @@ extension QXTableView: UITableViewDelegate, UITableViewDataSource {
         }
         if let e = view {
             e.tableView = self
-            e.section = section
-            e.viewWidth = uiTableView.bounds.width
+            e.viewWidth = uiTableViewWidth
             e.initializedWithTable()
             e.model = model
             e.respondClickView = { [weak self] in
@@ -422,44 +459,90 @@ extension QXTableView: UITableViewDelegate, UITableViewDataSource {
             }
             return e
         }
-        return nil
+        return view
+    }
+    
+    open func headerViewHeight(for model: Any?, uiTableViewWidth: CGFloat) -> CGFloat? {
+        if let e = model as? QXStaticHeaderFooterView {
+            if let e = e.fixHeight {
+                return e
+            } else if let e = type(of: e).height(model, uiTableViewWidth) {
+                return e
+            }
+        } else if let e = delegate?.qxTableViewHeaderViewClass(model) {
+            if let e = e.height(model, uiTableViewWidth) {
+                return e
+            }
+        } else if let e = model as? QXSpace {
+            return e.space
+        }
+        return sectionHeaderSpace
+    }
+    open func footerViewHeight(for model: Any?, uiTableViewWidth: CGFloat) -> CGFloat? {
+        if let e = model as? QXStaticHeaderFooterView {
+            if let e = e.fixHeight {
+                return e
+            } else if let e = type(of: e).height(model, uiTableViewWidth) {
+                return e
+            }
+        } else if let e = delegate?.qxTableViewFooterViewClass(model) {
+            if let e = e.height(model, uiTableViewWidth) {
+                return e
+            }
+        } else if let e = model as? QXSpace {
+            return e.space
+        }
+        return sectionFooterSpace
+    }
+
+}
+extension QXTableView: UITableViewDelegate, UITableViewDataSource {
+        
+    open func numberOfSections(in tableView: UITableView) -> Int {
+        return _cacheSections.count
+    }
+    open func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return _cacheSections[section].models.count
+    }
+    open func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let section = _cacheSections[indexPath.section]
+        let model = section.models[indexPath.row]
+        let e = cell(for: model, uiTableViewWidth: uiTableView.bounds.width)
+        e.indexPath = indexPath
+        e.isFirstCellInSection = indexPath.row == 0
+        e.isLastCellInSection = indexPath.row == section.models.count - 1
+        return e
+    }
+    open func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        let section = _cacheSections[indexPath.section]
+        let model = section.models[indexPath.row]
+        return cellHeight(for: model, uiTableViewWidth: uiTableView.bounds.width) ?? QXTableViewAutoHeight
+    }
+    
+    open func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let _section = _cacheSections[section]
+        let model = _section.header
+        let e = headerView(for: model, uiTableViewWidth: uiTableView.bounds.width)
+        e?.section = section
+        return e
+    }
+    open func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        let _section = _cacheSections[section]
+        let model = _section.footer
+        let e = footerView(for: model, uiTableViewWidth: uiTableView.bounds.width)
+        e?.section = section
+        return e
     }
          
     open func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         let section = _cacheSections[section]
         let model = section.header
-        if let e = model as? QXStaticHeaderFooterView {
-            if let e = e.fixHeight {
-                return e
-            } else if let e = type(of: e).height(model, uiTableView.bounds.width) {
-                return e
-            }
-        } else if let e = delegate?.qxTableViewHeaderViewClass(model) {
-            if let e = e.height(model, uiTableView.bounds.width) {
-                return e
-            }
-        } else if let e = model as? QXSpace {
-            return e.space
-        }
-        return sectionHeaderSpace
+        return headerViewHeight(for: model, uiTableViewWidth: uiTableView.bounds.width) ?? QXTableViewAutoHeight
     }
     open func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         let section = _cacheSections[section]
         let model = section.footer
-        if let e = model as? QXStaticHeaderFooterView {
-            if let e = e.fixHeight {
-                return e
-            } else if let e = type(of: e).height(model, uiTableView.bounds.width) {
-                return e
-            }
-        } else if let e = delegate?.qxTableViewFooterViewClass(model) {
-            if let e = e.height(model, uiTableView.bounds.width) {
-                return e
-            }
-        } else if let e = model as? QXSpace {
-            return e.space
-        }
-        return sectionHeaderSpace
+        return footerViewHeight(for: model, uiTableViewWidth: uiTableView.bounds.width) ?? QXTableViewAutoHeight
     }
     open func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         let section = _cacheSections[indexPath.section]

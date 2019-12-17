@@ -32,10 +32,16 @@ open class QXTableViewController<Model>: QXViewController, QXTableViewDelegate {
         done(.failed(QXError(-1, "请重写loadData或者提供api")))
     }
     
+    open override func viewDidLayoutSubviews() {
+        contentView.qxRect = view.qxBounds
+        contentView.layoutSubviews()
+        tableView.layoutSubviews()
+        super.viewDidLayoutSubviews()
+    }
+    
     override open func viewDidLoad() {
         super.viewDidLoad()
         view.addSubview(contentView)
-        contentView.IN(view).LEFT.RIGHT.TOP.BOTTOM.MAKE()
         
 //        contentView.canPageFilter = true
 //        contentView.canRefresh = true

@@ -8,49 +8,78 @@
 
 import UIKit
 
-class DemoTestVc: QXLoadStatusViewController<Any> {
+class TestCell: UITableViewCell {
     
-    lazy var btn: QXFoldButton = {
-        let e = QXFoldButton()
-        e.title = "菜单"
-        e.respondClick = { [unowned e] in
-            e.isFold = !e.isFold 
-        }
+    lazy var label: QXLabel = {
+        let e = QXLabel()
+        e.text = QXDebugText(9999)
+        e.numberOfLines = 0
         return e
     }()
     
-    lazy var mask: QXMaskButton = {
-        let e = QXMaskButton(view: btn)
-        return e
-    }()
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        contentView.addSubview(label)
+        label.IN(contentView).LEFT.RIGHT.TOP.BOTTOM.MAKE()
+    }
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+}
 
+class DemoTestVc: QXViewController {
+    
+    lazy var table: QXTableView = {
+        let e = QXTableView()
+        let c = QXStaticTextCell()
+        c.label.text = QXDebugText(99)
+        
+        let h = QXStaticHeaderView()
+        h.label.text = QXDebugText(99)
+        let f = QXStaticHeaderView()
+        f.label.text = QXDebugText(99)
+        
+        e.adapter = QXTableViewAdapter([
+            String.self >> QXTableViewDebugCell.self
+        ])
+
+        e.sections = [
+            QXTableViewSection([c, QXDebugText(99)], h, f)
+        ]
+        
+        e.backgroundColor = UIColor.green
+        return e
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "测试"
         view.backgroundColor = UIColor.yellow
-//        view.addSubview(mask)
-//        mask.IN(view).CENTER.SIZE(300, 300).MAKE()
         
-//        let mask = CAShapeLayer()
-//        mask.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
-//        let path = UIBezierPath()
-//        path.move(to: CGPoint(x: 0, y: 44))
-//        path.addLine(to: CGPoint(x: 100, y: 44))
-//        path.addLine(to: CGPoint(x: 100, y: 0))
-//        path.addLine(to: CGPoint(x: 30, y: 0))
-//        path.close()
-//        mask.path = path.cgPath
-//        view.layer.mask = mask
-        
-//        back.layer.mask = mask
-                
-        contentView.reloadData()
+        view.addSubview(table)
+        table.fixWidth = 300
+        table.IN(view).TOP.CENTER.MAKE()
     }
     
-    override func loadData(_ done: @escaping (QXRequest.Respond<Any>) -> ()) {
-        
-        done(.succeed(123))
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        let t = CFAbsoluteTimeGetCurrent()
+        let cell = TestCell(style: .default, reuseIdentifier: "123")
+        for i in 0...1000 {
+           let size = CGSize(width: UIScreen.main.bounds.width, height: 0)
+           let size1 = cell.systemLayoutSizeFitting(size, withHorizontalFittingPriority: UILayoutPriority.required, verticalFittingPriority: UILayoutPriority.defaultLow)
+           print(size1)
+        }
+        let t1 = CFAbsoluteTimeGetCurrent()
+        print(t1 - t)
         
     }
     
+//
+//    override func loadData(_ done: @escaping (QXRequest.Respond<Any>) -> ()) {
+//
+//        done(.succeed(123))
+//
+//    }
+//
 }

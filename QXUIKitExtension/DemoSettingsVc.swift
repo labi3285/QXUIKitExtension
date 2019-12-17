@@ -163,6 +163,7 @@ class DemoSettingsVc: QXTableViewController<Any> {
             self.selectCell,
             self.switchCell,
             self.titleTextFieldCell,
+            QXFlexSpace(),
             self.textCell,
             self.textFieldCell,
             self.textViewCell,
@@ -170,11 +171,16 @@ class DemoSettingsVc: QXTableViewController<Any> {
         return e
     }()
     
+    override func didSetup() {
+        super.didSetup()
+        tableView.sections = [section]
+        tableView.reloadData()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Settings"
         view.qxBackgroundColor = QXColor.dynamicBackgroundGray
-        tableView.sections = [section]
         navigationBarBackgroundColor = QXColor.red
     }
 

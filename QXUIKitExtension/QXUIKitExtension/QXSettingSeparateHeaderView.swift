@@ -10,8 +10,6 @@ import UIKit
 
 open class QXSettingSeparateHeaderView: QXStaticHeaderFooterView {
         
-    open var isEnabled: Bool = true
-
     public final lazy var breakLine: QXLineView = {
         let e = QXLineView.breakLine
         e.isVertical = false

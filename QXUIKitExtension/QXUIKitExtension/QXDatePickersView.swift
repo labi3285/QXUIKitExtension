@@ -97,6 +97,19 @@ open class QXYearMonthDayPickersView: QXDatePickersView {
             years.append(year)
         }
         items = years
+        
+        respondItem = { [weak self] item in
+            if let s = self {
+                if let arr = item?.items() {
+                    let date = QXDate(year: arr[0].data as? Int ?? 1970,
+                                      month: arr[1].data as? Int ?? 1,
+                                      day: arr[2].data as? Int ?? 1)
+                    s.respondDate?(date)
+                } else {
+                    s.respondDate?(nil)
+                }
+            }
+        }
     }
     public required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -159,6 +172,18 @@ open class QXYearMonthPickersView: QXDatePickersView {
             years.append(year)
         }
         items = years
+        
+        respondItem = { [weak self] item in
+            if let s = self {
+                if let arr = item?.items() {
+                    let date = QXDate(year: arr[0].data as? Int ?? 1970,
+                                      month: arr[1].data as? Int ?? 1)
+                    s.respondDate?(date)
+                } else {
+                    s.respondDate?(nil)
+                }
+            }
+        }
     }
     public required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -221,6 +246,18 @@ open class QXMonthDayPickersView: QXDatePickersView {
             months.append(month)
         }
         items = months
+        
+        respondItem = { [weak self] item in
+            if let s = self {
+                if let arr = item?.items() {
+                    let date = QXDate(month: arr[1].data as? Int ?? 1,
+                                      day: arr[2].data as? Int ?? 1)
+                    s.respondDate?(date)
+                } else {
+                    s.respondDate?(nil)
+                }
+            }
+        }
     }
     public required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -305,6 +342,19 @@ open class QXHourMinuteSecondPickersView: QXDatePickersView {
             hours.append(hour)
         }
         items = hours
+        
+        respondItem = { [weak self] item in
+            if let s = self {
+                if let arr = item?.items() {
+                    let date = QXDate(hour: arr[0].data as? Int ?? 0,
+                                      minute: arr[1].data as? Int ?? 0,
+                                      second: arr[2].data as? Int ?? 0)
+                    s.respondDate?(date)
+                } else {
+                    s.respondDate?(nil)
+                }
+            }
+        }
     }
     public required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -341,6 +391,17 @@ open class QXYearPickersView: QXDatePickersView {
         items = (minDate.year...maxDate.year).map { (year) -> QXPickerView.Item in
             return QXPickerView.Item(year, "\(year)", QXDate(year: year))
         }
+        
+        respondItem = { [weak self] item in
+            if let s = self {
+                if let n = item?.data {
+                    let date = QXDate(year: n as? Int ?? 1970)
+                    s.respondDate?(date)
+                } else {
+                    s.respondDate?(nil)
+                }
+            }
+        }
     }
     public required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -375,6 +436,17 @@ open class QXMonthPickersView: QXDatePickersView {
         super.init([pickerView], isCleanShow: isCleanShow)
         items = (minDate.month...maxDate.month).map { (month) -> QXPickerView.Item in
             return QXPickerView.Item(month, "\(month)", QXDate(month: month))
+        }
+        
+        respondItem = { [weak self] item in
+            if let s = self {
+                if let n = item?.data {
+                    let date = QXDate(month: n as? Int ?? 1)
+                    s.respondDate?(date)
+                } else {
+                    s.respondDate?(nil)
+                }
+            }
         }
     }
     public required init?(coder aDecoder: NSCoder) {
@@ -411,6 +483,17 @@ open class QXDayPickersView: QXDatePickersView {
         items = (minDate.day...maxDate.day).map { (day) -> QXPickerView.Item in
             return QXPickerView.Item(day, "\(day)", QXDate(day: day))
         }
+        
+        respondItem = { [weak self] item in
+            if let s = self {
+                if let n = item?.data {
+                    let date = QXDate(day: n as? Int ?? 1)
+                    s.respondDate?(date)
+                } else {
+                    s.respondDate?(nil)
+                }
+            }
+        }
     }
     public required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -445,6 +528,17 @@ open class QXHourPickersView: QXDatePickersView {
         super.init([pickerView], isCleanShow: isCleanShow)
         items = (minDate.hour...maxDate.hour).map { (hour) -> QXPickerView.Item in
             return QXPickerView.Item(hour, "\(hour)", QXDate(hour: hour))
+        }
+        
+        respondItem = { [weak self] item in
+            if let s = self {
+                if let n = item?.data {
+                    let date = QXDate(hour: n as? Int ?? 0)
+                    s.respondDate?(date)
+                } else {
+                    s.respondDate?(nil)
+                }
+            }
         }
     }
     public required init?(coder aDecoder: NSCoder) {
@@ -481,6 +575,17 @@ open class QXMinutePickersView: QXDatePickersView {
         items = (minDate.minute...maxDate.minute).map { (minute) -> QXPickerView.Item in
             return QXPickerView.Item(minute, "\(minute)", QXDate(minute: minute))
         }
+        
+        respondItem = { [weak self] item in
+            if let s = self {
+                if let n = item?.data {
+                    let date = QXDate(minute: n as? Int ?? 0)
+                    s.respondDate?(date)
+                } else {
+                    s.respondDate?(nil)
+                }
+            }
+        }
     }
     public required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -516,6 +621,17 @@ open class QXSecondPickersView: QXDatePickersView {
         items = (minDate.second...maxDate.second).map { (second) -> QXPickerView.Item in
             return QXPickerView.Item(second, "\(second)", QXDate(second: second))
         }
+        
+        respondItem = { [weak self] item in
+            if let s = self {
+                if let n = item?.data {
+                    let date = QXDate(second: n as? Int ?? 0)
+                    s.respondDate?(date)
+                } else {
+                    s.respondDate?(nil)
+                }
+            }
+        }
     }
     public required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -530,4 +646,5 @@ open class QXSecondPickersView: QXDatePickersView {
 
 open class QXDatePickersView: QXPickersView {
     open var bringInDate: QXDate?
+    open var respondDate: ((_ date: QXDate?) -> ())?
 }

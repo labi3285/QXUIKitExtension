@@ -55,6 +55,9 @@ open class QXStaticHeaderFooterView: QXTableViewHeaderFooterView {
         }
     }
     
+    open var isDisplay: Bool = true
+    open var isEnabled: Bool = true
+    
     open func height(_ model: Any?, _ width: CGFloat) -> CGFloat? {
         return nil
     }
