@@ -17,11 +17,10 @@ class DemoListVc: QXTableViewController<QXTableViewSection> {
         contentView.canPage = true
         //tableView.sectionHeaderSpace = 100
         //tableView.sectionFooterSpace = 100
-        
+
         tableView.adapter = QXTableViewAdapter([
             String.self >> QXTableViewDebugCell.self,
         ])
-        
 //        let api = QXModelsApi<QXTableViewSection> { (filter, succeed, failed) in
 //            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1) {
 //                failed(QXError.unknown)
@@ -36,7 +35,10 @@ class DemoListVc: QXTableViewController<QXTableViewSection> {
                 
         contentView.filter.dictionary["123"] = 345
 //        contentView.api = api
-        
+    }
+    
+    override func didSetup() {
+        super.didSetup()
         contentView.reloadData()
     }
     

@@ -27,10 +27,23 @@ class DemoTestVc: QXLoadStatusViewController<Any> {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "测试"
-        view.addSubview(mask)
-        mask.IN(view).CENTER.SIZE(300, 300).MAKE()
+        view.backgroundColor = UIColor.yellow
+//        view.addSubview(mask)
+//        mask.IN(view).CENTER.SIZE(300, 300).MAKE()
         
+//        let mask = CAShapeLayer()
+//        mask.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
+//        let path = UIBezierPath()
+//        path.move(to: CGPoint(x: 0, y: 44))
+//        path.addLine(to: CGPoint(x: 100, y: 44))
+//        path.addLine(to: CGPoint(x: 100, y: 0))
+//        path.addLine(to: CGPoint(x: 30, y: 0))
+//        path.close()
+//        mask.path = path.cgPath
+//        view.layer.mask = mask
         
+//        back.layer.mask = mask
+                
         contentView.reloadData()
     }
     

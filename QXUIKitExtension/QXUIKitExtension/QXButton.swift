@@ -190,8 +190,9 @@ open class QXButton: QXView {
         }
     }
     override open func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
+        isHighlighted = false
         respondTouchCancelled?()
-        handleNormalize()
+        update()
     }
     private var _touchBeganPoint: CGPoint?
     private var _isOriginPrepared: Bool = false
@@ -654,3 +655,5 @@ open class QXMaskButton: QXView, UIGestureRecognizerDelegate {
     }
     
 }
+
+

@@ -18,11 +18,13 @@ open class QXViewController: UIViewController, UINavigationBarDelegate {
         super.init(nibName: nil, bundle: nil)
         automaticallyAdjustsScrollViewInsets = false
         edgesForExtendedLayout = UIRectEdge(rawValue: 0)
+        _ = self.view
     }
     public required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     deinit {
+        NotificationCenter.default.removeObserver(self)
         QXDebugPrint("deinit")
     }
     
@@ -44,6 +46,10 @@ open class QXViewController: UIViewController, UINavigationBarDelegate {
         NotificationCenter.default.addObserver(self, selector: #selector(applicationDidBecomeActive), name: UIApplication.didBecomeActiveNotification, object: nil)
     }
     
+    open func didSetup() {
+        
+    }
+    
     open func viewWillFirstAppear(_ animated: Bool) {
         
     }
@@ -57,7 +63,7 @@ open class QXViewController: UIViewController, UINavigationBarDelegate {
         
     }
     
-    private var _isViewDidSetupCalled: Bool = false
+    private var _isSetup: Bool = false
     private var _isFirstWillAppear: Bool = true
     private var _isFirstDidAppear: Bool = true
     private var _isFirstWillDisappear: Bool = true
@@ -65,6 +71,7 @@ open class QXViewController: UIViewController, UINavigationBarDelegate {
     
     override open func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        if !_isSetup { didSetup(); _isSetup = true }
         if _isFirstWillAppear { viewWillFirstAppear(animated); _isFirstWillAppear = false }
         _isNavigationBarInited = true
         updateNavigationBar(animated)
@@ -388,4 +395,5 @@ extension UIViewController {
     }
     
 }
+
 

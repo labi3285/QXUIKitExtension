@@ -10,7 +10,7 @@ import Foundation
 
 extension UserDefaults {
     
-    public func qxOnce(key: String, todo: (() -> ())) -> Bool {
+    public func qxOnce(_ key: String, todo: (() -> ())) -> Bool {
         if let _ = self.value(forKey: key) {
             return false
         }

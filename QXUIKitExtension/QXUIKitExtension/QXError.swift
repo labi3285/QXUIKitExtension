@@ -26,9 +26,9 @@ public struct QXError {
         self.info = nil
     }
     
-    static let unknown: QXError = QXError(-1, "未知错误")
-    static let parse: QXError = QXError(-1, "解析错误")
-    static let format: QXError = QXError(-1, "格式错误")
-    static let noData: QXError = QXError(-1, "数据丢失")
+    public static let unknown: QXError = QXError(-1, "未知错误")
+    public static let parse: QXError = QXError(-1, "解析错误")
+    public static let format: QXError = QXError(-1, "格式错误")
+    public static let noData: QXError = QXError(-1, "数据丢失")
 
 }
