@@ -55,6 +55,9 @@ class DemoTestVc: QXViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "测试"
+        
+        navigationBarBackTitle = "x"
+        
         view.backgroundColor = UIColor.yellow
         
         view.addSubview(table)

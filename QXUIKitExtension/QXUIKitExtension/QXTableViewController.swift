@@ -27,7 +27,7 @@ open class QXTableViewController<Model>: QXViewController, QXTableViewDelegate {
         }
         return e
     }()
-    
+        
     open func loadData(_ filter: QXFilter, _ done: @escaping (QXRequest.Respond<[Model]>) -> ()) {
         done(.failed(QXError(-1, "请重写loadData或者提供api")))
     }

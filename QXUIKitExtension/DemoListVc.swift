@@ -57,6 +57,9 @@ class DemoListVc: QXTableViewController<QXTableViewSection> {
 //        return QXTableViewDebugCell.self
 //    }
     override func qxTableViewDidSelectCell(_ model: Any?) {
+        let vc = DemoTestVc()
+        push(vc)
+        
          print("cell")
     }
     override func qxTableViewDidSelectHeaderView(_ model: Any?) {

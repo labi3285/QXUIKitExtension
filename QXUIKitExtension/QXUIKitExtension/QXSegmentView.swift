@@ -10,14 +10,20 @@ import UIKit
 
 open class QXSegmentIndicatorView: UIView {
     
-    open func didUpdateRect(_ rect: QXRect) {
-        
-    }
+    public var widthHandler: ((_ segmentWidth: CGFloat) -> CGFloat)?
+    
     open func width(_ segmentWidth: CGFloat) -> CGFloat {
+        if let e = widthHandler {
+            return e(segmentWidth)
+        }
         var w = segmentWidth
         w -= 10 * 2
         w =  max(w, 40)
         return w
+    }
+    
+    open func didUpdateRect(_ rect: QXRect) {
+        
     }
     
     public override init(frame: CGRect) {
@@ -200,8 +206,24 @@ open class QXSegmentsView<Model>: QXView {
         let segsWH = _segmentsSize()
         let scrollW = bounds.width
         let scrollH = bounds.height
-        let segsH = bounds.height - padding.top - padding.bottom
-        let segsY = padding.top
+        let segsGH: CGFloat
+        let segsY: CGFloat
+        if indicatorView == nil {
+            segsY = padding.top
+            segsGH = bounds.height - padding.top - padding.bottom
+        } else {
+            switch indicatorPosition {
+            case .top:
+                segsY = padding.top + indicatorHeight + indicatorSegmentMargin
+                segsGH = bounds.height - padding.top - padding.bottom - indicatorSegmentMargin - indicatorHeight
+            case .back, .front:
+                segsY = padding.top
+                segsGH = bounds.height - padding.top - padding.bottom
+            case .bottom:
+                segsY = padding.top
+                segsGH = bounds.height - padding.top - padding.bottom - indicatorSegmentMargin - indicatorHeight
+            }
+        }
         var divideInfo: [Int: CGFloat] = [:]
         if segsWH.w <= scrollW {
             var divides: [(Int, CGFloat)] = []
@@ -239,28 +261,28 @@ open class QXSegmentsView<Model>: QXView {
                 if let e = divideInfo[i] {
                     wh.w = e
                 }
-                let h = min(wh.h, segsH)
+                let h = min(wh.h, segsGH)
                 let offsetY: CGFloat
                 switch segmentAlignmentY {
                 case .top:
                     offsetY = segsY
                 case .center:
-                    offsetY = segsY + (segsH - h) / 2
+                    offsetY = segsY + (segsGH - h) / 2
                 case .bottom:
-                    offsetY = segsY + segsH - h
+                    offsetY = segsY + segsGH - h
                 }
                 e.updateRect(QXRect(offsetX, offsetY, wh.w, h))
                 offsetX += wh.w + segmentMargin
             }
         }
         uiScrollView.frame = CGRect(x: 0, y: 0, width: scrollW, height: scrollH)
-        uiScrollView.contentSize = CGSize(width: max(scrollW, segsWH.w + padding.left + padding.right), height: segsH)
+        uiScrollView.contentSize = CGSize(width: max(scrollW, segsWH.w + padding.left + padding.right), height: segsGH)
         _checkOrChangeIndex(animated: false)
     }
     
     open override func natureContentSize() -> QXSize {
         let segsWH = _segmentsSize()
-        var w: CGFloat = segsWH.w + padding.left + padding.right
+        let w: CGFloat = segsWH.w + padding.left + padding.right
         var h: CGFloat = segsWH.h + padding.top + padding.bottom
         if let _ = indicatorView {
             switch indicatorPosition {
@@ -269,14 +291,6 @@ open class QXSegmentsView<Model>: QXView {
             case .back, .front:
                 break
             }
-        }
-        if let e = maxWidth {
-            w = min(e, w)
-        }
-        if let e = fixHeight ?? maxHeight {
-            h = e
-        } else if let e = maxHeight {
-            h = min(e, h)
         }
         return QXSize(w, h)
     }
@@ -338,7 +352,7 @@ open class QXSegmentsView<Model>: QXView {
             case .top:
                 y = r.top - indicatorSegmentMargin - indicatorHeight
             case .bottom:
-                y = r.bottom + indicatorSegmentMargin + indicatorHeight
+                y = r.bottom + indicatorSegmentMargin
             case .front:
                 y = (bounds.height - h) / 2
                 uiScrollView.bringSubviewToFront(e)

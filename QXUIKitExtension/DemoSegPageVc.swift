@@ -12,6 +12,7 @@ class DemoSegPageVc: QXViewController {
     
     public final lazy var segmentsView: QXSegmentsView<String> = {
         let e = QXSegmentsView<String>()
+        e.indicatorView = QXSegmentIndicatorView()
         e.compressResistance = QXView.resistanceStable
         var arr: [QXSegmentView<String>] = self.vcs.map { (e) -> QXSegmentView<String> in
             let e = QXSegmentView<String>(e.title ?? "xxx")

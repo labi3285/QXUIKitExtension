@@ -24,15 +24,17 @@ class DemoShapeVc: QXViewController {
         v1.BOTTOM(v).CENTER.OFFSET(10).MAKE()
                         
         
-        v.image = QXImage.shapLabelHollow(text: "标签", font: QXFont(100, QXColor.red), color: QXColor.green)
-        v1.image = QXImage.shapLabelFill(text: "标签", font: QXFont(100, QXColor.red), color: QXColor.green)
+//        v.image = QXImage.shapLabelHollow(text: "标签", font: QXFont(100, QXColor.red), color: QXColor.green)
+//        v1.image = QXImage.shapLabelFill(text: "标签", font: QXFont(100, QXColor.red), color: QXColor.green)
         
         
-        v.image = QXImage.shapRoundRectHollow(size: QXSize(100, 50), radius: 5, thickness: 3, color: QXColor.red)
-        v1.image = QXImage.shapRoundRectFill(size: QXSize(100, 50), radius: 5, color: QXColor.green)
+        v.image = QXImage.shapRoundFill(radius: 50, color: QXColor.darkFmtHex("#666666", "#999999"))
         
-        v.image = QXImage.shapTriangleFill(w: 280, h: 160, direction: .left, color: QXColor.red)
-        v1.image = QXImage.shapTriangleHollow(w: 280, h: 160, thickness: 30, direction: .left, color: QXColor.green)
+//        v.image = QXImage.shapRoundRectHollow(size: QXSize(100, 50), radius: 5, thickness: 3, color: QXColor.red)
+//        v1.image = QXImage.shapRoundRectFill(size: QXSize(100, 50), radius: 5, color: QXColor.green)
+//
+//        v.image = QXImage.shapTriangleFill(w: 280, h: 160, direction: .left, color: QXColor.red)
+//        v1.image = QXImage.shapTriangleHollow(w: 280, h: 160, thickness: 30, direction: .left, color: QXColor.green)
     }
     
 }

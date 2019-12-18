@@ -130,9 +130,10 @@ extension QXImage {
     
     public static func shapRoundRectFill(size: QXSize, radius: CGFloat, color: QXColor) -> QXImage {
         return QXImage.image(size: size) { (ctx, size, scale) in
-            let rect = CGRect(x: 0, y: 0, width: size.w, height: size.h)
+            let rect = CGRect(x: 0, y: 1, width: size.w, height: size.h)
             let path = UIBezierPath(roundedRect: rect, cornerRadius: radius * scale)
             ctx.addPath(path.cgPath)
+            ctx.setFillColor(color.uiColor.cgColor)
             ctx.setLineWidth(0)
             color.uiColor.setFill()
             ctx.fillPath()

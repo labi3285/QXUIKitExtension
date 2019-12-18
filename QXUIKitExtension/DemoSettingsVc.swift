@@ -159,6 +159,7 @@ class DemoSettingsVc: QXTableViewController<Any> {
             self.cityPickerCell,
             self.datePickerCell,
             self.arrowCell,
+            QXFlexSpace(),
             self.iconArrowCell,
             self.selectCell,
             self.switchCell,

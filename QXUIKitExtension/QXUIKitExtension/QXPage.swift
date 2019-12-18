@@ -25,7 +25,7 @@ open class QXFilter {
             dictionary["size"] = newValue
         }
         get {
-            return dictionary["size"] as? Int ?? 0
+            return dictionary["size"] as? Int ?? 15
         }
     }
 

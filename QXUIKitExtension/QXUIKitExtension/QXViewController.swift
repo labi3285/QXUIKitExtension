@@ -18,7 +18,7 @@ open class QXViewController: UIViewController, UINavigationBarDelegate {
         super.init(nibName: nil, bundle: nil)
         automaticallyAdjustsScrollViewInsets = false
         edgesForExtendedLayout = UIRectEdge(rawValue: 0)
-//        _ = self.view
+        _ = self.view
     }
     public required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -184,13 +184,14 @@ open class QXViewController: UIViewController, UINavigationBarDelegate {
         
     public func push(_ vc: QXViewController, animated: Bool = true, file: StaticString = #file, line: UInt = #line) {
         if let nav = navigationController {
-            var baseVc = self
-            while ((baseVc.parent as? QXViewController) != nil) {
-                baseVc = baseVc.parent! as! QXViewController
+            var next: UIViewController = self
+            while let e = next.parent, (!(e is UINavigationController) && !(e is UITabBarController)) {
+                next = next.parent!
             }
+            let fromVc = next as? QXViewController ?? self
             if let navBar = vc.customNavigationBar {
                 navBar.qxTintColor = vc.navigationBarTintColor
-                if let button = navBar.autoCheckOrSetBackButton(image: vc.navigationBarBackArrowImage, title: vc.navigationBarBackTitle ?? baseVc.navigationBarTitle ?? baseVc.title, font: vc.navigationBarBackFont) {
+                if let button = navBar.autoCheckOrSetBackButton(image: vc.navigationBarBackArrowImage, title: vc.navigationBarBackTitle ?? fromVc.navigationBarTitle ?? fromVc.title, font: vc.navigationBarBackFont) {
                     button.respondClick = { [weak vc] in
                         if let e = vc {
                             if e.shouldPop() {
@@ -200,13 +201,13 @@ open class QXViewController: UIViewController, UINavigationBarDelegate {
                     }
                 }
             }
-            if let t = vc.navigationBarBackTitle ?? baseVc.navigationBarTitle ?? baseVc.title {
+            if let t = vc.navigationBarBackTitle ?? fromVc.navigationBarTitle ?? fromVc.title {
                 let e = QXBarButtonItem.backItem(t)
                 let font = vc.navigationBarBackFont
                 e.setTitleTextAttributes(font.nsAttributtes, for: .normal)
-                navigationItem.backBarButtonItem = e
+                fromVc.navigationItem.backBarButtonItem = e
             } else {
-                navigationItem.backBarButtonItem = nil
+                fromVc.navigationItem.backBarButtonItem = nil
             }
             navigationController?.navigationBar.backIndicatorImage = vc.navigationBarBackArrowImage.uiImage
             navigationController?.navigationBar.backIndicatorTransitionMaskImage = vc.navigationBarBackArrowImage.uiImage
