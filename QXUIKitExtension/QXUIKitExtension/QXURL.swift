@@ -24,7 +24,7 @@ public enum QXURL: CustomStringConvertible {
         if let e = bundle.url(forResource: file, withExtension: nil) {
             return QXURL.nsURL(e)
         } else {
-            return QXDebugFatalError("invalid", QXURL.invaild)
+            return QXDebugFatalError("invalid: \(file)", QXURL.invaild)
         }
     }
     

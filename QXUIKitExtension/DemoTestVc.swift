@@ -8,49 +8,32 @@
 
 import UIKit
 
-class TestCell: UITableViewCell {
-    
-    lazy var label: QXLabel = {
-        let e = QXLabel()
-        e.text = QXDebugText(9999)
-        e.numberOfLines = 0
-        return e
-    }()
-    
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-        contentView.addSubview(label)
-        label.IN(contentView).LEFT.RIGHT.TOP.BOTTOM.MAKE()
+func AppValidatePassword(_ pwd: String) -> String? {
+    var passWordRegex = "^[\\x21-\\x7e]{8,20}$"
+    var passWordPredicate = NSPredicate(format: "SELF MATCHES %@", passWordRegex)
+    if passWordPredicate.evaluate(with: pwd) {
+        passWordRegex = ".*[0-9]+.*"
+        passWordPredicate = NSPredicate(format: "SELF MATCHES %@", passWordRegex)
+        if !passWordPredicate.evaluate(with: pwd) {
+            return "密码未包含数字"
+        }
+        passWordRegex = ".*[A-Z]+.*"
+        passWordPredicate = NSPredicate(format: "SELF MATCHES %@", passWordRegex)
+        if !passWordPredicate.evaluate(with: pwd) {
+            return "密码未包含大写字母"
+        }
+        passWordRegex = ".*[a-z]+.*"
+        passWordPredicate = NSPredicate(format: "SELF MATCHES %@", passWordRegex)
+        if !passWordPredicate.evaluate(with: pwd) {
+            return "密码未包含小写字母"
+        }
+        return nil
+    } else {
+        return "请使用至少8位数字大小写字母组合"
     }
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
 }
 
 class DemoTestVc: QXViewController {
-    
-    lazy var table: QXTableView = {
-        let e = QXTableView()
-        let c = QXStaticTextCell()
-        c.label.text = QXDebugText(99)
-        
-        let h = QXStaticHeaderView()
-        h.label.text = QXDebugText(99)
-        let f = QXStaticHeaderView()
-        f.label.text = QXDebugText(99)
-        
-        e.adapter = QXTableViewAdapter([
-            String.self >> QXTableViewDebugCell.self
-        ])
-
-        e.sections = [
-            QXTableViewSection([c, QXDebugText(99)], h, f)
-        ]
-        
-        e.backgroundColor = UIColor.green
-        return e
-    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -60,21 +43,28 @@ class DemoTestVc: QXViewController {
         
         view.backgroundColor = UIColor.yellow
         
-        view.addSubview(table)
-        table.fixWidth = 300
-        table.IN(view).TOP.CENTER.MAKE()
+        let now = QXDate.now
+        
+        now.endpointsOfDay
+        now.endpointsOfWeak
+        now.endpointsOfWeak
+
+//        print(AppValidatePassword("12345") ?? "通过")
+//        print(AppValidatePassword("12321321321") ?? "通过")
+//        print(AppValidatePassword("1wew23213E213dd2") ?? "通过")
+//        print(AppValidatePassword("12345") ?? "通过")
+//        print(AppValidatePassword("12345678") ?? "通过")
+
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        let t = CFAbsoluteTimeGetCurrent()
-        let cell = TestCell(style: .default, reuseIdentifier: "123")
-        for i in 0...1000 {
-           let size = CGSize(width: UIScreen.main.bounds.width, height: 0)
-           let size1 = cell.systemLayoutSizeFitting(size, withHorizontalFittingPriority: UILayoutPriority.required, verticalFittingPriority: UILayoutPriority.defaultLow)
-           print(size1)
+        
+        let t = QXRequest(method: QXRequest.Method.get, encoding: QXRequest.ParameterEncoding.url)
+        t.url = "https://www.baidu.com"
+        t.fetchData { (r) in
+            print(r)
         }
-        let t1 = CFAbsoluteTimeGetCurrent()
-        print(t1 - t)
+        
         
     }
     

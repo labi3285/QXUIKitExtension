@@ -222,8 +222,8 @@ public struct QXDate: CustomStringConvertible {
         return DateFormats.segments.date(segmentFormateString)!
     }
     
-    public static let calendar: Calendar = Calendar(identifier: Calendar.Identifier.chinese)
-    
+    public static let calendar: Calendar = Calendar(identifier: Calendar.Identifier.gregorian)
+
     /// day index in a week, 1 - 7
     public var weekDay: Int {
         var i = QXDate.calendar.component(.weekday, from: nsDate)
@@ -234,6 +234,39 @@ public struct QXDate: CustomStringConvertible {
         }
         return i
     }
+
+    public var endpointsOfMonth: (start: QXDate, end: QXDate) {
+        if month >= 1 && month <= 12 {
+            let days = QXDate.calendar.range(of: .day, in: .month, for: nsDate)!.count
+            return (
+                QXDate(year: year, month: month, day: 1, hour: 0, minute: 0, second: 0),
+                QXDate(year: year, month: month, day: days, hour: 23, minute: 59, second: 59)
+            )
+        } else {
+            return QXDebugFatalError("月份错误", (
+                QXDate(year: year, month: month, day: 1, hour: 0, minute: 0, second: 0),
+                QXDate(year: year, month: month, day: 28, hour: 23, minute: 59, second: 59)
+            ))
+        }
+    }
+    public var endpointsOfDay: (start: QXDate, end: QXDate) {
+        return (
+            QXDate(year: year, month: month, day: day, hour: 0, minute: 0, second: 0),
+            QXDate(year: year, month: month, day: day, hour: 23, minute: 59, second: 59)
+        )
+    }
+    public var endpointsOfWeak: (start: QXDate, end: QXDate) {
+        let now = QXDate(year: year, month: month, day: day, hour: 0, minute: 0, second: 0)
+        let day = weekDay
+        let a = 60 * 60 * 24 * (TimeInterval(day - 1))
+        let b = 60 * 60 * 24 * (7 - TimeInterval(day))
+        let start = QXDate(now.nsDate.addingTimeInterval(-a))
+        let end = QXDate(now.nsDate.addingTimeInterval(b))
+        return (
+            QXDate(year: start.year, month: start.month, day: start.day, hour: 0, minute: 0, second: 0),
+            QXDate(year: end.year, month: end.month, day: end.day, hour: 23, minute: 59, second: 59)
+        )
+    }
     
     /// date formate string
     public var segmentFormateString: String {
@@ -242,7 +275,7 @@ public struct QXDate: CustomStringConvertible {
     
     /// CustomStringConvertible
     public var description: String {
-        return "[QXDate] " + DateFormats.segments.string(nsDate)
+        return "[QXDate] " + DateFormats.standard24.string(nsDate)
     }
     
     public init(year: Int, month: Int, day: Int) {

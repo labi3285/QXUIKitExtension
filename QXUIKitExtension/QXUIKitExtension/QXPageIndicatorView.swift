@@ -32,7 +32,7 @@ open class QXPageIndicatorView: QXView {
 
     public override init() {
         super.init()
-        qxBackgroundColor = QXColor.yellow
+        qxBackgroundColor = QXColor.clear
     }
     required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -108,7 +108,7 @@ open class QXPageIndicatorView: QXView {
                     x += cw
                 } else {
                     let rect = CGRect(x: dx + x, y: doy, width: ow, height: oh)
-                    if let wh = currentImage.size {
+                    if let wh = otherImage.size {
                         let r = CGRect(x: rect.minX + (rect.width - wh.w) / 2,
                                        y: rect.minY + (rect.height - wh.h) / 2,
                                        width: wh.w,

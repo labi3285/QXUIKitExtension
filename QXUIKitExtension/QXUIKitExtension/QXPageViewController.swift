@@ -112,27 +112,27 @@ open class QXPageViewController: UIViewController, UIPageViewControllerDelegate,
 extension QXPageViewController {
     
     /// 滚到下一个
-    func tryScrollToNext(animated: Bool) {
+    public func tryScrollToNext(animated: Bool) {
         if _currentIndex < viewControllers.count - 1 {
             scrollTo(index: _currentIndex + 1, animated: animated)
         }
     }
     
     /// 滚到上一个
-    func tryScrollToPrevious(animated: Bool) {
+    public func tryScrollToPrevious(animated: Bool) {
         if _currentIndex > 0 {
             scrollTo(index: _currentIndex - 1, animated: animated)
         }
     }
     
     /// 滚到某个索引
-    func scrollTo(index: Int, animated: Bool) {
+    public func scrollTo(index: Int, animated: Bool) {
         let vc = viewControllers[index]
         scrollTo(viewController: vc, animated: animated)
     }
     
     /// 滚到某个控制器
-    func scrollTo(viewController: UIViewController, animated: Bool) {
+    public func scrollTo(viewController: UIViewController, animated: Bool) {
         if viewController === currentVc { return }
         let lastIdx = _indexOf(viewController: currentVc)
         let idx = _indexOf(viewController: viewController)

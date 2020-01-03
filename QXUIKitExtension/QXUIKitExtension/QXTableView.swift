@@ -413,7 +413,7 @@ open class QXTableView: QXView {
             } else {
                 id = "NULL"
             }
-            if let e = delegate?.qxTableViewHeaderViewClass(model) {
+            if let e = adapter?.headerViewClass(model) ?? delegate?.qxTableViewHeaderViewClass(model) {
                 view = e.init(id)
             } else {
                 view = nil
@@ -443,7 +443,7 @@ open class QXTableView: QXView {
             } else {
                 id = "NULL"
             }
-            if let e = delegate?.qxTableViewFooterViewClass(model) {
+            if let e = adapter?.footerViewClass(model) ?? delegate?.qxTableViewFooterViewClass(model) {
                 view = e.init(id)
             } else {
                 view = nil
@@ -469,7 +469,7 @@ open class QXTableView: QXView {
             } else if let e = type(of: e).height(model, uiTableViewWidth) {
                 return e
             }
-        } else if let e = delegate?.qxTableViewHeaderViewClass(model) {
+        } else if let e = adapter?.headerViewClass(model) ?? delegate?.qxTableViewHeaderViewClass(model) {
             if let e = e.height(model, uiTableViewWidth) {
                 return e
             }
@@ -485,7 +485,7 @@ open class QXTableView: QXView {
             } else if let e = type(of: e).height(model, uiTableViewWidth) {
                 return e
             }
-        } else if let e = delegate?.qxTableViewFooterViewClass(model) {
+        } else if let e = adapter?.footerViewClass(model) ?? delegate?.qxTableViewFooterViewClass(model) {
             if let e = e.height(model, uiTableViewWidth) {
                 return e
             }
@@ -621,6 +621,9 @@ extension QXTableView: UITableViewDelegate, UITableViewDataSource {
 }
 
 extension QXTableView: QXRefreshableViewProtocol {
+    public func qxResetOffset() {
+        uiTableView.contentOffset = CGPoint.zero
+    }
     public func qxDisableAutoInserts() {
         uiTableView.qxDisableAutoInserts()
     }
@@ -856,5 +859,6 @@ class QXDebugTableViewHeaderFooterView: QXTableViewHeaderFooterView {
     }
     
 }
+
 
 

@@ -64,7 +64,7 @@ open class QXBannerView<Model>: QXView, UICollectionViewDelegate, UICollectionVi
         return one
     }()
     
-    override init() {
+    public override init() {
         super.init()
         addSubview(uiCollectionView)
     }
@@ -165,7 +165,7 @@ open class QXBannerView<Model>: QXView, UICollectionViewDelegate, UICollectionVi
 }
 
 open class QXBanner<Model> {
-    var model: Model?
+    open var model: Model?
 }
 open class QXBannerCell<Model>: UICollectionViewCell {
     open var banner: QXBanner<Model>!
@@ -256,11 +256,10 @@ open class QXImageBanner<Model>: QXBanner<Model> {
         self.image = image
     }
     open var image: QXImage?
-    open var isForceImageFill: Bool = false
     open var contentMode: UIView.ContentMode = .scaleAspectFit
-    open var isForcePlaceHolderFill: Bool = false
     open var isThumbnail: Bool = false
     open var placeHolderImage: QXImage?
+    open var cornerRadius: CGFloat?
     open var padding: QXEdgeInsets = QXEdgeInsets.zero
 }
 
@@ -273,6 +272,10 @@ open class QXImageBannerCell<Model>: QXBannerCell<Model> {
                 myImageView.placeHolderImage = e.placeHolderImage
                 myImageView.image = e.image
                 myImageView.padding = e.padding
+                if let e = e.cornerRadius {
+                    myImageView.uiImageView.layer.cornerRadius = e
+                    myImageView.uiImageView.clipsToBounds = true
+                }
             }
         }
     }

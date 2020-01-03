@@ -36,6 +36,9 @@ class DemoBannerVc: QXViewController {
     lazy var indicatorView: QXPageIndicatorView = {
         let e = QXPageIndicatorView()
         e.padding = QXEdgeInsets(5, 5, 5, 5)
+        e.currentImage = QXImage.shapRoundRectFill(size: QXSize(18, 3), radius: 1.5, color: QXColor.hex("#5b87ff", 1))
+        e.otherImage = QXImage.shapRoundRectFill(size: QXSize(7, 3), radius: 1.5, color: QXColor.hex("#bdbdbd", 1))
+        
 //        e.current = .ring(radicus: 3, thickness: 2)
 //        e.otherShape = .ring(radicus: 3, thickness: 2)
         return e

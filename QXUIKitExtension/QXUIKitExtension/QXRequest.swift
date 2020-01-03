@@ -94,6 +94,19 @@ open class QXRequest {
         case failed(_ err: QXError)
     }
     
+    public static let globalApiManager: Alamofire.SessionManager = {
+        let cfg = URLSessionConfiguration.default
+        cfg.timeoutIntervalForRequest = 10
+        let e = Alamofire.SessionManager(configuration: cfg)
+        return e
+    }()
+    public static let globalFileManager: Alamofire.SessionManager = {
+        let cfg = URLSessionConfiguration.default
+        cfg.timeoutIntervalForRequest = 60
+        let e = Alamofire.SessionManager(configuration: cfg)
+        return e
+    }()
+    
     /// 上传文件
     public func uploadFormData(file: File, done: @escaping (_ respond: Respond<Any>) -> ()) {
         assert(self.url.count > 0, "请填写url")
@@ -106,7 +119,7 @@ open class QXRequest {
             let headers = (headers as NSDictionary?)?.description ?? "nil"
             QXDebugPrint("QXRequest/Upload:\(url)\nHEADERS:\(headers)\nPARAMS:\(params)")
         }
-        Alamofire.upload(multipartFormData: { (formData) in
+        QXRequest.globalFileManager.upload(multipartFormData: { (formData) in
             for (k, v) in params ?? [:] {
                 formData.append("\(v)".data(using: .utf8)!, withName: k)
             }
@@ -149,7 +162,7 @@ open class QXRequest {
             let headers = (headers as NSDictionary?)?.description ?? "nil"
             QXDebugPrint("QXRequest/Upload:\(url)\nHEADERS:\(headers)\nPARAMS:\(params)")
         }
-        Alamofire.upload(multipartFormData: { (formData) in
+        QXRequest.globalFileManager.upload(multipartFormData: { (formData) in
             for (k, v) in params ?? [:] {
                 formData.append("\(v)".data(using: .utf8)!, withName: k)
             }
@@ -197,20 +210,24 @@ open class QXRequest {
             QXDebugPrint("QXRequest/\(method):\(url)\nHEADERS:\(headers)\nPARAMS:\(params)")
         }
         
-        Alamofire
+        QXRequest.globalApiManager
             .request(url, method: method, parameters: params, encoding: encoding, headers: headers)
             .validate()
             .responseJSON { (response) in
                 if let e = response.result.value {
                     done(.succeed(e))
                 } else {
+                    var err: QXError
                     if let e = response.error as? AFError {
-                        done(.failed(e.toQXError()))
+                        err = e.toQXError()
                     } else if let e = response.error as NSError?  {
-                        done(.failed(QXError(e.code, "网络错误")))
+                        err = QXError(e.code, "网络错误")
                     } else {
+                        err = QXError.unknown
                         done(.failed(QXError.unknown))
                     }
+                    err.info = response.data
+                    done(.failed(err))
                 }
         }
     }
@@ -338,6 +355,7 @@ extension AFError {
         }
     }
 }
+
 
 
 

@@ -269,9 +269,6 @@ extension UIImage {
                 var maxCount: Int = 0
                 for e in set {
                     let c = set.count(for: e)
-                    
-//                    print("\(c) ---  \(e)")
-
                     if c >= maxCount {
                         maxCount = c
                         max = e as? [CGFloat]
@@ -288,7 +285,7 @@ extension UIImage {
             }
                 
         }
-        return UIColor.yellow
+        return UIColor.white
     }
     
     public static func qxCreate(text: String, font: UIFont, color: UIColor) -> UIImage {

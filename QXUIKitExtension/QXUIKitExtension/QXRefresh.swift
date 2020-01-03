@@ -282,7 +282,7 @@ open class QXRefreshFooter: MJRefreshAutoFooter {
                     imageView.isDisplay = true
                 }
             case .noMoreData:
-                messageLabel.richText = textNormal
+                messageLabel.richText = textNoMoreData
                 messageLabel.isDisplay = imageNoMoreData == nil && textNoMoreData != nil
                 imageView.isDisplay = imageNoMoreData != nil
                 imageView.image = imageNoMoreData
@@ -324,6 +324,7 @@ extension UIScrollView {
 }
 
 public protocol QXRefreshableViewProtocol {
+    func qxResetOffset()
     func qxDisableAutoInserts()
     func qxUpdateModels(_ models: [Any])
     func qxSetRefreshHeader(_ header: QXRefreshHeader?)
@@ -332,6 +333,9 @@ public protocol QXRefreshableViewProtocol {
 }
 
 extension UIScrollView: QXRefreshableViewProtocol {
+    @objc public func qxResetOffset() {
+        contentOffset = CGPoint.zero
+    }
     @objc public func qxDisableAutoInserts() {
         if #available(iOS 11.0, *) {
             contentInsetAdjustmentBehavior = .never
@@ -363,3 +367,4 @@ extension UICollectionView {
         reloadData()
     }
 }
+

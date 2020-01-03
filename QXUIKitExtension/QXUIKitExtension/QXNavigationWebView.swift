@@ -34,6 +34,7 @@ open class QXNavigationWebView: QXWebView, QXWebViewDelegate {
         }
         progressView.qxRect = rect.insideRect(.left(0), .right(0), .top(0), .height(progressH))
         wkWebView.qxRect = rect.insideRect(.left(0), .right(0), .top(0), .bottom(bottomH))
+        loadStatusView.qxRect = wkWebView.qxBounds
     }
     
     public final lazy var progressView: UIProgressView = {
