@@ -32,6 +32,25 @@ class ViewController: QXTableViewController<Any> {
         return e
     }()
     
+    final lazy var sqliteCell: QXSettingTitleArrowCell = {
+        let e = QXSettingTitleArrowCell()
+        e.titleLabel.text = "QXSqlite"
+        e.backButton.respondClick = { [weak self] in
+            let vc = DemoSqliteVc()
+            self?.push(vc)
+        }
+        return e
+    }()
+    final lazy var cacheCell: QXSettingTitleArrowCell = {
+        let e = QXSettingTitleArrowCell()
+        e.titleLabel.text = "QXCache"
+        e.backButton.respondClick = { [weak self] in
+            let vc = DemoCacheVc()
+            self?.push(vc)
+        }
+        return e
+    }()
+    
     final lazy var slogonCell: QXSettingTitleArrowCell = {
         let e = QXSettingTitleArrowCell()
         e.titleLabel.text = "QXSlogonView"
@@ -171,6 +190,8 @@ class ViewController: QXTableViewController<Any> {
         let e = QXTableViewSection([
             self.testCell,
             self.modelsCell,
+            self.sqliteCell,
+            self.cacheCell,
             self.slogonCell,
             self.segPageCell,
             self.bannerCell,

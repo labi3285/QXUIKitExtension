@@ -10,10 +10,10 @@ import UIKit
 
 open class QXTextField: QXView, UITextFieldDelegate {
     
-    public var respondBeginEditting: (() -> ())?
-    public var respondTextChange: ((_ text: String?, _ isEmpty: Bool) -> ())?
-    public var respondEndEditting: (() -> ())?
-    public var respondReturn: (() -> ())?
+    public var respondBeginEditting: (() -> Void)?
+    public var respondTextChange: ((_ text: String?, _ isEmpty: Bool) -> Void)?
+    public var respondEndEditting: (() -> Void)?
+    public var respondReturn: (() -> Void)?
     
     open var isEnabled: Bool = true {
         didSet {

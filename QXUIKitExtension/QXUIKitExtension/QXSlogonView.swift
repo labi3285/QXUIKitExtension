@@ -10,7 +10,7 @@ import UIKit
 
 open class QXSlogonView<Model>: QXButton {
         
-    public var respondModel: ((_ model: Model) -> ())?
+    public var respondModel: ((_ model: Model) -> Void)?
     
     public var models: [Model] = [] {
         didSet {

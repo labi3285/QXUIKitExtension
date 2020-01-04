@@ -29,13 +29,13 @@ public let QXDebugText: String = "Lorem ipsum dolor sit amet, consectetur adipis
 
 public func QXDebugRandomText(_ length: Int) -> String {
     if QXDebugText.count >= length {
-        return QXDebugText.qxSubString(start: 0, end: Int(arc4random_uniform(UInt32(length))))
+        return QXDebugText.qxString(start: 0, end: Int(arc4random_uniform(UInt32(length))))
     }
     return QXDebugText
 }
 public func QXDebugText(_ length: Int) -> String {
     if QXDebugText.count >= length {
-        return QXDebugText.qxSubString(start: 0, end: length)
+        return QXDebugText.qxString(start: 0, end: length)
     }
     return QXDebugText
 }

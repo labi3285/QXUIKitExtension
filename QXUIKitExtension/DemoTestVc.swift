@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SQLite3
 
 func AppValidatePassword(_ pwd: String) -> String? {
     var passWordRegex = "^[\\x21-\\x7e]{8,20}$"
@@ -43,18 +44,15 @@ class DemoTestVc: QXViewController {
         
         view.backgroundColor = UIColor.yellow
         
-        let now = QXDate.now
+        let a: Int32 = 0
         
-        now.endpointsOfDay
-        now.endpointsOfWeak
-        now.endpointsOfWeak
-
-//        print(AppValidatePassword("12345") ?? "通过")
-//        print(AppValidatePassword("12321321321") ?? "通过")
-//        print(AppValidatePassword("1wew23213E213dd2") ?? "通过")
-//        print(AppValidatePassword("12345") ?? "通过")
-//        print(AppValidatePassword("12345678") ?? "通过")
-
+        if a is Int {
+            print(a)
+        } else {
+            print("xxx")
+        }
+        
+        
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -69,7 +67,7 @@ class DemoTestVc: QXViewController {
     }
     
 //
-//    override func loadData(_ done: @escaping (QXRequest.Respond<Any>) -> ()) {
+//    override func loadData(_ done: @escaping (QXRequest.Respond<Any>) -> Void) {
 //
 //        done(.succeed(123))
 //

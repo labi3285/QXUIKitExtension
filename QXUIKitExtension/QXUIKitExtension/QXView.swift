@@ -119,7 +119,7 @@ open class QXView: UIView, QXViewProtocol {
         }
     }
     
-    public var respondNeedsLayout: (() -> ())?
+    public var respondNeedsLayout: (() -> Void)?
     
     override open func invalidateIntrinsicContentSize() {
         super.invalidateIntrinsicContentSize()

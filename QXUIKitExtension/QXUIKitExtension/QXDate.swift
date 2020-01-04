@@ -235,6 +235,12 @@ public struct QXDate: CustomStringConvertible {
         return i
     }
 
+    public var endpointsOfYear: (start: QXDate, end: QXDate) {
+        return (
+            QXDate(year: year, month: 1, day: 1, hour: 0, minute: 0, second: 0),
+            QXDate(year: year, month: 12, day: 31, hour: 23, minute: 59, second: 59)
+        )
+    }
     public var endpointsOfMonth: (start: QXDate, end: QXDate) {
         if month >= 1 && month <= 12 {
             let days = QXDate.calendar.range(of: .day, in: .month, for: nsDate)!.count

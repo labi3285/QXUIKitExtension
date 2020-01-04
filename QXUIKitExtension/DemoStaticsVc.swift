@@ -75,7 +75,7 @@ class DemoStaticsVc: QXTableViewController<Any> {
 //        contentView.filter.json
     }
     
-    override func loadData(_ filter: QXFilter, _ done: @escaping (QXRequest.Respond<[Any]>) -> ()) {
+    override func loadData(_ filter: QXFilter, _ done: @escaping (QXRequest.RespondPage<Any>) -> Void) {
         done(.failed(QXError.noData))
     }
     

@@ -39,11 +39,12 @@ class DemoModelVc: QXViewController {
         ])
         print(point.toDictionary())
         
-        let s = TestPerson(any: "{\"age\":12}")
-        print(s)
-        
-        let a = CGFloat(any: "123")
-        print(a)
+        if let s = TestPerson(any: "{\"age\":12}") {
+            print(s)
+        }
+        if let s = CGFloat(any: "123") {
+            print(s)
+        }
 
         let stu = TestPerson(dictionary: [
             "age": 12,

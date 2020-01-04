@@ -672,7 +672,7 @@ open class QXTableViewCell: UITableViewCell {
 
     open func initializedWithTable() { }
     
-    fileprivate var respondClickCell: (() -> ())?
+    fileprivate var respondClickCell: (() -> Void)?
     public final lazy var backButton: QXButton = {
         let e = QXButton()
         e.backView.backgroundColorHighlighted = QXColor.dynamicHiglight
@@ -719,7 +719,7 @@ open class QXTableViewHeaderFooterView: UITableViewHeaderFooterView {
 
     open func initializedWithTable() { }
     
-    fileprivate var respondClickView: (() -> ())?
+    fileprivate var respondClickView: (() -> Void)?
     public final lazy var backButton: QXButton = {
         let e = QXButton()
         e.backView.backgroundColorHighlighted = QXColor.dynamicHiglight

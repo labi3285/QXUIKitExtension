@@ -12,7 +12,7 @@ open class QXPushTransition: NSObject {
     
     public var duration: TimeInterval = 2
 
-    open func pushFrameAnimations(fromVc: UIViewController, toVc: UIViewController, containerView: UIView, complete: @escaping (_ finished: Bool) -> ()) {
+    open func pushFrameAnimations(fromVc: UIViewController, toVc: UIViewController, containerView: UIView, complete: @escaping (_ finished: Bool) -> Void) {
         let w = containerView.bounds.width
         let h = containerView.bounds.height
         fromVc.view.frame = CGRect(x: 0, y: 0, width: w, height: h)
@@ -47,7 +47,7 @@ open class QXPopTransition: NSObject {
     
     public var duration: TimeInterval = 2
     
-    open func popFrameAnimations(fromVc: UIViewController, toVc: UIViewController, containerView: UIView, complete: @escaping (_ finished: Bool) -> ()) {
+    open func popFrameAnimations(fromVc: UIViewController, toVc: UIViewController, containerView: UIView, complete: @escaping (_ finished: Bool) -> Void) {
         let w = containerView.bounds.width
         let h = containerView.bounds.height
         toVc.view.frame = CGRect(x: -w / 3, y: 0, width: w, height: h)

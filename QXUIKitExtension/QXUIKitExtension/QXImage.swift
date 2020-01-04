@@ -132,7 +132,7 @@ open class QXImage {
         self.size = size
     }
     
-    public init(size: QXSize, render: (_ ctx: CGContext, _ rect: CGRect) -> ()) {
+    public init(size: QXSize, render: (_ ctx: CGContext, _ rect: CGRect) -> Void) {
         self.uiImage = UIImage.qxCreate(size: size.cgSize, render: render)
         self.size = size
     }
@@ -314,7 +314,7 @@ extension UIImage {
         })
     }
     
-    public static func qxCreate(size: CGSize, render: (_ ctx: CGContext, _ rect: CGRect) -> ()) -> UIImage {
+    public static func qxCreate(size: CGSize, render: (_ ctx: CGContext, _ rect: CGRect) -> Void) -> UIImage {
         UIGraphicsBeginImageContext(size)
         let ctx = UIGraphicsGetCurrentContext()!
         let rect = CGRect(x: 0, y: 0, width: size.width, height: size.height)
@@ -345,7 +345,7 @@ extension QXImage {
         return QXImage(e).setSize(s1)
     }
     
-    public static func image(size: QXSize, render: (_ ctx: CGContext, _ size: QXSize, _ scale: CGFloat) -> ()) -> QXImage {
+    public static func image(size: QXSize, render: (_ ctx: CGContext, _ size: QXSize, _ scale: CGFloat) -> Void) -> QXImage {
         let s = CGSize(width: size.w * UIScreen.main.scale, height: size.h * UIScreen.main.scale)
         UIGraphicsBeginImageContext(s)
         let ctx = UIGraphicsGetCurrentContext()!

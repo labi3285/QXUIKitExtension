@@ -11,7 +11,7 @@ import QXConsMaker
 
 open class QXViewController: UIViewController, UINavigationBarDelegate {
     
-    public var respondRefresh: (() -> ())?
+    public var respondRefresh: (() -> Void)?
     
     //MARK:- Init
     public init() {
@@ -253,7 +253,7 @@ open class QXViewController: UIViewController, UINavigationBarDelegate {
     public func dismiss(animated: Bool) {
         super.dismiss(animated: animated, completion: nil)
     }
-    public func dismiss(completion: @escaping (() -> ())) {
+    public func dismiss(completion: @escaping (() -> Void)) {
         super.dismiss(animated: true, completion: completion)
     }
     

@@ -20,13 +20,13 @@ extension UIViewController {
             }
         }
     }
-    open func showSuccess(msg: String, complete: (() -> ())? = nil) {
+    open func showSuccess(msg: String, complete: (() -> Void)? = nil) {
         QXMessageView.demoSuccess(msg: msg, superview: view, complete: complete)
     }
-    open func showFailure(msg: String, complete: (() -> ())? = nil) {
+    open func showFailure(msg: String, complete: (() -> Void)? = nil) {
         QXMessageView.demoFailure(msg: msg, superview: view, complete: complete)
     }
-    open func showWarning(msg: String, complete: (() -> ())? = nil) {
+    open func showWarning(msg: String, complete: (() -> Void)? = nil) {
         QXMessageView.demoWarning(msg: msg, superview: view, complete: complete)
     }
 }
@@ -42,13 +42,13 @@ extension UIView {
             }
         }
     }
-    open func showSuccess(msg: String, complete: (() -> ())? = nil) {
+    open func showSuccess(msg: String, complete: (() -> Void)? = nil) {
         QXMessageView.demoSuccess(msg: msg, superview: self, complete: complete)
     }
-    open func showFailure(msg: String, complete: (() -> ())? = nil) {
+    open func showFailure(msg: String, complete: (() -> Void)? = nil) {
         QXMessageView.demoFailure(msg: msg, superview: self, complete: complete)
     }
-    open func showWarning(msg: String, complete: (() -> ())? = nil) {
+    open func showWarning(msg: String, complete: (() -> Void)? = nil) {
         QXMessageView.demoWarning(msg: msg, superview: self, complete: complete)
     }
 }

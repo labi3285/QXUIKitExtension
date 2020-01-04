@@ -8,6 +8,10 @@
 
 import UIKit
 
+public func /+ (left: String, right: String) -> String {
+    return left.qxStringByCheckOrAddSuffix("/") + right.qxStringByCheckOrRemovePrefix("/")
+}
+
 extension String {
     
     public var qxInt: Int? { return Int(self) }
@@ -42,30 +46,43 @@ extension String {
     public var qxFloatValue: Float { return qxFloat ?? 0.0 }
     public var qxCGFloatValue: CGFloat { return qxCGFloat ?? 0.0 }
 
-    public func qxSubStringWithoutPrefix(_ str: String) -> String {
+    public func qxStringByCheckOrAddPrefix(_ str: String) -> String {
         if hasPrefix(str) {
-            return qxSubStringForward(length: count - str.count, jump: str.count)
+            return self
+        }
+        return str + self
+    }
+    public func qxStringByCheckOrRemovePrefix(_ str: String) -> String {
+        if hasPrefix(str) {
+            return qxStringForward(length: count - str.count, jump: str.count)
         }
         return self
     }
-    public func qxSubStringWithoutSuffix(_ str: String) -> String {
+
+    public func qxStringByCheckOrAddSuffix(_ str: String) -> String {
         if hasSuffix(str) {
-            return qxSubStringBackward(length: count - str.count, jump: str.count)
+            return self
+        }
+        return self + str
+    }
+    public func qxStringByCheckOrRemoveSuffix(_ str: String) -> String {
+        if hasSuffix(str) {
+            return qxStringBackward(length: count - str.count, jump: str.count)
         }
         return self
     }
     
-    public func qxSubStringForward(length: Int, jump: Int) -> String {
+    public func qxStringForward(length: Int, jump: Int) -> String {
         let s = jump
         let e = s + length - 1
-        return qxSubString(start: s, end: e)
+        return qxString(start: s, end: e)
     }
-    public func qxSubStringBackward(length: Int, jump: Int) -> String {
+    public func qxStringBackward(length: Int, jump: Int) -> String {
         let s = count - jump - length
         let e = s + length - 1
-        return qxSubString(start: s, end: e)
+        return qxString(start: s, end: e)
     }
-    public func qxSubString(start: Int, end: Int) -> String {
+    public func qxString(start: Int, end: Int) -> String {
         var s = start
         var e = end
         if s < 0 { s = 0 }
@@ -100,7 +117,7 @@ extension String {
         
         return self
     }
-    
+        
     /// 驼峰
     public var qxHump: String {
         if self.contains("_") {
@@ -123,7 +140,6 @@ extension String {
         }
         return self
     }
-    
     
     public func qxRegexReplaceOccurrences(pattern: String, with: String,
                                  options: NSRegularExpression.Options = []) -> String {

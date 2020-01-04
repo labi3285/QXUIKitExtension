@@ -13,15 +13,15 @@ open class QXButton: QXView {
     open var isEnabled: Bool =  true { didSet { update() } }
     open var isSelected: Bool = false { didSet { update() } }
 
-    open var respondTouchUpInside: (() -> ())?
-    open var respondTouchUpOutside: (() -> ())?
+    open var respondTouchUpInside: (() -> Void)?
+    open var respondTouchUpOutside: (() -> Void)?
 
-    open var respondTouchDown: (() -> ())?
-    open var respondTouchMoved: (() -> ())?
-    open var respondTouchEnded: (() -> ())?
-    open var respondTouchCancelled: (() -> ())?
+    open var respondTouchDown: (() -> Void)?
+    open var respondTouchMoved: (() -> Void)?
+    open var respondTouchEnded: (() -> Void)?
+    open var respondTouchCancelled: (() -> Void)?
     
-    open var respondClick: (() -> ())?
+    open var respondClick: (() -> Void)?
     /// 触发点击的容忍距离
     open var clickMoveTolerance: CGFloat = 20
     /// 点击的高光效果持续时间，默认0.3秒, nil 表示不会延时
@@ -596,7 +596,7 @@ open class QXFoldButton: QXStackButton {
 
 open class QXMaskButton: QXView, UIGestureRecognizerDelegate {
     
-    open var respondTapBackground: (() -> ())?
+    open var respondTapBackground: (() -> Void)?
     
     open var alignmentX: QXAlignmentX = .center
     open var alignmentY: QXAlignmentY = .center

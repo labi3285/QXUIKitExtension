@@ -19,7 +19,7 @@ open class QXWebViewConfig: NSObject, WKScriptMessageHandler {
      */
     
     /// js交互消息
-    public var javaScriptBridges: [String: (_ json: QXJSON) -> ()]?
+    public var javaScriptBridges: [String: (_ json: QXJSON) -> Void]?
 
     public let wkWebViewConfiguration: WKWebViewConfiguration = WKWebViewConfiguration()
     
@@ -97,7 +97,7 @@ open class QXWebView: QXView {
     public func executeJavaScriptFunction(_ funcName: String, _ json: QXJSON) {
         executeJavaScriptFunction(funcName, json, nil)
     }
-    public func executeJavaScriptFunction(_ funcName: String, _ json: QXJSON?, _ resultHandler: ((_ json: QXJSON) -> ())?) {
+    public func executeJavaScriptFunction(_ funcName: String, _ json: QXJSON?, _ resultHandler: ((_ json: QXJSON) -> Void)?) {
         var js: String = funcName
         js += "("
         if let e = json?.jsonString {
@@ -110,9 +110,9 @@ open class QXWebView: QXView {
     public func executeJavaScript(_ js: String) {
         executeJavaScript(js, nil)
     }
-    public func executeJavaScript(_ js: String, _ resultHandler: ((_ json: QXJSON) -> ())?) {
+    public func executeJavaScript(_ js: String, _ resultHandler: ((_ json: QXJSON) -> Void)?) {
         weak var ws = self
-        let todo: () -> () = {
+        let todo: () -> Void = {
             ws?.wkWebView.evaluateJavaScript(js) { (data, err) in
                 var json = QXJSON()
                 if let dic = data as? NSDictionary as? [String: Any] {
@@ -133,7 +133,7 @@ open class QXWebView: QXView {
             todo()
         }
     }
-    private var _javaScriptCallClosurePool: [() -> ()] = []
+    private var _javaScriptCallClosurePool: [() -> Void] = []
     private func _checkOrPerformJavaScriptCallsInPool() {
         if _javaScriptCallClosurePool.count > 0 {
             for e in _javaScriptCallClosurePool {

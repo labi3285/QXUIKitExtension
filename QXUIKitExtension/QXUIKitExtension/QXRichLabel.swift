@@ -64,7 +64,7 @@ open class QXRichLabel: QXView {
     }
     
     /// link responder
-    public var respondTouchLink: ((_ data: Any) -> ())?
+    public var respondTouchLink: ((_ data: Any) -> Void)?
     
     /// alignment at x direction
     public var alignmentX: QXAlignmentX = .left

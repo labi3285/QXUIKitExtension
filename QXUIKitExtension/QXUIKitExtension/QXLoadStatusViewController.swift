@@ -16,13 +16,13 @@ open class QXLoadStatusViewController<Model>: QXViewController {
     }()
     public final lazy var contentView: QXContentLoadStatusView<Model> = {
         let e = QXContentLoadStatusView<Model>(contentView: UIView(), loadStatusView: self.loadStatusView)
-        e.loadDataHandler = { [weak self] done in
+        e.api = { [weak self] done in
             self?.loadData(done)
         }
         return e
     }()
     
-    open func loadData(_ done: @escaping (QXRequest.Respond<Model>) -> ()) {
+    open func loadData(_ done: @escaping (QXRequest.Respond<Model>) -> Void) {
         done(.failed(QXError(-1, "请重写loadData或者提供api")))
     }
 

@@ -38,7 +38,7 @@ open class QXSegmentIndicatorView: UIView {
 
 open class QXSegmentView<Model>: QXView {
     
-    fileprivate var respondClick: (() -> ())?
+    fileprivate var respondClick: (() -> Void)?
     
     public var attributesNormal: [NSAttributedString.Key: Any]
         = QXFont(17, QXColor.dynamicAccent).nsAttributtes
@@ -129,7 +129,7 @@ open class QXSegmentsView<Model>: QXView {
         }
     }
     
-    public var respondSelect: ((_ index: Int, _ model: Model) -> ())?
+    public var respondSelect: ((_ index: Int, _ model: Model) -> Void)?
     
     open func adjustOffset(animated: Bool) {
         if segmentViews.count == 0 {

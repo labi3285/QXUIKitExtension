@@ -22,13 +22,13 @@ open class QXTableViewController<Model>: QXViewController, QXTableViewDelegate {
     
     public final lazy var contentView: QXModelsLoadStatusView<Model> = {
         let e = QXModelsLoadStatusView<Model>(contentView: self.tableView, loadStatusView: self.loadStatusView)
-        e.loadDataHandler = { [weak self] filter, done in
+        e.api = { [weak self] filter, done in
             self?.loadData(filter, done)
         }
         return e
     }()
         
-    open func loadData(_ filter: QXFilter, _ done: @escaping (QXRequest.Respond<[Model]>) -> ()) {
+    open func loadData(_ filter: QXFilter, _ done: @escaping (QXRequest.RespondPage<Model>) -> Void) {
         done(.failed(QXError(-1, "请重写loadData或者提供api")))
     }
     

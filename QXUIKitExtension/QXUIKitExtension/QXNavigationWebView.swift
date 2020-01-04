@@ -10,7 +10,7 @@ import UIKit
 
 open class QXNavigationWebView: QXWebView, QXWebViewDelegate {
     
-    public var respondTitle: ((String?) -> ())?
+    public var respondTitle: ((String?) -> Void)?
     
     public required init(_ config: QXWebViewConfig) {
         super.init(config)

@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
 s.name         = "QXUIKitExtension"
-s.version      = "0.3.4"
+s.version      = "0.3.5"
 s.summary      = "UIKit extensions in swift5."
 s.description  = <<-DESC
 UIKit extensions in swift. Just enjoy!
@@ -16,7 +16,7 @@ s.source_files = "QXUIKitExtension/QXUIKitExtension/*"
 s.resources = "QXUIKitExtension/QXUIKitExtension/QXUIKitExtensionResources.bundle"
 s.requires_arc = true
 
-s.frameworks   = "MobileCoreServices", "ImageIO"
+s.frameworks   = "MobileCoreServices", "ImageIO", "SQLite3"
 
 s.dependency 'Alamofire', '4.8.2'
 s.dependency 'MJRefresh', '~> 3.1.15.7'

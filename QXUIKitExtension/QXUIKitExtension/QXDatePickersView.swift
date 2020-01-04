@@ -646,5 +646,5 @@ open class QXSecondPickersView: QXDatePickersView {
 
 open class QXDatePickersView: QXPickersView {
     open var bringInDate: QXDate?
-    open var respondDate: ((_ date: QXDate?) -> ())?
+    open var respondDate: ((_ date: QXDate?) -> Void)?
 }

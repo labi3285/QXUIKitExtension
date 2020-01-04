@@ -54,10 +54,10 @@ open class QXMaskViewController: UIViewController {
     open func dismissDuration() -> TimeInterval {
         return 0.3
     }
-    open func presentAnimation(_ duration: TimeInterval, animations: @escaping () -> (), completion: @escaping (Bool) -> ()) {
+    open func presentAnimation(_ duration: TimeInterval, animations: @escaping () -> Void, completion: @escaping (Bool) -> Void) {
         UIView.animate(withDuration: duration, delay: 0, usingSpringWithDamping: 0.85, initialSpringVelocity: 1, options: .curveLinear, animations: animations, completion: completion)
     }
-    open func dismissAnimation(_ duration: TimeInterval, animations: @escaping () -> (), completion: @escaping (Bool) -> ()) {
+    open func dismissAnimation(_ duration: TimeInterval, animations: @escaping () -> Void, completion: @escaping (Bool) -> Void) {
         UIView.animate(withDuration: duration, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveLinear, animations: animations, completion: completion)
     }
     

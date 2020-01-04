@@ -12,7 +12,7 @@ import QXJSON
 extension QXRequest {
     
     /// 请求 json
-    open func fetchJSON(done: @escaping (_ respond: Respond<QXJSON>) -> ()) {
+    open func fetchJSON(done: @escaping (_ respond: Respond<QXJSON>) -> Void) {
         fetchData { (respond) in
             switch respond {
             case .succeed(let t):

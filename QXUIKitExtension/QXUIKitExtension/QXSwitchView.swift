@@ -10,7 +10,7 @@ import UIKit
 
 open class QXSwitchView: QXView {
     
-    public var respondChange: ((_ isOn: Bool) -> ())?
+    public var respondChange: ((_ isOn: Bool) -> Void)?
     
     open var isEnabled: Bool {
         set {

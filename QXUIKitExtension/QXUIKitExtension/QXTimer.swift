@@ -22,7 +22,7 @@ public enum QXTimerLinkMode {
 
 open class QXTimer: NSObject {
     
-    public var loop: ((_ timer: QXTimer) -> ())?
+    public var loop: ((_ timer: QXTimer) -> Void)?
     public func remove() {
         switch _type {
         case .timer:
@@ -61,7 +61,7 @@ open class QXTimer: NSObject {
     
     fileprivate var _type: QXTimerType = .timer
     fileprivate weak var _timer: Timer?
-    fileprivate weak var _displayLink: CADisplayLink?
+    fileprivate var _displayLink: CADisplayLink?
     fileprivate var _displayTriggerCount: CGFloat?
     fileprivate var _displayCounter: CGFloat = 0
     fileprivate var _displayLinkMode: String?

@@ -10,7 +10,7 @@ import UIKit
 
 open class QXPickersView: QXStackView {
     
-    public var respondItem: ((_ item: QXPickerView.Item?) -> ())?
+    public var respondItem: ((_ item: QXPickerView.Item?) -> Void)?
 
     open var items: [QXPickerView.Item] = [] {
         didSet {
@@ -284,7 +284,7 @@ open class QXPickerView: QXView, UIPickerViewDataSource, UIPickerViewDelegate {
                 
     }
     
-    open var respondPick: ((_ item: Item) -> ())?
+    open var respondPick: ((_ item: Item) -> Void)?
     open var items: [Item] = [] {
         didSet {
             _selectItem = items.first
@@ -319,7 +319,7 @@ open class QXPickerView: QXView, UIPickerViewDataSource, UIPickerViewDelegate {
     public var suffixView: QXView?
     
     fileprivate weak var nextPickerView: QXPickerView?
-    fileprivate var respondAutoPick: ((_ item: Item) -> ())?
+    fileprivate var respondAutoPick: ((_ item: Item) -> Void)?
     fileprivate var _selectItem: Item?
     fileprivate var _selectIndex: Int?
 

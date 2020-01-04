@@ -31,7 +31,7 @@ open class QXTableViewText {
     open var text: String = ""
     open var font: QXFont = QXFont(14, QXColor.dynamicText)
     open var items: [QXRichLabel.Item]?
-    open var respondTouchLink: ((_ data: Any) -> ())?
+    open var respondTouchLink: ((_ data: Any) -> Void)?
     open var alignmentX: QXAlignmentX = .left
     open var alignmentY: QXAlignmentY = .top
     open var lineSpace: CGFloat = 0

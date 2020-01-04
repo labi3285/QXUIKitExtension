@@ -39,16 +39,12 @@ public enum QXModelsPageStatus {
 
 open class QXModelsLoadStatusView<Model>: QXView {
         
-    /// 优先级 ①
-    public var api: QXModelsApi<Model>?
-    /// 优先级 ②
-    public var loadDataHandler: ( (QXFilter, @escaping (QXRequest.Respond<[Model]>)->() ) -> ())?
-    
-    open func loadData(_ filter: QXFilter, _ done: @escaping (QXRequest.Respond<[Model]>) -> ()) {
-        if let e = loadDataHandler {
+    public var api: ((QXFilter, @escaping (QXRequest.RespondPage<Model>) -> Void) -> Void)?
+            
+    open func loadData(_ filter: QXFilter, _ done: @escaping (QXRequest.RespondPage<Model>) -> Void) {
+        if let e = api {
             e(filter, done)
         } else {
-            /// 优先级 ③
             done(.failed(QXError(-1, "请重写loadData或者提供api")))
         }
     }
@@ -61,6 +57,7 @@ open class QXModelsLoadStatusView<Model>: QXView {
         loadModels()
     }
     
+    /// 设置这个参数，直接展示
     public var staticModels: [Model]? {
         didSet {
             contentView.qxUpdateModels(staticModels ?? [])
@@ -80,23 +77,13 @@ open class QXModelsLoadStatusView<Model>: QXView {
         weak var ws = self
         _requestId += 1
         let id = _requestId
-        if let e = api {
-            e.execute(filter, { models, isThereMore in
-                ws?.onLoadModelsOk(id, models, isThereMore: isThereMore)
-            }, { err in
-                ws?.onLoadModelsFailed(id, err)
-            })
-        } else {
-            loadData(filter) { (respond) in
+        loadData(filter) { (respond) in
+            if id == (ws?._requestId ?? -1) {
                 switch respond {
-                case .succeed(let ms):
-                    if let ms = ms {
-                        ws?.onLoadModelsOk(id, ms, isThereMore: ms.count > 0)
-                    } else {
-                        ws?.onLoadModelsOk(id, [], isThereMore: false)
-                    }
+                case .succeed(let ms, let isThereMore):
+                    ws?.onLoadModelsOk(ms, isThereMore: isThereMore)
                 case .failed(let err):
-                    ws?.onLoadModelsFailed(id, err)
+                    ws?.onLoadModelsFailed(err)
                 }
             }
         }
@@ -270,6 +257,7 @@ open class QXModelsLoadStatusView<Model>: QXView {
                         }
                     } else {
                         loadStatusView.qxLoadStatusViewUpdateStatus(.succeed)
+                        contentView.qxSetRefreshFooter(canPage ? refreshFooter : nil)
                         switch s {
                         case .refreshing:
                             if models.count == 0 {
@@ -331,10 +319,7 @@ open class QXModelsLoadStatusView<Model>: QXView {
     }
     
     /// 拿到分页数据的界面更新
-    open func onLoadModelsOk(_ id: Int, _ newModels: [Model], isThereMore: Bool? = nil) {
-        if id != _requestId {
-            return
-        }
+    open func onLoadModelsOk(_ newModels: [Model], isThereMore: Bool? = nil) {
         let statusBefore = modelsLoadStatus
         if canPage {
             if statusBefore.isRefresh {
@@ -406,10 +391,7 @@ open class QXModelsLoadStatusView<Model>: QXView {
         }
     }
     /// 分页报错处理的界面更新
-    open func onLoadModelsFailed(_ id: Int, _ err: QXError?) {
-        if id != _requestId {
-            return
-        }
+    open func onLoadModelsFailed(_ err: QXError?) {
         let statusBefore = modelsLoadStatus
         switch statusBefore {
         case .reload(_):

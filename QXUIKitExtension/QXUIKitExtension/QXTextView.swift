@@ -11,10 +11,10 @@ import IQKeyboardManagerSwift
 
 open class QXTextView: QXView, UITextViewDelegate {
 
-    public var respondBeginEditting: (() -> ())?
-    public var respondTextChange: ((_ text: String?, _ isEmpty: Bool) -> ())?
-    public var respondEndEditting: (() -> ())?
-    public var respondNeedsUpdate: (() -> ())?
+    public var respondBeginEditting: (() -> Void)?
+    public var respondTextChange: ((_ text: String?, _ isEmpty: Bool) -> Void)?
+    public var respondEndEditting: (() -> Void)?
+    public var respondNeedsUpdate: (() -> Void)?
     
     open var isEnabled: Bool = true {
         didSet {

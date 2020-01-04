@@ -21,22 +21,16 @@ class DemoListVc: QXTableViewController<QXTableViewSection> {
         tableView.adapter = QXTableViewAdapter([
             String.self >> QXTableViewDebugCell.self,
         ])
-//        let api = QXModelsApi<QXTableViewSection> { (filter, succeed, failed) in
-//            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1) {
-//                failed(QXError.unknown)
-//            }
-//        }
-//        let ms = (0..<10).map { _ in QXDebugRandomText(999) }
-//        let s = QXTableViewSection(ms)
-//        let mock = QXModelsMock<QXTableViewSection> { (filter) -> [QXTableViewSection] in
-//            return [s]
-//        }
-//        api.mock = mock
         
-        let ms = (0..<10).map { _ in QXDebugRandomText(999) }
-        let s = QXTableViewSection(ms)
-        contentView.staticModels = [s]
-                
+        contentView.api = { filter, done in
+            print(filter.dictionary)
+            DispatchQueue.main.qxAsyncAfter(1) {
+                let ms = (0..<10).map { _ in QXDebugRandomText(999) }
+                let s = QXTableViewSection(ms)
+                done(.succeed([s], true))
+            }
+        }
+
         contentView.filter.dictionary["123"] = 345
 //        contentView.api = api
     }
@@ -44,27 +38,23 @@ class DemoListVc: QXTableViewController<QXTableViewSection> {
     override func didSetup() {
         super.didSetup()
         contentView.reloadData()
-//
-//
-//        navigationBarRightItem = QXBarButtonItem.titleItem("xxx", {
-//
-//            self.contentView.reloadData()
-//
-//        })
+        navigationBarRightItem = QXBarButtonItem.titleItem("xxx", {
+            self.contentView.reloadData()
+        })
     }
     
-    override func loadData(_ filter: QXFilter, _ done: @escaping (QXRequest.Respond<[QXTableViewSection]>) -> ()) {
-        print(filter.dictionary)
-        
-        DispatchQueue.main.qxAsyncAfter(1) {
-            let ms = (0..<10).map { _ in QXDebugRandomText(999) }
-            let s = QXTableViewSection(ms)
-            done(.succeed([s]))
-            
-//            done(.succeed([]))
-//            done(.failed(QXError.unknown))
-        }
-    }
+//    override func loadData(_ filter: QXFilter, _ done: @escaping (QXRequest.RespondPage<QXTableViewSection>) -> Void) {
+//        print(filter.dictionary)
+//
+//        DispatchQueue.main.qxAsyncAfter(1) {
+//            let ms = (0..<10).map { _ in QXDebugRandomText(999) }
+//            let s = QXTableViewSection(ms)
+//            done(.succeed([s], true))
+//
+////            done(.succeed([]))
+////            done(.failed(QXError.unknown))
+//        }
+//    }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)

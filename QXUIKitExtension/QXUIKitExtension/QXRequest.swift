@@ -57,9 +57,9 @@ open class QXRequest {
     /// 地址
     public var url: String = ""
     /// 请求参数
-    public var params: [String: Any]?
+    public var params: [String: Any?]?
     /// 请求头
-    public var headers: [String: String]?
+    public var headers: [String: String?]?
     
     /// 请求类型
     public let method: Method
@@ -67,15 +67,15 @@ open class QXRequest {
     public let encoding: ParameterEncoding
     
     /// 追加的header字段
-    public let appendHeaders: [String: String]?
+    public let appendHeaders: [String: String?]?
     /// 追加的参数
-    public let appendParams: [String: Any]?
+    public let appendParams: [String: Any?]?
     
     /// 测试模式是否打印log
     public var isDebugPrint: Bool = false
-        
+            
     /// 构造方法
-    public init(method: Method, encoding: ParameterEncoding, appendHeaders: [String: String]? = nil, appendParams: [String: Any]? = nil) {
+    public init(method: Method, encoding: ParameterEncoding, appendHeaders: [String: String?]? = nil, appendParams: [String: Any?]? = nil) {
         self.method = method
         self.encoding = encoding
         self.appendHeaders = appendHeaders
@@ -88,12 +88,16 @@ open class QXRequest {
         let name: String
         let suffix: String
     }
-    
+        
     public enum Respond<T> {
-        case succeed(_ data: T?)
+        case succeed(_ data: T)
         case failed(_ err: QXError)
     }
-    
+    public enum RespondPage<T> {
+        case succeed(_ models: [T], _ isThereMore: Bool)
+        case failed(_ err: QXError)
+    }
+
     public static let globalApiManager: Alamofire.SessionManager = {
         let cfg = URLSessionConfiguration.default
         cfg.timeoutIntervalForRequest = 10
@@ -108,7 +112,7 @@ open class QXRequest {
     }()
     
     /// 上传文件
-    public func uploadFormData(file: File, done: @escaping (_ respond: Respond<Any>) -> ()) {
+    public func uploadFormData(file: File, done: @escaping (_ respond: Respond<Any>) -> Void) {
         assert(self.url.count > 0, "请填写url")
         let url = self.url
         let method = _makeMethod()
@@ -151,7 +155,7 @@ open class QXRequest {
     }
     
     /// 上传文件列表
-    public func uploadFormDatas(files: [File], done: @escaping (_ respond: Respond<Any>) -> ()) {
+    public func uploadFormData(files: [File], done: @escaping (_ respond: Respond<Any>) -> Void) {
         assert(self.url.count > 0, "请填写url")
         let url = self.url
         let method = _makeMethod()
@@ -196,7 +200,7 @@ open class QXRequest {
     }
     
     /// 请求 data
-    public func fetchData(done: @escaping (_ respond: Respond<Any>) -> ()) {
+    public func fetchData(done: @escaping (_ respond: Respond<Any>) -> Void) {
         QXDebugAssert(url.count > 0, "请填写url")
         let url = self.url
         let method = _makeMethod()
@@ -233,7 +237,7 @@ open class QXRequest {
     }
     
     /// 请求 arr
-    public func fetchArray(done: @escaping (_ respond: Respond<[Any]>) -> ()) {
+    public func fetchArray(done: @escaping (_ respond: Respond<[Any]>) -> Void) {
         fetchData { (respond) in
             switch respond {
             case .succeed(let t):
@@ -249,7 +253,7 @@ open class QXRequest {
     }
     
     /// 请求 dic
-    public func fetchDictionary(done: @escaping (_ respond: Respond<[String: Any]>) -> ()) {
+    public func fetchDictionary(done: @escaping (_ respond: Respond<[String: Any]>) -> Void) {
         fetchData { (respond) in
             switch respond {
             case .succeed(let t):
@@ -291,12 +295,16 @@ extension QXRequest {
         var e = [String: String]()
         if let headers = appendHeaders {
             for (key, value) in headers {
-                e[key] = value
+                if let value = value {
+                    e[key] = value
+                }
             }
         }
         if let headers = headers {
             for (key, value) in headers {
-                e[key] = value
+                if let value = value {
+                    e[key] = value
+                }
             }
         }
         if e.count > 0 {
@@ -309,12 +317,16 @@ extension QXRequest {
         var e = [String: Any]()
         if let params = appendParams {
             for (key, value) in params {
-                e[key] = value
+                if let value = value {
+                    e[key] = value
+                }
             }
         }
         if let params = params {
             for (key, value) in params {
-                e[key] = value
+                if let value = value {
+                    e[key] = value
+                }
             }
         }
         if e.count > 0 {

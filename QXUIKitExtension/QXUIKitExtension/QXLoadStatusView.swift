@@ -17,7 +17,7 @@ public enum QXLoadStatus {
 
 public protocol QXLoadStatusViewProtocol {
     func qxLoadStatusViewUpdateStatus(_ status: QXLoadStatus)
-    func qxLoadStatusViewRetryHandler(_ todo: (() -> ())?)
+    func qxLoadStatusViewRetryHandler(_ todo: (() -> Void)?)
     
     func qxLoadStatusViewLoadingText() -> String?
     func qxLoadStatusViewDefaultErrorText() -> String?
@@ -30,47 +30,32 @@ public protocol QXContentViewDelegate: class {
 
 open class QXContentLoadStatusView<Model>: QXView {
         
-    public var api: QXModelApi<Model>?
-    public var loadDataHandler: ( (@escaping (QXRequest.Respond<Model>)->() ) -> ())?
+    public var api: ( (@escaping (QXRequest.Respond<Model>)->() ) -> Void)?
     
-    open func loadData(done: @escaping (QXRequest.Respond<Model>) -> ()) {
-        if let e = loadDataHandler {
+    open func loadData(done: @escaping (QXRequest.Respond<Model>) -> Void) {
+        if let e = api {
             e(done)
         } else {
-            /// 优先级 ③
             done(.failed(QXError(-1, "请重写loadData或者提供api")))
         }
     }
-    
-    public var emptyMessage: String = "暂无内容"
-        
+            
     open func reloadData() {
         weak var ws = self
-        if let e = api {
-            e.api({ model in
-               if model == nil {
-                    ws?.loadStatus = .empty(ws?.emptyMessage)
-               } else {
-                    ws?.loadStatus = .succeed
-               }
-            }, { err in
-                ws?.loadStatus = .failed(err)
-            })
-        } else {
-            loadData { (respond) in
+        _requestId += 1
+        let id = _requestId
+        loadData { (respond) in
+            if id == (ws?._requestId ?? -1) {
                 switch respond {
-                case .succeed(let m):
-                    if m == nil {
-                        ws?.loadStatus = .empty(ws?.emptyMessage)
-                    } else {
-                        ws?.loadStatus = .succeed
-                    }
+                case .succeed(_):
+                    ws?.loadStatus = .succeed
                 case .failed(let err):
                     ws?.loadStatus = .failed(err)
                 }
             }
         }
     }
+    private var _requestId: Int = -1
     
     open var loadStatus: QXLoadStatus = .succeed {
         didSet {
@@ -275,7 +260,7 @@ extension QXLoadStatusView: QXLoadStatusViewProtocol {
         qxSetNeedsLayout()
     }
     
-    public func qxLoadStatusViewRetryHandler(_ todo: (() -> ())?) {
+    public func qxLoadStatusViewRetryHandler(_ todo: (() -> Void)?) {
         retryButton.respondClick = todo
     }
     

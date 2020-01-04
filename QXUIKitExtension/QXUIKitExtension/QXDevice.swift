@@ -126,11 +126,14 @@ extension QXDevice {
             return .denied
         case .notDetermined:
             return .notDetermined
+        @unknown default:
+            QXDebugPrint("未知话筒状态")
+            return .notDetermined
         }
     }
     
     /// 申请话筒权限
-    public static func checkOrRequestMicrophoneAuthorization(done: @escaping ((_ granted: Bool) -> ())) {
+    public static func checkOrRequestMicrophoneAuthorization(done: @escaping ((_ granted: Bool) -> Void)) {
         switch microphoneAuthorStatus {
         case .authorized:
             done(true)

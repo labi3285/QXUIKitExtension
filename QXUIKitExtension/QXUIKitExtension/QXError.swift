@@ -8,7 +8,7 @@
 
 import Foundation
 
-public struct QXError {
+public struct QXError: Error {
     
     public var code: String
     public var message: String

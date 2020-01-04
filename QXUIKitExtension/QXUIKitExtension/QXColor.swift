@@ -160,14 +160,14 @@ extension QXColor {
     
     private static func hex2rgb(_ hex: String) -> (r: UInt8, g: UInt8, b: UInt8) {
         var t = hex.trimmingCharacters(in:CharacterSet.whitespacesAndNewlines).uppercased()
-        t = t.qxSubStringWithoutPrefix("#")
+        t = t.qxStringByCheckOrRemovePrefix("#")
         if (t.count != 6) {
             return (0, 0, 0)
         } else {
             var r: CUnsignedInt = 0, g:CUnsignedInt = 0, b:CUnsignedInt = 0
-            Scanner(string: t.qxSubString(start: 0, end: 1)).scanHexInt32(&r)
-            Scanner(string: t.qxSubString(start: 2, end: 3)).scanHexInt32(&g)
-            Scanner(string: t.qxSubString(start: 4, end: 5)).scanHexInt32(&b)
+            Scanner(string: t.qxString(start: 0, end: 1)).scanHexInt32(&r)
+            Scanner(string: t.qxString(start: 2, end: 3)).scanHexInt32(&g)
+            Scanner(string: t.qxString(start: 4, end: 5)).scanHexInt32(&b)
             return (UInt8(r), UInt8(g), UInt8(b))
         }
     }

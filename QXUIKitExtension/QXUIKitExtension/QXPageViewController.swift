@@ -10,7 +10,7 @@ import UIKit
 
 open class QXPageViewController: UIViewController, UIPageViewControllerDelegate, UIPageViewControllerDataSource {
     
-    public var respondIndex: ((_ idx: Int) -> ())?
+    public var respondIndex: ((_ idx: Int) -> Void)?
     
     public let viewControllers: [UIViewController]
     

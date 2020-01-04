@@ -10,8 +10,8 @@ import UIKit
 
 open class QXBannerView<Model>: QXView, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
-    public var respondSelect: ((_ idx: Int, _ model: Model?) -> ())?
-    public var respondChange: ((_ idx: Int, _ total: Int) -> ())?
+    public var respondSelect: ((_ idx: Int, _ model: Model?) -> Void)?
+    public var respondChange: ((_ idx: Int, _ total: Int) -> Void)?
     
     public weak var pageIndicatorView: QXPageIndicatorView?
     
@@ -192,7 +192,7 @@ open class QXTextBanner<Model>: QXBanner<Model> {
     open var text: String = ""
     open var font: QXFont = QXFont(14, QXColor.dynamicText)
     open var items: [QXRichLabel.Item]?
-    open var respondTouchLink: ((_ data: Any) -> ())?
+    open var respondTouchLink: ((_ data: Any) -> Void)?
     open var alignmentX: QXAlignmentX = .center
     open var alignmentY: QXAlignmentY = .center
     open var lineSpace: CGFloat = 0

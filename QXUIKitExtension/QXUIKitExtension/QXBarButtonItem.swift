@@ -16,14 +16,14 @@ open class QXBarButtonItem: UIBarButtonItem {
         return e
     }
     
-    public static func titleItem(_ title: String, _ handler: @escaping () -> ()) -> QXBarButtonItem {
+    public static func titleItem(_ title: String, _ handler: @escaping () -> Void) -> QXBarButtonItem {
         let e = QXBarButtonItem(title: title, style: .plain, target: nil, action: #selector(itemClick))
         e.target = e
         e.respondClick = handler
         return e
     }
     
-    public static func iconItem(_ icon: String, _ handler: @escaping () -> ()) -> QXBarButtonItem {
+    public static func iconItem(_ icon: String, _ handler: @escaping () -> Void) -> QXBarButtonItem {
         let e = QXBarButtonItem(image: UIImage(named: icon), style: .plain, target: nil, action: #selector(itemClick))
         e.target = e
         e.respondClick = handler
@@ -47,6 +47,6 @@ open class QXBarButtonItem: UIBarButtonItem {
     @objc func itemClick() {
         respondClick?()
     }
-    public var respondClick: (() -> ())?
+    public var respondClick: (() -> Void)?
     
 }
