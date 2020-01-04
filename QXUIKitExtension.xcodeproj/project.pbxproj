@@ -139,7 +139,6 @@
 		75DCCBBE23A3846500215D8F /* QXKeyboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75DCCBBD23A3846500215D8F /* QXKeyboardView.swift */; };
 		75E214F122E6AD44004A12DB /* QXRefresh.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75E214F022E6AD44004A12DB /* QXRefresh.swift */; };
 		75E2FAF923BF7212000E9212 /* QXSqlite.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75E2FAF823BF7212000E9212 /* QXSqlite.swift */; };
-		75E2FAFB23C0282E000E9212 /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 75E2FAFA23C0282E000E9212 /* libsqlite3.0.tbd */; };
 		75E2FAFD23C0284E000E9212 /* DemoSqliteVc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75E2FAFC23C0284E000E9212 /* DemoSqliteVc.swift */; };
 		75F5D94723A229B100C68C16 /* QXNavigationWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75F5D94623A229B100C68C16 /* QXNavigationWebView.swift */; };
 		75FE018422EC29C0007646A3 /* QXDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75FE018322EC29C0007646A3 /* QXDate.swift */; };
@@ -297,7 +296,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				75E2FAFB23C0282E000E9212 /* libsqlite3.0.tbd in Frameworks */,
 				4A896D06035194710BB414B1 /* Pods_QXUIKitExtension.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

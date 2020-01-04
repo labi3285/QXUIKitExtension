@@ -16,7 +16,8 @@ s.source_files = "QXUIKitExtension/QXUIKitExtension/*"
 s.resources = "QXUIKitExtension/QXUIKitExtension/QXUIKitExtensionResources.bundle"
 s.requires_arc = true
 
-s.frameworks   = "MobileCoreServices", "ImageIO", "SQLite3"
+s.frameworks   = "MobileCoreServices", "ImageIO"
+s.library = 'sqlite3'
 
 s.dependency 'Alamofire', '4.8.2'
 s.dependency 'MJRefresh', '~> 3.1.15.7'
