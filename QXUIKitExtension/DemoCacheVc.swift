@@ -25,9 +25,15 @@ class DemoCacheVc: QXViewController {
             
             print(try cache.getInt("akey"))
             print(try cache.getDouble("akey"))
-//            print(try cache.getText("akey"))
-//            print(try cache.getData("akey"))
+            print(try cache.getText("akey"))
+            print(try cache.getData("akey"))
             
+            struct Student: QXModelProtocol {
+                var name: String = "xiaoming"
+                var age = 10
+            }
+            try cache.setModel("aModel", Student())
+            print(try cache.getModel("aModel", Student.self))
 
         } catch {
             QXDebugPrint(error)

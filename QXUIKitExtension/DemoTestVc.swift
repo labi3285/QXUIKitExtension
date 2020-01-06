@@ -9,68 +9,50 @@
 import UIKit
 import SQLite3
 
-func AppValidatePassword(_ pwd: String) -> String? {
-    var passWordRegex = "^[\\x21-\\x7e]{8,20}$"
-    var passWordPredicate = NSPredicate(format: "SELF MATCHES %@", passWordRegex)
-    if passWordPredicate.evaluate(with: pwd) {
-        passWordRegex = ".*[0-9]+.*"
-        passWordPredicate = NSPredicate(format: "SELF MATCHES %@", passWordRegex)
-        if !passWordPredicate.evaluate(with: pwd) {
-            return "密码未包含数字"
-        }
-        passWordRegex = ".*[A-Z]+.*"
-        passWordPredicate = NSPredicate(format: "SELF MATCHES %@", passWordRegex)
-        if !passWordPredicate.evaluate(with: pwd) {
-            return "密码未包含大写字母"
-        }
-        passWordRegex = ".*[a-z]+.*"
-        passWordPredicate = NSPredicate(format: "SELF MATCHES %@", passWordRegex)
-        if !passWordPredicate.evaluate(with: pwd) {
-            return "密码未包含小写字母"
-        }
-        return nil
-    } else {
-        return "请使用至少8位数字大小写字母组合"
-    }
-}
 
 class DemoTestVc: QXViewController {
+    
+    lazy var textField: QXTextField = {
+        let e = QXTextField()
+        
+        let icon = QXImageView()
+        icon.image = QXUIKitExtensionResources.shared.image("icon_clear")
+            .setSize(20, 20)
+        icon.padding = QXEdgeInsets(7, 7, 7, 7)
+        e.iconView = icon
+        
+        let btn = QXIconButton()
+        btn.padding = QXEdgeInsets(7, 7, 7, 7)
+        btn.icon = QXUIKitExtensionResources.shared.image("icon_clear")
+            .setSize(20, 20)
+        e.clearButton = btn
+        
+        let btn1 = QXIconButton()
+        btn1.padding = QXEdgeInsets(7, 7, 7, 7)
+        btn1.icon = QXUIKitExtensionResources.shared.image("icon_clear")
+            .setSize(20, 20)
+        e.handleButton = btn1
+        
+        e.filter = QXTextFilter.phone
+        return e
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "测试"
         
+
         navigationBarBackTitle = "x"
         
         view.backgroundColor = UIColor.yellow
         
-        let a: Int32 = 0
-        
-        if a is Int {
-            print(a)
-        } else {
-            print("xxx")
-        }
-        
-        
+        view.addSubview(textField)
+        textField.IN(view).CENTER.SIZE(300, 50).MAKE()
+        textField.backgroundColor = UIColor.white
+
     }
     
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        
-        let t = QXRequest(method: QXRequest.Method.get, encoding: QXRequest.ParameterEncoding.url)
-        t.url = "https://www.baidu.com"
-        t.fetchData { (r) in
-            print(r)
-        }
-        
-        
+    @objc func xxx() {
+        print("xxx")
     }
-    
-//
-//    override func loadData(_ done: @escaping (QXRequest.Respond<Any>) -> Void) {
-//
-//        done(.succeed(123))
-//
-//    }
-//
 }

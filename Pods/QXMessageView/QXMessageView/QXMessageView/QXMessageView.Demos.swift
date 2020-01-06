@@ -16,25 +16,43 @@ extension QXMessageView {
         return messageView(contentView: contentView, superview: superview)
     }
     
-    @discardableResult public static func demoSuccess(msg: String, superview: UIView, duration: TimeInterval = 1.5, complete: (() -> ())? = nil) -> QXMessageView {
+    @discardableResult public static func demoSuccess(msg: String, superview: UIView, duration: TimeInterval? = nil, complete: (() -> ())? = nil) -> QXMessageView {
         let contentView = QXMessageView.DemoIconTextView()
         contentView.icon = QXMessageView._kDemoSuccessIcon
         contentView.text = msg
-        return messageView(contentView: contentView, superview: superview, duration: duration, complete: complete)
+        let _duration: TimeInterval
+        if let e = duration {
+            _duration = e
+        } else {
+            _duration = min(max(2 * TimeInterval(msg.count) / 8, 1.5), 6)
+        }
+        return messageView(contentView: contentView, superview: superview, duration: _duration, complete: complete)
     }
     
-    @discardableResult public static func demoFailure(msg: String, superview: UIView, duration: TimeInterval = 1.5, complete: (() -> ())? = nil) -> QXMessageView {
+    @discardableResult public static func demoFailure(msg: String, superview: UIView, duration: TimeInterval? = nil, complete: (() -> ())? = nil) -> QXMessageView {
         let contentView = QXMessageView.DemoIconTextView()
         contentView.icon = QXMessageView._kDemoFailureIcon
         contentView.text = msg
-        return messageView(contentView: contentView, superview: superview, duration: duration, complete: complete)
+        let _duration: TimeInterval
+        if let e = duration {
+            _duration = e
+        } else {
+            _duration = min(max(2 * TimeInterval(msg.count) / 8, 1.5), 6)
+        }
+        return messageView(contentView: contentView, superview: superview, duration: _duration, complete: complete)
     }
     
-    @discardableResult public static func demoWarning(msg: String, superview: UIView, duration: TimeInterval = 1.5, complete: (() -> ())? = nil) -> QXMessageView {
+    @discardableResult public static func demoWarning(msg: String, superview: UIView, duration: TimeInterval? = nil, complete: (() -> ())? = nil) -> QXMessageView {
         let contentView = QXMessageView.DemoIconTextView()
         contentView.icon = QXMessageView._kDemoWarningIcon
         contentView.text = msg
-        return messageView(contentView: contentView, superview: superview, duration: duration, complete: complete)
+        let _duration: TimeInterval
+        if let e = duration {
+            _duration = e
+        } else {
+            _duration = min(max(2 * TimeInterval(msg.count) / 8, 1.5), 6)
+        }
+        return messageView(contentView: contentView, superview: superview, duration: _duration, complete: complete)
     }
 
     public class DemoIconTextView: MessageView, QXMessageViewContentViewProtocol {
@@ -192,20 +210,17 @@ extension QXMessageView {
     private static let _kDemoSuccessIcon: UIImage = {
         var path = Bundle(for: QXMessageView.self).path(forResource: "QXMessageView.Demo.bundle", ofType: nil)!
         let bundle = Bundle(path: path)!
-        path = bundle.path(forResource: "icon_success.png", ofType: nil)!
-        return UIImage(contentsOfFile: path)!
+        return UIImage(named: "icon_succeed", in: bundle, compatibleWith: nil)!
     }()
     private static let _kDemoFailureIcon: UIImage = {
         var path = Bundle(for: QXMessageView.self).path(forResource: "QXMessageView.Demo.bundle", ofType: nil)!
         let bundle = Bundle(path: path)!
-        path = bundle.path(forResource: "icon_failure.png", ofType: nil)!
-        return UIImage(contentsOfFile: path)!
+        return UIImage(named: "icon_failed", in: bundle, compatibleWith: nil)!
     }()
     private static let _kDemoWarningIcon: UIImage = {
         var path = Bundle(for: QXMessageView.self).path(forResource: "QXMessageView.Demo.bundle", ofType: nil)!
         let bundle = Bundle(path: path)!
-        path = bundle.path(forResource: "icon_warning.png", ofType: nil)!
-        return UIImage(contentsOfFile: path)!
+        return UIImage(named: "icon_warning", in: bundle, compatibleWith: nil)!
     }()
     
 }

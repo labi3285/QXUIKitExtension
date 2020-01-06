@@ -37,6 +37,13 @@ public enum QXModelsPageStatus {
     case pageNoMore(_ msg: String?)
 }
 
+public enum QXModelsLoadType {
+    case load
+    case reload
+    case refresh
+    case page
+}
+
 open class QXModelsLoadStatusView<Model>: QXView {
         
     public var api: ((QXFilter, @escaping (QXRequest.RespondPage<Model>) -> Void) -> Void)?
@@ -49,12 +56,19 @@ open class QXModelsLoadStatusView<Model>: QXView {
         }
     }
     
+    open func loadData() {
+        filter.page = isPageStartFromZero ? 0 : 1
+        models = []
+        contentView.qxResetOffset()
+        modelsLoadStatus = .reload(.loading)
+        loadModels(QXModelsLoadType.load)
+    }
     open func reloadData() {
         filter.page = isPageStartFromZero ? 0 : 1
         models = []
         contentView.qxResetOffset()
         modelsLoadStatus = .reload(.loading)
-        loadModels()
+        loadModels(QXModelsLoadType.reload)
     }
     
     /// 设置这个参数，直接展示
@@ -73,7 +87,7 @@ open class QXModelsLoadStatusView<Model>: QXView {
         }
     }
     
-    open func loadModels() {
+    open func loadModels(_ loadType: QXModelsLoadType) {
         weak var ws = self
         _requestId += 1
         let id = _requestId
@@ -89,21 +103,19 @@ open class QXModelsLoadStatusView<Model>: QXView {
         }
     }
     private var _requestId: Int = -1
+    private var _isInitializeRequest: Int = -1
 
     public var filter: QXFilter = QXFilter()
     public var isPageStartFromZero: Bool = true
 
-    public let contentView: UIView & QXRefreshableViewProtocol
     public let loadStatusView: UIView & QXLoadStatusViewProtocol
+    public let contentView: UIView & QXRefreshableViewProtocol
     public required init(contentView: UIView & QXRefreshableViewProtocol, loadStatusView: UIView & QXLoadStatusViewProtocol) {
         self.contentView = contentView
         self.loadStatusView = loadStatusView
         super.init()
         self.addSubview(contentView)
-        
-        if let e = contentView as? QXTableView {
-            e.uiTableView.addSubview(loadStatusView)
-        }
+        contentView.qxAddSubviewToRefreshableView(loadStatusView)
         loadStatusView.qxLoadStatusViewRetryHandler { [weak self] in
             self?.reloadData()
         }
@@ -311,11 +323,11 @@ open class QXModelsLoadStatusView<Model>: QXView {
     open func headerStartRefresh() {
         filter.page = isPageStartFromZero ? 0 : 1
         modelsLoadStatus = .page(.refreshing)
-        loadModels()
+        loadModels(.refresh)
     }
     open func footerStartRefresh() {
         modelsLoadStatus = .page(.paging)
-        loadModels()
+        loadModels(.page)
     }
     
     /// 拿到分页数据的界面更新

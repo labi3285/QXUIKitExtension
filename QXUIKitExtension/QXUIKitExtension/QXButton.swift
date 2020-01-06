@@ -112,7 +112,6 @@ open class QXButton: QXView {
         backView.qxShadow = _originShadow
         backView.qxBorder = _originBorder
         backView.alpha = _originAlpha ?? 1
-        qxSetNeedsLayout()
     }
     open func handleHighlighted() {
         if !_isOriginPrepared {
@@ -123,7 +122,6 @@ open class QXButton: QXView {
         backView.qxShadow = backView.shadowHighlighted ?? _originShadow
         backView.qxBorder = backView.borderHighlighted ?? _originBorder
         backView.alpha = highlightAlpha ?? _originAlpha ?? 1
-        qxSetNeedsLayout()
     }
     open func handleSelected() {
         if !_isOriginPrepared {
@@ -134,7 +132,6 @@ open class QXButton: QXView {
         backView.qxShadow = backView.shadowSelected ?? _originShadow
         backView.qxBorder = backView.borderSelected ?? _originBorder
         backView.alpha = _originAlpha ?? 1
-        qxSetNeedsLayout()
     }
     open func handleDisabled(isSelected: Bool) {
         if !_isOriginPrepared {
@@ -145,7 +142,6 @@ open class QXButton: QXView {
         backView.qxShadow = backView.shadowDisabled ?? _originShadow
         backView.qxBorder = backView.borderDisabled ?? _originBorder
         backView.alpha = disableAlpha ?? _originAlpha ?? 1
-        qxSetNeedsLayout()
     }
     
     override open func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -169,9 +165,12 @@ open class QXButton: QXView {
                 }
                 if isClickTriggered {
                     if let e = clickHighlightDelaySecs {
-                        DispatchQueue.main.qxAsyncWait(e) {
-                            self.isHighlighted = false
-                            self.update()
+                        let origin = self.isUserInteractionEnabled
+                        self.isUserInteractionEnabled = false
+                        DispatchQueue.main.qxAsyncAfter(e) {
+                           self.isHighlighted = false
+                           self.update()
+                           self.isUserInteractionEnabled = origin
                         }
                     } else {
                         isHighlighted = false

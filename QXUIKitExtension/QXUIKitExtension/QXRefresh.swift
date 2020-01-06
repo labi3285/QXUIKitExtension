@@ -329,10 +329,18 @@ public protocol QXRefreshableViewProtocol {
     func qxUpdateModels(_ models: [Any])
     func qxSetRefreshHeader(_ header: QXRefreshHeader?)
     func qxSetRefreshFooter(_ footer: QXRefreshFooter?)
+    func qxAddSubviewToRefreshableView(_ view: UIView)
+    func qxRefreshableViewFrame() -> CGRect
     func qxReloadData()
 }
 
 extension UIScrollView: QXRefreshableViewProtocol {
+    @objc public func qxAddSubviewToRefreshableView(_ view: UIView) {
+        addSubview(view)
+    }
+    @objc public func qxRefreshableViewFrame() -> CGRect {
+        return frame
+    }
     @objc public func qxResetOffset() {
         contentOffset = CGPoint.zero
     }

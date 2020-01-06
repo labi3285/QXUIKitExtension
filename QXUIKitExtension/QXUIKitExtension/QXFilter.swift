@@ -11,7 +11,16 @@ import Foundation
 open class QXFilter {
         
     public var dictionary: [String: Any] = [:]
-        
+    
+    open var loadType: QXModelsLoadType {
+        set {
+            dictionary["loadType"] = newValue
+        }
+        get {
+            return dictionary["loadType"] as? QXModelsLoadType ?? .load
+        }
+    }
+            
     open var page: Int {
         set {
             dictionary["page"] = newValue

@@ -289,6 +289,10 @@ open class QXTableView: QXView {
         uiTableView.delegate = self
         uiTableView.dataSource = self
         setNeedsLayout()
+        for e in _uiTableViewAttendViews {
+            uiTableView.qxCheckOrAddSubview(e)
+            e.frame = uiTableView.bounds
+        }
     }
     
     override open func layoutSubviews() {
@@ -494,6 +498,8 @@ open class QXTableView: QXView {
         }
         return sectionFooterSpace
     }
+    
+    fileprivate var _uiTableViewAttendViews: [UIView] = []
 
 }
 extension QXTableView: UITableViewDelegate, UITableViewDataSource {
@@ -621,6 +627,13 @@ extension QXTableView: UITableViewDelegate, UITableViewDataSource {
 }
 
 extension QXTableView: QXRefreshableViewProtocol {
+    public func qxAddSubviewToRefreshableView(_ view: UIView) {
+        uiTableView.addSubview(view)
+        _uiTableViewAttendViews.append(view)
+    }
+    public func qxRefreshableViewFrame() -> CGRect {
+        return uiTableView.frame
+    }
     public func qxResetOffset() {
         uiTableView.contentOffset = CGPoint.zero
     }
@@ -780,14 +793,14 @@ open class QXTableViewBreakLineCell: QXTableViewCell {
 
 }
 
-class QXTableViewDebugCell: QXTableViewBreakLineCell {
+open class QXTableViewDebugCell: QXTableViewBreakLineCell {
     
     override open func initializedWithTable() {
         super.initializedWithTable()
         label.fixWidth = cellWidth
     }
     
-    override var model: Any? {
+    override open var model: Any? {
         didSet {
             super.model = model
             label.text = "\(model ?? "nil")"
@@ -802,7 +815,7 @@ class QXTableViewDebugCell: QXTableViewBreakLineCell {
         e.numberOfLines = 0
         return e
     }()
-    required init(_ reuseId: String) {
+    required public init(_ reuseId: String) {
         super.init(reuseId)
         contentView.addSubview(label)
         label.IN(contentView).LEFT.RIGHT.TOP.BOTTOM.MAKE()
@@ -813,14 +826,14 @@ class QXTableViewDebugCell: QXTableViewBreakLineCell {
     }
     
 }
-class QXTableViewSpaceCell: QXTableViewCell {
-    override class func height(_ model: Any?, _ width: CGFloat) -> CGFloat? {
+open class QXTableViewSpaceCell: QXTableViewCell {
+    override open class func height(_ model: Any?, _ width: CGFloat) -> CGFloat? {
         if let e = model as? QXSpace {
             return e.space
         }
         return nil
     }
-    required init(_ reuseId: String) {
+    required public init(_ reuseId: String) {
         super.init(reuseId)
         backButton.isDisplay = false
     }
@@ -829,14 +842,14 @@ class QXTableViewSpaceCell: QXTableViewCell {
     }
 }
 
-class QXDebugTableViewHeaderFooterView: QXTableViewHeaderFooterView {
+open class QXDebugTableViewHeaderFooterView: QXTableViewHeaderFooterView {
     
     override open func initializedWithTable() {
         super.initializedWithTable()
         label.fixWidth = viewWidth
     }
     
-    override var model: Any? {
+    override open var model: Any? {
         didSet {
             super.model = model
             label.text = "\(model ?? "nil")"
@@ -849,7 +862,7 @@ class QXDebugTableViewHeaderFooterView: QXTableViewHeaderFooterView {
         e.numberOfLines = 0
         return e
     }()
-    required init(_ reuseId: String) {
+    required public init(_ reuseId: String) {
         super.init(reuseId)
         contentView.addSubview(label)
         label.IN(contentView).LEFT.RIGHT.TOP.BOTTOM.MAKE()
@@ -859,6 +872,7 @@ class QXDebugTableViewHeaderFooterView: QXTableViewHeaderFooterView {
     }
     
 }
+
 
 
 

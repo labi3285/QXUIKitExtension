@@ -22,6 +22,10 @@ import SQLite3
 
 public class QXSQLite {
     
+    public init() {
+        
+    }
+    
     private var db: OpaquePointer? = nil
     
     /// 打开db

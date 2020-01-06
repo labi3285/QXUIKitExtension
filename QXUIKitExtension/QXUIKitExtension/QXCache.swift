@@ -10,6 +10,10 @@ import UIKit
 
 public struct QXCache {
         
+    public init() {
+        
+    }
+    
     public func setup(_ path: String) throws {
         try db.openDB(path)
         var sql = ""
@@ -95,5 +99,40 @@ public struct QXCache {
     }
 
     public let db = QXSQLite()
+    
+}
+
+
+extension QXCache {
+    
+    public func setModel<T: QXModelProtocol>(_ key: String, _ value: T?) throws {
+        do {
+            if let e = value {
+                let data = try JSONSerialization.data(withJSONObject: e.toDictionary(), options: JSONSerialization.WritingOptions(rawValue: 0))
+                try setData(key, data)
+            } else {
+                try setData(key, nil)
+            }
+        } catch {
+            throw error
+        }
+    }
+    
+    public func getModel<T: QXModelProtocol>(_ key: String, _ type: T.Type) throws -> T? {
+        do {
+            if let data = try getData(key) {
+                if let dic = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? [String: Any] {
+                    let e = T.init(dictionary: dic)
+                    return e
+                } else {
+                    return nil
+                }
+            } else {
+                return nil
+            }
+        } catch {
+            throw error
+        }
+    }
     
 }

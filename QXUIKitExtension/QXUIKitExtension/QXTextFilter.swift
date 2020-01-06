@@ -26,6 +26,12 @@ public enum QXTextFilter {
     /// 金额
     case money(min: Double, max: Double)
     
+    /// 手机号
+    case phone
+    
+    /// 银行卡
+    case backCard(length: Int?)
+    
     public func filte(_ text: String) -> String {
         if text == "" {
             return text
@@ -113,6 +119,45 @@ public enum QXTextFilter {
                 n = min(Int(_max), max(Int(_min), n))
                 return "\(n)"
             }
+        case .phone:
+            if text.count == 1 && text != "1" {
+                return ""
+            }
+            var count: Int = 1
+            var t = ""
+            for e in text {
+                let char = "\(e)"
+                if "1234567890".contains(char) {
+                    t += char
+                    if count == 3 || count == 7 {
+                        t += " "
+                    }
+                    if count >= 11 {
+                        break
+                    }
+                    count += 1
+                }
+            }
+            t = t.qxStringByCheckOrRemoveSuffix(" ")
+            return t
+        case .backCard(length: let l):
+            var count: Int = 1
+            var t = ""
+            for e in text {
+                let char = "\(e)"
+                if "1234567890".contains(char) {
+                    t += char
+                    if count == 4 || count == 8 || count == 12 || count == 16 {
+                        t += " "
+                    }
+                    if count >= l ?? 20 {
+                        break
+                    }
+                    count += 1
+                }
+            }
+            t = t.qxStringByCheckOrRemoveSuffix(" ")
+            return t
         }
         
     }

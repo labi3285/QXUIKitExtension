@@ -13,6 +13,7 @@ class DemoListVc: QXTableViewController<QXTableViewSection> {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "ListVc"
+        tableView.isPlain = true
         contentView.canRefresh = true
         contentView.canPage = true
         //tableView.sectionHeaderSpace = 100
@@ -22,39 +23,31 @@ class DemoListVc: QXTableViewController<QXTableViewSection> {
             String.self >> QXTableViewDebugCell.self,
         ])
         
-        contentView.api = { filter, done in
-            print(filter.dictionary)
-            DispatchQueue.main.qxAsyncAfter(1) {
+        navigationBarRightItem = QXBarButtonItem.titleItem("xxx", {
+            self._isLoad = true
+            self.contentView.reloadData()
+        })
+    }
+    
+    override func didSetup() {
+        super.didSetup()
+        contentView.filter.dictionary["123"] = 345
+        contentView.reloadData()
+    }
+    
+    private var _isLoad: Bool = false
+    override func loadData(_ filter: QXFilter, _ done: @escaping (QXRequest.RespondPage<QXTableViewSection>) -> Void) {
+        print(filter.dictionary)
+        DispatchQueue.main.qxAsyncAfter(1) {
+            if self._isLoad {
+                done(.succeed([], false))
+            } else {
                 let ms = (0..<10).map { _ in QXDebugRandomText(999) }
                 let s = QXTableViewSection(ms)
                 done(.succeed([s], true))
             }
         }
-
-        contentView.filter.dictionary["123"] = 345
-//        contentView.api = api
     }
-    
-    override func didSetup() {
-        super.didSetup()
-        contentView.reloadData()
-        navigationBarRightItem = QXBarButtonItem.titleItem("xxx", {
-            self.contentView.reloadData()
-        })
-    }
-    
-//    override func loadData(_ filter: QXFilter, _ done: @escaping (QXRequest.RespondPage<QXTableViewSection>) -> Void) {
-//        print(filter.dictionary)
-//
-//        DispatchQueue.main.qxAsyncAfter(1) {
-//            let ms = (0..<10).map { _ in QXDebugRandomText(999) }
-//            let s = QXTableViewSection(ms)
-//            done(.succeed([s], true))
-//
-////            done(.succeed([]))
-////            done(.failed(QXError.unknown))
-//        }
-//    }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
