@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
 s.name         = "QXUIKitExtension"
-s.version      = "0.3.6"
+s.version      = "0.3.7"
 s.summary      = "UIKit extensions in swift5."
 s.description  = <<-DESC
 UIKit extensions in swift. Just enjoy!
@@ -22,7 +22,7 @@ s.library = 'sqlite3'
 s.dependency 'Alamofire', '4.8.2'
 s.dependency 'MJRefresh', '~> 3.1.15.7'
 s.dependency 'QXJSON', '~> 0.1.1'
-s.dependency 'QXMessageView', '~> 0.0.4'
+s.dependency 'QXMessageView', '~> 0.0.5'
 s.dependency 'SAMKeychain', '~> 1.5.3'
 s.dependency 'QXConsMaker', '~> 0.0.8'
 s.dependency 'TZImagePickerController', '~> 3.2.6'

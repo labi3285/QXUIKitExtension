@@ -10,24 +10,52 @@ import UIKit
 
 class DemoSqliteVc: QXViewController {
     
+    let db = QXSQLite()
+
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "QXSqlite"
-        do {
-            var sql = ""
+        
+        initDatabase()
 
-            let db = QXSQLite()
+        for i in 0...100 {
+            DispatchQueue.global().async {
+                
+                DispatchQueue.main.async {
+                    self.insert(i)
+                }
+            }
+        }
+        
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1) {
+            self.query()
+        }
+        
+    }
+    
+    func initDatabase() {
+        do {
             try db.openDB(QXPath.temp /+ "test.db")
-            
+
+            var sql = ""
             sql = "CREATE TABLE IF NOT EXISTS 'student' ("
             sql += "'id' INT NOT NULL PRIMARY KEY, "
             sql += "'name' TEXT, "
             sql += "'age' INT "
             sql += ");"
             try db.execute(sql)
-            
+                        
+        } catch {
+            QXDebugPrint(error)
+        }
+    }
+    
+    func insert(_ id: Int) {
+        do {
+            var sql = ""
+
             sql = "REPLACE INTO 'student' (id, name, age) VALUES ("
-            sql += "'\(1)', "
+            sql += "'\(id)', "
             sql += "'\("小明")', "
             sql += "'\(16)' "
             sql += ");"
@@ -41,7 +69,17 @@ class DemoSqliteVc: QXViewController {
         } catch {
             QXDebugPrint(error)
         }
-
+    }
+    
+    func query() {
+        do {
+            var sql = ""
+            sql = "SELECT * FROM 'student';"
+            let arr = try db.queryDB(sql)
+            print(arr)
+        } catch {
+            QXDebugPrint(error)
+        }
     }
     
 }

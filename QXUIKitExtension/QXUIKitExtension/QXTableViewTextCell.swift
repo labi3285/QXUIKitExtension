@@ -46,14 +46,14 @@ open class QXTableViewText {
 
 }
 
-class QXTableViewTextCell: QXTableViewCell {
+open class QXTableViewTextCell: QXTableViewCell {
     
     override open func initializedWithTable() {
         super.initializedWithTable()
         label.fixWidth = cellWidth
     }
         
-    override var model: Any? {
+    override open var model: Any? {
         didSet {
             super.model = model
             if let e = model as? QXTableViewText {
@@ -85,7 +85,7 @@ class QXTableViewTextCell: QXTableViewCell {
         e.isCopyEnabled = true
         return e
     }()
-    required init(_ reuseId: String) {
+    required public init(_ reuseId: String) {
         super.init(reuseId)
         contentView.addSubview(label)
         label.IN(contentView).LEFT.RIGHT.TOP.BOTTOM.MAKE()

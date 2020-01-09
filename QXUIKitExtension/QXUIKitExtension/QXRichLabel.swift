@@ -331,7 +331,7 @@ extension QXRichLabel {
         }
         let style = NSMutableParagraphStyle()
         style.lineSpacing = lineSpace
-        style.paragraphSpacing = paragraphSpace - self.lineSpace
+        style.paragraphSpacing = max(paragraphSpace - self.lineSpace, 0)
         style.lineBreakMode = .byCharWrapping
         if let lineHeightTolerance = lineHeightTolerance {
             var maxNeedsHeight: CGFloat = 0
@@ -672,3 +672,4 @@ extension QXRichLabel {
     }
     
 }
+

@@ -19,14 +19,14 @@ open class QXTableViewLine {
     
 }
 
-class QXTableViewLineCell: QXTableViewCell {
+open class QXTableViewLineCell: QXTableViewCell {
     
     override open func initializedWithTable() {
         super.initializedWithTable()
         lineView.fixWidth = cellWidth
     }
         
-    override var model: Any? {
+    override open var model: Any? {
         didSet {
             super.model = model
             if let e = model as? QXTableViewLine {
@@ -43,7 +43,7 @@ class QXTableViewLineCell: QXTableViewCell {
         let e = QXLineView()
         return e
     }()
-    required init(_ reuseId: String) {
+    required public init(_ reuseId: String) {
         super.init(reuseId)
         contentView.addSubview(lineView)
         lineView.IN(contentView).LEFT.RIGHT.TOP.BOTTOM.MAKE()

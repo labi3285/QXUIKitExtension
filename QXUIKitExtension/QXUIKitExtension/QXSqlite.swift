@@ -12,12 +12,13 @@ import SQLite3
 /*
  声明：
  1、这是本项目对SQLite c数据库的简单封装，以适应swift语法
- 2、每个数据库db，要对应一个本工具实体，不可混搭,建议只采用一个db
+ 2、每个数据库db，要对应一个本工具实体
  3、支持的数据类型及转换关系：
     INT -> Int
     FLOAT -> Double
     BLOB -> Data
     TEXT -> String
+ 4、使用注意事项：1、所有的操作需在主线程进行；2、避免大量级的数据吞吐
  */
 
 public class QXSQLite {
@@ -27,6 +28,12 @@ public class QXSQLite {
     }
     
     private var db: OpaquePointer? = nil
+    
+    private let queue: OperationQueue = {
+        let e = OperationQueue()
+        e.maxConcurrentOperationCount = 1
+        return e
+    }()
     
     /// 打开db
     func openDB(_ path: String) throws {
@@ -38,6 +45,9 @@ public class QXSQLite {
     
     /// 执行语句
     func execute(_ SQL: String) throws {
+        if Thread.current != Thread.main {
+            throw QXError(-1, "must call in main thread")
+        }
         let cSQL = SQL.cString(using: .utf8)
         let errMsg : UnsafeMutablePointer<UnsafeMutablePointer<Int8>?>? = nil
         let code = sqlite3_exec(db, cSQL, nil, nil, errMsg)
@@ -48,6 +58,9 @@ public class QXSQLite {
     
     /// 查询数据库
     func queryDB(_ SQL: String) throws -> [[String: Any]] {
+        if Thread.current != Thread.main {
+            throw QXError(-1, "must call in main thread")
+        }
         if SQL.lengthOfBytes(using: String.Encoding.utf8) > 0 {
             if let cSQL = (SQL.cString(using: .utf8)) {
                 var stmt: OpaquePointer? = nil

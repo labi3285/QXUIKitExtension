@@ -23,14 +23,14 @@ open class QXTableViewImage {
 
 }
 
-class QXTableViewImageCell: QXTableViewCell {
+open class QXTableViewImageCell: QXTableViewCell {
     
     override open func initializedWithTable() {
         super.initializedWithTable()
         myImageView.fixWidth = cellWidth
     }
         
-    override var model: Any? {
+    override open var model: Any? {
         didSet {
             super.model = model
             if let e = model as? QXTableViewImage {
@@ -51,7 +51,7 @@ class QXTableViewImageCell: QXTableViewCell {
         return one
     }()
 
-    required init(_ reuseId: String) {
+    required public init(_ reuseId: String) {
         super.init(reuseId)
         contentView.addSubview(myImageView)
         myImageView.IN(contentView).LEFT.RIGHT.TOP.BOTTOM.MAKE()
