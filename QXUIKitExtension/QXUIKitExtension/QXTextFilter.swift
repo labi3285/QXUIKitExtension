@@ -6,12 +6,15 @@
 //  Copyright © 2019 labi3285_lab. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 public enum QXTextFilter {
     
     /// 字符串
     case characters(limit: Int?, regex: String?)
+    
+    /// ascii
+    case ascii(limit: Int?, regex: String?)
 
     /// 编号
     case number(limit: Int?)
@@ -51,6 +54,11 @@ public enum QXTextFilter {
             return text
         }
         switch self {
+        case .ascii(limit: let limit, regex: let regex):
+            var _text = text
+            _text = doRegex(_text, regex: regex)
+            _text = doLimit(_text, limit: limit)
+            return _text
         case .characters(limit: let limit, regex: let regex):
             var _text = text
             _text = doRegex(_text, regex: regex)
@@ -174,6 +182,68 @@ public enum QXTextFilter {
         } catch {
         }
         return text
+    }
+    
+}
+
+extension UITextField {
+    
+    public func qxUpdateFilter(_ filter: QXTextFilter?) {
+        if let filter = filter {
+            switch filter {
+            case .ascii(limit: _, regex: _):
+                keyboardType = .asciiCapable
+            case .characters(limit: _, regex: _):
+                keyboardType = .default
+            case .integer(min: _, max: _):
+                keyboardType = .decimalPad
+            case .double(min: _, max: _):
+                keyboardType = .decimalPad
+            case .float(min: _, max: _):
+                keyboardType = .decimalPad
+            case .number(limit: _):
+                keyboardType = .numberPad
+            case .money(min: _, max: _):
+                keyboardType = .decimalPad
+            case .phone:
+                keyboardType = .numberPad
+            case .backCard(length: _):
+                keyboardType = .numberPad
+            }
+        } else {
+            keyboardType = .default
+        }
+    }
+    
+}
+
+extension UITextView {
+    
+    public func qxUpdateFilter(_ filter: QXTextFilter?) {
+        if let filter = filter {
+            switch filter {
+            case .ascii(limit: _, regex: _):
+                keyboardType = .asciiCapable
+            case .characters(limit: _, regex: _):
+                keyboardType = .default
+            case .integer(min: _, max: _):
+                keyboardType = .decimalPad
+            case .double(min: _, max: _):
+                keyboardType = .decimalPad
+            case .float(min: _, max: _):
+                keyboardType = .decimalPad
+            case .number(limit: _):
+                keyboardType = .numberPad
+            case .money(min: _, max: _):
+                keyboardType = .decimalPad
+            case .phone:
+                keyboardType = .numberPad
+            case .backCard(length: _):
+                keyboardType = .numberPad
+            }
+        } else {
+            keyboardType = .default
+        }
     }
     
 }

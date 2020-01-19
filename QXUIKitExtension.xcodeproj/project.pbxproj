@@ -14,13 +14,15 @@
 		751558AA22E7FD1500EFF37A /* QXModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 751558A922E7FD1500EFF37A /* QXModel.swift */; };
 		751558AE22E8255700EFF37A /* QXRequest_jsonExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 751558AD22E8255700EFF37A /* QXRequest_jsonExt.swift */; };
 		751B76E8236A903A004F3265 /* QXModelsLoadStatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 751B76E7236A903A004F3265 /* QXModelsLoadStatusView.swift */; };
-		752D7E212375373600B7C811 /* QXSettingTitleSelectCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 752D7E202375373600B7C811 /* QXSettingTitleSelectCell.swift */; };
+		752D7E212375373600B7C811 /* QXSettingTitleCheckCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 752D7E202375373600B7C811 /* QXSettingTitleCheckCell.swift */; };
 		752D7E2323753AE800B7C811 /* QXSettingIconTitleArrowCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 752D7E2223753AE700B7C811 /* QXSettingIconTitleArrowCell.swift */; };
 		752D7E2523753EB300B7C811 /* QXSpace.swift in Sources */ = {isa = PBXBuildFile; fileRef = 752D7E2423753EB300B7C811 /* QXSpace.swift */; };
 		753D1A02230A4B7700409637 /* QXDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 753D1A01230A4B7700409637 /* QXDevice.swift */; };
 		7542FF3D23050EC60079CCD6 /* icon_mine_ask1@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7542FF3C23050EC60079CCD6 /* icon_mine_ask1@3x.png */; };
 		7542FF3F23050F990079CCD6 /* icon_mine_recommend.png in Resources */ = {isa = PBXBuildFile; fileRef = 7542FF3E23050F990079CCD6 /* icon_mine_recommend.png */; };
 		7542FF43230555CB0079CCD6 /* QXStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7542FF42230555CB0079CCD6 /* QXStackView.swift */; };
+		754C59F123D44F8E00D3E46D /* DemoCollectionVc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 754C59F023D44F8E00D3E46D /* DemoCollectionVc.swift */; };
+		754C59F323D44FB900D3E46D /* QXCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 754C59F223D44FB900D3E46D /* QXCollectionViewController.swift */; };
 		7551F7942395EF65008AF832 /* QXSegmentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7551F7932395EF65008AF832 /* QXSegmentView.swift */; };
 		7553884622EE969900D5261D /* QXTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7553884522EE969900D5261D /* QXTableViewController.swift */; };
 		7553C79022CC9C810058239B /* QXRect.Relation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7553C78D22CC9C810058239B /* QXRect.Relation.swift */; };
@@ -140,7 +142,11 @@
 		75E214F122E6AD44004A12DB /* QXRefresh.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75E214F022E6AD44004A12DB /* QXRefresh.swift */; };
 		75E2FAF923BF7212000E9212 /* QXSqlite.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75E2FAF823BF7212000E9212 /* QXSqlite.swift */; };
 		75E2FAFD23C0284E000E9212 /* DemoSqliteVc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75E2FAFC23C0284E000E9212 /* DemoSqliteVc.swift */; };
+		75EA88DA23CEFA4C00DC606E /* QXStaticStackCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75EA88D923CEFA4C00DC606E /* QXStaticStackCell.swift */; };
+		75EA88DC23CEFB3700DC606E /* QXStaticArrangeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75EA88DB23CEFB3700DC606E /* QXStaticArrangeCell.swift */; };
+		75EA88DE23CEFBD700DC606E /* QXSettingTitleCheckArrowCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75EA88DD23CEFBD700DC606E /* QXSettingTitleCheckArrowCell.swift */; };
 		75F5D94723A229B100C68C16 /* QXNavigationWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75F5D94623A229B100C68C16 /* QXNavigationWebView.swift */; };
+		75F7E13123D3EC370056B62A /* QXCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75F7E13023D3EC370056B62A /* QXCollectionView.swift */; };
 		75FE018422EC29C0007646A3 /* QXDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75FE018322EC29C0007646A3 /* QXDate.swift */; };
 		75FE018822EC3E26007646A3 /* QXTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75FE018722EC3E26007646A3 /* QXTableView.swift */; };
 /* End PBXBuildFile section */
@@ -155,13 +161,15 @@
 		751558A922E7FD1500EFF37A /* QXModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QXModel.swift; sourceTree = "<group>"; };
 		751558AD22E8255700EFF37A /* QXRequest_jsonExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QXRequest_jsonExt.swift; sourceTree = "<group>"; };
 		751B76E7236A903A004F3265 /* QXModelsLoadStatusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QXModelsLoadStatusView.swift; sourceTree = "<group>"; };
-		752D7E202375373600B7C811 /* QXSettingTitleSelectCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QXSettingTitleSelectCell.swift; sourceTree = "<group>"; };
+		752D7E202375373600B7C811 /* QXSettingTitleCheckCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QXSettingTitleCheckCell.swift; sourceTree = "<group>"; };
 		752D7E2223753AE700B7C811 /* QXSettingIconTitleArrowCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QXSettingIconTitleArrowCell.swift; sourceTree = "<group>"; };
 		752D7E2423753EB300B7C811 /* QXSpace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QXSpace.swift; sourceTree = "<group>"; };
 		753D1A01230A4B7700409637 /* QXDevice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QXDevice.swift; sourceTree = "<group>"; };
 		7542FF3C23050EC60079CCD6 /* icon_mine_ask1@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_mine_ask1@3x.png"; sourceTree = "<group>"; };
 		7542FF3E23050F990079CCD6 /* icon_mine_recommend.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_mine_recommend.png; sourceTree = "<group>"; };
 		7542FF42230555CB0079CCD6 /* QXStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QXStackView.swift; sourceTree = "<group>"; };
+		754C59F023D44F8E00D3E46D /* DemoCollectionVc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoCollectionVc.swift; sourceTree = "<group>"; };
+		754C59F223D44FB900D3E46D /* QXCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QXCollectionViewController.swift; sourceTree = "<group>"; };
 		7551F7932395EF65008AF832 /* QXSegmentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QXSegmentView.swift; sourceTree = "<group>"; };
 		7553884522EE969900D5261D /* QXTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QXTableViewController.swift; sourceTree = "<group>"; };
 		7553C78D22CC9C810058239B /* QXRect.Relation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QXRect.Relation.swift; sourceTree = "<group>"; };
@@ -284,7 +292,11 @@
 		75E2FAF823BF7212000E9212 /* QXSqlite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QXSqlite.swift; sourceTree = "<group>"; };
 		75E2FAFA23C0282E000E9212 /* libsqlite3.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.0.tbd; path = usr/lib/libsqlite3.0.tbd; sourceTree = SDKROOT; };
 		75E2FAFC23C0284E000E9212 /* DemoSqliteVc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoSqliteVc.swift; sourceTree = "<group>"; };
+		75EA88D923CEFA4C00DC606E /* QXStaticStackCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QXStaticStackCell.swift; sourceTree = "<group>"; };
+		75EA88DB23CEFB3700DC606E /* QXStaticArrangeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QXStaticArrangeCell.swift; sourceTree = "<group>"; };
+		75EA88DD23CEFBD700DC606E /* QXSettingTitleCheckArrowCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QXSettingTitleCheckArrowCell.swift; sourceTree = "<group>"; };
 		75F5D94623A229B100C68C16 /* QXNavigationWebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QXNavigationWebView.swift; sourceTree = "<group>"; };
+		75F7E13023D3EC370056B62A /* QXCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QXCollectionView.swift; sourceTree = "<group>"; };
 		75FE018322EC29C0007646A3 /* QXDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QXDate.swift; sourceTree = "<group>"; };
 		75FE018722EC3E26007646A3 /* QXTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QXTableView.swift; sourceTree = "<group>"; };
 		950932CC5C82C8CED282FC01 /* Pods_QXUIKitExtension.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_QXUIKitExtension.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -352,6 +364,7 @@
 				756A50A422BDF9FD00E692DA /* AppDelegate.swift */,
 				756A50A622BDF9FD00E692DA /* ViewController.swift */,
 				75D852212367FA2B000F4157 /* DemoTestVc.swift */,
+				754C59F023D44F8E00D3E46D /* DemoCollectionVc.swift */,
 				75E2FAFC23C0284E000E9212 /* DemoSqliteVc.swift */,
 				75BF8D1023C083800001643A /* DemoCacheVc.swift */,
 				75067EF123A2455600388DC0 /* DemoModelVc.swift */,
@@ -431,6 +444,8 @@
 				7553884522EE969900D5261D /* QXTableViewController.swift */,
 				75E214F022E6AD44004A12DB /* QXRefresh.swift */,
 				758B220E23703ABB00A03539 /* QXMaskViewController.swift */,
+				75F7E13023D3EC370056B62A /* QXCollectionView.swift */,
+				754C59F223D44FB900D3E46D /* QXCollectionViewController.swift */,
 				75FE018322EC29C0007646A3 /* QXDate.swift */,
 				7574AA85230BCF9F00ABF6AD /* QXLineView.swift */,
 				75CCBC2922F7BF68004AD9E1 /* QXTimer.swift */,
@@ -452,12 +467,13 @@
 				7578A88423619AFD006CFDD5 /* QXSettingTextFieldCell.swift */,
 				7578A88E2361A85D006CFDD5 /* QXSettingTextViewCell.swift */,
 				7578A88A2361A609006CFDD5 /* QXSettingTitleTextFieldCell.swift */,
+				75EA88DD23CEFBD700DC606E /* QXSettingTitleCheckArrowCell.swift */,
 				7578A8802361972D006CFDD5 /* QXSettingTitleSwitchCell.swift */,
 				7578A87E236191F8006CFDD5 /* QXSettingTitleArrowCell.swift */,
 				75690F4A237E7CC600C9BA43 /* QXSettingTitlePickerCell.swift */,
 				7578A87923618D72006CFDD5 /* QXSettingTitleStackCell.swift */,
 				752D7E2223753AE700B7C811 /* QXSettingIconTitleArrowCell.swift */,
-				752D7E202375373600B7C811 /* QXSettingTitleSelectCell.swift */,
+				752D7E202375373600B7C811 /* QXSettingTitleCheckCell.swift */,
 				7578A87423617DB8006CFDD5 /* QXSettingSeparateHeaderView.swift */,
 				7578A87723618286006CFDD5 /* QXSettingSeparateFooterView.swift */,
 				7578A89223629909006CFDD5 /* QXSettingTextHeaderView.swift */,
@@ -471,6 +487,8 @@
 				75A402A22383F278009DA1B4 /* QXDatePickersView.swift */,
 				75DCCBBD23A3846500215D8F /* QXKeyboardView.swift */,
 				7560573C2398AA7000118E69 /* QXPageIndicatorView.swift */,
+				75EA88D923CEFA4C00DC606E /* QXStaticStackCell.swift */,
+				75EA88DB23CEFB3700DC606E /* QXStaticArrangeCell.swift */,
 				7553C7FC22CEE0CE0058239B /* QXError.swift */,
 				7551F7932395EF65008AF832 /* QXSegmentView.swift */,
 				756057362398930300118E69 /* QXBannerView.swift */,
@@ -648,6 +666,7 @@
 				757659C02366749700588C63 /* DemoStaticsVc.swift in Sources */,
 				7542FF43230555CB0079CCD6 /* QXStackView.swift in Sources */,
 				7553C80122CEE50A0058239B /* QXDebug.swift in Sources */,
+				75F7E13123D3EC370056B62A /* QXCollectionView.swift in Sources */,
 				756A50BE22BE0B1300E692DA /* QXURL.swift in Sources */,
 				7578A891236296A4006CFDD5 /* QXSettingTextCell.swift in Sources */,
 				75E214F122E6AD44004A12DB /* QXRefresh.swift in Sources */,
@@ -662,6 +681,7 @@
 				756A50BC22BDFCB800E692DA /* String_ext.swift in Sources */,
 				751558A622E7F70E00EFF37A /* QXRequest.swift in Sources */,
 				75729FA0236133CC0007D1B1 /* QXStaticTextCell.swift in Sources */,
+				754C59F323D44FB900D3E46D /* QXCollectionViewController.swift in Sources */,
 				75A402A32383F278009DA1B4 /* QXDatePickersView.swift in Sources */,
 				7578069A22E18D1D009DD0DA /* QXAlignment.swift in Sources */,
 				7578A8972362A69D006CFDD5 /* DemoSettingsVc.swift in Sources */,
@@ -678,6 +698,7 @@
 				75BF8D0B23C04C260001643A /* QXPath.swift in Sources */,
 				75929CBC22D8733F006577AD /* QXBorder.swift in Sources */,
 				7553C80322CEF5910058239B /* UserDefaults_ext.swift in Sources */,
+				75EA88DE23CEFBD700DC606E /* QXSettingTitleCheckArrowCell.swift in Sources */,
 				75929C8022D03518006577AD /* QXControlStateStyle.swift in Sources */,
 				75690F4B237E7CC600C9BA43 /* QXSettingTitlePickerCell.swift in Sources */,
 				75929CF522D9A8BD006577AD /* QXFont.swift in Sources */,
@@ -690,6 +711,7 @@
 				75929CF322D9A89D006577AD /* QXRichText.swift in Sources */,
 				75BB0F91237AB37A0003C7AD /* DemoDefaultListVc.swift in Sources */,
 				757806AB22E2BA5D009DD0DA /* QXMargin.swift in Sources */,
+				75EA88DC23CEFB3700DC606E /* QXStaticArrangeCell.swift in Sources */,
 				7553C7FD22CEE0CE0058239B /* QXError.swift in Sources */,
 				7553C79122CC9C810058239B /* QXRect.UIView.swift in Sources */,
 				75729FA423614DEC0007D1B1 /* DemoListVc.swift in Sources */,
@@ -707,7 +729,7 @@
 				75929CEB22D97C3D006577AD /* QXButton.swift in Sources */,
 				7578A88523619AFD006CFDD5 /* QXSettingTextFieldCell.swift in Sources */,
 				7578A88B2361A609006CFDD5 /* QXSettingTitleTextFieldCell.swift in Sources */,
-				752D7E212375373600B7C811 /* QXSettingTitleSelectCell.swift in Sources */,
+				752D7E212375373600B7C811 /* QXSettingTitleCheckCell.swift in Sources */,
 				758B220D237018CC00A03539 /* QXTransition.swift in Sources */,
 				7578A87323617CF3006CFDD5 /* QXSettingCell.swift in Sources */,
 				75B0AF3A2398F85B00B0E817 /* QXSlogonView.swift in Sources */,
@@ -717,6 +739,8 @@
 				75F5D94723A229B100C68C16 /* QXNavigationWebView.swift in Sources */,
 				75CCBC2A22F7BF68004AD9E1 /* QXTimer.swift in Sources */,
 				757D6C3D236174B800BF1788 /* QXStaticFooterView.swift in Sources */,
+				75EA88DA23CEFA4C00DC606E /* QXStaticStackCell.swift in Sources */,
+				754C59F123D44F8E00D3E46D /* DemoCollectionVc.swift in Sources */,
 				7578A87523617DB8006CFDD5 /* QXSettingSeparateHeaderView.swift in Sources */,
 				7560573F2398C2AE00118E69 /* QXImageShapes.swift in Sources */,
 				7578A89523629A3A006CFDD5 /* QXSettingTextFooterView.swift in Sources */,

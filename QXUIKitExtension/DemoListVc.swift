@@ -23,6 +23,11 @@ class DemoListVc: QXTableViewController<QXTableViewSection> {
             String.self >> QXTableViewDebugCell.self,
         ])
         
+        tableView.respondSelectCell = { [weak self] m in
+            let vc = DemoTestVc()
+            self?.push(vc)
+        }
+        
         navigationBarRightItem = QXBarButtonItem.titleItem("xxx", {
             self._isLoad = true
             self.contentView.reloadData()
@@ -47,26 +52,6 @@ class DemoListVc: QXTableViewController<QXTableViewSection> {
                 done(.succeed([s], true))
             }
         }
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-    }
-    
-//    override func qxTableViewCellClass(_ model: Any?) -> QXTableViewCell.Type? {
-//        return QXTableViewDebugCell.self
-//    }
-    override func qxTableViewDidSelectCell(_ model: Any?) {
-        let vc = DemoTestVc()
-        push(vc)
-        
-         print("cell")
-    }
-    override func qxTableViewDidSelectHeaderView(_ model: Any?) {
-        print("header")
-    }
-    override func qxTableViewDidSelectFooterView(_ model: Any?) {
-        print("footer")
     }
 
 }

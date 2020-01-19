@@ -24,7 +24,15 @@ extension QXMessageView {
         if let e = duration {
             _duration = e
         } else {
-            _duration = min(max(2 * TimeInterval(msg.count) / 8, 1.5), 6)
+            var n: TimeInterval = 0
+            for e in msg {
+                if e.isASCII {
+                    n += 1
+                } else {
+                    n += 2
+                }
+            }
+            _duration = min(max(2 * n / 16, 1.5), 6)
         }
         return messageView(contentView: contentView, superview: superview, duration: _duration, complete: complete)
     }
@@ -37,7 +45,15 @@ extension QXMessageView {
         if let e = duration {
             _duration = e
         } else {
-            _duration = min(max(2 * TimeInterval(msg.count) / 8, 1.5), 6)
+            var n: TimeInterval = 0
+            for e in msg {
+                if e.isASCII {
+                    n += 1
+                } else {
+                    n += 2
+                }
+            }
+            _duration = min(max(2 * n / 16, 1.5), 6)
         }
         return messageView(contentView: contentView, superview: superview, duration: _duration, complete: complete)
     }

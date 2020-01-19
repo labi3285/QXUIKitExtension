@@ -9,6 +9,7 @@ target 'QXUIKitExtension' do
     pod 'MJRefresh', '~> 3.1.15.7'
     pod 'QXConsMaker', '~> 0.0.8'
     pod 'YYWebImage', '~> 1.0.5'
+    pod 'JQCollectionViewAlignLayout', '~> 0.1.5'
 
     pod 'HandyJSON', '~> 5.0.1'
 

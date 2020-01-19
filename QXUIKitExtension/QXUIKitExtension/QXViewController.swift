@@ -170,6 +170,10 @@ open class QXViewController: UIViewController, UINavigationBarDelegate {
         return true
     }
     
+    open func updateAppearance() {
+        
+    }
+    
     //MARK:- Present
     // nil 表示不显示
     public var isNavigationBarAutoDismissItemAtLeft: Bool? = true { didSet { if _isNavigationBarInited { updateNavigationBar(false) } } }

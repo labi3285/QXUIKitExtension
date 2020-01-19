@@ -67,8 +67,7 @@ class DemoStaticsVc: QXTableViewController<Any> {
         super.viewDidLoad()
         title = "Statics"
 //        view.qxBackgroundColor = QXColor.yellow
-        tableView.sections = [section]
-        
+        contentView.staticModels = [section]
         
         contentView.reloadData()
         

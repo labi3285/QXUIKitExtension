@@ -1,17 +1,17 @@
 //
-//  QXTableViewController.swift
+//  QXCollectionViewController.swift
 //  QXUIKitExtension
 //
-//  Created by labi3285 on 2019/7/29.
-//  Copyright © 2019 labi3285_lab. All rights reserved.
+//  Created by labi3285 on 2020/1/19.
+//  Copyright © 2020 labi3285_lab. All rights reserved.
 //
 
 import UIKit
 
-open class QXTableViewController<Model>: QXViewController {
+open class QXCollectionViewController<Model>: QXViewController {
     
-    public final lazy var tableView: QXTableView = {
-        let e = QXTableView()
+    public final lazy var collectionView: QXCollectionView = {
+        let e = QXCollectionView()
         return e
     }()
     public final lazy var loadStatusView: QXLoadStatusView = {
@@ -20,7 +20,7 @@ open class QXTableViewController<Model>: QXViewController {
     }()
     
     public final lazy var contentView: QXModelsLoadStatusView<Model> = {
-        let e = QXModelsLoadStatusView<Model>(contentView: self.tableView, loadStatusView: self.loadStatusView)
+        let e = QXModelsLoadStatusView<Model>(contentView: self.collectionView, loadStatusView: self.loadStatusView)
         e.api = { [weak self] filter, done in
             self?.loadData(filter, done)
         }
@@ -34,7 +34,7 @@ open class QXTableViewController<Model>: QXViewController {
     open override func viewDidLayoutSubviews() {
         contentView.qxRect = view.qxBounds
         contentView.layoutSubviews()
-        tableView.layoutSubviews()
+        collectionView.layoutSubviews()
         super.viewDidLayoutSubviews()
     }
     
@@ -51,6 +51,6 @@ open class QXTableViewController<Model>: QXViewController {
 //             }
 //         }
     }
-    
+
 }
 

@@ -32,3 +32,10 @@ public struct QXError: Error {
     public static let noData: QXError = QXError(-1, "数据丢失")
 
 }
+
+extension Error {
+    public var qxError: QXError {
+        let err = self as NSError
+        return QXError("\(err.code)", err.domain, err.userInfo)
+    }
+}

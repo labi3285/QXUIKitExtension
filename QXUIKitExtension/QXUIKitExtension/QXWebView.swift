@@ -79,7 +79,14 @@ open class QXWebView: QXView {
     open var url: QXURL? {
         didSet {
             if let e = url?.nsURL {
-                let r = URLRequest(url: e, cachePolicy: cachePolicy, timeoutInterval: timeoutInterval)
+                request = URLRequest(url: e, cachePolicy: cachePolicy, timeoutInterval: timeoutInterval)
+            }
+        }
+    }
+    
+    open var request: URLRequest? {
+        didSet {
+            if let r = request {
                 isLoading = true
                 wkWebView.load(r)
                 delegate?.qxWebViewUpdateNavigationInfo()
@@ -262,7 +269,7 @@ extension QXWebView: WKUIDelegate {
         vc.addAction(UIAlertAction(title: "确定", style: UIAlertAction.Style.default, handler: { (act) in
             completionHandler(wkTextField?.text)
         }))
-        viewController?.present(vc)        
+        viewController?.present(vc)
     }
     
     
@@ -343,4 +350,5 @@ extension QXWebView: WKNavigationDelegate {
 //    }
     
 }
+
 

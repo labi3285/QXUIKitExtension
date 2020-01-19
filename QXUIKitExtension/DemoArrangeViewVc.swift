@@ -14,6 +14,7 @@ class DemoArrangeViewVc: QXViewController {
         let e = QXArrangeView()
         e.padding = QXEdgeInsets(10, 10, 10, 10)
         e.fixWidth = 300
+        e.alignmentX = .right
         var arr = [QXViewProtocol]()
         for i in 0..<10 {
             let e = QXTitleButton()

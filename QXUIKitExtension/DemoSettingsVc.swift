@@ -31,17 +31,27 @@ class DemoSettingsVc: QXTableViewController<Any> {
         e.titleLabel.text = "箭头"
         return e
     }()
+    final lazy var titleSelectArrowCell: QXSettingTitleCheckArrowCell = {
+        let e = QXSettingTitleCheckArrowCell()
+        e.titleLabel.text = "箭头"
+        e.backButton.respondClick = { [weak self] in
+            if let s = self {
+                s.titleSelectArrowCell.isChecked = !s.titleSelectArrowCell.isChecked
+            }
+        }
+        return e
+    }()
     final lazy var switchCell: QXSettingTitleSwitchCell = {
         let e = QXSettingTitleSwitchCell()
         e.titleLabel.text = "开关"
         return e
     }()
-    final lazy var selectCell: QXSettingTitleSelectCell = {
-        let e = QXSettingTitleSelectCell()
+    final lazy var selectCell: QXSettingTitleCheckCell = {
+        let e = QXSettingTitleCheckCell()
         e.titleLabel.text = "选项"
         e.backButton.respondClick = { [weak self] in
             if let s = self {
-                s.selectCell.isSelected = !s.selectCell.isSelected
+                s.selectCell.isChecked = !s.selectCell.isChecked
             }
         }
         return e
@@ -156,12 +166,13 @@ class DemoSettingsVc: QXTableViewController<Any> {
 
     final lazy var section: QXTableViewSection = {
         let e = QXTableViewSection([
+            self.selectCell,
             self.cityPickerCell,
             self.datePickerCell,
             self.arrowCell,
             QXFlexSpace(),
             self.iconArrowCell,
-            self.selectCell,
+            self.titleSelectArrowCell,
             self.switchCell,
             self.titleTextFieldCell,
             QXFlexSpace(),

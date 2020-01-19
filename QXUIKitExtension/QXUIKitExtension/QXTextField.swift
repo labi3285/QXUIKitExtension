@@ -54,26 +54,7 @@ open class QXTextField: QXView, UITextFieldDelegate {
     
     public var filter: QXTextFilter? {
         didSet {
-            if let filter = filter {
-                switch filter {
-                case .characters(limit: _, regex: _):
-                    uiTextField.keyboardType = .default
-                case .integer(min: _, max: _):
-                    uiTextField.keyboardType = .decimalPad
-                case .double(min: _, max: _):
-                    uiTextField.keyboardType = .decimalPad
-                case .float(min: _, max: _):
-                    uiTextField.keyboardType = .decimalPad
-                case .number(limit: _):
-                    uiTextField.keyboardType = .numberPad
-                case .money(min: _, max: _):
-                    uiTextField.keyboardType = .decimalPad
-                case .phone:
-                    uiTextField.keyboardType = .numberPad
-                case .backCard(length: _):
-                    uiTextField.keyboardType = .numberPad
-                }
-            }
+            uiTextField.qxUpdateFilter(filter)
         }
     }
         

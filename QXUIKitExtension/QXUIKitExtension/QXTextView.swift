@@ -62,26 +62,7 @@ open class QXTextView: QXView, UITextViewDelegate {
 
     public var filter: QXTextFilter? {
         didSet {
-            if let filter = filter {
-                switch filter {
-                case .characters(limit: _, regex: _):
-                    uiTextView.keyboardType = .default
-                case .integer(min: _, max: _):
-                    uiTextView.keyboardType = .decimalPad
-                case .double(min: _, max: _):
-                    uiTextView.keyboardType = .decimalPad
-                case .float(min: _, max: _):
-                    uiTextView.keyboardType = .decimalPad
-                case .number(limit: _):
-                    uiTextView.keyboardType = .numberPad
-                case .money(min: _, max: _):
-                    uiTextView.keyboardType = .decimalPad
-                case .phone:
-                    uiTextView.keyboardType = .numberPad
-                case .backCard(length: _):
-                    uiTextView.keyboardType = .numberPad
-                }
-            }
+            uiTextView.qxUpdateFilter(filter)
         }
     }
     

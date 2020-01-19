@@ -21,8 +21,10 @@ s.library = 'sqlite3'
 
 s.dependency 'Alamofire', '4.8.2'
 s.dependency 'MJRefresh', '~> 3.1.15.7'
+s.dependency 'JQCollectionViewAlignLayout' , '~> 0.1.5'
+
 s.dependency 'QXJSON', '~> 0.1.1'
-s.dependency 'QXMessageView', '~> 0.0.5'
+s.dependency 'QXMessageView', '~> 0.0.6'
 s.dependency 'SAMKeychain', '~> 1.5.3'
 s.dependency 'QXConsMaker', '~> 0.0.8'
 s.dependency 'TZImagePickerController', '~> 3.2.6'

@@ -186,6 +186,16 @@ class ViewController: QXTableViewController<Any> {
         return e
     }()
     
+    final lazy var collectionCell: QXSettingTitleArrowCell = {
+        let e = QXSettingTitleArrowCell()
+        e.titleLabel.text = "QXCollectionView"
+        e.backButton.respondClick = { [weak self] in
+            let vc = DemoCollectionVc()
+            self?.push(vc)
+        }
+        return e
+    }()
+    
     final lazy var section: QXTableViewSection = {
         let e = QXTableViewSection([
             self.testCell,
@@ -204,6 +214,7 @@ class ViewController: QXTableViewController<Any> {
             self.defaultListCell,
             self.staticCell,
             self.settingCell,
+            self.collectionCell,
         ], QXSettingSeparateHeaderView(), QXSettingSeparateFooterView())
         return e
     }()

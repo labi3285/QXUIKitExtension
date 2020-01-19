@@ -83,7 +83,7 @@ open class QXLabel: QXView {
         if let e = fixWidth ?? maxWidth {
             var size = CGSize(width: e - padding.left - padding.right, height: QXView.extendLength)
             size = uiLabel.sizeThatFits(size)
-            return QXSize(e, size.height + padding.top + padding.bottom)
+            return size.qxSize.sizeByAdd(padding)
         } else {
             return uiLabel.sizeThatFits(QXView.extendSize.cgSize).qxSize.sizeByAdd(padding)
         }

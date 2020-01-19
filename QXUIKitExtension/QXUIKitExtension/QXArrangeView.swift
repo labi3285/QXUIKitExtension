@@ -10,6 +10,8 @@ import UIKit
 
 open class QXArrangeView: QXView {
         
+    public var alignmentX: QXAlignmentX = .left
+
     public var viewMarginX: CGFloat = 10
     public var viewMarginY: CGFloat = 10
     public var lineAlignment: QXAlignmentY = .center
@@ -72,7 +74,7 @@ open class QXArrangeView: QXView {
                     lineSizes.append((wh, nil, nil))
                 } else if let e = e as? QXSpace {
                     x += wh.w
-                    lineSizes.append((nil, e.space, nil))
+                    lineSizes.append((nil, e.w, nil))
                 } else if let e = e as? QXFlexSpace {
                     lineSizes.append((nil, nil, e.ratio))
                 }
@@ -84,8 +86,8 @@ open class QXArrangeView: QXView {
                     x = padding.left + wh.w + viewMarginX
                     lineSizes = [(wh, nil, nil)]
                 } else if let e = e as? QXSpace {
-                    x = padding.left + e.space
-                    lineSizes = [(nil, e.space, nil)]
+                    x = padding.left + e.w
+                    lineSizes = [(nil, e.w, nil)]
                 } else if let e = e as? QXFlexSpace {
                     lineSizes = [(nil, nil, e.ratio)]
                 }
@@ -120,6 +122,22 @@ open class QXArrangeView: QXView {
             }
             let lineFlexSpace = width - lineViewsW - padding.left - padding.right
             x = padding.left
+            switch alignmentX {
+            case .left:
+                break
+            case .center:
+                if arr.first(where: {$0.flex != nil}) == nil {
+                    x += lineFlexSpace / 2
+                } else {
+                    break
+                }
+            case .right:
+                if arr.first(where: {$0.flex != nil}) == nil {
+                    x += lineFlexSpace
+                } else {
+                    break
+                }
+            }
             for e in arr {
                 if let e = e.size {
                     let dy: CGFloat

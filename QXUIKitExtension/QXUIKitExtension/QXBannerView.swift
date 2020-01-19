@@ -110,10 +110,11 @@ open class QXBannerView<Model>: QXView, UICollectionViewDelegate, UICollectionVi
         _removeTimer()
     }
     open func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        if let e = uiCollectionView.visibleCells.first, let indexPath = uiCollectionView.indexPath(for: e) {
-            pageIndicatorView?.current = indexPath.item
-            respondChange?(indexPath.item, banners.count)
+        if banners.count <= 0 {
+            return
         }
+        let i = Int(scrollView.contentOffset.x / scrollView.bounds.width + 0.5) % banners.count
+        respondChange?(i, banners.count)
     }
     open func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         if banners.count > 1 {
@@ -327,3 +328,4 @@ open class QXViewBannerCell<Model>: QXBannerCell<Model> {
     }
     
 }
+

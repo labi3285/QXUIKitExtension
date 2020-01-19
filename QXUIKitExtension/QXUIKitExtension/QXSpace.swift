@@ -9,9 +9,15 @@
 import UIKit
 
 public struct QXSpace {
-    public let space: CGFloat
+    public let w: CGFloat
+    public let h: CGFloat
     public init(_ space: CGFloat) {
-        self.space = space
+        self.w = space
+        self.h = space
+    }
+    public init(_ w: CGFloat, _ h: CGFloat) {
+        self.w = w
+        self.h = h
     }
 }
 public struct QXFlexSpace {
@@ -27,7 +33,7 @@ public struct QXFlexSpace {
 extension QXSpace: QXViewProtocol {
     
     public var natureSize: QXSize {
-        return QXSize(space, space)
+        return QXSize(w, h)
     }
     public var compressResistanceX: CGFloat {
         set { }
