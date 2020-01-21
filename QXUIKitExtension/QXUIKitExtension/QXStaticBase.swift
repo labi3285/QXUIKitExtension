@@ -20,14 +20,31 @@ open class QXStaticCell: QXTableViewCell {
     open var isDisplay: Bool = true
     open var isEnabled: Bool = true
 
-    open func height(_ model: Any?, _ width: CGFloat) -> CGFloat? {
+    open func height(_ model: Any?) -> CGFloat? {
         return nil
     }
     open var fixHeight: CGFloat?
     
-    override open class func height(_ model: Any?, _ width: CGFloat) -> CGFloat? {
+    open override class func height(_ model: Any?, _ context: QXTableViewCell.Context) -> CGFloat? {
         if let e = model as? QXStaticCell {
-            return e.height(model, width)
+            e.context = context
+            return e.height(e)
+        }
+        return nil
+    }
+    
+    open var canMove: Bool = false
+    open var editActions: [UITableViewRowAction]?
+    
+    open override class func canMove(_ model: Any?) -> Bool {
+        if let e = model as? QXStaticCell {
+            return e.canMove
+        }
+        return false
+    }
+    open override class func editActions(_ model: Any?) -> [UITableViewRowAction]? {
+        if let e = model as? QXStaticCell {
+            return e.editActions
         }
         return nil
     }
@@ -43,7 +60,7 @@ open class QXStaticCell: QXTableViewCell {
     public required init(_ reuseId: String) {
         fatalError("init(_:) has not been implemented")
     }
-    
+        
 }
 
 open class QXStaticHeaderFooterView: QXTableViewHeaderFooterView {
@@ -58,18 +75,19 @@ open class QXStaticHeaderFooterView: QXTableViewHeaderFooterView {
     open var isDisplay: Bool = true
     open var isEnabled: Bool = true
     
-    open func height(_ model: Any?, _ width: CGFloat) -> CGFloat? {
+    open func height(_ model: Any?) -> CGFloat? {
         return nil
     }
     open var fixHeight: CGFloat?
     
-    override open class func height(_ model: Any?, _ width: CGFloat) -> CGFloat? {
+    open override class func height(_ model: Any?, _ context: QXTableViewHeaderFooterView.Context) -> CGFloat? {
         if let e = model as? QXStaticHeaderFooterView {
-            return e.height(model, width)
+            e.context = context
+            return e.height(e)
         }
         return nil
     }
-    
+
     public required init() {
         super.init("static")
         backButton.isDisplay = false

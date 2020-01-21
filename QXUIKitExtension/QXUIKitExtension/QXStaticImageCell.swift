@@ -11,8 +11,8 @@ import QXConsMaker
 
 open class QXStaticImageCell: QXStaticCell {
     
-    open override func height(_ model: Any?, _ width: CGFloat) -> CGFloat? {
-        myImageView.fixWidth = width
+    open override func height(_ model: Any?) -> CGFloat? {
+        myImageView.fixWidth = context.givenWidth
         return myImageView.intrinsicContentSize.height
     }
     
@@ -20,7 +20,7 @@ open class QXStaticImageCell: QXStaticCell {
         let one = QXImageView()
         one.padding = QXEdgeInsets(5, 15, 5, 15)
         one.respondUpdateImage = { [weak self] in
-            self?.tableView?.setNeedsUpdate()
+            self?.context?.tableView?.setNeedsUpdate()
         }
         return one
     }()

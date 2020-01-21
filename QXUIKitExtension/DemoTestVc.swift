@@ -12,8 +12,9 @@ import SQLite3
 class DemoTestVc: QXViewController {
     
     
-    lazy var collectionView: QXCollectionView = {
-        let e = QXCollectionView()
+    lazy var tableView: QXTableView = {
+        let e = QXTableView()
+        e.fixWidth = 300
         return e
     }()
     
@@ -22,34 +23,18 @@ class DemoTestVc: QXViewController {
         super.viewDidLoad()
         title = "测试"
         
-        navigationBarBackTitle = "x"
+        view.addSubview(tableView)
+        tableView.IN(view).CENTER.MAKE()
         
-        view.backgroundColor = UIColor.yellow
-        
-        collectionView.isPlain = true
-        view.addSubview(collectionView)
-        collectionView.IN(view).LEFT.RIGHT.TOP.BOTTOM.MAKE()
-        
-        collectionView.adapter = QXCollectionViewAdapter([
-            String.self >> QXCollectionViewDebugCell.self,
-        ], headerMappings: [
-            String.self >> QXCollectionViewDebugHeaderFooterView.self,
-        ], footerMappings: [
-            String.self >> QXCollectionViewDebugHeaderFooterView.self,
-        ])
-        
-        let ss1 = QXCollectionViewSection([
-            "cell", "cell", "cell", "cell", "cell", "cell", "cell", "cell", "cell", "cell", "cell",
-        ], "test", "test")
-        
-        let ss2 = QXCollectionViewSection([
-            "cell", "cell", "cell", "cell", "cell", "cell", "cell", "cell", "cell", "cell", "cell",
-        ], QXSpace(10), QXSpace(10))
-        
-        collectionView.sections = [
-            ss1,
-            ss2,
+        tableView.sections = [
+            QXTableViewSection([
+                QXDebugText(200),
+                
+            ])
         ]
+        
+    
+        
     }
 
 }

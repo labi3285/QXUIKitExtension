@@ -23,15 +23,15 @@ class DemoListVc: QXTableViewController<QXTableViewSection> {
             String.self >> QXTableViewDebugCell.self,
         ])
         
-        tableView.respondSelectCell = { [weak self] m in
-            let vc = DemoTestVc()
-            self?.push(vc)
-        }
-        
         navigationBarRightItem = QXBarButtonItem.titleItem("xxx", {
             self._isLoad = true
             self.contentView.reloadData()
         })
+    }
+    
+    override func tableViewDidSelectCell(_ cell: QXTableViewCell, for model: Any, in section: QXTableViewSection) {
+        let vc = DemoTestVc()
+        push(vc)
     }
     
     override func didSetup() {
@@ -53,6 +53,6 @@ class DemoListVc: QXTableViewController<QXTableViewSection> {
             }
         }
     }
-
+    
 }
 

@@ -10,8 +10,8 @@ import UIKit
 
 open class QXStaticStackCell: QXStaticCell {
     
-    override open func height(_ model: Any?, _ width: CGFloat) -> CGFloat? {
-        stackView.fixWidth = width
+    open override func height(_ model: Any?) -> CGFloat? {
+        stackView.fixWidth = context.givenWidth
         return stackView.natureSize.h
     }
     

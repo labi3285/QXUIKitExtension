@@ -10,8 +10,8 @@ import UIKit
 
 open class QXStaticArrangeCell: QXStaticCell {
     
-    override open func height(_ model: Any?, _ width: CGFloat) -> CGFloat? {
-        arrangeView.fixWidth = width
+    open override func height(_ model: Any?) -> CGFloat? {
+        arrangeView.fixWidth = context.givenWidth
         return arrangeView.natureSize.h
     }
     

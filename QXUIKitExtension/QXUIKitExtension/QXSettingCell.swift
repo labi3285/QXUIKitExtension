@@ -10,9 +10,9 @@ import UIKit
 
 open class QXSettingCell: QXStaticCell {
     
-    override open func initializedWithTable() {
-        super.initializedWithTable()
-        breakLine.isHidden = isLastCellInSection || isBreakLineHidden
+    override open func contextDidSetup() {
+        super.contextDidSetup()
+        breakLine.isHidden = context.isLastCellInSection || isBreakLineHidden
     }
         
     public var isBreakLineHidden: Bool = false

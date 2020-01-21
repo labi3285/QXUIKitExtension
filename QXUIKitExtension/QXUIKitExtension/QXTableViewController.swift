@@ -8,10 +8,11 @@
 
 import UIKit
 
-open class QXTableViewController<Model>: QXViewController {
+open class QXTableViewController<Model>: QXViewController, QXTableViewDelegate {
     
     public final lazy var tableView: QXTableView = {
         let e = QXTableView()
+        e.delegate = self
         return e
     }()
     public final lazy var loadStatusView: QXLoadStatusView = {
@@ -41,15 +42,21 @@ open class QXTableViewController<Model>: QXViewController {
     override open func viewDidLoad() {
         super.viewDidLoad()
         view.addSubview(contentView)
-        
-//        contentView.canPageFilter = true
-//        contentView.canRefresh = true
-//        contentView.api = { ok, failed in
-//             DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1) {
-//                 let ms = (0..<5).map { _ in QXDebugRandomText(333) }
-//                 ok(ms, true)
-//             }
-//         }
+    }
+    
+    open func tableViewDidSetupCell(_ cell: QXTableViewCell, for model: Any, in section: QXTableViewSection) { }
+    open func tableViewDidSelectCell(_ cell: QXTableViewCell, for model: Any, in section: QXTableViewSection) { }
+    
+    open func tableViewDidSetupHeaderView(_ headerView: QXTableViewHeaderFooterView, for model: Any, in section: QXTableViewSection) { }
+    open func tableViewDidSelectHeaderView(_ headerView: QXTableViewHeaderFooterView, for model: Any, in section: QXTableViewSection) { }
+    
+    open func tableViewDidSetupFooterView(_ footerView: QXTableViewHeaderFooterView, for model: Any, in section: QXTableViewSection) { }
+    open func tableViewDidSelectFooterView(_ footerView: QXTableViewHeaderFooterView, for model: Any, in section: QXTableViewSection) { }
+
+    open func tableViewDidMove(from: IndexPath, to: IndexPath, in sections: [QXTableViewSection]) { }
+    
+    open func tableViewNeedsReloadData() {
+        contentView.reloadData()
     }
     
 }

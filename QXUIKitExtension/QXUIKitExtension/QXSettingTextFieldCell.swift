@@ -30,6 +30,7 @@ open class QXSettingTextFieldCell: QXSettingCell {
 
     public required init() {
         super.init()
+        contentView.qxBackgroundColor = QXColor.dynamicWhite
         contentView.addSubview(textField)
         textField.IN(contentView).LEFT.TOP.RIGHT.BOTTOM.MAKE()
         fixHeight = 50

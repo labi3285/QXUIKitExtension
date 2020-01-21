@@ -12,18 +12,47 @@ import JQCollectionViewAlignLayout
 
 public let QXCollectionViewNoneHeight: CGFloat = 0.0001
 
+public protocol QXCollectionViewDelegate: class {
+    func collectionViewDidSetupCell(_ cell: QXCollectionViewCell, for model: Any, in section: QXCollectionViewSection)
+    func collectionViewDidSelectCell(_ cell: QXCollectionViewCell, for model: Any, in section: QXCollectionViewSection)
+    
+    func collectionViewDidSetupHeaderView(_ headerView: QXCollectionViewHeaderFooterView, for model: Any, in section: QXCollectionViewSection)
+    func collectionViewDidSelectHeaderView(_ headerView: QXCollectionViewHeaderFooterView, for model: Any, in section: QXCollectionViewSection)
+    
+    func collectionViewDidSetupFooterView(_ footerView: QXCollectionViewHeaderFooterView, for model: Any, in section: QXCollectionViewSection)
+    func collectionViewDidSelectFooterView(_ footerView: QXCollectionViewHeaderFooterView, for model: Any, in section: QXCollectionViewSection)
+
+    func collectionViewDidMove(from: IndexPath, to: IndexPath, in sections: [QXCollectionViewSection])
+    
+    func collectionViewNeedsReloadData()
+}
+extension QXCollectionViewDelegate {
+    func collectionViewDidSetupCell(_ cell: QXCollectionViewCell, for model: Any, in section: QXCollectionViewSection) { }
+    func collectionViewDidSelectCell(_ cell: QXCollectionViewCell, for model: Any, in section: QXCollectionViewSection) { }
+    
+    func collectionViewDidSetupHeaderView(_ headerView: QXCollectionViewHeaderFooterView, for model: Any, in section: QXCollectionViewSection) { }
+    func collectionViewDidSelectHeaderView(_ headerView: QXCollectionViewHeaderFooterView, for model: Any, in section: QXCollectionViewSection) { }
+    
+    func collectionViewDidSetupFooterView(_ footerView: QXCollectionViewHeaderFooterView, for model: Any, in section: QXCollectionViewSection) { }
+    func collectionViewDidSelectFooterView(_ footerView: QXCollectionViewHeaderFooterView, for model: Any, in section: QXCollectionViewSection) { }
+
+    func collectionViewDidMove(from: IndexPath, to: IndexPath, in sections: [QXCollectionViewSection]) { }
+    
+    func collectionViewNeedsReloadData() { }
+}
+
 public class QXCollectionViewSection {
 
     public var header: Any? = nil
-    public var models: [Any?] = []
+    public var models: [Any] = []
     public var footer: Any? = nil
 
     public var isDisplay: Bool = true
 
-    public init(_ models: [Any?]) {
+    public init(_ models: [Any]) {
         self.models = models
     }
-    public init(_ models: [Any?], _ header: Any?, _ footer: Any?) {
+    public init(_ models: [Any], _ header: Any?, _ footer: Any?) {
         self.models = models
         self.header = header
         self.footer = footer
@@ -98,10 +127,7 @@ public struct QXCollectionViewAdapter {
 
 open class QXCollectionView: QXView {
     
-    public var respondSelectCell: ((_ model: Any?) -> Void)?
-    public var respondSelectHeaderView: ((_ model: Any?) -> Void)?
-    public var respondSelectFooterView: ((_ model: Any?) -> Void)?
-    public var respondMove: ((_ from: IndexPath, _ to: IndexPath) -> Void)?
+    public weak var delegate: QXCollectionViewDelegate?
 
     public var adapter: QXCollectionViewAdapter?  {
         didSet {
@@ -136,7 +162,7 @@ open class QXCollectionView: QXView {
                     if let e = s.header {
                         header = e
                     }
-                    var ms: [Any?] = []
+                    var ms: [Any] = []
                     for c in s.models {
                         ms.append(c)
                     }
@@ -207,6 +233,18 @@ open class QXCollectionView: QXView {
         }
     }
     
+    public var isSortMode: Bool = false {
+        didSet {
+            if isSortMode {
+                uiCollectionView.addGestureRecognizer(sortLongGestureRecognizer)
+            } else {
+                if let view = sortLongGestureRecognizer.view {
+                    view.removeGestureRecognizer(sortLongGestureRecognizer)
+                }
+            }
+        }
+    }
+    
     public var alignmentX: QXAlignmentX = .left {
         didSet {
             switch alignmentX {
@@ -257,6 +295,44 @@ open class QXCollectionView: QXView {
         e.dataSource = self
         return e
     }()
+    
+    public final lazy var sortLongGestureRecognizer: UILongPressGestureRecognizer = {
+        let e = UILongPressGestureRecognizer(target: self, action: #selector(sortLongGesture(_:)))
+        e.minimumPressDuration = 0.1
+        return e
+    }()
+    // 拖动手势，需要9.0支持
+    @objc func sortLongGesture(_ recognizer: UILongPressGestureRecognizer) {
+        let point = recognizer.location(in: recognizer.view!)
+        switch recognizer.state {
+        case .began:
+            if let indexPath = uiCollectionView.indexPathForItem(at: point) {
+                if #available(iOS 9.0, *) {
+                    uiCollectionView.beginInteractiveMovementForItem(at: indexPath)
+                } else {
+                    // Fallback on earlier versions
+                }
+            }
+        case .changed:
+            if #available(iOS 9.0, *) {
+                uiCollectionView.updateInteractiveMovementTargetPosition(point)
+            } else {
+                // Fallback on earlier versions
+            }
+        case .ended:
+            if #available(iOS 9.0, *) {
+                uiCollectionView.endInteractiveMovement()
+            } else {
+                // Fallback on earlier versions
+            }
+        default:
+            if #available(iOS 9.0, *) {
+                uiCollectionView.cancelInteractiveMovement()
+            } else {
+                // Fallback on earlier versions
+            }
+        }
+    }
 
     override open func layoutSubviews() {
         super.layoutSubviews()
@@ -271,22 +347,20 @@ open class QXCollectionView: QXView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    open func cell(for model: Any?, givenWidth: CGFloat, cellMinMargin: CGFloat, indexPath: IndexPath) -> QXCollectionViewCell {
+    open func cell(for indexPath: IndexPath) -> QXCollectionViewCell {
+        let s = _cacheSections[indexPath.section]
+        let ms = s.models
+        let m = ms[indexPath.item]
         let cell: QXCollectionViewCell
-        let id: String
-        if let e = model {
-            id = "\(type(of: e))"
-        } else {
-            id = "NULL"
-        }
+        let id = "\(type(of: m))"
         if let e = uiCollectionView.dequeueReusableCell(withReuseIdentifier: id, for: indexPath) as? QXCollectionViewCell {
             cell = e
         } else {
             let cls: QXCollectionViewCell.Type
-            if let e = adapter?.cellClass(model) {
+            if let e = adapter?.cellClass(m) {
                 cls = e
             } else {
-                if model is QXSpace {
+                if m is QXSpace {
                     cls = QXCollectionViewSpaceCell.self
                 } else {
                     cls = QXCollectionViewDebugCell.self
@@ -294,94 +368,145 @@ open class QXCollectionView: QXView {
             }
             cell = cls.init()
         }
-        cell.collectionView = self
-        cell.givenWidth = givenWidth
-        cell.cellMinMargin = cellMinMargin
-        cell.indexPath = indexPath
-        cell.initializedWithCollectionView()
-        cell.model = model
-        cell.respondClickCell = { [weak self] in
-            self?.respondSelectCell?(model)
+        cell.respondReloadData = { [weak self] in
+            self?.delegate?.collectionViewNeedsReloadData()
+        }
+        delegate?.collectionViewDidSetupCell(cell, for: m, in: s)
+        cell.context = QXCollectionViewCell.Context(collectionView: self,
+                                                    indexPath: indexPath,
+                                                    givenWidth: uiCollectionView.bounds.width - flowLayout.sectionInset.left - flowLayout.sectionInset.right - uiCollectionView.contentInset.left - uiCollectionView.contentInset.right,
+                                                    cellMinMargin: flowLayout.minimumInteritemSpacing,
+                                                    isFirstCellInSection: indexPath.item == 0,
+                                                    isLastCellInSection: indexPath.item == ms.count - 1)
+        cell.section = s
+        cell.contextDidSetup()
+        cell.model = m
+        cell.respondClickCell = { [weak self, weak cell] in
+            if let ws = self, let c = cell {
+                ws.delegate?.collectionViewDidSelectCell(c, for: m, in: s)
+            }
         }
         return cell
     }
-    open func cellSize(for model: Any?, givenWidth: CGFloat, cellMinMargin: CGFloat) -> QXSize {
-        if let e = adapter?.cellClass(model) {
-            return e.size(model, givenWidth, cellMinMargin)
-        } else if let e = model as? QXSpace {
+    open func cellSize(for indexPath: IndexPath) -> QXSize {
+        let ms = _cacheSections[indexPath.section].models
+        let m = ms[indexPath.item]
+        if let e = adapter?.cellClass(m) {
+            let context = QXCollectionViewCell.Context(collectionView: self,
+                                                       indexPath: indexPath,
+                                                       givenWidth: uiCollectionView.bounds.width - flowLayout.sectionInset.left - flowLayout.sectionInset.right - uiCollectionView.contentInset.left - uiCollectionView.contentInset.right,
+                                                       cellMinMargin: flowLayout.minimumInteritemSpacing,
+                                                       isFirstCellInSection: indexPath.item == 0,
+                                                       isLastCellInSection: indexPath.item == ms.count - 1)
+            return e.size(m, context)
+        } else if let e = m as? QXSpace {
             return QXSize(e.w, e.h)
         }
         return QXSize(QXCollectionViewNoneHeight, QXCollectionViewNoneHeight)
     }
-    open func headerView(for model: Any?, givenWidth: CGFloat, indexPath: IndexPath) -> QXCollectionViewHeaderFooterView {
-        let view: QXCollectionViewHeaderFooterView
-        let id: String
-        if let e = model {
-            id = "\(type(of: e))"
-        } else {
-            id = "NULL"
-        }
-        if let e = uiCollectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: id, for: indexPath) as? QXCollectionViewHeaderFooterView {
-            view = e
-        } else {
-            if let cls = adapter?.headerViewClass(model) {
-                if let e = uiCollectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: id, for: indexPath) as? QXCollectionViewHeaderFooterView {
-                    view = e
+    open func headerView(for indexPath: IndexPath) -> QXCollectionViewHeaderFooterView {
+        let s = _cacheSections[indexPath.section]
+        if let m = s.header {
+            let view: QXCollectionViewHeaderFooterView
+            let id = "\(type(of: m))"
+            if let e = uiCollectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: id, for: indexPath) as? QXCollectionViewHeaderFooterView {
+                view = e
+            } else {
+                if let cls = adapter?.headerViewClass(m) {
+                    if let e = uiCollectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: id, for: indexPath) as? QXCollectionViewHeaderFooterView {
+                        view = e
+                    } else {
+                        view = cls.init()
+                    }
                 } else {
-                    view = cls.init()
+                    view = QXCollectionViewHeaderFooterView()
                 }
-            } else {
-                view = QXCollectionViewHeaderFooterView()
             }
+            view.respondReloadData = { [weak self] in
+                self?.delegate?.collectionViewNeedsReloadData()
+            }
+            delegate?.collectionViewDidSetupHeaderView(view, for: m, in: s)
+            view.context = QXCollectionViewHeaderFooterView.Context(collectionView: self,
+                                                                    section: indexPath.section,
+                                                                    givenWidth: uiCollectionView.bounds.width - flowLayout.sectionInset.left - flowLayout.sectionInset.right - uiCollectionView.contentInset.left - uiCollectionView.contentInset.right,
+                                                                    isFirstSection: indexPath.section == 0,
+                                                                    isLastSection: indexPath.section == _cacheSections.count - 1)
+            view.section = s
+            view.contextDidSetup()
+            view.model = m
+            view.respondClickView = { [weak self, weak view] in
+                if let ws = self, let view = view {
+                    ws.delegate?.collectionViewDidSelectHeaderView(view, for: m, in: s)
+                }
+            }
+            return view
         }
-        view.collectionView = self
-        view.givenWith = givenWidth
-        view.initializedWithCollectionView()
-        view.model = model
-        view.respondClickView = { [weak self] in
-            self?.respondSelectHeaderView?(model)
-        }
-        return view
+        return QXCollectionViewHeaderFooterView()
     }
-    open func footerView(for model: Any?, givenWidth: CGFloat, indexPath: IndexPath) -> QXCollectionViewHeaderFooterView {
-        let view: QXCollectionViewHeaderFooterView
-        let id: String
-        if let e = model {
-            id = "\(type(of: e))"
-        } else {
-            id = "NULL"
-        }
-        if let e = uiCollectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: id, for: indexPath) as? QXCollectionViewHeaderFooterView {
-            view = e
-        } else {
-            if let cls = adapter?.footerViewClass(model) {
-                view = cls.init()
+    open func footerView(for indexPath: IndexPath) -> QXCollectionViewHeaderFooterView {
+        let s = _cacheSections[indexPath.section]
+        if let m = s.footer {
+            let view: QXCollectionViewHeaderFooterView
+            let id = "\(type(of: m))"
+            if let e = uiCollectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: id, for: indexPath) as? QXCollectionViewHeaderFooterView {
+                view = e
             } else {
-                view = QXCollectionViewHeaderFooterView()
+                if let cls = adapter?.footerViewClass(m) {
+                    if let e = uiCollectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: id, for: indexPath) as? QXCollectionViewHeaderFooterView {
+                        view = e
+                    } else {
+                        view = cls.init()
+                    }
+                } else {
+                    view = QXCollectionViewHeaderFooterView()
+                }
             }
+            view.respondReloadData = { [weak self] in
+                self?.delegate?.collectionViewNeedsReloadData()
+            }
+            delegate?.collectionViewDidSetupFooterView(view, for: m, in: s)
+            view.context = QXCollectionViewHeaderFooterView.Context(collectionView: self,
+                                                                    section: indexPath.section,
+                                                                    givenWidth: uiCollectionView.bounds.width - flowLayout.sectionInset.left - flowLayout.sectionInset.right - uiCollectionView.contentInset.left - uiCollectionView.contentInset.right,
+                                                                    isFirstSection: indexPath.section == 0,
+                                                                    isLastSection: indexPath.section == _cacheSections.count - 1)
+            view.section = s
+            view.contextDidSetup()
+            view.model = m
+            view.respondClickView = { [weak self, weak view] in
+                if let ws = self, let view = view {
+                    ws.delegate?.collectionViewDidSelectFooterView(view, for: m, in: s)
+                }
+            }
+            return view
         }
-        view.collectionView = self
-        view.givenWith = givenWidth
-        view.initializedWithCollectionView()
-        view.model = model
-        view.respondClickView = { [weak self] in
-            self?.respondSelectFooterView?(model)
-        }
-        return view
+        return QXCollectionViewHeaderFooterView()
     }
 
-    open func headerViewHeight(for model: Any?, givenWidth: CGFloat) -> CGFloat {
-        if let e = adapter?.headerViewClass(model) {
-            return e.height(model, givenWidth)
-        } else if let e = model as? QXSpace {
+    open func headerViewHeight(for indexPath: IndexPath) -> CGFloat {
+        let m = _cacheSections[indexPath.section].header
+        if let e = adapter?.headerViewClass(m) {
+            let context = QXCollectionViewHeaderFooterView.Context(collectionView: self,
+                                                                   section: indexPath.section,
+                                                                   givenWidth: uiCollectionView.bounds.width - flowLayout.sectionInset.left - flowLayout.sectionInset.right - uiCollectionView.contentInset.left - uiCollectionView.contentInset.right,
+                                                                   isFirstSection: indexPath.section == 0,
+                                                                   isLastSection: indexPath.section == _cacheSections.count - 1)
+            return e.height(m, context)
+        } else if let e = m as? QXSpace {
             return e.h
         }
         return QXCollectionViewNoneHeight
     }
-    open func footerViewHeight(for model: Any?, givenWidth: CGFloat) -> CGFloat {
-        if let e = adapter?.footerViewClass(model)  {
-            return e.height(model, givenWidth)
-        } else if let e = model as? QXSpace {
+    open func footerViewHeight(for indexPath: IndexPath) -> CGFloat {
+        let m = _cacheSections[indexPath.section].footer
+        if let e = adapter?.footerViewClass(m)  {
+            let context = QXCollectionViewHeaderFooterView.Context(collectionView: self,
+                                                                   section: indexPath.section,
+                                                                   givenWidth: uiCollectionView.bounds.width - flowLayout.sectionInset.left - flowLayout.sectionInset.right - uiCollectionView.contentInset.left - uiCollectionView.contentInset.right,
+                                                                   isFirstSection: indexPath.section == 0,
+                                                                   isLastSection: indexPath.section == _cacheSections.count - 1)
+            return e.height(m, context)
+        } else if let e = m as? QXSpace {
             return e.h
         }
         return QXCollectionViewNoneHeight
@@ -400,81 +525,48 @@ extension QXCollectionView: UICollectionViewDelegate, UICollectionViewDataSource
         return _cacheSections[section].models.count
     }
     public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let section = _cacheSections[indexPath.section]
-        let model = section.models[indexPath.row]
-        let givenW = collectionView.bounds.width - flowLayout.sectionInset.left - flowLayout.sectionInset.right
-        let e = cell(for: model, givenWidth: givenW, cellMinMargin: flowLayout.minimumInteritemSpacing, indexPath: indexPath)
-        e.indexPath = indexPath
-        return e
+        return cell(for: indexPath)
     }
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let section = _cacheSections[indexPath.section]
-        let model = section.models[indexPath.row]
-        let givenW = collectionView.bounds.width - flowLayout.sectionInset.left - flowLayout.sectionInset.right
-        return cellSize(for: model, givenWidth: givenW, cellMinMargin: flowLayout.minimumInteritemSpacing).cgSize
+        return cellSize(for: indexPath).cgSize
     }
     
-    
     public func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        let givenW = collectionView.bounds.width - flowLayout.sectionInset.left - flowLayout.sectionInset.right
         switch kind {
         case UICollectionView.elementKindSectionHeader:
-            let _section = _cacheSections[indexPath.section]
-            let model = _section.header
-            let e = headerView(for: model, givenWidth: givenW, indexPath: indexPath)
-            e.section = indexPath.section
-            return e
+            return headerView(for: indexPath)
         case UICollectionView.elementKindSectionFooter:
-            let _section = _cacheSections[indexPath.section]
-            let model = _section.footer
-            let e = footerView(for: model, givenWidth: givenW, indexPath: indexPath)
-            e.section = indexPath.section
-            return e
+            return footerView(for: indexPath)
         default:
             return QXDebugFatalError("not support yet", UICollectionReusableView())
         }
     }
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        let section = _cacheSections[section]
-        let model = section.header
-        let givenW = collectionView.bounds.width - flowLayout.sectionInset.left - flowLayout.sectionInset.right
-        let h = headerViewHeight(for: model, givenWidth: givenW)
-        return CGSize(width: givenW, height: h)
+        return CGSize(width: 1, height: headerViewHeight(for: IndexPath(item: 0, section: section)))
     }
 
 
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
-        let section = _cacheSections[section]
-        let model = section.footer
-        let givenW = collectionView.bounds.width - flowLayout.sectionInset.left - flowLayout.sectionInset.right
-        let h = footerViewHeight(for: model, givenWidth: givenW)
-        return CGSize(width: givenW, height: h)
+        return CGSize(width: 1, height: footerViewHeight(for: IndexPath(item: 0, section: section)))
+    }
+    
+    public func collectionView(_ collectionView: UICollectionView, canMoveItemAt indexPath: IndexPath) -> Bool {
+        let s = _cacheSections[indexPath.section]
+        let ms = s.models
+        let m = ms[indexPath.item]
+        if let e = adapter?.cellClass(m) {
+            return e.canMove(m)
+        }
+        return false
     }
 
-//    open func tableView(_ tableView: UICollectionView, canMoveRowAt indexPath: IndexPath) -> Bool {
-////        let section = _cacheSections[indexPath.section]
-////        let model = section.models[indexPath.row]
-////        if let e = adapter?.cellClass(model) ?? delegate?.qxCollectionViewCellClass(model) {
-////            return e.canMove(model)
-////        }
-//        return false
-//    }
-//
-//    open func tableView(_ tableView: UICollectionView, commit editingStyle: UICollectionViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-////        let section = _cacheSections[indexPath.section]
-////        let model = section.models[indexPath.row]
-////        (adapter?.cellClass(model) ?? delegate?.qxCollectionViewCellClass(model))?.editCommit(model, editingStyle)
-//    }
-//
-//    open func tableView(_ tableView: UICollectionView, editActionsForRowAt indexPath: IndexPath) -> [UICollectionViewRowAction]? {
-//        let section = _cacheSections[indexPath.section]
-//        let model = section.models[indexPath.row]
-//        return (adapter?.cellClass(model) ?? delegate?.qxCollectionViewCellClass(model))?.editActions(model)
-//    }
-//
-//    open func tableView(_ tableView: UICollectionView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
-//        delegate?.qxCollectionViewMoveCell(sourceIndexPath, destinationIndexPath)
-//    }
+    public func collectionView(_ collectionView: UICollectionView, moveItemAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+        let e = _cacheSections[sourceIndexPath.section].models[sourceIndexPath.row]
+        _cacheSections[sourceIndexPath.section].models.remove(at: sourceIndexPath.row)
+        _cacheSections[destinationIndexPath.section].models.insert(e, at: destinationIndexPath.row)
+        delegate?.collectionViewDidMove(from: sourceIndexPath, to: destinationIndexPath, in: _cacheSections)
+        collectionView.reloadData()
+    }
     
     public func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         (cell as? QXCollectionViewCell)?.willDisplay()
@@ -529,23 +621,33 @@ extension QXCollectionView: QXRefreshableViewProtocol {
     }
 }
 
+
+
 open class QXCollectionViewCell: UICollectionViewCell {
 
+    open var section: QXCollectionViewSection?
     open var model: Any?
+    open var respondReloadData: (() -> Void)?
+    
+    public struct Context {
+        public private(set) weak var collectionView: QXCollectionView?
+        public let indexPath: IndexPath
+        public let givenWidth: CGFloat
+        public let cellMinMargin: CGFloat
+        public let isFirstCellInSection: Bool
+        public let isLastCellInSection: Bool
+    }
+    public var context: Context!
 
-    public weak fileprivate(set) var collectionView: QXCollectionView?
-    public fileprivate(set) var indexPath: IndexPath?
-    public fileprivate(set) var givenWidth: CGFloat = 0
-    public fileprivate(set) var cellMinMargin: CGFloat = 0
+    open class func size(_ model: Any?, _ context: Context) -> QXSize { return QXSize(100, 100) }
 
-    open class func size(_ model: Any?, _ givenWidth: CGFloat, _ cellMinMargin: CGFloat) -> QXSize { return QXSize(100, 100) }
-
-//    open class func canMove(_ model: Any?) -> Bool { return true }
+    open class func canMove(_ model: Any?) -> Bool { return true }
+    
     open func willDisplay() { }
     open func didEndDisplaying() { }
     open func didClickCell() { respondClickCell?() }
 
-    open func initializedWithCollectionView() { }
+    open func contextDidSetup() { }
 
     fileprivate var respondClickCell: (() -> Void)?
     public final lazy var backButton: QXButton = {
@@ -579,18 +681,25 @@ open class QXCollectionViewCell: UICollectionViewCell {
 
 open class QXCollectionViewHeaderFooterView: UICollectionReusableView {
 
+    open var section: QXCollectionViewSection?
     open var model: Any?
+    open var respondReloadData: (() -> Void)?
+    
+    public struct Context {
+        public private(set) weak var collectionView: QXCollectionView?
+        public let section: Int
+        public let givenWidth: CGFloat
+        public let isFirstSection: Bool
+        public let isLastSection: Bool
+    }
+    public var context: Context!
 
-    public weak fileprivate(set) var collectionView: QXCollectionView?
-    public fileprivate(set) var section: Int?
-    public fileprivate(set) var givenWith: CGFloat = 0
-
-    open class func height(_ model: Any?, _ givenWidth: CGFloat) -> CGFloat { return QXCollectionViewNoneHeight }
+    open class func height(_ model: Any?, _ context: Context) -> CGFloat { return QXCollectionViewNoneHeight }
     open func willDisplay() {}
     open func didEndDisplaying() {}
     open func didClickView() { respondClickView?() }
 
-    open func initializedWithCollectionView() { }
+    open func contextDidSetup() { }
 
     fileprivate var respondClickView: (() -> Void)?
     public final lazy var backButton: QXButton = {
@@ -620,15 +729,15 @@ open class QXCollectionViewHeaderFooterView: UICollectionReusableView {
 }
 
 open class QXCollectionViewDebugCell: QXCollectionViewCell {
-
-    open override class func size(_ model: Any?, _ givenWidth: CGFloat, _ cellMinMargin: CGFloat) -> QXSize {
+    
+    open override class func size(_ model: Any?, _ context: QXCollectionViewCell.Context) -> QXSize {
         Label.text = "\(model ?? "nil")"
-        Label.maxWidth = givenWidth / 2
+        Label.maxWidth = context.givenWidth / 2
         return Label.natureSize
     }
-    override open func initializedWithCollectionView() {
-        super.initializedWithCollectionView()
-        label.maxWidth = givenWidth
+    override open func contextDidSetup() {
+        super.contextDidSetup()
+        label.maxWidth = context.givenWidth
     }
 
     override open var model: Any? {
@@ -664,7 +773,7 @@ open class QXCollectionViewDebugCell: QXCollectionViewCell {
 
 }
 open class QXCollectionViewSpaceCell: QXCollectionViewCell {
-    open override class func size(_ model: Any?, _ givenWidth: CGFloat, _ cellMinMargin: CGFloat) -> QXSize {
+    open override class func size(_ model: Any?, _ context: QXCollectionViewCell.Context) -> QXSize {
         if let e = model as? QXSpace {
             return QXSize(e.w, e.h)
         }
@@ -679,7 +788,7 @@ open class QXCollectionViewSpaceCell: QXCollectionViewCell {
     }
 }
 open class QXCollectionViewSpaceHeadFooterView: QXCollectionViewHeaderFooterView {
-    open override class func height(_ model: Any?, _ givenWidth: CGFloat) -> CGFloat {
+    open override class func height(_ model: Any?, _ context: QXCollectionViewHeaderFooterView.Context) -> CGFloat {
         if let e = model as? QXSpace {
             return e.h
         }
@@ -696,14 +805,14 @@ open class QXCollectionViewSpaceHeadFooterView: QXCollectionViewHeaderFooterView
 
 open class QXCollectionViewDebugHeaderFooterView: QXCollectionViewHeaderFooterView {
 
-    override open func initializedWithCollectionView() {
-        super.initializedWithCollectionView()
-        label.fixWidth = givenWith
+    override open func contextDidSetup() {
+        super.contextDidSetup()
+        label.fixWidth = context.givenWidth
     }
-
-    open override class func height(_ model: Any?, _ givenWidth: CGFloat) -> CGFloat {
+    
+    open override class func height(_ model: Any?, _ context: QXCollectionViewHeaderFooterView.Context) -> CGFloat {
         Label.text = "\(model ?? "nil")"
-        Label.fixWidth = givenWidth
+        Label.fixWidth = context.givenWidth
         return Label.natureSize.h
     }
     

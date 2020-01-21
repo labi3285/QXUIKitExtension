@@ -18,8 +18,8 @@ open class QXSettingTextViewCell: QXSettingCell {
         }
     }
     
-    override open func height(_ model: Any?, _ width: CGFloat) -> CGFloat? {
-        textView.fixWidth = width - textView.padding.left - textView.padding.right
+    open override func height(_ model: Any?) -> CGFloat? {
+        textView.fixWidth = context.givenWidth - textView.padding.left - textView.padding.right
         let h = textView.intrinsicContentSize.height
         if let _h = fixHeight {
             return max(_h, h)
@@ -34,7 +34,7 @@ open class QXSettingTextViewCell: QXSettingCell {
         e.placeHolderfont = QXFont(16, QXColor.dynamicPlaceHolder)
         e.uiTextView.isScrollEnabled = false
         e.respondNeedsUpdate = { [weak self] in
-            self?.tableView?.update()
+            self?.context.tableView?.update()
         }
         return e
     }()

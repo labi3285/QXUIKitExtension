@@ -16,7 +16,7 @@ class DemoCollectionVc: QXCollectionViewController<QXCollectionViewSection> {
         contentView.canRefresh = true
         contentView.canPage = true
         
-        collectionView.isPlain = true
+        collectionView.isPlain = false
         collectionView.adapter = QXCollectionViewAdapter([
             String.self >> QXCollectionViewDebugCell.self,
         ], headerMappings: [
@@ -24,12 +24,7 @@ class DemoCollectionVc: QXCollectionViewController<QXCollectionViewSection> {
         ], footerMappings: [
             String.self >> QXCollectionViewDebugHeaderFooterView.self,
         ])
-        
-        collectionView.respondSelectCell = { [weak self] m in
-            let vc = DemoTestVc()
-            self?.push(vc)
-        }
-        
+                
         navigationBarRightItem = QXBarButtonItem.titleItem("xxx", {
             self._isLoad = true
             self.contentView.reloadData()
@@ -54,6 +49,11 @@ class DemoCollectionVc: QXCollectionViewController<QXCollectionViewSection> {
                 done(.succeed([s], true))
             }
         }
+    }
+    
+    override func collectionViewDidSelectCell(_ cell: QXCollectionViewCell, for model: Any, in section: QXCollectionViewSection) {
+        let vc = DemoTestVc()
+        push(vc)
     }
 
     

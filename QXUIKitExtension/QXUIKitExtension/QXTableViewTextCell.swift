@@ -48,9 +48,9 @@ open class QXTableViewText {
 
 open class QXTableViewTextCell: QXTableViewCell {
     
-    override open func initializedWithTable() {
-        super.initializedWithTable()
-        label.fixWidth = cellWidth
+    override open func contextDidSetup() {
+        super.contextDidSetup()
+        label.fixWidth = context.givenWidth
     }
         
     override open var model: Any? {

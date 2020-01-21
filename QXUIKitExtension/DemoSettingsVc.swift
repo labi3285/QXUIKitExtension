@@ -192,6 +192,7 @@ class DemoSettingsVc: QXTableViewController<Any> {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Settings"
+        tableView.isSortMode = true
         view.qxBackgroundColor = QXColor.dynamicBackgroundGray
         navigationBarBackgroundColor = QXColor.red
     }

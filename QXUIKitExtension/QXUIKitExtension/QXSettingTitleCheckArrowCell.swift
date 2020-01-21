@@ -24,8 +24,8 @@ open class QXSettingTitleCheckArrowCell: QXSettingCell {
         }
     }
     
-    override open func height(_ model: Any?, _ width: CGFloat) -> CGFloat? {
-        let h = super.height(model, width)
+    open override func height(_ model: Any?) -> CGFloat? {
+        let h = super.height(model)
         if let e = h {
             arrowView.fixHeight = e - layoutView.padding.top - layoutView.padding.bottom
         }

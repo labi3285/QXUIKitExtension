@@ -17,14 +17,56 @@ open class QXSettingTitleArrowCell: QXSettingCell {
             backButton.isDisplay = isEnabled
         }
     }
-    
-    override open func height(_ model: Any?, _ width: CGFloat) -> CGFloat? {
-        let h = super.height(model, width)
+    open override func height(_ model: Any?) -> CGFloat? {
+        let h = super.height(model)
         if let e = h {
             arrowView.fixHeight = e - layoutView.padding.top - layoutView.padding.bottom
         }
         return h
     }
+
+    public var placeHolderFont: QXFont = QXFont(16, QXColor.dynamicPlaceHolder)
+    public var placeHolder: String? {
+        didSet {
+            if richContent == nil && QXEmpty(content) {
+                if _originFont == nil {
+                    _originFont = subTitleLabel.font
+                }
+                subTitleLabel.font = placeHolderFont
+                subTitleLabel.text = placeHolder ?? ""
+            }
+        }
+    }
+    public var content: String? {
+        didSet {
+            if !QXEmpty(content) {
+                if let e = _originFont {
+                    subTitleLabel.font = e
+                }
+                subTitleLabel.text = content ?? ""
+            } else {
+                if _originFont == nil {
+                    _originFont = subTitleLabel.font
+                }
+                subTitleLabel.font = placeHolderFont
+                subTitleLabel.text = placeHolder ?? ""
+            }
+        }
+    }
+    public var richContent: QXRichText? {
+        didSet {
+            if let e = richContent {
+                subTitleLabel.richText = e
+            } else {
+                if _originFont == nil {
+                    _originFont = subTitleLabel.font
+                }
+                subTitleLabel.font = placeHolderFont
+                subTitleLabel.text = placeHolder ?? ""
+            }
+        }
+    }
+    private var _originFont: QXFont!
     
     public final lazy var titleLabel: QXLabel = {
         let e = QXLabel()

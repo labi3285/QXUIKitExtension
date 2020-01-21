@@ -23,15 +23,15 @@ open class QXSettingTitleCheckCell: QXSettingCell {
             backButton.isEnabled = isEnabled
         }
     }
-
-    override open func height(_ model: Any?, _ width: CGFloat) -> CGFloat? {
-        let h = super.height(model, width)
+    
+    open override func height(_ model: Any?) -> CGFloat? {
+        let h = super.height(model)
         if let e = h {
             iconView.fixHeight = e - layoutView.padding.top - layoutView.padding.bottom
         }
         return h
     }
-    
+
     public final lazy var titleLabel: QXLabel = {
         let e = QXLabel()
         e.numberOfLines = 1

@@ -40,7 +40,7 @@ public func QXEmpty(_ e: Any?) -> Bool {
             return e.count == 0
         } else if let e = e as? NSNumber {
             return e == 0
-        } else if let e = e as? [Any?] {
+        } else if let e = e as? [Any] {
             return e.isEmpty
         } else if let e = e as? [AnyHashable: Any?] {
             return e.isEmpty

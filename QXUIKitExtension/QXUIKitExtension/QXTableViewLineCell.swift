@@ -21,9 +21,9 @@ open class QXTableViewLine {
 
 open class QXTableViewLineCell: QXTableViewCell {
     
-    override open func initializedWithTable() {
-        super.initializedWithTable()
-        lineView.fixWidth = cellWidth
+    override open func contextDidSetup() {
+        super.contextDidSetup()
+        lineView.fixWidth = context.givenWidth
     }
         
     override open var model: Any? {

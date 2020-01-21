@@ -11,8 +11,8 @@ import QXConsMaker
 
 open class QXStaticCardCell: QXStaticCell {
 
-    override open func height(_ model: Any?, _ width: CGFloat) -> CGFloat? {
-        let cardW = width - layoutView.padding.left - layoutView.padding.right
+    open override func height(_ model: Any?) -> CGFloat? {
+        let cardW = context.givenWidth - layoutView.padding.left - layoutView.padding.right
         let contentW = cardW - cardView.padding.left - cardView.padding.right
         for e in cardView.views {
             if let e = e as? QXView {
@@ -21,7 +21,7 @@ open class QXStaticCardCell: QXStaticCell {
                 }
             }
         }
-        layoutView.fixWidth = width
+        layoutView.fixWidth = context.givenWidth
         cardView.fixWidth = cardW
         return layoutView.natureSize.h
     }
