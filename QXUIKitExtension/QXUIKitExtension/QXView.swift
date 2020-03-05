@@ -78,7 +78,7 @@ open class QXView: UIView, QXViewProtocol {
     public init() {
         super.init(frame: CGRect.zero)
     }
-    public var backLayers: [QXLayer]? {
+    open var backLayers: [QXLayer]? {
         didSet {
             if let es = oldValue {
                 for e in es {
@@ -96,12 +96,30 @@ open class QXView: UIView, QXViewProtocol {
             setNeedsLayout()
         }
     }
-    public var backColor: QXColor? {
+    open var backColor: QXColor? {
         set {
             qxBackgroundColor = newValue
         }
         get {
             return qxBackgroundColor
+        }
+    }
+    
+    open var shadow: QXShadow? {
+        set {
+            self.qxShadow = newValue
+        }
+        get {
+            return qxShadow
+        }
+    }
+    
+    open var border: QXBorder? {
+        set {
+            self.qxBorder = newValue
+        }
+        get {
+            return qxBorder
         }
     }
     

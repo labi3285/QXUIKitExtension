@@ -40,10 +40,74 @@ open class QXButton: QXView {
         e.clipsToBounds = false
         e.isUserInteractionEnabled = false
         e.uiImageView.contentMode = .scaleToFill
+        e.respondChangeBackLayers = { [unowned self] c in
+            self._originBackLayers = c
+        }
+        e.respondChangeImage = { [unowned self] c in
+            self._originBackImage = c
+        }
+        e.respondChangeBackColor = { [unowned self] c in
+            self._originBackColor = c
+        }
+        e.respondChangeShadow = { [unowned self] c in
+            self._originShadow = c
+        }
+        e.respondChangeBorder = { [unowned self] c in
+            self._originBorder = c
+        }
         return e
     }()
     
     open class BackView: QXImageView {
+        
+        var respondChangeBackLayers: (([QXLayer]?) -> ())?
+        var respondChangeImage: ((QXImage?) -> ())?
+        var respondChangeBackColor: ((QXColor?) -> ())?
+        var respondChangeShadow: ((QXShadow?) -> ())?
+        var respondChangeBorder: ((QXBorder?) -> ())?
+
+        open override var backLayers: [QXLayer]? {
+            set {
+                super.backLayers = newValue
+                respondChangeBackLayers?(newValue)
+            }
+            get {
+                return super.backLayers
+            }
+        }
+        open override var image: QXImage? {
+            didSet {
+                super.image = image
+                respondChangeImage?(image)
+            }
+        }
+        open override var backColor: QXColor? {
+            set {
+                super.backColor = newValue
+                respondChangeBackColor?(newValue)
+            }
+            get {
+                return super.backColor
+            }
+        }
+        open override var shadow: QXShadow? {
+            set {
+                super.shadow = newValue
+                respondChangeShadow?(newValue)
+            }
+            get {
+                return super.shadow
+            }
+        }
+        open override var border: QXBorder? {
+            set {
+                super.border = newValue
+                respondChangeBorder?(newValue)
+            }
+            get {
+                return super.border
+            }
+        }
         
         open var backLayersHighlighted: [QXLayer]?
         open var backLayersDisabled: [QXLayer]?
@@ -103,9 +167,9 @@ open class QXButton: QXView {
     }
     
     open func handlePrepareOrigins() {
-        _originBackgoundLayers = backView.backLayers
-        _originBackgoundImage = backView.image
-        _originBackgoundColor = backView.backColor ?? QXColor.clear
+        _originBackLayers = backView.backLayers
+        _originBackImage = backView.image
+        _originBackColor = backView.backColor ?? QXColor.clear
         _originShadow = backView.shadow
         _originBorder = backView.border
         _originAlpha = alpha
@@ -121,18 +185,18 @@ open class QXButton: QXView {
             handlePrepareOrigins()
             _isOriginPrepared = true
         }
-        if let e = _originBackgoundImage {
+        if let e = _originBackImage {
             backView.backLayers = nil
             backView.backColor = nil
             backView.image = e
-        } else if let e = _originBackgoundLayers {
+        } else if let e = _originBackLayers {
             backView.image = nil
             backView.backColor = nil
             backView.backLayers = e
         } else {
             backView.image = nil
             backView.backLayers = nil
-            backView.backColor = _originBackgoundColor
+            backView.backColor = _originBackColor
         }
         backView.shadow = _originShadow
         backView.border = _originBorder
@@ -143,18 +207,18 @@ open class QXButton: QXView {
             handlePrepareOrigins()
             _isOriginPrepared = true
         }
-        if let e = backView.imageHighlighted ?? _originBackgoundImage {
+        if let e = backView.imageHighlighted ?? _originBackImage {
             backView.backLayers = nil
             backView.backColor = nil
             backView.image = e
-        } else if let e = backView.backLayersHighlighted ?? _originBackgoundLayers {
+        } else if let e = backView.backLayersHighlighted ?? _originBackLayers {
             backView.image = nil
             backView.backColor = nil
             backView.backLayers = e
         } else {
             backView.image = nil
             backView.backLayers = nil
-            backView.backColor = backView.backColorHighlighted ?? _originBackgoundColor
+            backView.backColor = backView.backColorHighlighted ?? _originBackColor
         }
         backView.shadow = backView.shadowHighlighted ?? _originShadow
         backView.border = backView.borderHighlighted ?? _originBorder
@@ -165,18 +229,18 @@ open class QXButton: QXView {
             handlePrepareOrigins()
             _isOriginPrepared = true
         }
-        if let e = backView.imageSelected ?? _originBackgoundImage {
+        if let e = backView.imageSelected ?? _originBackImage {
             backView.backLayers = nil
             backView.backColor = nil
             backView.image = e
-        } else if let e = backView.backLayersSelected ?? _originBackgoundLayers {
+        } else if let e = backView.backLayersSelected ?? _originBackLayers {
             backView.image = nil
             backView.backColor = nil
             backView.backLayers = e
         } else {
             backView.image = nil
             backView.backLayers = nil
-            backView.backColor = backView.backColorSelected ?? _originBackgoundColor
+            backView.backColor = backView.backColorSelected ?? _originBackColor
         }
         backView.shadow = backView.shadowSelected ?? _originShadow
         backView.border = backView.borderSelected ?? _originBorder
@@ -187,18 +251,18 @@ open class QXButton: QXView {
             handlePrepareOrigins()
             _isOriginPrepared = true
         }
-        if let e = backView.imageDisabled ?? _originBackgoundImage {
+        if let e = backView.imageDisabled ?? _originBackImage {
             backView.backLayers = nil
             backView.backColor = nil
             backView.image = e
-        } else if let e = backView.backLayersDisabled ?? _originBackgoundLayers {
+        } else if let e = backView.backLayersDisabled ?? _originBackLayers {
             backView.image = nil
             backView.backColor = nil
             backView.backLayers = e
         } else {
             backView.image = nil
             backView.backLayers = nil
-            backView.backColor = backView.backColorDisabled ?? _originBackgoundColor
+            backView.backColor = backView.backColorDisabled ?? _originBackColor
         }
         backView.shadow = backView.shadowDisabled ?? _originShadow
         backView.border = backView.borderDisabled ?? _originBorder
@@ -257,9 +321,9 @@ open class QXButton: QXView {
     private var _touchBeganPoint: CGPoint?
     private var _isOriginPrepared: Bool = false
     
-    private var _originBackgoundLayers: [QXLayer]?
-    private var _originBackgoundImage: QXImage?
-    private var _originBackgoundColor: QXColor?
+    private var _originBackLayers: [QXLayer]?
+    private var _originBackImage: QXImage?
+    private var _originBackColor: QXColor?
     
     private var _originShadow: QXShadow?
     private var _originBorder: QXBorder?
