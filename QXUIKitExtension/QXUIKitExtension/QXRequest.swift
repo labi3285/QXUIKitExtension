@@ -47,6 +47,7 @@ open class QXRequest {
     public enum Method {
         case get
         case post
+        case put
     }
     public enum ParameterEncoding {
         case json
@@ -278,6 +279,8 @@ extension QXRequest {
             return HTTPMethod.get
         case .post:
             return HTTPMethod.post
+        case .put:
+            return HTTPMethod.put
         }
     }
     fileprivate func _makeEncoding() -> Alamofire.ParameterEncoding {
@@ -338,9 +341,6 @@ extension QXRequest {
 }
 
 extension AFError {
-    func toUserQXError() -> QXError {
-        return QXError(-1, "访问出错")
-    }
     func toQXError() -> QXError {
         switch self {
         case .invalidURL(url: _):

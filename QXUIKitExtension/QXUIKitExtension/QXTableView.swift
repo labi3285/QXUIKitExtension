@@ -26,7 +26,7 @@ public protocol QXTableViewDelegate: class {
     
     func tableViewNeedsReloadData()
 }
-extension QXTableViewDelegate {
+public extension QXTableViewDelegate {
     func tableViewDidSetupCell(_ cell: QXTableViewCell, for model: Any, in section: QXTableViewSection) { }
     func tableViewDidSelectCell(_ cell: QXTableViewCell, for model: Any, in section: QXTableViewSection) { }
     
@@ -129,10 +129,13 @@ public struct QXTableViewAdapter {
 open class QXTableView: QXView {
         
     public weak var delegate: QXTableViewDelegate?
+    public weak var scrollDelegate: UIScrollViewDelegate?
     
     public var adapter: QXTableViewAdapter?
     
     public func reloadData() {
+        let ss = sections
+        sections = ss
         uiTableView.reloadData()
     }
     
@@ -651,7 +654,7 @@ extension QXTableView: UITableViewDelegate, UITableViewDataSource {
                     return ""
                 }
             }
-        }        
+        }
     }
     
     open func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
@@ -676,6 +679,35 @@ extension QXTableView: UITableViewDelegate, UITableViewDataSource {
 
     open func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
         return false
+    }
+    
+    
+    open func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        scrollDelegate?.scrollViewDidScroll?(scrollView)
+    }
+    open func scrollViewDidZoom(_ scrollView: UIScrollView) {
+        scrollDelegate?.scrollViewDidZoom?(scrollView)
+    }
+    open func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        scrollDelegate?.scrollViewWillBeginDragging?(scrollView)
+    }
+    open func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+        scrollDelegate?.scrollViewWillEndDragging?(scrollView, withVelocity: velocity, targetContentOffset: targetContentOffset)
+    }
+    open func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        scrollDelegate?.scrollViewDidEndDragging?(scrollView, willDecelerate: decelerate)
+    }
+    open func scrollViewWillBeginDecelerating(_ scrollView: UIScrollView) {
+        scrollDelegate?.scrollViewWillBeginDecelerating?(scrollView)
+    }
+    open func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        scrollDelegate?.scrollViewDidEndDecelerating?(scrollView)
+    }
+    open func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
+        scrollDelegate?.scrollViewDidEndScrollingAnimation?(scrollView)
+    }
+    open func scrollViewDidScrollToTop(_ scrollView: UIScrollView) {
+        scrollDelegate?.scrollViewDidScrollToTop?(scrollView)
     }
     
 }
@@ -745,7 +777,7 @@ open class QXTableViewCell: UITableViewCell {
     fileprivate var respondClickCell: (() -> Void)?
     public final lazy var backButton: QXButton = {
         let e = QXButton()
-        e.backView.backgroundColorHighlighted = QXColor.dynamicHiglight
+        e.backView.backColorHighlighted = QXColor.dynamicHiglight
         e.respondClick = { [weak self] in
             self?.didClickCell()
         }
@@ -802,7 +834,7 @@ open class QXTableViewHeaderFooterView: UITableViewHeaderFooterView {
     fileprivate var respondClickView: (() -> Void)?
     public final lazy var backButton: QXButton = {
         let e = QXButton()
-        e.backView.backgroundColorHighlighted = QXColor.dynamicHiglight
+        e.backView.backColorHighlighted = QXColor.dynamicHiglight
         e.respondClick = { [weak self] in
             self?.didClickView()
         }

@@ -27,6 +27,8 @@
 		754C5B2823D698A400D3E46D /* QXAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 754C5B2223D698A400D3E46D /* QXAlertController.swift */; };
 		754C5B2923D698A400D3E46D /* QXSelect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 754C5B2323D698A400D3E46D /* QXSelect.swift */; };
 		754C5B2B23D698A400D3E46D /* QXCircleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 754C5B2523D698A400D3E46D /* QXCircleView.swift */; };
+		754EBAB323ECF4CB001CECA3 /* QXSegsControlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 754EBAB223ECF4CB001CECA3 /* QXSegsControlView.swift */; };
+		754EBAB523ECF4F7001CECA3 /* QXSettingTitleSegsControlCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 754EBAB423ECF4F7001CECA3 /* QXSettingTitleSegsControlCell.swift */; };
 		7551F7942395EF65008AF832 /* QXSegmentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7551F7932395EF65008AF832 /* QXSegmentView.swift */; };
 		7553884622EE969900D5261D /* QXTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7553884522EE969900D5261D /* QXTableViewController.swift */; };
 		7553C79022CC9C810058239B /* QXRect.Relation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7553C78D22CC9C810058239B /* QXRect.Relation.swift */; };
@@ -178,6 +180,8 @@
 		754C5B2223D698A400D3E46D /* QXAlertController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QXAlertController.swift; sourceTree = "<group>"; };
 		754C5B2323D698A400D3E46D /* QXSelect.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QXSelect.swift; sourceTree = "<group>"; };
 		754C5B2523D698A400D3E46D /* QXCircleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QXCircleView.swift; sourceTree = "<group>"; };
+		754EBAB223ECF4CB001CECA3 /* QXSegsControlView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QXSegsControlView.swift; sourceTree = "<group>"; };
+		754EBAB423ECF4F7001CECA3 /* QXSettingTitleSegsControlCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QXSettingTitleSegsControlCell.swift; sourceTree = "<group>"; };
 		7551F7932395EF65008AF832 /* QXSegmentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QXSegmentView.swift; sourceTree = "<group>"; };
 		7553884522EE969900D5261D /* QXTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QXTableViewController.swift; sourceTree = "<group>"; };
 		7553C78D22CC9C810058239B /* QXRect.Relation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QXRect.Relation.swift; sourceTree = "<group>"; };
@@ -504,6 +508,8 @@
 				7553C7FC22CEE0CE0058239B /* QXError.swift */,
 				7551F7932395EF65008AF832 /* QXSegmentView.swift */,
 				756057362398930300118E69 /* QXBannerView.swift */,
+				754EBAB223ECF4CB001CECA3 /* QXSegsControlView.swift */,
+				754EBAB423ECF4F7001CECA3 /* QXSettingTitleSegsControlCell.swift */,
 				751558A722E7FCFA00EFF37A /* QXFilter.swift */,
 				7553C80022CEE50A0058239B /* QXDebug.swift */,
 				75D85227236847DF000F4157 /* UIImage_gif.swift */,
@@ -661,6 +667,7 @@
 				758B220F23703ABB00A03539 /* QXMaskViewController.swift in Sources */,
 				75D85228236847DF000F4157 /* UIImage_gif.swift in Sources */,
 				7578A87823618286006CFDD5 /* QXSettingSeparateFooterView.swift in Sources */,
+				754EBAB323ECF4CB001CECA3 /* QXSegsControlView.swift in Sources */,
 				75BB0F95237ACAD70003C7AD /* QXStaticImageCell.swift in Sources */,
 				7560573B2398A1EB00118E69 /* DemoBannerVc.swift in Sources */,
 				75729FA623614E090007D1B1 /* DemoStackViewVc.swift in Sources */,
@@ -670,6 +677,7 @@
 				7578A88D2361A710006CFDD5 /* QXTextView.swift in Sources */,
 				7560573D2398AA7000118E69 /* QXPageIndicatorView.swift in Sources */,
 				7578069422E164E7009DD0DA /* QXUIKitExtensionResources.swift in Sources */,
+				754EBAB523ECF4F7001CECA3 /* QXSettingTitleSegsControlCell.swift in Sources */,
 				75929CB822D831C4006577AD /* QXPoint.swift in Sources */,
 				75B0AF232398DDBA00B0E817 /* DemoShapeVc.swift in Sources */,
 				7553C81122CF1D6B0058239B /* QXBarButtonItem.swift in Sources */,
@@ -914,8 +922,8 @@
 			baseConfigurationReference = 178A006B875BAF6C183194DC /* Pods-QXUIKitExtension.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 4S3D2DBDGU;
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = C6PJX37F7R;
 				INFOPLIST_FILE = QXUIKitExtension/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -923,8 +931,9 @@
 					"@executable_path/Frameworks",
 				);
 				MACH_O_TYPE = mh_execute;
-				PRODUCT_BUNDLE_IDENTIFIER = com.labi3285.QXUIKitExtension;
+				PRODUCT_BUNDLE_IDENTIFIER = com.liulei.test;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "wildcard-dev";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -935,8 +944,8 @@
 			baseConfigurationReference = CE03BBF2ABE1D10750C53E79 /* Pods-QXUIKitExtension.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 4S3D2DBDGU;
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = C6PJX37F7R;
 				INFOPLIST_FILE = QXUIKitExtension/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -944,8 +953,9 @@
 					"@executable_path/Frameworks",
 				);
 				MACH_O_TYPE = mh_execute;
-				PRODUCT_BUNDLE_IDENTIFIER = com.labi3285.QXUIKitExtension;
+				PRODUCT_BUNDLE_IDENTIFIER = com.liulei.test;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "wildcard-dev";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

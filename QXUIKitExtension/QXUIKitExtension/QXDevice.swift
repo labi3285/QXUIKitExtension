@@ -68,11 +68,11 @@ public struct QXDevice {
     
     /// app名称
     public static var appName: String {
-        return Bundle.main.infoDictionary?["CFBundleDisplayName"] as? String ?? "app"
+        return Bundle.main.infoDictionary?["CFBundleDisplayName"] as? String ?? ""
     }
     /// 设备型号
     public static var appVersion: String {
-        return Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "app"
+        return Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? ""
     }
     
     /// 是否刘海屏

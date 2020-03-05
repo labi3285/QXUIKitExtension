@@ -68,7 +68,8 @@ open class QXArrangeView: QXView {
         var lineSizes: [(size: QXSize?, space: CGFloat?, flex: CGFloat?)] = []
         for e in showViews {
             let wh = e.natureSize
-            if x + wh.w <= width - padding.right {
+            // 0.3 为误差范围
+            if x + wh.w <= width - padding.right + 0.3 {
                 if e is UIView {
                     x += wh.w + viewMarginX
                     lineSizes.append((wh, nil, nil))

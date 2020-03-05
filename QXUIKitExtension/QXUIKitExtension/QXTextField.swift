@@ -25,7 +25,6 @@ open class QXTextField: QXView, UITextFieldDelegate {
     public var text: String {
         set {
             uiTextField.text = newValue
-            textChange()
         }
         get {
             return uiTextField.text ?? ""

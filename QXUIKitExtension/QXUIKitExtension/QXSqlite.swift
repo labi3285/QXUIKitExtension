@@ -26,7 +26,6 @@ public class QXSQLite {
         
     }
     
-    
     private var db: OpaquePointer? = nil
     
     /// 打开db

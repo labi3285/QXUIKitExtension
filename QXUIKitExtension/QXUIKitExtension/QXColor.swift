@@ -15,6 +15,10 @@ public enum QXColor {
 
     /// rgb:(255, 255, 255, 255)
     case rgb(_ r: UInt8, _ g: UInt8, _ b: UInt8, _ a: UInt8)
+    
+    /// hsb:(360, 100, 100, 100)
+    case hsb(_ h: UInt16, _ s: UInt16, _ b: UInt16, _ a: UInt16)
+
     /// image:(QXImage)
     case image(_ image: QXImage)
     /// uiColor:(UIColor)
@@ -54,6 +58,23 @@ public enum QXColor {
         }
     }
     
+    public var rgb: (r: CGFloat, g: CGFloat, b: CGFloat, a: CGFloat) {
+        return uiColor.qxRGB
+    }
+    public var hsb: (h: CGFloat, s: CGFloat, b: CGFloat, a: CGFloat) {
+        return uiColor.qxHSB
+    }
+    
+    /// 颜色反转
+    public var opposite: QXColor {
+        return QXColor.uiColor(uiColor.qxOpposite)
+    }
+    
+    /// 对应黑白色
+    public var blackOrWhite: QXColor {
+        return QXColor.uiColor(uiColor.qxBlackOrWhite)
+    }
+
     public static let red: QXColor = QXColor.rgb(255, 0, 0, 255)
     public static let green: QXColor = QXColor.rgb(0, 255, 0, 255)
     public static let blue: QXColor = QXColor.rgb(0, 0, 255, 255)
@@ -126,6 +147,8 @@ extension QXColor {
         switch self {
         case .rgb(let r, let g, let b, let a):
             return UIColor(red: CGFloat(r)/255.0, green: CGFloat(g)/255.0, blue: CGFloat(b)/255.0, alpha: CGFloat(a)/255.0)
+        case .hsb(let h, let s, let b, let a):
+            return UIColor(hue: CGFloat(h)/360.0, saturation: CGFloat(s)/100.0, brightness: CGFloat(b)/100.0, alpha: CGFloat(a)/100.0)
         case .image(let image):
             if let image = image.uiImage {
                 return UIColor(patternImage: image)
@@ -196,6 +219,8 @@ extension QXColor: CustomStringConvertible {
         switch self {
         case .rgb(let r, let g, let b, let a):
             return "\(type(of: self)).rgb \(r) \(g) \(b) \(a)"
+        case .hsb(let h, let s, let b, let a):
+            return "\(type(of: self)).hsb \(h) \(s) \(b) \(a)"
         case .image(let image):
             if let e = image.uiImage {
                 return "\(type(of: self)).image \(e)"
@@ -228,6 +253,41 @@ extension UIColor {
                        blue: CGFloat(arc4random_uniform(255)) / 255.0,
                        alpha: CGFloat(arc4random_uniform(255)) / 255.0)
     }
+    
+    public var qxRGB: (r: CGFloat, g: CGFloat, b: CGFloat, a: CGFloat) {
+        var r: CGFloat = 0
+        var g: CGFloat = 0
+        var b: CGFloat = 0
+        var a: CGFloat = 0
+        getRed(&r, green: &g, blue: &b, alpha: &a)
+        return (r, g, b, a)
+    }
+    
+    public var qxHSB: (h: CGFloat, s: CGFloat, b: CGFloat, a: CGFloat) {
+        var h: CGFloat = 0
+        var s: CGFloat = 0
+        var b: CGFloat = 0
+        var a: CGFloat = 0
+        getHue(&h, saturation: &s, brightness: &b, alpha: &a)
+        return (h, s, b, a)
+    }
+    
+    /// 颜色反转
+    public var qxOpposite: UIColor {
+        let rgba = qxRGB
+        return UIColor(red: 1 - rgba.r, green: 1 - rgba.g, blue: 1 - rgba.b, alpha: rgba.a)
+    }
+    
+    /// 对应黑白色
+    public var qxBlackOrWhite: UIColor {
+        let rgba = qxRGB
+        let a = CGFloat(rgba.r) * 0.299 + CGFloat(rgba.g) * 0.587 + CGFloat(rgba.b) * 0.114
+        if a < 200/255 {
+            return UIColor(red: 0, green: 0, blue: 0, alpha: rgba.a)
+        } else {
+            return UIColor(red: 1, green: 1, blue: 1, alpha: rgba.a)
+        }
+    }
 }
 
 
@@ -258,4 +318,5 @@ extension UIView {
     }
     
 }
+
 

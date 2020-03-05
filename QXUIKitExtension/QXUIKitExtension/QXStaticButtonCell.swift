@@ -21,7 +21,7 @@ open class QXStaticButtonCell: QXStaticCell {
         e.titlePadding = QXEdgeInsets(7, 10, 7, 10)
         e.padding = QXEdgeInsets(10, 15, 10, 15)
         e.backView.qxBorder = QXBorder().setCornerRadius(5)
-        e.backView.qxBackgroundColor = QXColor.fmtHex("#3a8ffb")
+        e.backView.backColor = QXColor.fmtHex("#3a8ffb")
         e.font = QXFont(16, "#ffffff", true)
         e.highlightAlpha = 0.3
         e.title = "按 钮"

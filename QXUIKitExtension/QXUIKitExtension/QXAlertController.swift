@@ -38,6 +38,7 @@ open class QXInput {
     open var placeHolder: String?
     open var filter: QXTextFilter?
     open var respondTextChange: ((_ text: String?, _ isEmpty: Bool) -> Void)?
+    public init() { }
 }
 
 open class QXAlertController: UIAlertController {

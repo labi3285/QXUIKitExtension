@@ -176,7 +176,7 @@ open class QXLoadStatusView: UIView {
     public final lazy var retryButton: QXTitleButton = {
         let e = QXTitleButton()
         e.backView.qxBorder = QXBorder().setCornerRadius(5)
-        e.backView.qxBackgroundColor = QXColor.dynamicButton
+        e.backView.backColor = QXColor.dynamicButton
         e.font = QXFont(14, QXColor.dynamicButtonText)
         e.title = "点击重试"
         e.padding = QXEdgeInsets(7, 10, 7, 10)

@@ -44,7 +44,7 @@ open class QXBarButtonItem: UIBarButtonItem {
         return e
     }
     
-    @objc func itemClick() {
+    @objc open func itemClick() {
         respondClick?()
     }
     public var respondClick: (() -> Void)?

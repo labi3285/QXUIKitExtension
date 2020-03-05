@@ -32,7 +32,7 @@ class DemoModelVc: QXViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "测试模型解析"
-                
+        
         let point = TestPoint(dictionary: [
             "x": 123,
             "y": "456"

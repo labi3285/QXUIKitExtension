@@ -18,15 +18,19 @@ open class QXLayer {
 
     public static func lineGradientLayer(colors: [QXColor], isVertical: Bool) -> QXLayer {
         if isVertical {
-            return lineGradientLayer(colors: colors, locations: [0, 1], startAnchor: QXPoint(0.5, 0), endAnchor: QXPoint(0.5, 1))
+            return lineGradientLayer(colors: colors, locations: nil, startAnchor: QXPoint(0.5, 0), endAnchor: QXPoint(0.5, 1))
         } else {
-            return lineGradientLayer(colors: colors, locations: [0, 1], startAnchor: QXPoint(0, 0.5), endAnchor: QXPoint(0.5, 0.5))
+            return lineGradientLayer(colors: colors, locations: nil, startAnchor: QXPoint(0, 0.5), endAnchor: QXPoint(1, 0.5))
         }
     }
-    public static func lineGradientLayer(colors: [QXColor], locations: [CGFloat], startAnchor: QXPoint, endAnchor: QXPoint) -> QXLayer {
+    
+    /// locations: 0-1
+    public static func lineGradientLayer(colors: [QXColor], locations: [CGFloat]?, startAnchor: QXPoint, endAnchor: QXPoint) -> QXLayer {
         let e = CAGradientLayer()
         e.colors = colors.map { $0.uiColor.cgColor }
-        e.locations = locations as [NSNumber]
+        if let arr = locations {
+            e.locations = arr as [NSNumber]
+        }
         e.startPoint = startAnchor.cgPoint
         e.endPoint = endAnchor.cgPoint
         return QXLayer(e)

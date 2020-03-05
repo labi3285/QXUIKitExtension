@@ -96,6 +96,14 @@ open class QXView: UIView, QXViewProtocol {
             setNeedsLayout()
         }
     }
+    public var backColor: QXColor? {
+        set {
+            qxBackgroundColor = newValue
+        }
+        get {
+            return qxBackgroundColor
+        }
+    }
     
     public final lazy var backLayersContainerLayer: CALayer = {
         let e = CALayer()
@@ -265,31 +273,6 @@ open class QXView: UIView, QXViewProtocol {
         
 }
 
-extension QXView {
-    
-    public var viewController: QXViewController? {
-        return qxViewController as? QXViewController
-    }
-    
-}
-
-extension UIView {
-    
-    public var qxViewController: UIViewController? {
-        var next: UIResponder? = self
-        repeat {
-            next = next?.next
-            if let vc = next as? UIViewController {
-                return vc
-            }
-            
-        } while next != nil
-        return nil
-    }
-    
-}
-
-
 extension UIView {
     
     public func qxSetNeedsLayout() {
@@ -298,7 +281,7 @@ extension UIView {
         setNeedsDisplay()
     }
     
-    public var qxVc: UIViewController? {
+    public var uiViewController: UIViewController? {
         var view: UIView? = self
         while view != nil {
             if let r = view?.next {
@@ -309,6 +292,9 @@ extension UIView {
             view = view?.superview
         }
         return nil
+    }
+    public var qxViewController: QXViewController? {
+        return uiViewController as? QXViewController
     }
     
     public var qxIntrinsicContentSize: QXSize{

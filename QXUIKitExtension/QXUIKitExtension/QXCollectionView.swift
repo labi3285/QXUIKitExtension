@@ -24,9 +24,12 @@ public protocol QXCollectionViewDelegate: class {
 
     func collectionViewDidMove(from: IndexPath, to: IndexPath, in sections: [QXCollectionViewSection])
     
+    func collectionViewDidChangePage(_ page: Int)
+
     func collectionViewNeedsReloadData()
+    
 }
-extension QXCollectionViewDelegate {
+public extension QXCollectionViewDelegate {
     func collectionViewDidSetupCell(_ cell: QXCollectionViewCell, for model: Any, in section: QXCollectionViewSection) { }
     func collectionViewDidSelectCell(_ cell: QXCollectionViewCell, for model: Any, in section: QXCollectionViewSection) { }
     
@@ -38,6 +41,9 @@ extension QXCollectionViewDelegate {
 
     func collectionViewDidMove(from: IndexPath, to: IndexPath, in sections: [QXCollectionViewSection]) { }
     
+    public func collectionViewDidScroll(isDrag: Bool) { }
+    public func collectionViewDidChangePage(_ page: Int) { }
+
     func collectionViewNeedsReloadData() { }
 }
 
@@ -128,6 +134,7 @@ public struct QXCollectionViewAdapter {
 open class QXCollectionView: QXView {
     
     public weak var delegate: QXCollectionViewDelegate?
+    public weak var scrollDelegate: UIScrollViewDelegate?
 
     public var adapter: QXCollectionViewAdapter?  {
         didSet {
@@ -267,6 +274,19 @@ open class QXCollectionView: QXView {
             case .bottom:
                 flowLayout.itemsVerticalAlignment = .bottom
             }
+        }
+    }
+    
+    public var isHorizontal: Bool {
+        set {
+            if newValue {
+                flowLayout.scrollDirection = .horizontal
+            } else {
+                flowLayout.scrollDirection = .vertical
+            }
+        }
+        get {
+            return flowLayout.scrollDirection == .horizontal
         }
     }
     
@@ -441,7 +461,7 @@ open class QXCollectionView: QXView {
             }
             return view
         }
-        return QXCollectionViewHeaderFooterView()
+        return uiCollectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "NULL", for: indexPath) as! QXCollectionViewHeaderFooterView
     }
     open func footerView(for indexPath: IndexPath) -> QXCollectionViewHeaderFooterView {
         let s = _cacheSections[indexPath.section]
@@ -480,7 +500,7 @@ open class QXCollectionView: QXView {
             }
             return view
         }
-        return QXCollectionViewHeaderFooterView()
+        return uiCollectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: "NULL", for: indexPath) as! QXCollectionViewHeaderFooterView
     }
 
     open func headerViewHeight(for indexPath: IndexPath) -> CGFloat {
@@ -518,20 +538,20 @@ open class QXCollectionView: QXView {
 
 extension QXCollectionView: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
-    public func numberOfSections(in collectionView: UICollectionView) -> Int {
+    open func numberOfSections(in collectionView: UICollectionView) -> Int {
         return _cacheSections.count
     }
-    public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    open func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return _cacheSections[section].models.count
     }
-    public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    open func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         return cell(for: indexPath)
     }
-    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+    open func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return cellSize(for: indexPath).cgSize
     }
     
-    public func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+    open func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         switch kind {
         case UICollectionView.elementKindSectionHeader:
             return headerView(for: indexPath)
@@ -541,16 +561,16 @@ extension QXCollectionView: UICollectionViewDelegate, UICollectionViewDataSource
             return QXDebugFatalError("not support yet", UICollectionReusableView())
         }
     }
-    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+    open func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         return CGSize(width: 1, height: headerViewHeight(for: IndexPath(item: 0, section: section)))
     }
 
 
-    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
+    open func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
         return CGSize(width: 1, height: footerViewHeight(for: IndexPath(item: 0, section: section)))
     }
     
-    public func collectionView(_ collectionView: UICollectionView, canMoveItemAt indexPath: IndexPath) -> Bool {
+    open func collectionView(_ collectionView: UICollectionView, canMoveItemAt indexPath: IndexPath) -> Bool {
         let s = _cacheSections[indexPath.section]
         let ms = s.models
         let m = ms[indexPath.item]
@@ -560,7 +580,7 @@ extension QXCollectionView: UICollectionViewDelegate, UICollectionViewDataSource
         return false
     }
 
-    public func collectionView(_ collectionView: UICollectionView, moveItemAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+    open func collectionView(_ collectionView: UICollectionView, moveItemAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
         let e = _cacheSections[sourceIndexPath.section].models[sourceIndexPath.row]
         _cacheSections[sourceIndexPath.section].models.remove(at: sourceIndexPath.row)
         _cacheSections[destinationIndexPath.section].models.insert(e, at: destinationIndexPath.row)
@@ -568,23 +588,57 @@ extension QXCollectionView: UICollectionViewDelegate, UICollectionViewDataSource
         collectionView.reloadData()
     }
     
-    public func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+    open func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         (cell as? QXCollectionViewCell)?.willDisplay()
     }
-    public func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+    open func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         (cell as? QXCollectionViewCell)?.didEndDisplaying()
     }
 
-    public func collectionView(_ collectionView: UICollectionView, willDisplaySupplementaryView view: UICollectionReusableView, forElementKind elementKind: String, at indexPath: IndexPath) {
+    open func collectionView(_ collectionView: UICollectionView, willDisplaySupplementaryView view: UICollectionReusableView, forElementKind elementKind: String, at indexPath: IndexPath) {
         (view as? QXCollectionViewHeaderFooterView)?.willDisplay()
     }
     
-    public func collectionView(_ collectionView: UICollectionView, didEndDisplayingSupplementaryView view: UICollectionReusableView, forElementOfKind elementKind: String, at indexPath: IndexPath) {
+    open func collectionView(_ collectionView: UICollectionView, didEndDisplayingSupplementaryView view: UICollectionReusableView, forElementOfKind elementKind: String, at indexPath: IndexPath) {
         (view as? QXCollectionViewHeaderFooterView)?.didEndDisplaying()
     }
-    public func collectionView(_ collectionView: UICollectionView, shouldDeselectItemAt indexPath: IndexPath) -> Bool {
+    open func collectionView(_ collectionView: UICollectionView, shouldDeselectItemAt indexPath: IndexPath) -> Bool {
         return false
     }
+
+    open func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        scrollDelegate?.scrollViewDidScroll?(scrollView)
+    }
+    open func scrollViewDidZoom(_ scrollView: UIScrollView) {
+        scrollDelegate?.scrollViewDidZoom?(scrollView)
+    }
+    public func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        scrollDelegate?.scrollViewWillBeginDragging?(scrollView)
+    }
+    open func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+        scrollDelegate?.scrollViewWillEndDragging?(scrollView, withVelocity: velocity, targetContentOffset: targetContentOffset)
+    }
+    open func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        scrollDelegate?.scrollViewDidEndDragging?(scrollView, willDecelerate: decelerate)
+    }
+    open func scrollViewWillBeginDecelerating(_ scrollView: UIScrollView) {
+        scrollDelegate?.scrollViewWillBeginDecelerating?(scrollView)
+    }
+    open func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        scrollDelegate?.scrollViewDidEndDecelerating?(scrollView)
+        if scrollView.bounds.width <= 0 {
+            return
+        }
+        let page = Int(scrollView.contentOffset.x / scrollView.bounds.width + 0.5)
+        delegate?.collectionViewDidChangePage(page)
+    }
+    open func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
+        scrollDelegate?.scrollViewDidEndScrollingAnimation?(scrollView)
+    }
+    open func scrollViewDidScrollToTop(_ scrollView: UIScrollView) {
+        scrollDelegate?.scrollViewDidScrollToTop?(scrollView)
+    }
+    
 }
 
 extension QXCollectionView: QXRefreshableViewProtocol {
@@ -652,7 +706,7 @@ open class QXCollectionViewCell: UICollectionViewCell {
     fileprivate var respondClickCell: (() -> Void)?
     public final lazy var backButton: QXButton = {
         let e = QXButton()
-        e.backView.backgroundColorHighlighted = QXColor.dynamicHiglight
+        e.backView.backColorHighlighted = QXColor.dynamicHiglight
         e.respondClick = { [weak self] in
             self?.didClickCell()
         }
@@ -704,7 +758,7 @@ open class QXCollectionViewHeaderFooterView: UICollectionReusableView {
     fileprivate var respondClickView: (() -> Void)?
     public final lazy var backButton: QXButton = {
         let e = QXButton()
-        e.backView.backgroundColorHighlighted = QXColor.dynamicHiglight
+        e.backView.backColorHighlighted = QXColor.dynamicHiglight
         e.respondClick = { [weak self] in
             self?.didClickView()
         }
@@ -847,3 +901,4 @@ open class QXCollectionViewDebugHeaderFooterView: QXCollectionViewHeaderFooterVi
     }
 
 }
+

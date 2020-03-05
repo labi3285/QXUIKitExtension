@@ -53,10 +53,24 @@ open class QXSettingTitleArrowCell: QXSettingCell {
             }
         }
     }
+    public var richContents: [QXRichText]? {
+        didSet {
+            if let e = richContents {
+                subTitleLabel.richTexts = e
+            } else {
+                if _originFont == nil {
+                    _originFont = subTitleLabel.font
+                }
+                subTitleLabel.font = placeHolderFont
+                subTitleLabel.text = placeHolder ?? ""
+            }
+        }
+    }
+    
     public var richContent: QXRichText? {
         didSet {
             if let e = richContent {
-                subTitleLabel.richText = e
+                richContents = [e]
             } else {
                 if _originFont == nil {
                     _originFont = subTitleLabel.font

@@ -11,8 +11,15 @@ import UIKit
 open class QXSelect<T> {
     open var isSelected: Bool
     public let model: T
-    init(_ model: T, isSelected: Bool) {
+    public init(_ model: T, isSelected: Bool) {
         self.model = model
         self.isSelected = isSelected
+    }
+}
+
+open class QXPlaceHolder<T> {
+    public let model: T?
+    public init(_ model: T?) {
+        self.model = model
     }
 }

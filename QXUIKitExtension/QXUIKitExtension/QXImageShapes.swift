@@ -142,7 +142,7 @@ extension QXImage {
     public static func shapRoundRectHollow(size: QXSize, radius: CGFloat, thickness: CGFloat, color: QXColor) -> QXImage {
         return QXImage.image(size: size) { (ctx, size, scale) in
             let t = thickness * scale
-            let rect = CGRect(x: t / 2, y: t / 2, width: size.w - t, height: size.h - t)
+            let rect = CGRect(x: t / 2, y: 1 + t / 2, width: size.w - t, height: size.h - t)
             let path = UIBezierPath(roundedRect: rect, cornerRadius: radius * scale)
             ctx.addPath(path.cgPath)
             ctx.setLineWidth(t)
@@ -213,3 +213,4 @@ extension QXImage {
     }
     
 }
+

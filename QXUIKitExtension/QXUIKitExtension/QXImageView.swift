@@ -81,7 +81,6 @@ open class QXImageView: QXView {
         addSubview(uiImageView)
         addSubview(placeHolderView)
         isUserInteractionEnabled = false
-        clipsToBounds = true
     }
     public required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")

@@ -63,7 +63,7 @@ open class QXViewController: UIViewController, UINavigationBarDelegate {
         
     }
     
-    private var _isSetup: Bool = false
+    public private(set) var isSetup: Bool = false
     private var _isFirstWillAppear: Bool = true
     private var _isFirstDidAppear: Bool = true
     private var _isFirstWillDisappear: Bool = true
@@ -74,7 +74,7 @@ open class QXViewController: UIViewController, UINavigationBarDelegate {
     }
     open override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        if !_isSetup { didSetup(); _isSetup = true }
+        if !isSetup { didSetup(); isSetup = true }
     }
     
     override open func viewWillAppear(_ animated: Bool) {
@@ -117,6 +117,30 @@ open class QXViewController: UIViewController, UINavigationBarDelegate {
         didSet {
             navigationItem.rightBarButtonItem?
                 .setTitleTextAttributes(navigationBarItemFont.nsAttributtes, for: .normal)
+        }
+    }
+    
+    public var navigationBarLeftItem: QXBarButtonItem? {
+        set {
+            if let e = newValue {
+                navigationBarLeftItems = [e]
+            } else {
+                navigationBarLeftItems = []
+            }
+        }
+        get {
+            return navigationBarLeftItems.first
+        }
+    }
+    public var navigationBarLeftItems: [QXBarButtonItem] {
+        set {
+            for e in newValue {
+                e.setTitleTextAttributes(navigationBarItemFont.nsAttributtes, for: .normal)
+            }
+            navigationItem.leftBarButtonItems = newValue.reversed()
+        }
+        get {
+            return navigationItem.leftBarButtonItems as? [QXBarButtonItem] ?? []
         }
     }
 

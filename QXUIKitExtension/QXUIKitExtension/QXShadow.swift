@@ -93,3 +93,15 @@ extension UIView {
     }
     
 }
+
+extension QXView {
+    
+    open var shadow: QXShadow? {
+        set {
+            self.qxShadow = newValue
+        }
+        get {
+            return qxShadow
+        }
+    }
+}

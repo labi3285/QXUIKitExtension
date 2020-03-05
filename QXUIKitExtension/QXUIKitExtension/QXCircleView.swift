@@ -8,12 +8,12 @@
 
 import UIKit
 
-class QXCircleView: QXView {
+open class QXCircleView: QXView {
     
     /// 圆角度（0-1）, nil 表示纯圆
-    var radius: CGFloat?
+    open var radius: CGFloat?
     
-    override func layoutSubviews() {
+    open override func layoutSubviews() {
         super.layoutSubviews()
         if let radius = radius {
             self.layer.cornerRadius = radius

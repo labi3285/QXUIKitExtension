@@ -64,7 +64,8 @@ class DemoSettingsVc: QXTableViewController<Any> {
     final lazy var titleTextFieldCell: QXSettingTitleTextFieldCell = {
         let e = QXSettingTitleTextFieldCell()
         e.titleLabel.text = "输入框"
-        e.textField.filter = QXTextFilter.number(limit: 6)
+        e.textField.filter = QXTextFilter.utf8(count: 4, regex: nil)
+//        e.textField.filter = QXTextFilter.number(limit: 6)
         e.textField.placeHolder = "输入内容"
         return e
     }()

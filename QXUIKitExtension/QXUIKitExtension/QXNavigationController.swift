@@ -94,6 +94,9 @@ open class QXNavigationController: UINavigationController, UINavigationBarDelega
         }
         return (topViewController as? QXViewController)?.shouldPop() ?? true
     }
+    public func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldBeRequiredToFailBy otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
+    }
     
     public private(set) var customNavigationBar: QXNavigationBar?
     private(set) var _customNavigationBarForRecover: QXNavigationBar?

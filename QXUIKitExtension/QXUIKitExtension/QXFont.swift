@@ -10,6 +10,13 @@ import UIKit
 
 open class QXFont {
     
+    public struct Name {
+        
+        /// 数字等宽字体
+        public static let HelveticaNeue = "Helvetica Neue"
+    }
+
+        
     /// 字体大小
     open var size: CGFloat
     /// 字体颜色

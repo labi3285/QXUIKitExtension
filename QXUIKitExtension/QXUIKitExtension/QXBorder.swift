@@ -85,3 +85,15 @@ extension UIView {
     }
     
 }
+
+extension QXView {
+    
+    open var border: QXBorder? {
+        set {
+            self.qxBorder = newValue
+        }
+        get {
+            return qxBorder
+        }
+    }
+}

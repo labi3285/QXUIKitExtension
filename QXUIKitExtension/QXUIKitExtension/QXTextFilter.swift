@@ -35,6 +35,12 @@ public enum QXTextFilter {
     /// 银行卡
     case backCard(length: Int?)
     
+    /// 按utf8数量（英文占1单位，汉字占俩单位）
+    case utf8(count: Int, regex: String?)
+    
+    /// 16进制，是否大写
+    case hex(count: Int, uppercased: Bool)
+    
     public func filte(_ text: String) -> String {
         if text == "" {
             return text
@@ -52,6 +58,24 @@ public enum QXTextFilter {
                 }
             }
             return text
+        }
+        func doUTF8Limit(_ text: String, limit: Int) -> String {
+            var t = ""
+            var length = 0
+            for char in text {
+                let s = "\(char)"
+                if s.lengthOfBytes(using: .utf8) == 1 {
+                    length += 1
+                } else {
+                    length += 2
+                }
+                if length <= limit {
+                    t += s
+                } else {
+                    break
+                }
+            }
+            return t
         }
         switch self {
         case .ascii(limit: let limit, regex: let regex):
@@ -166,6 +190,24 @@ public enum QXTextFilter {
             }
             t = t.qxStringByCheckOrRemoveSuffix(" ")
             return t
+        case .utf8(count: let count, regex: let regex):
+            var _text = text
+            _text = doRegex(_text, regex: regex)
+            _text = doUTF8Limit(_text, limit: count)
+            return _text
+        case .hex(count: let count, uppercased: let uppercased):
+            var _text = ""
+            for e in text {
+                if "1234567890abcdefABCDEF".contains(e) {
+                    if uppercased {
+                        _text += "\(e)".uppercased()
+                    } else {
+                        _text += "\(e)".lowercased()
+                    }
+                }
+            }
+            _text = doLimit(_text, limit: count)
+            return _text
         }
         
     }
@@ -209,6 +251,10 @@ extension UITextField {
                 keyboardType = .numberPad
             case .backCard(length: _):
                 keyboardType = .numberPad
+            case .utf8(count: _, regex: _):
+                keyboardType = .default
+            case .hex(count: _, uppercased: _):
+                keyboardType = .asciiCapable
             }
         } else {
             keyboardType = .default
@@ -240,6 +286,10 @@ extension UITextView {
                 keyboardType = .numberPad
             case .backCard(length: _):
                 keyboardType = .numberPad
+            case .utf8(count: _, regex: _):
+                keyboardType = .default
+            case .hex(count: _, uppercased: _):
+                keyboardType = .asciiCapable
             }
         } else {
             keyboardType = .default

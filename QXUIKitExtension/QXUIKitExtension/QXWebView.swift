@@ -243,7 +243,7 @@ extension QXWebView: WKUIDelegate {
         vc.addAction(UIAlertAction(title: "确定", style: UIAlertAction.Style.cancel, handler: { (act) in
             completionHandler()
         }))
-        viewController?.present(vc)
+        qxViewController?.present(vc)
     }
     open func webView(_ webView: WKWebView, runJavaScriptConfirmPanelWithMessage message: String, initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping (Bool) -> Void) {
         let vc = UIAlertController(title: nil, message: message, preferredStyle: .alert)
@@ -253,7 +253,7 @@ extension QXWebView: WKUIDelegate {
         vc.addAction(UIAlertAction(title: "确定", style: UIAlertAction.Style.default, handler: { (act) in
              completionHandler(true)
         }))
-        viewController?.present(vc)
+        qxViewController?.present(vc)
     }
     open func webView(_ webView: WKWebView, runJavaScriptTextInputPanelWithPrompt prompt: String, defaultText: String?, initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping (String?) -> Void) {
         let vc = UIAlertController(title: nil, message: prompt, preferredStyle: .alert)
@@ -269,7 +269,7 @@ extension QXWebView: WKUIDelegate {
         vc.addAction(UIAlertAction(title: "确定", style: UIAlertAction.Style.default, handler: { (act) in
             completionHandler(wkTextField?.text)
         }))
-        viewController?.present(vc)
+        qxViewController?.present(vc)
     }
     
     

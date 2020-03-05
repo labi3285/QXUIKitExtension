@@ -11,9 +11,10 @@ s.license      = "MIT"
 s.author       = { "labi3285" => "766043285@qq.com" }
 s.platform     = :ios, "8.0"
 s.source       = { :git => "https://github.com/labi3285/QXUIKitExtension.git", :tag => "#{s.version}" }
-s.source_files = "QXUIKitExtension/QXUIKitExtension/*"
 
-s.resources = "QXUIKitExtension/QXUIKitExtension/QXUIKitExtensionResources.bundle"
+s.source_files = "QXUIKitExtension/*"
+
+s.resources = "QXUIKitExtension/QXUIKitExtensionResources.bundle"
 s.requires_arc = true
 
 s.frameworks   = "MobileCoreServices", "ImageIO"
@@ -32,8 +33,6 @@ s.dependency 'IQKeyboardManagerSwift', '~> 6.5.4'
 s.dependency 'DSImageBrowse' , '~> 1.0.2'
 s.dependency 'YYWebImage' , '~> 1.0.5'
 s.dependency 'HandyJSON' , '~> 5.0.1'
-
-# pod trunk push QXUIKitExtension.podspec --allow-warnings
 
 end
 
