@@ -16,6 +16,9 @@ open class QXArrangeView: QXView {
     public var viewMarginY: CGFloat = 10
     public var lineAlignment: QXAlignmentY = .center
     
+    /// 是否允许背景的点击，允许后背景不能穿透
+    public var isBackUserInteractionEnabled = false
+    
     public convenience init(views: [QXViewProtocol]) {
         self.init()
         self.views = views
@@ -40,20 +43,17 @@ open class QXArrangeView: QXView {
     }
     
     override open func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
-        if let _ = super.hitTest(point, with: event) {
-              for view in subviews {
-                  if view.isUserInteractionEnabled {
-                      let point = view.convert(point, from: self)
-                      if view.point(inside: point, with: event) {
-                          return view.hitTest(point, with: event)
-                      }
-                  }
-              }
-              return nil
+        if let view = super.hitTest(point, with: event) {
+            if view === self && !isBackUserInteractionEnabled {
+                return nil
+            } else {
+                return view
+            }
+        } else {
+            return nil
         }
-        return nil
     }
-    
+
     override open func layoutSubviews() {
         super.layoutSubviews()
         for e in _viewRects(bounds.width) {

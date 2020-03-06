@@ -75,12 +75,20 @@ open class QXButton: QXView {
                 return super.backLayers
             }
         }
+        fileprivate func _pureUpdateBackLayers(_ e: [QXLayer]?) {
+            super.backLayers = e
+        }
+        
         open override var image: QXImage? {
             didSet {
                 super.image = image
                 respondChangeImage?(image)
             }
         }
+        fileprivate func _pureUpdateImage(_ e: QXImage?) {
+            super.image = e
+        }
+        
         open override var backColor: QXColor? {
             set {
                 super.backColor = newValue
@@ -90,6 +98,10 @@ open class QXButton: QXView {
                 return super.backColor
             }
         }
+        fileprivate func _pureUpdateBackColor(_ e: QXColor?) {
+            super.backColor = e
+        }
+        
         open override var shadow: QXShadow? {
             set {
                 super.shadow = newValue
@@ -99,6 +111,10 @@ open class QXButton: QXView {
                 return super.shadow
             }
         }
+        fileprivate func _pureUpdateShadow(_ e: QXShadow?) {
+            super.shadow = e
+        }
+        
         open override var border: QXBorder? {
             set {
                 super.border = newValue
@@ -107,6 +123,9 @@ open class QXButton: QXView {
             get {
                 return super.border
             }
+        }
+        fileprivate func _pureUpdateBorder(_ e: QXBorder?) {
+            super.border = e
         }
         
         open var backLayersHighlighted: [QXLayer]?
@@ -186,20 +205,20 @@ open class QXButton: QXView {
             _isOriginPrepared = true
         }
         if let e = _originBackImage {
-            backView.backLayers = nil
-            backView.backColor = nil
-            backView.image = e
+            backView._pureUpdateBackLayers(nil)
+            backView._pureUpdateBackColor(nil)
+            backView._pureUpdateImage(e)
         } else if let e = _originBackLayers {
-            backView.image = nil
-            backView.backColor = nil
-            backView.backLayers = e
+            backView._pureUpdateBackLayers(e)
+            backView._pureUpdateBackColor(nil)
+            backView._pureUpdateImage(nil)
         } else {
-            backView.image = nil
-            backView.backLayers = nil
-            backView.backColor = _originBackColor
+            backView._pureUpdateBackLayers(nil)
+            backView._pureUpdateBackColor(_originBackColor)
+            backView._pureUpdateImage(nil)
         }
-        backView.shadow = _originShadow
-        backView.border = _originBorder
+        backView._pureUpdateShadow(_originShadow)
+        backView._pureUpdateBorder(_originBorder)
         backView.alpha = _originAlpha ?? 1
     }
     open func handleHighlighted() {
@@ -208,20 +227,20 @@ open class QXButton: QXView {
             _isOriginPrepared = true
         }
         if let e = backView.imageHighlighted ?? _originBackImage {
-            backView.backLayers = nil
-            backView.backColor = nil
-            backView.image = e
+            backView._pureUpdateBackLayers(nil)
+            backView._pureUpdateBackColor(nil)
+            backView._pureUpdateImage(e)
         } else if let e = backView.backLayersHighlighted ?? _originBackLayers {
-            backView.image = nil
-            backView.backColor = nil
-            backView.backLayers = e
+            backView._pureUpdateBackLayers(e)
+            backView._pureUpdateBackColor(nil)
+            backView._pureUpdateImage(nil)
         } else {
-            backView.image = nil
-            backView.backLayers = nil
-            backView.backColor = backView.backColorHighlighted ?? _originBackColor
+            backView._pureUpdateBackLayers(nil)
+            backView._pureUpdateBackColor(backView.backColorHighlighted ?? _originBackColor)
+            backView._pureUpdateImage(nil)
         }
-        backView.shadow = backView.shadowHighlighted ?? _originShadow
-        backView.border = backView.borderHighlighted ?? _originBorder
+        backView._pureUpdateShadow(backView.shadowHighlighted ?? _originShadow)
+        backView._pureUpdateBorder(backView.borderHighlighted ?? _originBorder)
         backView.alpha = highlightAlpha ?? _originAlpha ?? 1
     }
     open func handleSelected() {
@@ -230,20 +249,20 @@ open class QXButton: QXView {
             _isOriginPrepared = true
         }
         if let e = backView.imageSelected ?? _originBackImage {
-            backView.backLayers = nil
-            backView.backColor = nil
-            backView.image = e
+            backView._pureUpdateBackLayers(nil)
+            backView._pureUpdateBackColor(nil)
+            backView._pureUpdateImage(e)
         } else if let e = backView.backLayersSelected ?? _originBackLayers {
-            backView.image = nil
-            backView.backColor = nil
-            backView.backLayers = e
+            backView._pureUpdateBackLayers(e)
+            backView._pureUpdateBackColor(nil)
+            backView._pureUpdateImage(nil)
         } else {
-            backView.image = nil
-            backView.backLayers = nil
-            backView.backColor = backView.backColorSelected ?? _originBackColor
+            backView._pureUpdateBackLayers(nil)
+            backView._pureUpdateBackColor(backView.backColorSelected ?? _originBackColor)
+            backView._pureUpdateImage(nil)
         }
-        backView.shadow = backView.shadowSelected ?? _originShadow
-        backView.border = backView.borderSelected ?? _originBorder
+        backView._pureUpdateShadow(backView.shadowSelected ?? _originShadow)
+        backView._pureUpdateBorder(backView.borderSelected ?? _originBorder)
         backView.alpha = _originAlpha ?? 1
     }
     open func handleDisabled(isSelected: Bool) {
@@ -252,20 +271,20 @@ open class QXButton: QXView {
             _isOriginPrepared = true
         }
         if let e = backView.imageDisabled ?? _originBackImage {
-            backView.backLayers = nil
-            backView.backColor = nil
-            backView.image = e
+            backView._pureUpdateBackLayers(nil)
+            backView._pureUpdateBackColor(nil)
+            backView._pureUpdateImage(e)
         } else if let e = backView.backLayersDisabled ?? _originBackLayers {
-            backView.image = nil
-            backView.backColor = nil
-            backView.backLayers = e
+            backView._pureUpdateBackLayers(e)
+            backView._pureUpdateBackColor(nil)
+            backView._pureUpdateImage(nil)
         } else {
-            backView.image = nil
-            backView.backLayers = nil
-            backView.backColor = backView.backColorDisabled ?? _originBackColor
+            backView._pureUpdateBackLayers(nil)
+            backView._pureUpdateBackColor(backView.backColorDisabled ?? _originBackColor)
+            backView._pureUpdateImage(nil)
         }
-        backView.shadow = backView.shadowDisabled ?? _originShadow
-        backView.border = backView.borderDisabled ?? _originBorder
+        backView._pureUpdateShadow(backView.shadowDisabled ?? _originShadow)
+        backView._pureUpdateBorder(backView.borderDisabled ?? _originBorder)
         backView.alpha = disableAlpha ?? _originAlpha ?? 1
     }
     
@@ -495,11 +514,17 @@ open class QXTitleButton: QXButton {
 
 open class QXImageButton: QXButton {
     
-    open var image: QXImage? { didSet { update() } }
+    open var image: QXImage? {
+        didSet {
+            update()
+        }
+    }
     
     open var imageHighlighted: QXImage?
     open var imageSelected: QXImage?
     open var imageDisabled: QXImage?
+    
+    open var imagePadding: QXEdgeInsets = QXEdgeInsets.zero
     
     public final lazy var imageView: QXImageView = {
         let e = QXImageView()
@@ -516,7 +541,7 @@ open class QXImageButton: QXButton {
     
     override open func layoutSubviews() {
         super.layoutSubviews()
-        imageView.qxRect = backView.qxBounds
+        imageView.qxRect = backView.qxBounds.rectByReduce(imagePadding)
     }
     
     open override func natureContentSize() -> QXSize {

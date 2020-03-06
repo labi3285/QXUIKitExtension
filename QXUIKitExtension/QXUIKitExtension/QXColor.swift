@@ -132,6 +132,8 @@ public enum QXColor {
     /// 按钮高亮颜色
     public static var dynamicHiglight: QXColor = QXColor.darkFmtHex("#f5f5f5", "#363636")
     
+    public static var dynamicIconGray: QXColor = QXColor.darkFmtHex("#999999", "#8e8e92")
+    
     public static func random(alpha: CGFloat) -> QXColor { return QXColor.uiColor(UIColor.qxRandom(alpha: alpha)) }
     public static var random: QXColor { return QXColor.uiColor(UIColor.qxRandom) }
 
