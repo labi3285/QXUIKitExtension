@@ -12,7 +12,7 @@ open class QXCircleView: QXView {
     
     /// 圆角度（0-1）, nil 表示纯圆
     open var radius: CGFloat?
-    
+        
     open override func layoutSubviews() {
         super.layoutSubviews()
         if let radius = radius {
@@ -20,6 +20,6 @@ open class QXCircleView: QXView {
         } else {
             self.layer.cornerRadius = min(bounds.width, bounds.height) / 2
         }
-        self.clipsToBounds = true
     }
+    
 }

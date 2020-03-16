@@ -24,8 +24,8 @@ public protocol QXLoadStatusViewProtocol {
     func qxLoadStatusViewDefaultEmptyText() -> String?
 }
 
-public protocol QXContentViewDelegate: class {
-    func qxContentViewNeedsReloadData()
+public protocol QXcontentViewDelegate: class {
+    func qxcontentViewNeedsReloadData()
 }
 
 open class QXContentLoadStatusView<Model>: QXView {

@@ -46,7 +46,9 @@ extension CALayer {
     
     open var qxShadow: QXShadow? {
         set {
-            shadowColor = newValue?.color?.uiColor.cgColor
+            if let e = newValue?.color?.uiColor.cgColor {
+                shadowColor = e
+            }
             if let e = newValue?.alpha {
                 shadowOpacity = Float(e)
             }
@@ -68,7 +70,9 @@ extension CALayer {
             if shadowOpacity != 0 {
                 e.alpha = CGFloat(shadowOpacity)
             }
-            e.path = shadowPath
+            if let m = shadowPath {
+                e.path = m
+            }
             if shadowRadius != 0 {
                 e.radius = shadowRadius
             }

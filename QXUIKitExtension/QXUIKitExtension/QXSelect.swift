@@ -24,3 +24,19 @@ open class QXPlaceHolder<T> {
     }
 }
 
+open class QXAdd {
+    public convenience init(todo: (() -> Void)?) {
+        self.init()
+        self.todo = todo
+    }
+    public var todo: (() -> Void)?
+}
+
+open class QXRemove {
+    public convenience init(todo: (() -> Void)?) {
+        self.init()
+        self.todo = todo
+    }
+    public var todo: (() -> Void)?
+}
+

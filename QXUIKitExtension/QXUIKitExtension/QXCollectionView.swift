@@ -41,8 +41,8 @@ public extension QXCollectionViewDelegate {
 
     func collectionViewDidMove(from: IndexPath, to: IndexPath, in sections: [QXCollectionViewSection]) { }
     
-    public func collectionViewDidScroll(isDrag: Bool) { }
-    public func collectionViewDidChangePage(_ page: Int) { }
+    func collectionViewDidScroll(isDrag: Bool) { }
+    func collectionViewDidChangePage(_ page: Int) { }
 
     func collectionViewNeedsReloadData() { }
 }

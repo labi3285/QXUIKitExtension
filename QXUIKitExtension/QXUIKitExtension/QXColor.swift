@@ -58,16 +58,24 @@ public enum QXColor {
         }
     }
     
-    public var rgb: (r: CGFloat, g: CGFloat, b: CGFloat, a: CGFloat) {
+    public var rgb: (r: UInt8, g: UInt8, b: UInt8, a: UInt8) {
         return uiColor.qxRGB
     }
-    public var hsb: (h: CGFloat, s: CGFloat, b: CGFloat, a: CGFloat) {
+    public var hsb: (h: UInt16, s: UInt16, b: UInt16, a: UInt16) {
         return uiColor.qxHSB
+    }
+    public var hex: String {
+        return uiColor.qxHEX
     }
     
     /// 颜色反转
     public var opposite: QXColor {
         return QXColor.uiColor(uiColor.qxOpposite)
+    }
+    
+    /// 色环偏移
+    public func hsb(_ offsetDegree: Int16) -> QXColor {
+        return QXColor.uiColor(uiColor.qxHSB(offsetDegree))
     }
     
     /// 对应黑白色
@@ -256,28 +264,64 @@ extension UIColor {
                        alpha: CGFloat(arc4random_uniform(255)) / 255.0)
     }
     
-    public var qxRGB: (r: CGFloat, g: CGFloat, b: CGFloat, a: CGFloat) {
+    public var qxRGB: (r: UInt8, g: UInt8, b: UInt8, a: UInt8) {
         var r: CGFloat = 0
         var g: CGFloat = 0
         var b: CGFloat = 0
         var a: CGFloat = 0
         getRed(&r, green: &g, blue: &b, alpha: &a)
-        return (r, g, b, a)
+        return (UInt8(r * 255), UInt8(g * 255), UInt8(b * 255), UInt8(a * 255))
     }
     
-    public var qxHSB: (h: CGFloat, s: CGFloat, b: CGFloat, a: CGFloat) {
+    public var qxHSB: (h: UInt16, s: UInt16, b: UInt16, a: UInt16) {
         var h: CGFloat = 0
         var s: CGFloat = 0
         var b: CGFloat = 0
         var a: CGFloat = 0
         getHue(&h, saturation: &s, brightness: &b, alpha: &a)
-        return (h, s, b, a)
+        return (UInt16(h * 360), UInt16(s * 100), UInt16(b * 100), UInt16(a * 100))
+    }
+    
+    public var qxHEX: String {
+        let rgba = qxRGB
+        var t = "#"
+        var r = String(rgba.r, radix: 16)
+        if r.count == 1 {
+            r = "0" + r
+        }
+        t += r
+        var g = String(rgba.g, radix: 16)
+        if g.count == 1 {
+            g = "0" + g
+        }
+        t += g
+        var b = String(rgba.b, radix: 16)
+        if b.count == 1 {
+            b = "0" + b
+        }
+        t += b
+        if rgba.a < 1 {
+            t += " \(CGFloat(rgba.a) / 255)"
+        }
+        return t
     }
     
     /// 颜色反转
     public var qxOpposite: UIColor {
         let rgba = qxRGB
-        return UIColor(red: 1 - rgba.r, green: 1 - rgba.g, blue: 1 - rgba.b, alpha: rgba.a)
+        return UIColor(red: CGFloat(255 - rgba.r) / 255,
+                       green: CGFloat(255 - rgba.g) / 255,
+                       blue: CGFloat(255 - rgba.b) / 255,
+                       alpha: CGFloat(255 - rgba.a) / 255)
+    }
+    
+    /// 颜色转轮(offset为转角度数)
+    public func qxHSB(_ offsetDegree: Int16) -> UIColor {
+        let hsba = qxHSB
+        return UIColor(hue: CGFloat(abs(Int16(hsba.a) + offsetDegree) % 360) / 360,
+                       saturation: CGFloat(hsba.s) / 100,
+                       brightness: CGFloat(hsba.b) / 100,
+                       alpha: CGFloat(hsba.a) / 100)
     }
     
     /// 对应黑白色
@@ -285,9 +329,9 @@ extension UIColor {
         let rgba = qxRGB
         let a = CGFloat(rgba.r) * 0.299 + CGFloat(rgba.g) * 0.587 + CGFloat(rgba.b) * 0.114
         if a < 200/255 {
-            return UIColor(red: 0, green: 0, blue: 0, alpha: rgba.a)
+            return UIColor(red: 0, green: 0, blue: 0, alpha: CGFloat(255 - rgba.a) / 255)
         } else {
-            return UIColor(red: 1, green: 1, blue: 1, alpha: rgba.a)
+            return UIColor(red: 1, green: 1, blue: 1, alpha: CGFloat(255 - rgba.a) / 255)
         }
     }
 }

@@ -47,7 +47,7 @@ public class QXSQLite {
     }
     
     /// 查询数据库
-    public func queryDB(_ SQL: String) throws -> [[String: Any]] {
+    public func query(_ SQL: String) throws -> [[String: Any]] {
         if SQL.lengthOfBytes(using: String.Encoding.utf8) > 0 {
             if let cSQL = (SQL.cString(using: .utf8)) {
                 var stmt: OpaquePointer? = nil
@@ -104,7 +104,7 @@ public class QXSQLite {
             throw QXError(-1, "Empty SQL")
         }
     }
-    
+        
 }
 
 

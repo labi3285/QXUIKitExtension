@@ -138,7 +138,7 @@ open class QXTableView: QXView {
         sections = ss
         uiTableView.reloadData()
     }
-    
+        
     open var sections: [QXTableViewSection] = [] {
         didSet {
             _cacheFlexRatioTotal = 0
@@ -597,34 +597,37 @@ extension QXTableView: UITableViewDelegate, UITableViewDataSource {
         return .none
     }
     open func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        let s = _cacheSections[indexPath.section]
-        let m = s.models[indexPath.row]
+        let ms = _cacheSections[indexPath.section].models
+        let m = ms[indexPath.row]
         if let e = m as? QXStaticCell {
             return (e.editActions?.count ?? 0 > 0) || e.canMove
         } else if let e = adapter?.cellClass(m) {
-            return (e.editActions(m)?.count ?? 0 > 0) || e.canMove(m)
+            let ctx = QXTableViewCell.Context(tableView: self, indexPath: indexPath, givenWidth: uiTableView.contentSize.width - uiTableView.contentInset.left - uiTableView.contentInset.right, isFirstCellInSection: indexPath.row == 0, isLastCellInSection: indexPath.row == ms.count - 1, isSortMode: isSortMode)
+            return (e.editActions(m, ctx)?.count ?? 0 > 0) || e.canMove(m, ctx)
         }
         return false
     }
     
     open func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
-        let s = _cacheSections[indexPath.section]
-        let m = s.models[indexPath.row]
+        let ms = _cacheSections[indexPath.section].models
+        let m = ms[indexPath.row]
         if let e = m as? QXStaticCell {
             return e.editActions
         } else if let e = adapter?.cellClass(m) {
-            return e.editActions(m)
+            let ctx = QXTableViewCell.Context(tableView: self, indexPath: indexPath, givenWidth: uiTableView.contentSize.width - uiTableView.contentInset.left - uiTableView.contentInset.right, isFirstCellInSection: indexPath.row == 0, isLastCellInSection: indexPath.row == ms.count - 1, isSortMode: isSortMode)
+            return e.editActions(m, ctx)
         }
         return nil
     }
         
     open func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        let s = _cacheSections[indexPath.section]
-        let m = s.models[indexPath.row]
+        let ms = _cacheSections[indexPath.section].models
+        let m = ms[indexPath.row]
         if let e = m as? QXStaticCell {
             return e.canMove
         } else if let e = adapter?.cellClass(m) {
-            return e.canMove(m)
+            let ctx = QXTableViewCell.Context(tableView: self, indexPath: indexPath, givenWidth: uiTableView.contentSize.width - uiTableView.contentInset.left - uiTableView.contentInset.right, isFirstCellInSection: indexPath.row == 0, isLastCellInSection: indexPath.row == ms.count - 1, isSortMode: isSortMode)
+            return e.canMove(m, ctx)
         }
         return false
     }
@@ -712,6 +715,78 @@ extension QXTableView: UITableViewDelegate, UITableViewDataSource {
     
 }
 
+extension QXTableView {
+    
+    @discardableResult public func mapModels<T>(_ modelType: T.Type) -> [T] {
+        var ms: [T] = []
+        for (_, s) in sections.enumerated() {
+            for (_, r) in s.models.enumerated() {
+                if let m = r as? T {
+                    ms.append(m)
+                }
+            }
+            if let m = s.header as? T {
+                ms.append(m)
+            } else if let m = s.footer as? T {
+                ms.append(m)
+            }
+        }
+        return ms
+    }
+    
+    @discardableResult public func mapModels<T>(_ modelType: T.Type, _ todo: (T) -> Void) -> [T] {
+        var ms: [T] = []
+        for (_, s) in sections.enumerated() {
+            for (_, r) in s.models.enumerated() {
+                if let m = r as? T {
+                    todo(m)
+                    ms.append(m)
+                }
+            }
+            if let m = s.header as? T {
+                todo(m)
+                ms.append(m)
+            } else if let m = s.footer as? T {
+                todo(m)
+                ms.append(m)
+            }
+        }
+        return ms
+    }
+    
+    @discardableResult public func compactMapModels<T>(_ modelType: T.Type, _ todo: (T) -> T?) -> [T] {
+        var ms: [T] = []
+        for (_, s) in sections.enumerated() {
+            for (i, r) in s.models.enumerated() {
+                if let m = r as? T {
+                    if let m = todo(m) {
+                        ms.append(m)
+                    } else {
+                        s.models.remove(at: i)
+                    }
+                }
+            }
+            if let m = s.header as? T {
+                if let m = todo(m) {
+                    s.header = m
+                    ms.append(m)
+                } else {
+                    s.header = nil
+                }
+            } else if let m = s.footer as? T {
+                if let m = todo(m) {
+                    s.footer = m
+                    ms.append(m)
+                } else {
+                    s.footer = nil
+                }
+            }
+        }
+        return ms
+    }
+    
+}
+
 extension QXTableView: QXRefreshableViewProtocol {
     public func qxAddSubviewToRefreshableView(_ view: UIView) {
         uiTableView.addSubview(view)
@@ -764,8 +839,8 @@ open class QXTableViewCell: UITableViewCell {
 
     open class func height(_ model: Any?, _ context: Context) -> CGFloat? { return nil }
     
-    open class func canMove(_ model: Any?) -> Bool { return true }
-    open class func editActions(_ model: Any?) -> [UITableViewRowAction]? { return nil }
+    open class func canMove(_ model: Any?, _ context: Context) -> Bool { return true }
+    open class func editActions(_ model: Any?, _ context: Context) -> [UITableViewRowAction]? { return nil }
     
     open class func estimatedHeight(_ model: Any?, _ context: Context) -> CGFloat { QXTableViewAutoHeight }
     open func willDisplay() { }

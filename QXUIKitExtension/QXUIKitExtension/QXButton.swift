@@ -524,7 +524,7 @@ open class QXImageButton: QXButton {
     open var imageSelected: QXImage?
     open var imageDisabled: QXImage?
     
-    open var imagePadding: QXEdgeInsets = QXEdgeInsets.zero
+    open var imageSize: QXSize?
     
     public final lazy var imageView: QXImageView = {
         let e = QXImageView()
@@ -541,11 +541,19 @@ open class QXImageButton: QXButton {
     
     override open func layoutSubviews() {
         super.layoutSubviews()
-        imageView.qxRect = backView.qxBounds.rectByReduce(imagePadding)
+        if let e = imageSize {
+            imageView.qxRect = backView.qxBounds.insideRect(.center, .size(e))
+        } else {
+            imageView.qxRect = backView.qxBounds
+        }
     }
     
     open override func natureContentSize() -> QXSize {
-        return imageView.natureSize.sizeByAdd(padding)
+        if let e = imageSize {
+            return e.sizeByAdd(padding)
+        } else {
+            return imageView.natureSize.sizeByAdd(padding)
+        }
     }
 
     override open func handlePrepareOrigins() {
@@ -737,6 +745,7 @@ open class QXFoldButton: QXStackButton {
     }()
     public override init() {
         super.init()
+        self.highlightAlpha = nil
         self.stackView.viewMargin = 5
         self.padding = QXEdgeInsets(5, 5, 5, 5)
         self.views = [titleLabel, iconView]

@@ -37,7 +37,9 @@ extension CALayer {
     
     open var qxBorder: QXBorder? {
         set {
-            borderColor = newValue?.color?.uiColor.cgColor
+            if let e = newValue?.color?.uiColor.cgColor {
+                 borderColor = e
+            }
             if let e = newValue?.lineWidth {
                 borderWidth = e
             }

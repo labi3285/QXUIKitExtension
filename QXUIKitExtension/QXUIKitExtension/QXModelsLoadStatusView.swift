@@ -329,7 +329,7 @@ open class QXModelsLoadStatusView<Model>: QXView {
         modelsLoadStatus = .page(.paging)
         loadModels(.page)
     }
-    
+
     /// 拿到分页数据的界面更新
     open func onLoadModelsOk(_ newModels: [Model], isThereMore: Bool? = nil) {
         let statusBefore = modelsLoadStatus
@@ -402,6 +402,7 @@ open class QXModelsLoadStatusView<Model>: QXView {
             }
         }
     }
+    
     /// 分页报错处理的界面更新
     open func onLoadModelsFailed(_ err: QXError?) {
         let statusBefore = modelsLoadStatus
@@ -420,4 +421,44 @@ open class QXModelsLoadStatusView<Model>: QXView {
         }
     }
 
+}
+
+extension QXModelsLoadStatusView {
+    
+    @discardableResult public func mapModels<T>(_ modelType: T.Type) -> [T] {
+        var ms: [T] = []
+        for (_, r) in models.enumerated() {
+            if let m = r as? T {
+                ms.append(m)
+            }
+        }
+        return ms
+    }
+    
+    @discardableResult public func mapModels<T>(_ modelType: T.Type, _ todo: (T) -> Void) -> [T] {
+        var ms: [T] = []
+        for (_, r) in models.enumerated() {
+            if let m = r as? T {
+                todo(m)
+                ms.append(m)
+            }
+        }
+        return ms
+    }
+    
+    @discardableResult public func compactMapModels<T>(_ modelType: T.Type, _ todo: (T) -> T?) -> [T] {
+        var ms: [T] = []
+        for (i, r) in models.enumerated() {
+            if let m = r as? T {
+                if let m = todo(m) {
+                    ms.append(m)
+                } else {
+                    models.remove(at: i)
+                }
+                ms.append(m)
+            }
+        }
+        return ms
+    }
+    
 }

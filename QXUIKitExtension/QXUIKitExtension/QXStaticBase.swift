@@ -36,13 +36,14 @@ open class QXStaticCell: QXTableViewCell {
     open var canMove: Bool = false
     open var editActions: [UITableViewRowAction]?
     
-    open override class func canMove(_ model: Any?) -> Bool {
+    open override class func canMove(_ model: Any?, _ context: QXTableViewCell.Context) -> Bool {
         if let e = model as? QXStaticCell {
             return e.canMove
         }
         return false
     }
-    open override class func editActions(_ model: Any?) -> [UITableViewRowAction]? {
+    
+    open override class func editActions(_ model: Any?, _ context: QXTableViewCell.Context) -> [UITableViewRowAction]? {
         if let e = model as? QXStaticCell {
             return e.editActions
         }

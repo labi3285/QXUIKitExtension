@@ -35,7 +35,11 @@ public struct QXError: Error {
 
 extension Error {
     public var qxError: QXError {
-        let err = self as NSError
-        return QXError("\(err.code)", err.domain, err.userInfo)
+        if let err = self as? QXError {
+            return err
+        } else {
+            let err = self as NSError
+            return QXError("\(err.code)", err.domain, err.userInfo)
+        }
     }
 }

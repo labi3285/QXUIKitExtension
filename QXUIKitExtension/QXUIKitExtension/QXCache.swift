@@ -81,7 +81,7 @@ public class QXCache {
         if let e = _int_memories[key] {
             return e
         }
-        if let e = try db.queryDB("SELECT * FROM 'table_int' WHERE key = '\(key)';").first {
+        if let e = try db.query("SELECT * FROM 'table_int' WHERE key = '\(key)';").first {
             return e["value"] as? Int
         }
         return nil
@@ -99,7 +99,7 @@ public class QXCache {
         if let e = _double_memories[key] {
             return e
         }
-        if let e = try db.queryDB("SELECT * FROM 'table_float' WHERE key = '\(key)';").first {
+        if let e = try db.query("SELECT * FROM 'table_float' WHERE key = '\(key)';").first {
             return e["value"] as? Double
         }
         return nil
@@ -114,7 +114,7 @@ public class QXCache {
         _text_memories[key] = value
     }
     public func getText(_ key: String, memory: Bool = false) throws -> String? {
-        if let e = try db.queryDB("SELECT * FROM 'table_text' WHERE key = '\(key)';").first {
+        if let e = try db.query("SELECT * FROM 'table_text' WHERE key = '\(key)';").first {
             return e["value"] as? String
         }
         return nil
@@ -137,7 +137,7 @@ public class QXCache {
                 return e
             }
         }
-        if let e = try db.queryDB("SELECT * FROM 'table_data' WHERE key = '\(key)';").first {
+        if let e = try db.query("SELECT * FROM 'table_data' WHERE key = '\(key)';").first {
             if let e = e["value"] as? String {
                 return Data(base64Encoded: e)
             }
