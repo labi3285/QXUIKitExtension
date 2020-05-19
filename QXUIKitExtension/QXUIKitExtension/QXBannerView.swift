@@ -41,27 +41,27 @@ open class QXBannerView<Model>: QXView, UICollectionViewDelegate, UICollectionVi
     }
     
     public final lazy var flowLayout: UICollectionViewFlowLayout = {
-        let one = UICollectionViewFlowLayout()
-        one.scrollDirection = .horizontal
-        one.minimumInteritemSpacing = 0
-        one.minimumLineSpacing = 0
-        one.sectionInset = UIEdgeInsets.zero
-        return one
+        let e = UICollectionViewFlowLayout()
+        e.scrollDirection = .horizontal
+        e.minimumInteritemSpacing = 0
+        e.minimumLineSpacing = 0
+        e.sectionInset = UIEdgeInsets.zero
+        return e
     }()
     public final lazy var uiCollectionView: UICollectionView = {
-        let one = UICollectionView(frame: CGRect.zero, collectionViewLayout: self.flowLayout)
-        one.dataSource = self
-        one.delegate = self
-        one.isPagingEnabled = true
-        one.showsHorizontalScrollIndicator = false
-        one.showsVerticalScrollIndicator = false
-        one.alwaysBounceHorizontal = false
-        one.register(QXTextBannerCell<Model>.self, forCellWithReuseIdentifier: "QXTextBannerCell")
-        one.register(QXImageBannerCell<Model>.self, forCellWithReuseIdentifier: "QXImageBannerCell")
-        one.register(QXViewBannerCell<Model>.self, forCellWithReuseIdentifier: "QXViewBannerCell")
-        one.scrollsToTop = false
-        one.backgroundColor = UIColor.clear
-        return one
+        let e = UICollectionView(frame: CGRect.zero, collectionViewLayout: self.flowLayout)
+        e.dataSource = self
+        e.delegate = self
+        e.isPagingEnabled = true
+        e.showsHorizontalScrollIndicator = false
+        e.showsVerticalScrollIndicator = false
+        e.alwaysBounceHorizontal = false
+        e.register(QXTextBannerCell<Model>.self, forCellWithReuseIdentifier: "QXTextBannerCell")
+        e.register(QXImageBannerCell<Model>.self, forCellWithReuseIdentifier: "QXImageBannerCell")
+        e.register(QXViewBannerCell<Model>.self, forCellWithReuseIdentifier: "QXViewBannerCell")
+        e.scrollsToTop = false
+        e.backgroundColor = UIColor.clear
+        return e
     }()
     
     public override init() {

@@ -16,6 +16,7 @@ class DemoSegPageVc: QXViewController {
         e.compressResistance = QXView.resistanceStable
         var arr: [QXSegmentView<String>] = self.vcs.map { (e) -> QXSegmentView<String> in
             let e = QXSegmentView<String>(e.title ?? "xxx")
+            e.divideRatioX = 1
             return e
         }
         e.segmentViews = arr
@@ -51,6 +52,10 @@ class DemoSegPageVc: QXViewController {
         segmentsView.IN(view).TOP.LEFT.RIGHT.MAKE()
         pageVc.view.IN(view).LEFT.RIGHT.BOTTOM.MAKE()
         pageVc.view.TOP.EQUAL(segmentsView).BOTTOM.MAKE()
+    }
+    
+    override func didSetup() {
+        super.didSetup()
     }
     
 }

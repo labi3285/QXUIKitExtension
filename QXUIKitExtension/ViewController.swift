@@ -99,8 +99,11 @@ class ViewController: QXTableViewController<Any> {
                 }
             ]
             let vc = QXWebViewController(cfg)
-            vc.webView.url = QXURL.file("test.html", in: Bundle.main)
+//            vc.webView.url = QXURL.file("test.html", in: Bundle.main)
 //            vc.webView.url = QXURL.url("https://www.baidu.com")
+            
+            vc.webView.url = QXURL.url("http://10.177.212.194:8082")
+            
 //            vc.webView.url = QXUIKitExtensionResources.shared.url(for: "error-code.html")
             weak var wk_webView = vc.webView
             vc.navigationBarRightItem = QXBarButtonItem.titleItem("callJS", {

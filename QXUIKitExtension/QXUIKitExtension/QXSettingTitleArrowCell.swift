@@ -131,3 +131,88 @@ open class QXSettingTitleArrowCell: QXSettingCell {
     }
     
 }
+
+open class QXTitleArrow {
+    public var title: String?
+    public var richTitle: [QXRichText]?
+    public var subTitle: String?
+    public var richSubTitle: [QXRichText]?
+    public var todo: (() -> ())?
+    public init(_ title: String) {
+        self.title = title
+    }
+}
+
+open class QXTitleArrowCell: QXTableViewBreakLineCell {
+        
+    open override class func height(_ model: Any?, _ context: QXTableViewCell.Context) -> CGFloat? {
+        return 50
+    }
+    
+    open override var model: Any? {
+        didSet {
+            if let e = model as? QXTitleArrow {
+                if let e = e.richTitle {
+                    titleLabel.richTexts = e
+                } else {
+                    titleLabel.text = e.title ?? ""
+                }
+                if let e = e.richSubTitle {
+                    subTitleLabel.richTexts = e
+                } else {
+                    subTitleLabel.text = e.subTitle ?? ""
+                }
+            }
+        }
+    }
+    
+    public final lazy var titleLabel: QXLabel = {
+        let e = QXLabel()
+        e.numberOfLines = 1
+        e.font = QXFont(16, QXColor.dynamicTitle)
+        return e
+    }()
+    public final lazy var subTitleLabel: QXLabel = {
+        let e = QXLabel()
+        e.numberOfLines = 1
+        e.font = QXFont(14, QXColor.dynamicSubTitle)
+        e.compressResistanceX = QXView.resistanceEasyDeform
+        return e
+    }()
+    public final lazy var arrowView: QXImageView = {
+        let e = QXImageView()
+        e.qxTintColor = QXColor.dynamicIndicator
+        e.image = QXUIKitExtensionResources.shared.image("icon_arrow.png")
+            .setRenderingMode(.alwaysTemplate)
+        e.compressResistance = QXView.resistanceStable
+        e.respondUpdateImage = { [weak self] in
+            self?.layoutView.setNeedsLayout()
+        }
+        return e
+    }()
+    public final lazy var layoutView: QXStackView = {
+        let e = QXStackView()
+        e.alignmentY = .center
+        e.alignmentX = .left
+        e.viewMargin = 10
+        e.padding = QXEdgeInsets(5, 10, 5, 15)
+        e.views = [self.titleLabel, QXFlexSpace(), self.subTitleLabel, self.arrowView]
+        return e
+    }()
+        
+    public required init(_ reuseId: String) {
+        super.init(reuseId)
+        contentView.qxBackgroundColor = QXColor.dynamicBody
+        contentView.addSubview(layoutView)
+        layoutView.IN(contentView).LEFT.TOP.RIGHT.BOTTOM.MAKE()
+        backButton.respondClick = { [weak self] in
+            (self?.model as? QXTitleArrow)?.todo?()
+            self?.didClickCell()
+        }
+    }
+    public required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    
+}

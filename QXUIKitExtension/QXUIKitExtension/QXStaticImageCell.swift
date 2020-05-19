@@ -15,14 +15,14 @@ open class QXStaticImageCell: QXStaticCell {
         myImageView.fixWidth = context.givenWidth
         return myImageView.intrinsicContentSize.height
     }
-    
+        
     public final lazy var myImageView: QXImageView = {
-        let one = QXImageView()
-        one.padding = QXEdgeInsets(5, 15, 5, 15)
-        one.respondUpdateImage = { [weak self] in
+        let e = QXImageView()
+        e.padding = QXEdgeInsets(5, 15, 5, 15)
+        e.respondUpdateImage = { [weak self] in
             self?.context?.tableView?.setNeedsUpdate()
         }
-        return one
+        return e
     }()
 
     public required init() {

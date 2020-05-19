@@ -269,15 +269,15 @@ open class QXTextField: QXView, UITextFieldDelegate {
                     text = _text
                 }
             }
+            respondTextChange?(text, {
+                if let text = uiTextField.text {
+                    return text.isEmpty
+                }
+                return true
+            }())
         }
         clearButton?.isDisplay = text.count > 0
         layoutSubviews()
-        respondTextChange?(text, {
-            if let text = uiTextField.text {
-                return text.isEmpty
-            }
-            return true
-        }())
     }
 }
 

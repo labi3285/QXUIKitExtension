@@ -44,6 +44,7 @@ open class QXContentLoadStatusView<Model>: QXView {
         weak var ws = self
         _requestId += 1
         let id = _requestId
+        ws?.loadStatus = .loading
         loadData { (respond) in
             if id == (ws?._requestId ?? -1) {
                 switch respond {

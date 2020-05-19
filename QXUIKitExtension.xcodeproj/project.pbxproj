@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		4A896D06035194710BB414B1 /* Pods_QXUIKitExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 950932CC5C82C8CED282FC01 /* Pods_QXUIKitExtension.framework */; };
 		75067EF223A2455600388DC0 /* DemoModelVc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75067EF123A2455600388DC0 /* DemoModelVc.swift */; };
+		750CE4402421B43C004E2793 /* QXTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 750CE43F2421B43C004E2793 /* QXTypes.swift */; };
 		751558A622E7F70E00EFF37A /* QXRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 751558A522E7F70E00EFF37A /* QXRequest.swift */; };
 		751558A822E7FCFA00EFF37A /* QXFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 751558A722E7FCFA00EFF37A /* QXFilter.swift */; };
 		751558AA22E7FD1500EFF37A /* QXModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 751558A922E7FD1500EFF37A /* QXModel.swift */; };
@@ -162,6 +163,7 @@
 		75067EEE23A232F600388DC0 /* error-code.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = "error-code.html"; sourceTree = "<group>"; };
 		75067EEF23A2332800388DC0 /* test.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = test.gif; sourceTree = "<group>"; };
 		75067EF123A2455600388DC0 /* DemoModelVc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoModelVc.swift; sourceTree = "<group>"; };
+		750CE43F2421B43C004E2793 /* QXTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QXTypes.swift; sourceTree = "<group>"; };
 		751558A522E7F70E00EFF37A /* QXRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QXRequest.swift; sourceTree = "<group>"; };
 		751558A722E7FCFA00EFF37A /* QXFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QXFilter.swift; sourceTree = "<group>"; };
 		751558A922E7FD1500EFF37A /* QXModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QXModel.swift; sourceTree = "<group>"; };
@@ -521,6 +523,7 @@
 				75BF8D0823C04BDB0001643A /* QXVersion.swift */,
 				75BF8D0C23C04F1E0001643A /* QXOperators..swift */,
 				75BF8D0A23C04C250001643A /* QXPath.swift */,
+				750CE43F2421B43C004E2793 /* QXTypes.swift */,
 				7578069322E164E7009DD0DA /* QXUIKitExtensionResources.swift */,
 				7578069122E1647C009DD0DA /* QXUIKitExtensionResources.bundle */,
 			);
@@ -711,6 +714,7 @@
 				75929C8422D075DE006577AD /* QXViewController.swift in Sources */,
 				75729FA2236134010007D1B1 /* QXStaticBase.swift in Sources */,
 				75BF8D1123C083800001643A /* DemoCacheVc.swift in Sources */,
+				750CE4402421B43C004E2793 /* QXTypes.swift in Sources */,
 				7553C80922CF0CB60058239B /* UIApplication_ext.swift in Sources */,
 				757806A122E1C035009DD0DA /* QXProgress.swift in Sources */,
 				7578068C22E1611F009DD0DA /* QXRichLabel.swift in Sources */,

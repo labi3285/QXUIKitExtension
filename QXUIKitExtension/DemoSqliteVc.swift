@@ -63,7 +63,7 @@ class DemoSqliteVc: QXViewController {
             
             sql = "SELECT * FROM 'student' WHERE id = '\(1)';"
             
-            let arr = try db.queryDB(sql)
+            let arr = try db.query(sql)
             print(arr)
                         
         } catch {
@@ -75,7 +75,7 @@ class DemoSqliteVc: QXViewController {
         do {
             var sql = ""
             sql = "SELECT * FROM 'student';"
-            let arr = try db.queryDB(sql)
+            let arr = try db.query(sql)
             print(arr)
         } catch {
             QXDebugPrint(error)

@@ -45,10 +45,10 @@ open class QXPageViewController: UIViewController, UIPageViewControllerDelegate,
     }
     
     public final lazy var uiPageViewController: UIPageViewController = {
-        let one = UIPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal, options: nil)
-        one.delegate = self
-        one.dataSource = self
-        return one
+        let e = UIPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal, options: nil)
+        e.delegate = self
+        e.dataSource = self
+        return e
     }()
     
     override open func viewWillDisappear(_ animated: Bool) {

@@ -235,7 +235,7 @@ open class QXSegmentsView<Model>: QXView {
                 }
             }
             if divides.count > 0 && totalDivide > 0 {
-                let space = scrollW - segsWH.w
+                let space = scrollW - segsWH.w - padding.left - padding.right
                 for e in divides {
                     divideInfo[e.0] = space * e.1 / totalDivide
                 }
@@ -271,6 +271,7 @@ open class QXSegmentsView<Model>: QXView {
                 case .bottom:
                     offsetY = segsY + segsGH - h
                 }
+                print(QXRect(offsetX, offsetY, wh.w, h))
                 e.updateRect(QXRect(offsetX, offsetY, wh.w, h))
                 offsetX += wh.w + segmentMargin
             }

@@ -24,7 +24,7 @@ open class QXActivityIndicatorView: QXView {
         updateIndicatorView()
     }
     @objc func applicationDidBecomeActive() {
-        DispatchQueue.main.qxAsyncWait(0.1) {
+        DispatchQueue.main.qxAsyncWait(0.2) {
             self.updateIndicatorView()
         }
     }

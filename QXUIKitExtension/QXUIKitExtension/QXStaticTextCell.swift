@@ -11,6 +11,11 @@ import QXConsMaker
 
 open class QXStaticTextCell: QXStaticCell {
     
+    open override func contextDidSetup() {
+        super.contextDidSetup()
+        label.fixWidth = context.givenWidth
+    }
+    
     open override func height(_ model: Any?) -> CGFloat? {
         label.fixWidth = context.givenWidth
         return label.intrinsicContentSize.height

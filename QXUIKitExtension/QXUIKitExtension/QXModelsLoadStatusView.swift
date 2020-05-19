@@ -446,7 +446,7 @@ extension QXModelsLoadStatusView {
         return ms
     }
     
-    @discardableResult public func compactMapModels<T>(_ modelType: T.Type, _ todo: (T) -> T?) -> [T] {
+    @discardableResult public func reduceModels<T>(_ modelType: T.Type, _ todo: (T) -> T?) -> [T] {
         var ms: [T] = []
         for (i, r) in models.enumerated() {
             if let m = r as? T {

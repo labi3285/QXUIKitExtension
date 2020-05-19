@@ -93,12 +93,32 @@ open class QXImageView: QXView {
     }
     
     open override func natureContentSize() -> QXSize {
-        if let e = image?.size {
-            return e.sizeByAdd(padding)
+        var w: CGFloat = 0
+        var h: CGFloat = 0
+        if let e = image?.size, e.w > 0, e.h > 0 {
+            w = e.w
+            h = e.h
+            if let _w = fixWidth {
+                w = _w
+                h = w * e.h / e.w
+            }
+            if let _h = fixHeight {
+                h = _h
+                w = h * e.w / e.h
+            }
         } else if let e = placeHolderImage?.size {
-            return e.sizeByAdd(padding)
+            w = e.w
+            h = e.h
+            if let _w = fixWidth {
+                w = _w
+                h = w * e.h / e.w
+            }
+            if let _h = fixHeight {
+                h = _h
+                w = h * e.w / e.h
+            }
         }
-        return QXSize.zero.sizeByAdd(padding)
+        return QXSize(w, h).sizeByAdd(padding)
     }
     
     public class ImageView: UIImageView {

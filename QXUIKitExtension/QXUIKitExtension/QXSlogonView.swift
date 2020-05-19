@@ -53,8 +53,8 @@ open class QXSlogonView<Model>: QXButton {
     private var _contentTopCons: NSLayoutConstraint!
     private var _contentHeightCons: NSLayoutConstraint!
     private final lazy var abView: ABView = {
-        let one = ABView()
-        return one
+        let e = ABView()
+        return e
     }()
     public final lazy var clipView: UIView = {
         let e = UIView()

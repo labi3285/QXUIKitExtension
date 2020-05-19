@@ -38,9 +38,9 @@ public protocol QXViewProtocol {
     
     /// 更新尺寸
     func updateRect(_ rect: QXRect)
-    /// 水平抵抗拉伸的等级
+    /// 水平抵抗压缩的等级
     var compressResistanceX: CGFloat { get set }
-    /// 垂直抵抗拉伸的等级
+    /// 垂直抵抗压缩的等级
     var compressResistanceY: CGFloat { get set }
     /// 水平抵抗延展的等级
     var stretchResistanceX: CGFloat { get set }
@@ -125,6 +125,7 @@ open class QXView: UIView, QXViewProtocol {
     
     public final lazy var backLayersContainerLayer: CALayer = {
         let e = CALayer()
+        e.masksToBounds = true
         return e
     }()
     

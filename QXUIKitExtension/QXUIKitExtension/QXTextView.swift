@@ -70,6 +70,8 @@ open class QXTextView: QXView, UITextViewDelegate {
         let e = UITextView()
         e.backgroundColor = UIColor.clear
         e.qxTintColor = QXColor.dynamicAccent
+        let p = e.textContainer.lineFragmentPadding
+        e.textContainerInset = UIEdgeInsets(top: 0, left: -p, bottom: 0, right: -p)
         e.delegate = self
         return e
     }()
@@ -131,14 +133,14 @@ open class QXTextView: QXView, UITextViewDelegate {
                     text = _text
                 }
             }
+            respondTextChange?(text, {
+                if let text = uiTextView.text {
+                    return text.isEmpty
+                }
+                return true
+            }())
+            respondNeedsUpdate?()
         }
         placeHolderLabel.isHidden = !text.isEmpty
-        respondTextChange?(text, {
-            if let text = uiTextView.text {
-                return text.isEmpty
-            }
-            return true
-        }())
-        respondNeedsUpdate?()
     }
 }

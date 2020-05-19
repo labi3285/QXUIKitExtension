@@ -754,7 +754,30 @@ extension QXTableView {
         return ms
     }
     
-    @discardableResult public func compactMapModels<T>(_ modelType: T.Type, _ todo: (T) -> T?) -> [T] {
+    @discardableResult public func mapModels<T>(_ modelType: T.Type, _ todo: (T) -> T?) -> [T] {
+        var ms: [T] = []
+        for (_, s) in sections.enumerated() {
+            for (_, r) in s.models.enumerated() {
+                if let m = r as? T {
+                    if let m = todo(m) {
+                        ms.append(m)
+                    }
+                }
+            }
+            if let m = s.header as? T {
+                if let m = todo(m) {
+                    ms.append(m)
+                }
+            } else if let m = s.footer as? T {
+                if let m = todo(m) {
+                    ms.append(m)
+                }
+            }
+        }
+        return ms
+    }
+    
+    @discardableResult public func reduceModels<T>(_ modelType: T.Type, _ todo: (T) -> T?) -> [T] {
         var ms: [T] = []
         for (_, s) in sections.enumerated() {
             for (i, r) in s.models.enumerated() {

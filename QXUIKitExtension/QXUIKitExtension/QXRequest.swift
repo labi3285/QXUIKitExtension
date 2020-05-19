@@ -102,6 +102,7 @@ open class QXRequest {
     public static let globalApiManager: Alamofire.SessionManager = {
         let cfg = URLSessionConfiguration.default
         cfg.timeoutIntervalForRequest = 10
+        cfg.urlCredentialStorage = nil
         let e = Alamofire.SessionManager(configuration: cfg)
         return e
     }()

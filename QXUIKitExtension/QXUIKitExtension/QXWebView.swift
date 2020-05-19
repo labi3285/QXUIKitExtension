@@ -76,6 +76,16 @@ open class QXWebView: QXView {
         self.url = e
     }
     
+    open var html: String? {
+        didSet {
+            if let e = html {
+                isLoading = true
+                wkWebView.loadHTMLString(e, baseURL: nil)
+                delegate?.qxWebViewUpdateNavigationInfo()
+            }
+        }
+    }
+    
     open var url: QXURL? {
         didSet {
             if let e = url?.nsURL {

@@ -571,7 +571,9 @@ open class QXImageButton: QXButton {
         super.handleNormalize()
     }
     override open func handleHighlighted() {
-        imageView.image = imageHighlighted ?? image
+        if let e = imageHighlighted {
+            imageView.image = e
+        }
         super.handleHighlighted()
     }
     override open func handleSelected() {
