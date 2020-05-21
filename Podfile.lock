@@ -1,7 +1,7 @@
 PODS:
   - Alamofire (4.9.1)
   - HandyJSON (5.0.1)
-  - IQKeyboardManagerSwift (6.5.4)
+  - IQKeyboardManagerSwift (6.5.5)
   - JQCollectionViewAlignLayout (0.1.5)
   - MJRefresh (3.1.15.7)
   - QXConsMaker (0.0.8)
@@ -46,7 +46,7 @@ SPEC REPOS:
 SPEC CHECKSUMS:
   Alamofire: 85e8a02c69d6020a0d734f6054870d7ecb75cf18
   HandyJSON: d45b8415c501e3affc59ca9762c1197ff0feb646
-  IQKeyboardManagerSwift: 2dde0fc70110e8eac7ccce2a46fdbec6a850b414
+  IQKeyboardManagerSwift: 0fb93310284665245591f50f7a5e38de615960b7
   JQCollectionViewAlignLayout: d44142c09e6ba96cc874ac5014ff64accb8995ce
   MJRefresh: 697f8ec75ebdbe9207767bb682cf0f51b0d8a41f
   QXConsMaker: 32352325ad79720d0fee07d584a879183f5a61ee

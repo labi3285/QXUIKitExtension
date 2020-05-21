@@ -1,5 +1,7 @@
 Pod::Spec.new do |s|
 
+s.swift_versions = "5.0"
+
 s.name         = "QXUIKitExtension"
 s.version      = "0.4.1"
 s.summary      = "UIKit extensions in swift5."
@@ -16,7 +18,7 @@ s.source_files = "QXUIKitExtension/QXUIKitExtension/*"
 s.resources = "QXUIKitExtension/QXUIKitExtension/QXUIKitExtensionResources.bundle"
 s.requires_arc = true
 
-s.frameworks   = "MobileCoreServices", "ImageIO"
+s.frameworks   = "CoreServices", "ImageIO"
 s.library = 'sqlite3'
 
 s.dependency 'QXJSON', '~> 0.1.1'

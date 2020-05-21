@@ -18,11 +18,18 @@ open class QXSettingTextViewCell: QXSettingCell {
         }
     }
     
+    open var minHeight: CGFloat = 100
+    open var maxHeight: CGFloat?
+
     open override func height(_ model: Any?) -> CGFloat? {
+        if let e = fixHeight {
+            return e
+        }
         textView.fixWidth = context.givenWidth - textView.padding.left - textView.padding.right
-        let h = textView.intrinsicContentSize.height
-        if let _h = fixHeight {
-            return max(_h, h)
+        var h = textView.intrinsicContentSize.height
+        h = max(minHeight, h)
+        if let e = maxHeight {
+            h = min(e, h)
         }
         return h
     }
@@ -32,7 +39,7 @@ open class QXSettingTextViewCell: QXSettingCell {
         e.padding = QXEdgeInsets(5, 10, 5, 10)
         e.font = QXFont(16, QXColor.dynamicInput)
         e.placeHolderfont = QXFont(16, QXColor.dynamicPlaceHolder)
-        e.uiTextView.isScrollEnabled = false
+        //e.uiTextView.isScrollEnabled = false
         e.respondNeedsUpdate = { [weak self] in
             self?.context.tableView?.update()
         }
@@ -43,7 +50,7 @@ open class QXSettingTextViewCell: QXSettingCell {
         super.init()
         contentView.addSubview(textView)
         textView.IN(contentView).LEFT.TOP.RIGHT.BOTTOM.MAKE()
-        fixHeight = 100
+        fixHeight = nil
     }
     public required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")

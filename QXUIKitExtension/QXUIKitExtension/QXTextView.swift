@@ -46,7 +46,9 @@ open class QXTextView: QXView, UITextViewDelegate {
     
     open var placeHolder: String = "" {
         didSet {
-            toolbarPlaceholder = placeHolder
+            if self.responds(to: Selector(("setToolbarPlaceholder:"))) {
+                self.perform(Selector(("setToolbarPlaceholder:")), with: placeHolder)
+            }
             placeHolderLabel.text = placeHolder
         }
     }
@@ -69,8 +71,8 @@ open class QXTextView: QXView, UITextViewDelegate {
         let e = UITextView()
         e.backgroundColor = UIColor.clear
         e.qxTintColor = QXColor.dynamicAccent
-        let p = e.textContainer.lineFragmentPadding
-        e.textContainerInset = UIEdgeInsets(top: 0, left: -p, bottom: 0, right: -p)
+        //let p = e.textContainer.lineFragmentPadding
+        //e.textContainerInset = UIEdgeInsets(top: 0, left: -p, bottom: 0, right: -p)
         e.delegate = self
         return e
     }()
