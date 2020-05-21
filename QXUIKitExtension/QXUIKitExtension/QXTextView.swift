@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import IQKeyboardManagerSwift
 
 open class QXTextView: QXView, UITextViewDelegate {
 
