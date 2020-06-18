@@ -111,9 +111,11 @@ open class QXStackView: QXView {
                 var divides: [(Int, CGFloat)] = []
                 var totalDivide: CGFloat = 0
                 for (i, view) in views.enumerated() {
-                    if let e = view.divideRatioY {
-                        divides.append((i, e))
-                        totalDivide += e
+                    if view.isDisplay {
+                        if let e = view.divideRatioY {
+                            divides.append((i, e))
+                            totalDivide += e
+                        }
                     }
                 }
                 if divides.count > 0 && totalDivide > 0 {
@@ -126,7 +128,7 @@ open class QXStackView: QXView {
                     var flexs: [(Int, CGFloat)] = []
                     var total: CGFloat = 0
                     for (i, view) in views.enumerated() {
-                        if let e = view as? QXFlexSpace {
+                        if let e = view as? QXFlexSpace, e.isDisplay {
                             flexs.append((i, e.ratio))
                             total += e.ratio
                         }
@@ -210,9 +212,11 @@ open class QXStackView: QXView {
                 var divides: [(Int, CGFloat)] = []
                 var totalDivide: CGFloat = 0
                 for (i, view) in views.enumerated() {
-                    if let e = view.divideRatioX {
-                        divides.append((i, e))
-                        totalDivide += e
+                    if view.isDisplay {
+                        if let e = view.divideRatioX {
+                            divides.append((i, e))
+                            totalDivide += e
+                        }
                     }
                 }
                 if divides.count > 0 && totalDivide > 0 {
@@ -225,12 +229,14 @@ open class QXStackView: QXView {
                     var flexs: [(Int, CGFloat)] = []
                     var totalFlex: CGFloat = 0
                     for (i, view) in views.enumerated() {
-                        if let e = view as? QXFlexSpace {
-                            flexs.append((i, e.ratio))
-                            totalFlex += e.ratio
-                        } else if let e = view.divideRatioX {
-                            divides.append((i, e))
-                            totalDivide += e
+                        if view.isDisplay {
+                            if let e = view as? QXFlexSpace {
+                                flexs.append((i, e.ratio))
+                                totalFlex += e.ratio
+                            } else if let e = view.divideRatioX {
+                                divides.append((i, e))
+                                totalDivide += e
+                            }
                         }
                     }
                     if flexs.count > 0 && totalFlex > 0 {

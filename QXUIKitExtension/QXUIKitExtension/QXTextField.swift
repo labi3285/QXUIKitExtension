@@ -24,7 +24,9 @@ open class QXTextField: QXView, UITextFieldDelegate {
 
     public var text: String {
         set {
+            _lastText = newValue
             uiTextField.text = newValue
+            clearButton?.isDisplay = newValue.count > 0
         }
         get {
             return uiTextField.text ?? ""
@@ -40,13 +42,13 @@ open class QXTextField: QXView, UITextFieldDelegate {
     
     open var placeHolder: String = "" {
         didSet {
-            uiTextField.attributedPlaceholder = placeHolderfont.nsAttributtedString(placeHolder)
+            uiTextField.attributedPlaceholder = placeHolderFont.nsAttributtedString(placeHolder)
                    qxSetNeedsLayout()
         }
     }
-    open var placeHolderfont: QXFont = QXFont(16, QXColor.dynamicPlaceHolder) {
+    open var placeHolderFont: QXFont = QXFont(16, QXColor.dynamicPlaceHolder) {
         didSet {
-            uiTextField.attributedPlaceholder = placeHolderfont.nsAttributtedString(placeHolder)
+            uiTextField.attributedPlaceholder = placeHolderFont.nsAttributtedString(placeHolder)
             qxSetNeedsLayout()
         }
     }
@@ -106,6 +108,8 @@ open class QXTextField: QXView, UITextFieldDelegate {
                 layoutSubviews()
                 e.respondClick = { [unowned self] in
                     self.text = ""
+                    self.clearButton?.isDisplay = false
+                    self.layoutSubviews()
                 }
             }
         }
@@ -261,8 +265,10 @@ open class QXTextField: QXView, UITextFieldDelegate {
         coverView.isHidden = true
     }
     
+    private var _lastText: String = ""
     @objc func textChange() {
-        if !hasSelectRange {
+        let newText = uiTextField.text ?? ""
+        if !hasSelectRange, newText.count > _lastText.count {
             if let filter = filter {
                 let _text = filter.filte(uiTextField.text ?? "")
                 if _text != text {
@@ -276,6 +282,7 @@ open class QXTextField: QXView, UITextFieldDelegate {
                 return true
             }())
         }
+        _lastText = text
         clearButton?.isDisplay = text.count > 0
         layoutSubviews()
     }

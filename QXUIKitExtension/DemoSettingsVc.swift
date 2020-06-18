@@ -59,6 +59,7 @@ class DemoSettingsVc: QXTableViewController<Any> {
     final lazy var textFieldCell: QXSettingTextFieldCell = {
         let e = QXSettingTextFieldCell()
         e.textField.placeHolder = "输入内容"
+        e.textField.filter = QXTextFilter.double(min: 1.1111, max: 3.3333, dec: 3)
         return e
     }()
     final lazy var titleTextFieldCell: QXSettingTitleTextFieldCell = {
@@ -167,6 +168,7 @@ class DemoSettingsVc: QXTableViewController<Any> {
 
     final lazy var section: QXTableViewSection = {
         let e = QXTableViewSection([
+            self.xxxPickerCell,
             self.selectCell,
             self.cityPickerCell,
             self.datePickerCell,
@@ -181,6 +183,32 @@ class DemoSettingsVc: QXTableViewController<Any> {
             self.textFieldCell,
             self.textViewCell,
         ], self.headerView, self.footerView)
+        return e
+    }()
+    
+    final lazy var xxxPickerView: QXPickersView = {
+        let a = QXPickerView()
+//        a.suffixView = {
+//            let e = QXLabel()
+//            e.text = "省"
+//            return e
+//        }()
+        let e = QXPickersView([a], isCleanShow: true)
+        var aa: [QXPickerView.Item] = []
+        for i in 0..<5 {
+            let item = QXPickerView.Item(i, "a\(i)", nil)
+            aa.append(item)
+        }
+        e.items = aa
+        return e
+    }()
+    final lazy var xxxPickerCell: QXSettingTitlePickerCell = {
+        let e = QXSettingTitlePickerCell()
+        e.titleLabel.text = "选择城市"
+        e.textField.pickerView = self.xxxPickerView
+        e.textField.bringInPickedItems = [
+            QXPickerView.Item(1, "a1")
+        ]
         return e
     }()
     

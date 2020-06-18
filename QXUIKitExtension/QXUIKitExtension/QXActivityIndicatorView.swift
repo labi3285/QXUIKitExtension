@@ -10,7 +10,11 @@ import UIKit
 
 open class QXActivityIndicatorView: QXView {
     
-    public private(set) var systemView: UIActivityIndicatorView?
+    public var systemView: UIActivityIndicatorView? {
+        didSet {
+            updateIndicatorView()
+        }
+    }
     public func startAnimating() {
         systemView?.startAnimating()
     }
@@ -32,15 +36,17 @@ open class QXActivityIndicatorView: QXView {
         NotificationCenter.default.removeObserver(self)
     }
     public func updateIndicatorView() {
-        if #available(iOS 13.0, *) {
-            switch UITraitCollection.current.userInterfaceStyle {
-            case .dark:
-                systemView = UIActivityIndicatorView(style: .white)
-            default:
+        if systemView == nil {
+            if #available(iOS 13.0, *) {
+                switch UITraitCollection.current.userInterfaceStyle {
+                case .dark:
+                    systemView = UIActivityIndicatorView(style: .white)
+                default:
+                    systemView = UIActivityIndicatorView(style: .gray)
+                }
+            } else {
                 systemView = UIActivityIndicatorView(style: .gray)
             }
-        } else {
-            systemView = UIActivityIndicatorView(style: .gray)
         }
         for view in subviews {
             view.removeFromSuperview()
@@ -65,6 +71,26 @@ open class QXActivityIndicatorView: QXView {
     override open func layoutSubviews() {
         super.layoutSubviews()
         systemView?.qxRect = qxBounds.rectByReduce(padding)
+    }
+    
+}
+
+extension QXActivityIndicatorView: QXGlobalDataLoadStatusProtocol {
+    
+    public func qxGlobalDataLoadStatusUpdate(_ status: QXLoadStatus, _ isReload: Bool) {
+        if isReload {
+            switch status {
+            case .loading:
+                isDisplay = true
+                startAnimating()
+            default:
+                stopAnimating()
+                isDisplay = false
+            }
+        } else {
+            stopAnimating()
+            isDisplay = false
+        }
     }
     
 }

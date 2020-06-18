@@ -28,7 +28,7 @@ open class QXStaticStackCell: QXStaticCell {
         super.init()
         contentView.addSubview(stackView)
         stackView.IN(contentView).LEFT.TOP.RIGHT.BOTTOM.MAKE()
-        backButton.isDisplay = true
+        backButton.isDisplay = false
         fixHeight = nil
     }
     public required init?(coder aDecoder: NSCoder) {

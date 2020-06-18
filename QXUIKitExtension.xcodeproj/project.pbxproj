@@ -10,6 +10,7 @@
 		4A896D06035194710BB414B1 /* Pods_QXUIKitExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 950932CC5C82C8CED282FC01 /* Pods_QXUIKitExtension.framework */; };
 		75067EF223A2455600388DC0 /* DemoModelVc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75067EF123A2455600388DC0 /* DemoModelVc.swift */; };
 		750CE4402421B43C004E2793 /* QXTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 750CE43F2421B43C004E2793 /* QXTypes.swift */; };
+		7510D60D24877A5E0043A7E9 /* xxx.json in Resources */ = {isa = PBXBuildFile; fileRef = 7510D60C24877A5E0043A7E9 /* xxx.json */; };
 		751558A622E7F70E00EFF37A /* QXRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 751558A522E7F70E00EFF37A /* QXRequest.swift */; };
 		751558A822E7FCFA00EFF37A /* QXFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 751558A722E7FCFA00EFF37A /* QXFilter.swift */; };
 		751558AA22E7FD1500EFF37A /* QXModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 751558A922E7FD1500EFF37A /* QXModel.swift */; };
@@ -99,7 +100,6 @@
 		757D6C3D236174B800BF1788 /* QXStaticFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 757D6C3C236174B800BF1788 /* QXStaticFooterView.swift */; };
 		757D6C3F2361757E00BF1788 /* QXStaticButtonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 757D6C3E2361757E00BF1788 /* QXStaticButtonCell.swift */; };
 		75887840238CEFEF00AA0EF6 /* test.html in Resources */ = {isa = PBXBuildFile; fileRef = 7588783F238CEFEF00AA0EF6 /* test.html */; };
-		75887858238D19B200AA0EF6 /* QXApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75887857238D19B200AA0EF6 /* QXApp.swift */; };
 		758B220D237018CC00A03539 /* QXTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 758B220C237018CC00A03539 /* QXTransition.swift */; };
 		758B220F23703ABB00A03539 /* QXMaskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 758B220E23703ABB00A03539 /* QXMaskViewController.swift */; };
 		75929C8022D03518006577AD /* QXControlStateStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75929C7F22D03518006577AD /* QXControlStateStyle.swift */; };
@@ -164,6 +164,7 @@
 		75067EEF23A2332800388DC0 /* test.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = test.gif; sourceTree = "<group>"; };
 		75067EF123A2455600388DC0 /* DemoModelVc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoModelVc.swift; sourceTree = "<group>"; };
 		750CE43F2421B43C004E2793 /* QXTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QXTypes.swift; sourceTree = "<group>"; };
+		7510D60C24877A5E0043A7E9 /* xxx.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = xxx.json; sourceTree = "<group>"; };
 		751558A522E7F70E00EFF37A /* QXRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QXRequest.swift; sourceTree = "<group>"; };
 		751558A722E7FCFA00EFF37A /* QXFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QXFilter.swift; sourceTree = "<group>"; };
 		751558A922E7FD1500EFF37A /* QXModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QXModel.swift; sourceTree = "<group>"; };
@@ -255,7 +256,6 @@
 		757D6C3C236174B800BF1788 /* QXStaticFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QXStaticFooterView.swift; sourceTree = "<group>"; };
 		757D6C3E2361757E00BF1788 /* QXStaticButtonCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QXStaticButtonCell.swift; sourceTree = "<group>"; };
 		7588783F238CEFEF00AA0EF6 /* test.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = test.html; sourceTree = "<group>"; };
-		75887857238D19B200AA0EF6 /* QXApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QXApp.swift; sourceTree = "<group>"; };
 		758B220C237018CC00A03539 /* QXTransition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QXTransition.swift; sourceTree = "<group>"; };
 		758B220E23703ABB00A03539 /* QXMaskViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QXMaskViewController.swift; sourceTree = "<group>"; };
 		75929C7F22D03518006577AD /* QXControlStateStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QXControlStateStyle.swift; sourceTree = "<group>"; };
@@ -377,6 +377,7 @@
 				756A50B622BDFA1600E692DA /* QXUIKitExtension */,
 				756A50A422BDF9FD00E692DA /* AppDelegate.swift */,
 				756A50A622BDF9FD00E692DA /* ViewController.swift */,
+				7510D60C24877A5E0043A7E9 /* xxx.json */,
 				75D852212367FA2B000F4157 /* DemoTestVc.swift */,
 				754C59F023D44F8E00D3E46D /* DemoCollectionVc.swift */,
 				75E2FAFC23C0284E000E9212 /* DemoSqliteVc.swift */,
@@ -419,7 +420,6 @@
 				75BF8D0E23C07B920001643A /* QXCache.swift */,
 				75E2FAF823BF7212000E9212 /* QXSqlite.swift */,
 				75C0520D239DD802000F810B /* QXDirection.swift */,
-				75887857238D19B200AA0EF6 /* QXApp.swift */,
 				751558AD22E8255700EFF37A /* QXRequest_jsonExt.swift */,
 				757806AA22E2BA5D009DD0DA /* QXMargin.swift */,
 				75929CB722D831C4006577AD /* QXPoint.swift */,
@@ -604,6 +604,7 @@
 				75B0AF212398D47D00B0E817 /* test_dot@3x.png in Resources */,
 				7542FF3D23050EC60079CCD6 /* icon_mine_ask1@3x.png in Resources */,
 				7578069222E1647C009DD0DA /* QXUIKitExtensionResources.bundle in Resources */,
+				7510D60D24877A5E0043A7E9 /* xxx.json in Resources */,
 				75887840238CEFEF00AA0EF6 /* test.html in Resources */,
 				757806A522E2A108009DD0DA /* LaunchScreen.storyboard in Resources */,
 				75D29D0C237CF1E200AF5053 /* test_image.png in Resources */,
@@ -794,7 +795,6 @@
 				75FE018822EC3E26007646A3 /* QXTableView.swift in Sources */,
 				75D852262368214C000F4157 /* QXArrangeView.swift in Sources */,
 				75AB06862387B97A00B2F5DF /* QXWebView.swift in Sources */,
-				75887858238D19B200AA0EF6 /* QXApp.swift in Sources */,
 				75C4752C23949BF400B07927 /* QXStaticCardCell.swift in Sources */,
 				7578A88723619B6D006CFDD5 /* QXTextField.swift in Sources */,
 				7578069022E162F0009DD0DA /* QXLoadStatusViewController.swift in Sources */,

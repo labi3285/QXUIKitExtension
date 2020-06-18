@@ -28,7 +28,7 @@ open class QXSettingTitleTextFieldCell: QXSettingCell {
         let e = QXTextField()
         e.extendSize = true
         e.font = QXFont(16, QXColor.dynamicInput)
-        e.placeHolderfont = QXFont(16, QXColor.dynamicPlaceHolder)
+        e.placeHolderFont = QXFont(16, QXColor.dynamicPlaceHolder)
         e.uiTextField.textAlignment = .right
         e.compressResistanceX = QXView.resistanceEasyDeform
         e.placeHolder = "输入内容"

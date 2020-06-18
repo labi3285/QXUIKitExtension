@@ -35,7 +35,7 @@ open class QXRefreshHeader: MJRefreshHeader {
     public var textDatePrefix: QXRichText?
         = QXRichText.text("上次更新时间：", QXFont(14, QXColor.dynamicText))
     
-    public var dateHandler: QXRefreshHeaderDateHandlerProtocol = QXRefreshHeaderDateHandler()
+    public var dateHandler: QXRefreshHeaderDateHandlerProtocol? = QXRefreshHeaderDateHandler()
     
     public var customizedImageNormal: QXImage?
     public var customizedImagePulling: QXImage?
@@ -116,76 +116,82 @@ open class QXRefreshHeader: MJRefreshHeader {
     }
     private var isCustomised: Bool = false
     
+    open func update() {
+        messageLabel.isDisplay = true
+        dateLabel.isDisplay = true
+        let date = QXDate(lastUpdatedTime ?? Date())
+        if let a = textDatePrefix, let b = dateHandler?.qxRefreshDateToRichText(date) {
+            dateLabel.richTexts = a + b
+        } else {
+            dateLabel.richTexts = nil
+        }
+        switch state {
+        case .refreshing:
+            if let e = customizedImageLoading {
+                loadingView.isDisplay = false
+                arrowView.isDisplay = false
+                messageLabel.isDisplay = false
+                dateLabel.isDisplay = false
+                imageView.isDisplay = true
+                imageView.image = e
+                isCustomised = true
+            } else {
+                loadingView.startAnimating()
+                loadingView.isDisplay = true
+                arrowView.isDisplay = false
+                messageLabel.richText = textLoading
+                imageView.isDisplay = false
+                isCustomised = false
+            }
+        case .pulling:
+            if let e = customizedImagePulling {
+                loadingView.isDisplay = false
+                arrowView.isDisplay = false
+                messageLabel.isDisplay = false
+                dateLabel.isDisplay = false
+                imageView.isDisplay = true
+                imageView.image = e
+                isCustomised = true
+            } else {
+                loadingView.stopAnimating()
+                loadingView.isDisplay = false
+                arrowView.isDisplay = true
+                UIView.animate(withDuration: 0.2) {
+                    self.arrowView.transform = CGAffineTransform(rotationAngle: .pi)
+                }
+                arrowView.image = imageRefreshArrow
+                messageLabel.richText = textPulling
+                imageView.isDisplay = false
+                isCustomised = false
+            }
+        default:
+            if let e = customizedImageNormal {
+                loadingView.isDisplay = false
+                arrowView.isDisplay = false
+                messageLabel.isDisplay = false
+                dateLabel.isDisplay = false
+                imageView.isDisplay = true
+                imageView.image = e
+                isCustomised = true
+            } else {
+                loadingView.stopAnimating()
+                loadingView.isDisplay = false
+                arrowView.isDisplay = true
+                UIView.animate(withDuration: 0.2) {
+                    self.arrowView.transform = CGAffineTransform.identity
+                }
+                arrowView.image = imageRefreshArrow
+                messageLabel.richText = textNormal
+                imageView.isDisplay = false
+                isCustomised = false
+            }
+        }
+    }
+    
     override open var state: MJRefreshState {
         didSet {
             super.state = state
-            messageLabel.isDisplay = true
-            dateLabel.isDisplay = true
-            let date = QXDate(lastUpdatedTime ?? Date())
-            if let a = textDatePrefix, let b = dateHandler.qxRefreshDateToRichText(date) {
-                dateLabel.richTexts = a + b
-            }
-            switch state {
-            case .refreshing:
-                if let e = customizedImageLoading {
-                    loadingView.isDisplay = false
-                    arrowView.isDisplay = false
-                    messageLabel.isDisplay = false
-                    dateLabel.isDisplay = false
-                    imageView.isDisplay = true
-                    imageView.image = e
-                    isCustomised = true
-                } else {
-                    loadingView.startAnimating()
-                    loadingView.isDisplay = true
-                    arrowView.isDisplay = false
-                    messageLabel.richText = textLoading
-                    imageView.isDisplay = false
-                    isCustomised = false
-                }
-            case .pulling:
-                if let e = customizedImagePulling {
-                    loadingView.isDisplay = false
-                    arrowView.isDisplay = false
-                    messageLabel.isDisplay = false
-                    dateLabel.isDisplay = false
-                    imageView.isDisplay = true
-                    imageView.image = e
-                    isCustomised = true
-                } else {
-                    loadingView.stopAnimating()
-                    loadingView.isDisplay = false
-                    arrowView.isDisplay = true
-                    UIView.animate(withDuration: 0.2) {
-                        self.arrowView.transform = CGAffineTransform(rotationAngle: .pi)
-                    }
-                    arrowView.image = imageRefreshArrow
-                    messageLabel.richText = textPulling
-                    imageView.isDisplay = false
-                    isCustomised = false
-                }
-            default:
-                if let e = customizedImageNormal {
-                    loadingView.isDisplay = false
-                    arrowView.isDisplay = false
-                    messageLabel.isDisplay = false
-                    dateLabel.isDisplay = false
-                    imageView.isDisplay = true
-                    imageView.image = e
-                    isCustomised = true
-                } else {
-                    loadingView.stopAnimating()
-                    loadingView.isDisplay = false
-                    arrowView.isDisplay = true
-                    UIView.animate(withDuration: 0.2) {
-                        self.arrowView.transform = CGAffineTransform.identity
-                    }
-                    arrowView.image = imageRefreshArrow
-                    messageLabel.richText = textNormal
-                    imageView.isDisplay = false
-                    isCustomised = false
-                }
-            }
+            update()
         }
     }
     
@@ -265,37 +271,41 @@ open class QXRefreshFooter: MJRefreshAutoFooter {
         messageLabel.qxRect = imageView.qxRect.rightRect(.center, .size(messageSize))
     }
     
+    open func update() {
+        switch state {
+        case .refreshing:
+            messageLabel.richText = textLoading
+            messageLabel.isDisplay = imageLoading == nil && textLoading != nil
+            imageView.image = imageLoading
+            loadingView.startAnimating()
+            if imageLoading == nil {
+                loadingView.isDisplay = true
+                imageView.isDisplay = false
+            } else {
+                loadingView.isDisplay = false
+                imageView.isDisplay = true
+            }
+        case .noMoreData:
+            messageLabel.richText = textNoMoreData
+            messageLabel.isDisplay = imageNoMoreData == nil && textNoMoreData != nil
+            imageView.isDisplay = imageNoMoreData != nil
+            imageView.image = imageNoMoreData
+            loadingView.stopAnimating()
+            loadingView.isDisplay = false
+        default:
+            messageLabel.richText = textNormal
+            messageLabel.isDisplay = imageNormal == nil && textNormal != nil
+            imageView.isDisplay = imageNormal != nil
+            imageView.image = imageNormal
+            loadingView.stopAnimating()
+            loadingView.isDisplay = false
+        }
+    }
+    
     override open var state: MJRefreshState {
         didSet {
             super.state = state
-            switch state {
-            case .refreshing:
-                messageLabel.richText = textLoading
-                messageLabel.isDisplay = imageLoading == nil && textLoading != nil
-                imageView.image = imageLoading
-                loadingView.startAnimating()
-                if imageLoading == nil {
-                    loadingView.isDisplay = true
-                    imageView.isDisplay = false
-                } else {
-                    loadingView.isDisplay = false
-                    imageView.isDisplay = true
-                }
-            case .noMoreData:
-                messageLabel.richText = textNoMoreData
-                messageLabel.isDisplay = imageNoMoreData == nil && textNoMoreData != nil
-                imageView.isDisplay = imageNoMoreData != nil
-                imageView.image = imageNoMoreData
-                loadingView.stopAnimating()
-                loadingView.isDisplay = false
-            default:
-                messageLabel.richText = textNormal
-                messageLabel.isDisplay = imageNormal == nil && textNormal != nil
-                imageView.isDisplay = imageNormal != nil
-                imageView.image = imageNormal
-                loadingView.stopAnimating()
-                loadingView.isDisplay = false
-            }
+            update()
         }
     }
     
@@ -326,38 +336,42 @@ extension UIScrollView {
 public protocol QXRefreshableViewProtocol {
     func qxResetOffset()
     func qxDisableAutoInserts()
+    func qxUpdateStaticModels(_ models: [Any]?)
     func qxUpdateModels(_ models: [Any])
     func qxSetRefreshHeader(_ header: QXRefreshHeader?)
     func qxSetRefreshFooter(_ footer: QXRefreshFooter?)
-    func qxAddSubviewToRefreshableView(_ view: UIView)
+    func qxUpdateGlobalDataLoadStatus(_ loadStatus: QXLoadStatus, _ defaultLoadStatusView: QXView & QXLoadStatusViewProtocol, _ isReload: Bool)
     func qxRefreshableViewFrame() -> CGRect
     func qxReloadData()
 }
 
 extension UIScrollView: QXRefreshableViewProtocol {
-    @objc public func qxAddSubviewToRefreshableView(_ view: UIView) {
-        addSubview(view)
+    public func qxUpdateGlobalDataLoadStatus(_ loadStatus: QXLoadStatus, _ defaultLoadStatusView: QXView & QXLoadStatusViewProtocol, _ isReload: Bool) {
+        qxCheckOrAddSubview(defaultLoadStatusView)
     }
-    @objc public func qxRefreshableViewFrame() -> CGRect {
+    public func qxRefreshableViewFrame() -> CGRect {
         return frame
     }
-    @objc public func qxResetOffset() {
+    public func qxResetOffset() {
         contentOffset = CGPoint.zero
     }
-    @objc public func qxDisableAutoInserts() {
+    public func qxDisableAutoInserts() {
         if #available(iOS 11.0, *) {
             contentInsetAdjustmentBehavior = .never
         } else {
             // Fallback on earlier versions
         }
     }
-    @objc public func qxUpdateModels(_ models: [Any]) {
+    public func qxUpdateModels(_ models: [Any]) {
         
     }
-    @objc public func qxSetRefreshHeader(_ header: QXRefreshHeader?) {
+    public func qxUpdateStaticModels(_ models: [Any]?) {
+        
+    }
+    public func qxSetRefreshHeader(_ header: QXRefreshHeader?) {
         mj_header = header
     }
-    @objc public func qxSetRefreshFooter(_ footer: QXRefreshFooter?) {
+    public func qxSetRefreshFooter(_ footer: QXRefreshFooter?) {
         mj_footer = footer
     }
     @objc public func qxReloadData() {

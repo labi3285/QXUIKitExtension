@@ -8,6 +8,7 @@
 
 import UIKit
 import AVFoundation
+import Photos
 
 public struct QXDevice {
     
@@ -107,6 +108,53 @@ public struct QXDevice {
     
 }
 
+extension QXDevice {
+    
+    public static var isAppRelease: Bool {
+        var e = true
+        #if DEBUG
+            e = false
+        #endif
+        return e
+    }
+    
+    public static let schemaPhone = "telprompt://"
+    public static let schemaEmail = "mailto://"
+    
+    public static func openUrl(_ url: String, _ onVc: UIViewController?) {
+        func _openUrl(_ url: String, _ onVc: UIViewController?) {
+            if isOpenningURL { return }
+            isOpenningURL = true
+            /// 防止频繁调用
+            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1.5) {
+                isOpenningURL = false
+            }
+            if canOpenUrl(url) {
+                UIApplication.shared.openURL(URL(string: url)!)
+            } else {
+                onVc?.showFailure(msg: "无效访问")
+            }
+        }
+        #if TARGET_IPHONE_SIMULATOR
+            if url.hasPrefix(schemaPhone) {
+                onVc.showWarning(msg: "模拟器不支持电话")
+            } else {
+                _openUrl(url, onVc)
+            }
+        #else
+            _openUrl(url, onVc)
+        #endif
+    }
+    public static func canOpenUrl(_ url: String) -> Bool {
+        if let url = URL(string: url) {
+            return UIApplication.shared.canOpenURL(url)
+        }
+        return false
+    }
+    public private(set) static var isOpenningURL = false
+    
+}
+
 
 extension QXDevice {
     
@@ -115,6 +163,10 @@ extension QXDevice {
         case notDetermined
         case denied
     }
+    
+}
+
+extension QXDevice {
     
     /// 查看话筒权限
     public static var microphoneAuthorStatus: AuthorStatus {
@@ -143,5 +195,62 @@ extension QXDevice {
             }
         }
     }
+}
+
+extension QXDevice {
+    
+    /// 保存图片
+    public static func saveImage(_ image: UIImage?, _ done: @escaping () -> (), _ onVc: UIViewController?) {
+        guard let image = image else {
+            onVc?.showWarning(msg: "图片无效")
+            return
+        }
+        weak var vc = onVc
+        func todo() {
+            vc?.showLoading(msg: nil)
+            PHPhotoLibrary.shared().performChanges({
+                PHAssetChangeRequest.creationRequestForAsset(from: image)
+            }, completionHandler: { success, error in
+                DispatchQueue.main.async {
+                    vc?.hideLoading()
+                    if success {
+                        done()
+                    } else {
+                        vc?.showSuccess(msg: "保存失败")
+                    }
+                }
+            })
+        }
+        func checkAlbumAuthor() -> Bool {
+            let status = PHPhotoLibrary.authorizationStatus()
+            switch status {
+            case .authorized:
+                return true
+            case .denied, .restricted:
+                vc?.view.endEditing(true)
+                let alert = UIAlertController(title: "访问受限", message: "请到设置中检查相册访问权限。", preferredStyle: .alert)
+                alert.addAction(UIAlertAction.init(title: "设置", style: .default, handler: { (a) in
+                    openUrl(UIApplication.openSettingsURLString, vc)
+                }))
+                alert.addAction(UIAlertAction.init(title: "取消", style: .cancel, handler: nil))
+                vc?.present(alert, animated: true, completion: nil)
+                return false
+            default:
+                PHPhotoLibrary.requestAuthorization { (s) in
+                    switch s {
+                    case .authorized:
+                        todo()
+                    default:
+                        break
+                    }
+                }
+                return false
+            }
+        }
+        if checkAlbumAuthor() {
+            todo()
+        }
+    }
+    
 }
 

@@ -230,7 +230,6 @@ open class QXRequest {
                         err = QXError(e.code, "网络错误")
                     } else {
                         err = QXError.unknown
-                        done(.failed(QXError.unknown))
                     }
                     err.info = response.data
                     done(.failed(err))

@@ -159,6 +159,8 @@ open class QXCollectionView: QXView {
     public func reloadData() {
         uiCollectionView.reloadData()
     }
+    
+    open var staticSections: [QXCollectionViewSection]?
 
     open var sections: [QXCollectionViewSection] = [] {
         didSet {
@@ -642,9 +644,10 @@ extension QXCollectionView: UICollectionViewDelegate, UICollectionViewDataSource
 }
 
 extension QXCollectionView: QXRefreshableViewProtocol {
-    public func qxAddSubviewToRefreshableView(_ view: UIView) {
-        uiCollectionView.addSubview(view)
-        _uiCollectionViewAttendViews.append(view)
+    public func qxUpdateGlobalDataLoadStatus(_ loadStatus: QXLoadStatus, _ defaultLoadStatusView: QXView & QXLoadStatusViewProtocol, _ isReload: Bool) {
+        if uiCollectionView.qxCheckOrAddSubview(defaultLoadStatusView) {
+            _uiCollectionViewAttendViews.append(defaultLoadStatusView)
+        }
     }
     public func qxRefreshableViewFrame() -> CGRect {
         return uiCollectionView.frame
@@ -665,13 +668,25 @@ extension QXCollectionView: QXRefreshableViewProtocol {
         reloadData()
     }
     public func qxUpdateModels(_ models: [Any]) {
-        if let e = models as? [QXCollectionViewSection] {
-            self.sections = e
+        self.sections = _modelsToSections(models)
+        reloadData()
+    }
+    public func qxUpdateStaticModels(_ models: [Any]?) {
+        if let e = models {
+            self.staticSections = _modelsToSections(e)
         } else {
-            let section = QXCollectionViewSection(models, nil, nil)
-            self.sections = [section]
+            self.staticSections = nil
         }
         reloadData()
+    }
+    
+    private func _modelsToSections(_ models: [Any]) -> [QXCollectionViewSection] {
+        if let arr = models as? [QXCollectionViewSection] {
+            return arr
+        } else {
+            let section = QXCollectionViewSection(models, nil, nil)
+            return [section]
+        }
     }
 }
 

@@ -104,6 +104,13 @@ public class QXSQLite {
             throw QXError(-1, "Empty SQL")
         }
     }
+    
+    deinit {
+        let code = sqlite3_close(db)
+        if let err = _qxError(code).error {
+            QXDebugPrint(err)
+        }
+    }
         
 }
 

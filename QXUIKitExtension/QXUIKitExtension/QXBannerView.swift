@@ -114,6 +114,7 @@ open class QXBannerView<Model>: QXView, UICollectionViewDelegate, UICollectionVi
             return
         }
         let i = Int(scrollView.contentOffset.x / scrollView.bounds.width + 0.5) % banners.count
+        pageIndicatorView?.current = i
         respondChange?(i, banners.count)
     }
     open func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {

@@ -17,6 +17,7 @@ open class QXTableViewController<Model>: QXViewController, QXTableViewDelegate {
     }()
     public final lazy var loadStatusView: QXLoadStatusView = {
         let e = QXLoadStatusView()
+        e.minHeight = max(UIScreen.main.bounds.height, UIScreen.main.bounds.width) / 2
         return e
     }()
     

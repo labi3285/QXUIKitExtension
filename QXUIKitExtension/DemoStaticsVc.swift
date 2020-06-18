@@ -8,6 +8,27 @@
 
 import UIKit
 
+extension QXStaticCardCell: QXGlobalDataLoadStatusProtocol {
+    
+    public func qxGlobalDataLoadStatusUpdate(_ status: QXLoadStatus, _ isReload: Bool) {
+        showLoading(msg: "xxx")
+        switch status {
+        case .loading:
+            hideLoading()
+            showLoading(msg: nil)
+        case .failed(let err):
+            hideLoading()
+            showFailure(msg: err?.message ?? "错误")
+        case .empty(let msg):
+            hideLoading()
+            showFailure(msg: msg ?? "为空")
+        case .succeed:
+            hideLoading()
+        }
+    }
+    
+}
+
 class DemoStaticsVc: QXTableViewController<Any> {
     
     final lazy var headerView: QXStaticHeaderView = {
@@ -66,16 +87,30 @@ class DemoStaticsVc: QXTableViewController<Any> {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Statics"
-//        view.qxBackgroundColor = QXColor.yellow
-        contentView.staticModels = [section]
+        tableView.isQXMessageViewAlwaysShowForLoadStatusWhenNoData = true
+        tableView.isQXMessageViewForLoadingWhenNoDataEnabled = true
+        tableView.staticSections = [ section ]
         
-        contentView.reloadData()
-        
-//        contentView.filter.json
+        contentView.canRefresh = true
     }
     
+    override func didSetup() {
+        super.didSetup()
+        contentView.reloadData()
+    }
+    
+    final lazy var xxxCell: QXStaticTextCell = {
+        let e = QXStaticTextCell()
+        e.label.text = "文本" + QXDebugText(999)
+        return e
+    }()
+    
     override func loadData(_ filter: QXFilter, _ done: @escaping (QXRequest.RespondPage<Any>) -> Void) {
-        done(.failed(QXError.noData))
+//        done(.succeed([xxxCell], false))
+        
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1) {
+            done(.failed(QXError.noData))
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {

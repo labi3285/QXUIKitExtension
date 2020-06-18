@@ -320,16 +320,19 @@ extension UIView {
         return intrinsicContentSize.qxSize
     }
     
-    public func qxCheckOrAddSubview(_ view: UIView) {
+    @discardableResult public func qxCheckOrAddSubview(_ view: UIView) -> Bool {
         if let superview = view.superview {
             if superview === self {
                 superview.bringSubviewToFront(view)
+                return false
             } else {
                 view.removeFromSuperview()
                 addSubview(view)
+                return true
             }
         } else {
             addSubview(view)
+            return true
         }
     }
     

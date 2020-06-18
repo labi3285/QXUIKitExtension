@@ -22,7 +22,7 @@ open class QXSettingTextFieldCell: QXSettingCell {
         let e = QXTextField()
         e.extendSize = true
         e.font = QXFont(16, QXColor.dynamicInput)
-        e.placeHolderfont = QXFont(16, QXColor.dynamicPlaceHolder)
+        e.placeHolderFont = QXFont(16, QXColor.dynamicPlaceHolder)
         e.placeHolder = "输入内容"
         e.padding = QXEdgeInsets(5, 15, 5, 15)
         return e

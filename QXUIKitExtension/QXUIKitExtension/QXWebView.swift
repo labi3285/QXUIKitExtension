@@ -100,6 +100,7 @@ open class QXWebView: QXView {
                 isLoading = true
                 wkWebView.load(r)
                 delegate?.qxWebViewUpdateNavigationInfo()
+                _sys_delegate?.qxWebViewUpdateNavigationInfo()
             }
         }
     }
@@ -107,6 +108,7 @@ open class QXWebView: QXView {
     public private(set) var isLoading: Bool = false
     
     public weak var delegate: QXWebViewDelegate?
+    weak var _sys_delegate: QXWebViewDelegate?
 
     public func executeJavaScriptFunction(_ funcName: String) {
         executeJavaScriptFunction(funcName, nil, nil)
@@ -212,18 +214,23 @@ open class QXWebView: QXView {
         }
         if keyPath == "title" {
             delegate?.qxWebViewUpdateTitle(wkWebView.title)
+            _sys_delegate?.qxWebViewUpdateTitle(wkWebView.title)
         } else if keyPath == "estimatedProgress" {
             let p = CGFloat(wkWebView.estimatedProgress)
             if p <= 0 || p >= 1 {
                 delegate?.qxWebViewUpdateEstimatedProgress(nil)
+                _sys_delegate?.qxWebViewUpdateEstimatedProgress(nil)
             } else {
                 delegate?.qxWebViewUpdateEstimatedProgress(p)
+                _sys_delegate?.qxWebViewUpdateEstimatedProgress(p)
             }
         } else if keyPath == "contentSize" {
             let wh = wkWebView.scrollView.contentSize
             delegate?.qxWebViewUpdateContentSize(wh)
+            _sys_delegate?.qxWebViewUpdateContentSize(wh)
         } else if keyPath == "canGoBack" || keyPath == "canGoForward" {
             delegate?.qxWebViewUpdateNavigationInfo()
+            _sys_delegate?.qxWebViewUpdateNavigationInfo()
         } else {
             super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
         }
@@ -235,6 +242,7 @@ extension QXWebView: UIScrollViewDelegate {
     
     public func scrollViewDidScroll(_ scrollView: UIScrollView) {
         delegate?.qxWebViewDidScroll(scrollView)
+        _sys_delegate?.qxWebViewDidScroll(scrollView)
     }
     
 }
@@ -323,18 +331,24 @@ extension QXWebView: WKNavigationDelegate {
     open func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
         isLoading = true
         delegate?.qxWebViewNavigationBegin()
+        _sys_delegate?.qxWebViewNavigationBegin()
+
         delegate?.qxWebViewUpdateNavigationInfo()
+        _sys_delegate?.qxWebViewUpdateNavigationInfo()
     }
     open func webView(_ webView: WKWebView, didReceiveServerRedirectForProvisionalNavigation navigation: WKNavigation!) {
         isLoading = true
         delegate?.qxWebViewUpdateNavigationInfo()
+        _sys_delegate?.qxWebViewUpdateNavigationInfo()
     }
     
     open func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
         isLoading = false
         let err = error as NSError
         delegate?.qxWebViewNavigationFailed(QXError(err.code, err.domain))
+        _sys_delegate?.qxWebViewNavigationFailed(QXError(err.code, err.domain))
         delegate?.qxWebViewUpdateNavigationInfo()
+        _sys_delegate?.qxWebViewUpdateNavigationInfo()
     }
     open func webView(_ webView: WKWebView, didCommit navigation: WKNavigation!) {
         isLoading = true
@@ -343,14 +357,18 @@ extension QXWebView: WKNavigationDelegate {
     open func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         isLoading = false
         delegate?.qxWebViewNavigationSucceed()
+        _sys_delegate?.qxWebViewNavigationSucceed()
         delegate?.qxWebViewUpdateNavigationInfo()
+        _sys_delegate?.qxWebViewUpdateNavigationInfo()
         _checkOrPerformJavaScriptCallsInPool()
     }
     open func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
         isLoading = false
         let err = error as NSError
         delegate?.qxWebViewNavigationFailed(QXError(err.code, err.domain))
+        _sys_delegate?.qxWebViewNavigationFailed(QXError(err.code, err.domain))
         delegate?.qxWebViewUpdateNavigationInfo()
+        _sys_delegate?.qxWebViewUpdateNavigationInfo()
     }
 //    open func webView(_ webView: WKWebView, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
 //

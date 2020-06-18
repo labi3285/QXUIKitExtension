@@ -18,7 +18,6 @@ open class QXSlogonView<Model>: QXButton {
                 abView.a.qxRichTexts = modelToQXRichTextsParser(e)
             }
             clipView.layoutIfNeeded()
-            _tryToPage()
             if models.count > 1 {
                 _removeTimer()
                 _fireTimer()
@@ -106,6 +105,9 @@ open class QXSlogonView<Model>: QXButton {
         _timer?.remove()
         _timer = nil
     }
+    deinit {
+        _timer?.remove()
+    }
     
     /// 采用A,B两个页面来回切换的方式实现错觉轮播
     private var _currentIndex: Int = 0
@@ -155,6 +157,109 @@ open class QXSlogonView<Model>: QXButton {
             b.frame = CGRect(x: 0, y: bounds.height / 2, width: bounds.width, height: bounds.height / 2)
         }
         
+    }
+    
+}
+
+
+open class QXRunLogonView<Model>: QXButton {
+            
+    public var respondModel: ((_ model: Model) -> Void)?
+
+    public var models: [Model] = [] {
+        didSet {
+            _initPage()
+            _removeTimer()
+            _fireTimer()
+        }
+    }
+    
+    public var modelToQXRichTextsParser: (_ model: Model) -> [QXRichText]
+        = { e in
+        let t = QXRichText.text("\(e)", QXFont.init(14, QXColor.dynamicText))
+        return [t]
+    }
+    
+    public var step: CGFloat = 1
+
+    private final lazy var uiLabel: UILabel = {
+        let e = UILabel()
+        e.textAlignment = .left
+        return e
+    }()
+    public final lazy var clipView: UIView = {
+        let e = UIView()
+        e.clipsToBounds = true
+        e.backgroundColor = UIColor.clear
+        return e
+    }()
+    
+    open override func layoutSubviews() {
+        super.layoutSubviews()
+        clipView.qxRect = backView.qxBounds
+    }
+        
+    override public init() {
+        super.init()
+        backView.addSubview(clipView)
+        clipView.addSubview(uiLabel)
+        respondClick = { [weak self] in
+            if let s = self {
+                if s.models.count > 0 && s._currentIndex < s.models.count {
+                    s.respondModel?(s.models[s._currentIndex])
+                }
+            }
+        }
+    }
+    required public init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    private var _timer: QXTimer?
+    private var _offsetX: CGFloat = 0
+    private func _fireTimer() {
+        let e = QXTimer(triggerCount: nil, runLoop: RunLoop.main, mode: .commons)
+        e.loop = { [weak self] t in
+            self?._timerLoop()
+        }
+        _timer = e
+    }
+    deinit {
+        _timer?.remove()
+    }
+    private func _timerLoop() {
+        _offsetX -= 1
+        if uiLabel.frame.maxX <= 1 {
+            _currentIndex += 1
+            _offsetX = 0
+            _initPage()
+        }
+        uiLabel.frame = CGRect(x: clipView.bounds.width + _offsetX, y: 0, width: uiLabel.frame.width, height: clipView.bounds.height)
+    }
+    private func _removeTimer() {
+        _timer?.remove()
+        _timer = nil
+    }
+    
+    /// 采用A,B两个页面来回切换的方式实现错觉轮播
+    private var _currentIndex: Int = 0
+    private func _initPage() {
+        if models.count == 0 {
+            return
+        } else if models.count == 2 {
+            if let e = models.first {
+                uiLabel.qxRichTexts = modelToQXRichTextsParser(e)
+            }
+        } else {
+            if _currentIndex == models.count - 1 {
+                _currentIndex = -1
+                uiLabel.qxRichTexts = modelToQXRichTextsParser(models.last!)
+            } else {
+                uiLabel.qxRichTexts = modelToQXRichTextsParser(models[_currentIndex])
+            }
+        }
+        uiLabel.sizeToFit()
+        uiLabel.frame = CGRect(x: clipView.bounds.width, y: 0, width: uiLabel.frame.width, height: clipView.bounds.height)
     }
     
 }

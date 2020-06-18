@@ -29,6 +29,7 @@ open class QXTextView: QXView, UITextViewDelegate {
     
     public var text: String {
         set {
+            _lastText = newValue
             uiTextView.text = newValue
             placeHolderLabel.isHidden = !newValue.isEmpty
         }
@@ -52,7 +53,7 @@ open class QXTextView: QXView, UITextViewDelegate {
             placeHolderLabel.text = placeHolder
         }
     }
-    open var placeHolderfont: QXFont {
+    open var placeHolderFont: QXFont {
         set {
             placeHolderLabel.font = newValue
         }
@@ -125,9 +126,11 @@ open class QXTextView: QXView, UITextViewDelegate {
     public func textViewDidEndEditing(_ textView: UITextView) {
         respondEndEditting?()
     }
-
+    
+    private var _lastText: String = ""
     public func textViewDidChange(_ textView: UITextView) {
-        if !hasSelectRange {
+        let newText = textView.text ?? ""
+        if !hasSelectRange, newText.count > _lastText.count {
             if let filter = filter {
                 let _text = filter.filte(uiTextView.text ?? "")
                 if _text != text {
@@ -142,6 +145,7 @@ open class QXTextView: QXView, UITextViewDelegate {
             }())
             respondNeedsUpdate?()
         }
+        _lastText = text
         placeHolderLabel.isHidden = !text.isEmpty
     }
 }

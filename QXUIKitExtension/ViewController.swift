@@ -99,10 +99,10 @@ class ViewController: QXTableViewController<Any> {
                 }
             ]
             let vc = QXWebViewController(cfg)
-//            vc.webView.url = QXURL.file("test.html", in: Bundle.main)
+            vc.webView.url = QXURL.file("test.html", in: Bundle.main)
 //            vc.webView.url = QXURL.url("https://www.baidu.com")
             
-            vc.webView.url = QXURL.url("http://10.177.212.194:8082")
+//            vc.webView.url = QXURL.url("http://10.177.212.194:8082")
             
 //            vc.webView.url = QXUIKitExtensionResources.shared.url(for: "error-code.html")
             weak var wk_webView = vc.webView
@@ -250,6 +250,14 @@ class ViewController: QXTableViewController<Any> {
         btn.padding = QXEdgeInsets(5, 5, 5, 5)
         btn.qxDebugRandomColor()
         navigationBarRightItem = QXBarButtonItem.stackItem(btn)
+
+        let x = ".123"
+        
+        print(".123".components(separatedBy: "."))
+        print("1.123".components(separatedBy: "."))
+        print("123.".components(separatedBy: "."))
+
+        
     }
 
 }

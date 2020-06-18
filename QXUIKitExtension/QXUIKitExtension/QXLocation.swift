@@ -37,6 +37,8 @@ open class QXLocation {
         }
     }
     
+    public init() { }
+    
     public var clLocation: CLLocation {
         let lng = (longitude as NSString).doubleValue
         let lat = (latitude as NSString).doubleValue

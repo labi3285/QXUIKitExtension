@@ -38,7 +38,7 @@ open class QXSettingTextViewCell: QXSettingCell {
         let e = QXTextView()
         e.padding = QXEdgeInsets(5, 10, 5, 10)
         e.font = QXFont(16, QXColor.dynamicInput)
-        e.placeHolderfont = QXFont(16, QXColor.dynamicPlaceHolder)
+        e.placeHolderFont = QXFont(16, QXColor.dynamicPlaceHolder)
         //e.uiTextView.isScrollEnabled = false
         e.respondNeedsUpdate = { [weak self] in
             self?.context.tableView?.update()

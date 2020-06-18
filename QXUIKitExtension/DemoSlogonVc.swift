@@ -20,12 +20,29 @@ class DemoSlogonVc: QXViewController {
         }
         return e
     }()
+    
+    lazy var slogon1View: QXRunLogonView<String> = {
+        let e = QXRunLogonView<String>()
+        e.models = ["11111111", "222222222", "3333333333", "444444444"]
+        e.qxBackgroundColor = QXColor.yellow
+        e.respondModel = { str in
+            print(str)
+        }
+        return e
+    }()
+    
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "QXSlogonView"
         view.addSubview(slogonView)
-        slogonView.IN(view).CENTER.WIDTH(200).MAKE()
+        view.addSubview(slogon1View)
+
+        
+        slogonView.IN(view).CENTER.TOP(100).WIDTH(200).MAKE()
+        slogon1View.IN(view).CENTER.TOP(200).WIDTH(200).HEIGHT(30).MAKE()
+
     }
     
 }

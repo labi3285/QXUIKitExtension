@@ -83,6 +83,7 @@ extension String {
         return qxString(start: s, end: e)
     }
     public func qxString(start: Int, end: Int) -> String {
+        if count == 0 { return "" }
         var s = start
         var e = end
         if s < 0 { s = 0 }

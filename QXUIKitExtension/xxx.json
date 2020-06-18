@@ -1,0 +1,24 @@
+{
+  "Code": 200,
+  "Message": "登录成功！",
+  "Data": {
+    "DMSUserID": 1,
+    "LoginAccount": "admin",
+    "Name": "系统管理员",
+    "Email": "",
+    "Mobile": "",
+    "RegionId": "91,92",
+    "RegionName": "华北区,华南区",
+    "UserGroups": [
+      {
+        "Sys_Group_ID": 1,
+        "GroupName": "超级管理员"
+      },
+      {
+        "Sys_Group_ID": 2,
+        "GroupName": "招募"
+      }
+    ],
+    "Token": "20200603091030_FAA8390416CB467"
+  }
+}

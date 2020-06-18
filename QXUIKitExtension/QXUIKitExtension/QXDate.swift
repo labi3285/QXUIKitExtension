@@ -29,6 +29,10 @@ extension QXDate {
         case slash_date =           "yyyy/MM/dd"
         case slash12 =              "yyyy/MM/dd aa hh:mm:ss @AM @PM"
         
+        // compress
+        case compress24 =              "yyyyMMddHHmmss"
+        case compress_date =           "yyyyMMdd"
+        
         // dot
         case dot24 =              "yyyy.MM.dd HH:mm:ss"
         case dot_date =           "yyyy.MM.dd"
@@ -357,6 +361,20 @@ public struct QXDate: CustomStringConvertible {
     /// private
     private var _initNSDate: Date?
     
+}
+
+extension QXDate {
+    
+    public func add(timeInterval: TimeInterval) -> QXDate {
+        var date = nsDate
+        date.addTimeInterval(timeInterval)
+        return QXDate(date)
+    }
+    
+    public func add(days: TimeInterval) -> QXDate {
+        return add(timeInterval: 3600 * 24 * TimeInterval(days))
+    }
+        
 }
 
 

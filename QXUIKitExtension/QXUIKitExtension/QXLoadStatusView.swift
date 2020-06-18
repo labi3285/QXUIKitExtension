@@ -15,6 +15,14 @@ public enum QXLoadStatus {
     case empty(_ msg: String?)
 }
 
+public protocol QXLoadStatusProtocol {
+    func qxLoadStatusUpdate(_ status: QXLoadStatus)
+}
+
+public protocol QXGlobalDataLoadStatusProtocol {
+    func qxGlobalDataLoadStatusUpdate(_ status: QXLoadStatus, _ isReload: Bool)
+}
+
 public protocol QXLoadStatusViewProtocol {
     func qxLoadStatusViewUpdateStatus(_ status: QXLoadStatus)
     func qxLoadStatusViewRetryHandler(_ todo: (() -> Void)?)
@@ -109,7 +117,7 @@ open class QXContentLoadStatusView<Model>: QXView {
 }
 
 
-open class QXLoadStatusView: UIView {
+open class QXLoadStatusView: QXView {
     
     open var topBottomRatio: CGFloat = 1 / 2
         
@@ -196,8 +204,8 @@ open class QXLoadStatusView: UIView {
         return e
     }()
 
-    public override init(frame: CGRect) {
-        super.init(frame: frame)
+    public required override init() {
+        super.init()
         addSubview(stackView)
         self.isHidden = true
     }

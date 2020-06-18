@@ -20,7 +20,6 @@ class DemoSqliteVc: QXViewController {
 
         for i in 0...100 {
             DispatchQueue.global().async {
-                
                 DispatchQueue.main.async {
                     self.insert(i)
                 }
@@ -61,10 +60,11 @@ class DemoSqliteVc: QXViewController {
             sql += ");"
             try db.execute(sql)
             
-            sql = "SELECT * FROM 'student' WHERE id = '\(1)';"
+            sql = "SELECT * FROM 'student' WHERE id = '\(id)';"
             
-            let arr = try db.query(sql)
-            print(arr)
+            if let e = try db.query(sql).first {
+                print(e)
+            }
                         
         } catch {
             QXDebugPrint(error)

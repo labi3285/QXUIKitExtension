@@ -22,12 +22,12 @@ public enum QXTextFilter {
     /// 整数
     case integer(min: Int, max: Int)
     /// 浮点数
-    case float(min: Float, max: Float)
+    case float(min: Float, max: Float, dec: Int)
     /// 双精度
-    case double(min: Double, max: Double)
+    case double(min: Double, max: Double, dec: Int)
     
     /// 金额
-    case money(min: Double, max: Double)
+    case money(min: Double, max: Double, dec: Int)
     
     /// 手机号
     case phone
@@ -102,7 +102,7 @@ public enum QXTextFilter {
             var n = (text as NSString).integerValue
             n = min(max(n, _min), _max)
             return "\(n)"
-        case .float(min: let _min, max: let _max):
+        case .float(min: let _min, max: let _max, dec: let _dec):
             if text.hasSuffix(".") {
                 var t = text
                 t.removeLast()
@@ -110,6 +110,8 @@ public enum QXTextFilter {
                 n = min(Int(_max), max(Int(_min), n))
                 return "\(n)."
             } else if text.contains(".") {
+                let comps = text.components(separatedBy: ".")
+                let text = comps[0] + "." + comps[1].qxString(start: 0, end: max(_dec - 1, 0))
                 var n = (text as NSString).floatValue
                 n = min(max(n, _min), _max)
                 return "\(n)"
@@ -118,7 +120,7 @@ public enum QXTextFilter {
                 n = min(Int(_max), max(Int(_min), n))
                 return "\(n)"
             }
-        case .double(min: let _min, max: let _max):
+        case .double(min: let _min, max: let _max, dec: let _dec):
             if text.hasSuffix(".") {
                 var t = text
                 t.removeLast()
@@ -126,6 +128,8 @@ public enum QXTextFilter {
                 n = min(Int(_max), max(Int(_min), n))
                 return "\(n)."
             } else if text.contains(".") {
+                let comps = text.components(separatedBy: ".")
+                let text = comps[0] + "." + comps[1].qxString(start: 0, end: max(_dec - 1, 0))
                 var n = (text as NSString).doubleValue
                 n = min(max(n, _min), _max)
                 return "\(n)"
@@ -134,7 +138,7 @@ public enum QXTextFilter {
                 n = min(Int(_max), max(Int(_min), n))
                 return "\(n)"
             }
-        case .money(min: let _min, max: let _max):
+        case .money(min: let _min, max: let _max, dec: let _dec):
             if text.hasSuffix(".") {
                 var t = text
                 t.removeLast()
@@ -142,6 +146,8 @@ public enum QXTextFilter {
                 n = min(Int(_max), max(Int(_min), n))
                 return "\(n)."
             } else if text.contains(".") {
+                let comps = text.components(separatedBy: ".")
+                let text = comps[0] + "." + comps[1].qxString(start: 0, end: max(_dec - 1, 0))
                 var n = (text as NSString).doubleValue
                 n = min(max(n, _min), _max)
                 n = Double(Int(n * 100)) / 100
@@ -239,13 +245,13 @@ extension UITextField {
                 keyboardType = .default
             case .integer(min: _, max: _):
                 keyboardType = .decimalPad
-            case .double(min: _, max: _):
+            case .double(min: _, max: _, dec: _):
                 keyboardType = .decimalPad
-            case .float(min: _, max: _):
+            case .float(min: _, max: _, dec: _):
                 keyboardType = .decimalPad
             case .number(limit: _):
                 keyboardType = .numberPad
-            case .money(min: _, max: _):
+            case .money(min: _, max: _, dec: _):
                 keyboardType = .decimalPad
             case .phone:
                 keyboardType = .numberPad
@@ -274,13 +280,13 @@ extension UITextView {
                 keyboardType = .default
             case .integer(min: _, max: _):
                 keyboardType = .decimalPad
-            case .double(min: _, max: _):
+            case .double(min: _, max: _, dec: _):
                 keyboardType = .decimalPad
-            case .float(min: _, max: _):
+            case .float(min: _, max: _, dec: _):
                 keyboardType = .decimalPad
             case .number(limit: _):
                 keyboardType = .numberPad
-            case .money(min: _, max: _):
+            case .money(min: _, max: _, dec: _):
                 keyboardType = .decimalPad
             case .phone:
                 keyboardType = .numberPad

@@ -110,7 +110,7 @@ class DemoStackViewVc: QXViewController {
         super.viewDidLoad()
         title = "Stack"
         view.addSubview(stack)
-        stack.IN(view).CENTER.WIDTH(300).HEIGHT(100).MAKE()
+        stack.IN(view).CENTER.MAKE()
         stack.qxDebugRandomColor()
     }
     

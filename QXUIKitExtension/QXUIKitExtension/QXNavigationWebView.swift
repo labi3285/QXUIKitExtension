@@ -11,13 +11,14 @@ import UIKit
 open class QXNavigationWebView: QXWebView, QXWebViewDelegate {
     
     public var respondTitle: ((String?) -> Void)?
+    public var isNavigationBarShow: Bool = true
     
     public required init(_ config: QXWebViewConfig) {
         super.init(config)
         addSubview(loadStatusView)
         addSubview(progressView)
         addSubview(bottomView)
-        self.delegate = self
+        self._sys_delegate = self
     }
     public required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -28,7 +29,7 @@ open class QXNavigationWebView: QXWebView, QXWebViewDelegate {
         let rect = qxBounds.rectByReduce(padding)
         let progressH: CGFloat = 1.5
         var bottomH: CGFloat = 0
-        if wkWebView.canGoBack || wkWebView.canGoForward {
+        if isNavigationBarShow && (wkWebView.canGoBack || wkWebView.canGoForward) {
             bottomH = bottomView.natureContentSize().h
             bottomView.qxRect = rect.insideRect(.left(0), .right(0), .bottom(0), .height(bottomH))
         }
@@ -122,6 +123,9 @@ open class QXNavigationWebView: QXWebView, QXWebViewDelegate {
     open func qxWebViewUpdateNavigationInfo() {
         backButton.isEnabled = wkWebView.canGoBack
         forwardButton.isEnabled = wkWebView.canGoForward
+        if !isNavigationBarShow {
+            bottomView.isHidden = true
+        }
         qxSetNeedsLayout()
     }
     open func qxWebViewNavigationBegin() {

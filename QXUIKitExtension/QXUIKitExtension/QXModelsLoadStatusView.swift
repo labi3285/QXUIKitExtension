@@ -71,19 +71,17 @@ open class QXModelsLoadStatusView<Model>: QXView {
         loadModels(QXModelsLoadType.reload)
     }
     
-    /// 设置这个参数，直接展示
-    public var staticModels: [Model]? {
+    /// 自动设置models
+    open var models: [Model] = [] {
         didSet {
-            contentView.qxUpdateModels(staticModels ?? [])
+            contentView.qxUpdateModels(models)
         }
     }
     
     /// 自动设置models
-    open var models: [Model] = [] {
+    open var staticModels: [Model]? = [] {
         didSet {
-            if staticModels == nil {
-                contentView.qxUpdateModels(models)
-            }
+            contentView.qxUpdateStaticModels(staticModels)
         }
     }
     
@@ -108,14 +106,14 @@ open class QXModelsLoadStatusView<Model>: QXView {
     public var filter: QXFilter = QXFilter()
     public var isPageStartFromZero: Bool = true
 
-    public let loadStatusView: UIView & QXLoadStatusViewProtocol
+    public let loadStatusView: QXView & QXLoadStatusViewProtocol
     public let contentView: UIView & QXRefreshableViewProtocol
-    public required init(contentView: UIView & QXRefreshableViewProtocol, loadStatusView: UIView & QXLoadStatusViewProtocol) {
+    public required init(contentView: UIView & QXRefreshableViewProtocol, loadStatusView: QXView & QXLoadStatusViewProtocol) {
         self.contentView = contentView
         self.loadStatusView = loadStatusView
         super.init()
         self.addSubview(contentView)
-        contentView.qxAddSubviewToRefreshableView(loadStatusView)
+        contentView.qxUpdateGlobalDataLoadStatus(QXLoadStatus.succeed, loadStatusView, true)
         loadStatusView.qxLoadStatusViewRetryHandler { [weak self] in
             self?.reloadData()
         }
@@ -138,18 +136,15 @@ open class QXModelsLoadStatusView<Model>: QXView {
     /// 是否可以下拉刷新
     public var canRefresh: Bool = false {
         didSet {
-            if canRefresh {
-                contentView.qxSetRefreshHeader(refreshHeader)
-            } else {
-                contentView.qxSetRefreshHeader(nil)
-            }
+            contentView.qxSetRefreshHeader(canRefresh ? refreshHeader : nil)
         }
     }
     
     /// 是否可以上拉刷新
     public var canPage: Bool = false {
         didSet {
-            contentView.qxSetRefreshFooter(canPage ? refreshFooter : nil)
+            // auto
+            contentView.qxSetRefreshFooter(nil)
         }
     }
     
@@ -169,34 +164,50 @@ open class QXModelsLoadStatusView<Model>: QXView {
 
     public private(set) var modelsLoadStatus: QXModelsLoadStatus = .reload(.succeed) {
         didSet {
-            func updateStatic() {
-                loadStatusView.qxLoadStatusViewUpdateStatus(.succeed)
-                switch modelsLoadStatus {
-                case .reload(status: let s):
-                    refreshHeader.endRefreshing()
-                    refreshFooter.endRefreshing()
-                    refreshFooter.resetNoMoreData()
+            switch modelsLoadStatus {
+            case .reload(status: let s):
+                refreshHeader.endRefreshing()
+                refreshFooter.endRefreshing()
+                refreshFooter.resetNoMoreData()
+                loadStatusView.qxLoadStatusViewUpdateStatus(s)
+                contentView.qxUpdateGlobalDataLoadStatus(s, loadStatusView, true)
+                switch s {
+                case .loading:
+                    contentView.qxSetRefreshHeader(nil)
+                    contentView.qxSetRefreshFooter(nil)
+                case .empty(_), .failed(_):
+                    contentView.qxSetRefreshHeader(canRefresh ? refreshHeader : nil)
+                    contentView.qxSetRefreshFooter(nil)
+                case .succeed:
+                    contentView.qxSetRefreshHeader(canRefresh ? refreshHeader : nil)
+                    contentView.qxSetRefreshFooter(canPage ? refreshFooter : nil)
+                }
+            case .page(let s):
+                if models.count == 0 {
                     switch s {
-                    case .loading:
-                        contentView.qxSetRefreshHeader(nil)
+                    case .refreshing:
+                        loadStatusView.qxLoadStatusViewUpdateStatus(.loading)
+                        contentView.qxUpdateGlobalDataLoadStatus(.loading, loadStatusView, true)
+                        refreshHeader.beginRefreshing()
+                        refreshFooter.resetNoMoreData()
                         contentView.qxSetRefreshFooter(nil)
-                        showLoading(msg: loadStatusView.qxLoadStatusViewLoadingText())
-                    case .empty(_):
-                        contentView.qxSetRefreshHeader(canRefresh ? refreshHeader : nil)
-                        contentView.qxSetRefreshFooter(nil)
-                        hideLoading()
-                    case .failed(let err):
-                        contentView.qxSetRefreshHeader(canRefresh ? refreshHeader : nil)
-                        contentView.qxSetRefreshFooter(nil)
-                        hideLoading()
-                        showFailure(msg: err?.message ?? loadStatusView.qxLoadStatusViewDefaultErrorText() ?? "请求出错")
-                    case .succeed:
-                        contentView.qxSetRefreshHeader(canRefresh ? refreshHeader : nil)
+                    case .refreshOk:
+                        loadStatusView.qxLoadStatusViewUpdateStatus(.succeed)
+                        contentView.qxUpdateGlobalDataLoadStatus(.succeed, loadStatusView, true)
+                        refreshHeader.endRefreshing()
                         contentView.qxSetRefreshFooter(canPage ? refreshFooter : nil)
-                        hideLoading()
+                    case .refreshError(let err):
+                        loadStatusView.qxLoadStatusViewUpdateStatus(.failed(err))
+                        contentView.qxUpdateGlobalDataLoadStatus(.failed(err), loadStatusView, true)
+                        refreshHeader.endRefreshing()
+                        contentView.qxSetRefreshFooter(nil)
+                    default:
+                        QXDebugFatalError("no go here")
                     }
-                case .page(let s):
-                    hideLoading()
+                } else {
+                    loadStatusView.qxLoadStatusViewUpdateStatus(.succeed)
+                    contentView.qxUpdateGlobalDataLoadStatus(.succeed, loadStatusView, false)
+                    contentView.qxSetRefreshFooter(canPage ? refreshFooter : nil)
                     switch s {
                     case .refreshing:
                         refreshHeader.beginRefreshing()
@@ -206,7 +217,9 @@ open class QXModelsLoadStatusView<Model>: QXView {
                         refreshHeader.endRefreshing()
                         contentView.qxSetRefreshFooter(canPage ? refreshFooter : nil)
                     case .refreshError(let err):
-                        showFailure(msg: err?.message ?? loadStatusView.qxLoadStatusViewDefaultErrorText() ?? "请求出错")
+                        if let e = err?.message {
+                            showFailure(msg: e)
+                        }
                         refreshHeader.endRefreshing()
                         contentView.qxSetRefreshFooter(canPage ? refreshFooter : nil)
                     case .paging:
@@ -230,97 +243,11 @@ open class QXModelsLoadStatusView<Model>: QXView {
                 }
             }
             
-            func updateNormal() {
-                switch modelsLoadStatus {
-                case .reload(status: let s):
-                    refreshHeader.endRefreshing()
-                    refreshFooter.endRefreshing()
-                    refreshFooter.resetNoMoreData()
-                    loadStatusView.qxLoadStatusViewUpdateStatus(s)
-                    switch s {
-                    case .loading:
-                        contentView.qxSetRefreshHeader(nil)
-                        contentView.qxSetRefreshFooter(nil)
-                    case .empty(_), .failed(_):
-                        contentView.qxSetRefreshHeader(canRefresh ? refreshHeader : nil)
-                        contentView.qxSetRefreshFooter(nil)
-                    case .succeed:
-                        contentView.qxSetRefreshHeader(canRefresh ? refreshHeader : nil)
-                        contentView.qxSetRefreshFooter(canPage ? refreshFooter : nil)
-                    }
-                case .page(let s):
-                    if models.count == 0 {
-                        switch s {
-                        case .refreshing:
-                            loadStatusView.qxLoadStatusViewUpdateStatus(.loading)
-                            refreshHeader.beginRefreshing()
-                            refreshFooter.resetNoMoreData()
-                            contentView.qxSetRefreshFooter(nil)
-                        case .refreshOk:
-                            loadStatusView.qxLoadStatusViewUpdateStatus(.succeed)
-                            refreshHeader.endRefreshing()
-                            contentView.qxSetRefreshFooter(canPage ? refreshFooter : nil)
-                        case .refreshError(let err):
-                            loadStatusView.qxLoadStatusViewUpdateStatus(.failed(err))
-                            refreshHeader.endRefreshing()
-                            contentView.qxSetRefreshFooter(nil)
-                        default:
-                            QXDebugFatalError("no go here")
-                        }
-                    } else {
-                        loadStatusView.qxLoadStatusViewUpdateStatus(.succeed)
-                        contentView.qxSetRefreshFooter(canPage ? refreshFooter : nil)
-                        switch s {
-                        case .refreshing:
-                            if models.count == 0 {
-                                loadStatusView.qxLoadStatusViewUpdateStatus(.loading)
-                            } else {
-                                loadStatusView.qxLoadStatusViewUpdateStatus(.succeed)
-                            }
-                            refreshHeader.beginRefreshing()
-                            refreshFooter.resetNoMoreData()
-                            contentView.qxSetRefreshFooter(nil)
-                        case .refreshOk:
-                            refreshHeader.endRefreshing()
-                            contentView.qxSetRefreshFooter(canPage ? refreshFooter : nil)
-                        case .refreshError(let err):
-                            if let e = err?.message {
-                                showFailure(msg: e)
-                            }
-                            refreshHeader.endRefreshing()
-                            contentView.qxSetRefreshFooter(canPage ? refreshFooter : nil)
-                        case .paging:
-                            refreshFooter.beginRefreshing()
-                            contentView.qxSetRefreshHeader(nil)
-                        case .pageError(let err):
-                            showFailure(msg: err?.message ?? loadStatusView.qxLoadStatusViewDefaultErrorText() ?? "请求出错")
-                            refreshFooter.endRefreshing()
-                            contentView.qxSetRefreshHeader(canRefresh ? refreshHeader : nil)
-                        case .pageOk:
-                            refreshFooter.endRefreshing()
-                            contentView.qxSetRefreshHeader(canRefresh ? refreshHeader : nil)
-                        case .pageEmpty(msg: _):
-                            refreshFooter.endRefreshingWithNoMoreData()
-                            contentView.qxSetRefreshHeader(canRefresh ? refreshHeader : nil)
-                        case .pageNoMore(_):
-                            refreshHeader.endRefreshing()
-                            refreshFooter.endRefreshingWithNoMoreData()
-                            contentView.qxSetRefreshHeader(canRefresh ? refreshHeader : nil)
-                        }
-                    }
-                }
-            }
-            
-            if staticModels == nil {
-                updateNormal()
-            } else {
-                updateStatic()
-            }
-
         }
     }
 
     open func headerStartRefresh() {
+        _originPage = filter.page
         filter.page = isPageStartFromZero ? 0 : 1
         modelsLoadStatus = .page(.refreshing)
         loadModels(.refresh)
@@ -405,6 +332,9 @@ open class QXModelsLoadStatusView<Model>: QXView {
     
     /// 分页报错处理的界面更新
     open func onLoadModelsFailed(_ err: QXError?) {
+        if let e = _originPage {
+            filter.page = e
+        }
         let statusBefore = modelsLoadStatus
         switch statusBefore {
         case .reload(_):
@@ -420,6 +350,7 @@ open class QXModelsLoadStatusView<Model>: QXView {
             }
         }
     }
+    private var _originPage: Int?
 
 }
 

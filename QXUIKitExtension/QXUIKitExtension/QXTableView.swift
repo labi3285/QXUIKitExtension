@@ -138,66 +138,126 @@ open class QXTableView: QXView {
         sections = ss
         uiTableView.reloadData()
     }
-        
-    open var sections: [QXTableViewSection] = [] {
-        didSet {
-            _cacheFlexRatioTotal = 0
-            _cacheTotalFlexSpace = 0
-            var ss: [QXTableViewSection] = []
-            for s in sections {
-                if s.isDisplay {
-                    var header: Any?
-                    if let e = s.header {
-                        if let e = e as? QXStaticHeaderFooterView {
-                            if e.isDisplay {
-                                header = e
-                            }
-                        } else {
-                            if let c = e as? QXFlexSpace {
-                                _cacheFlexRatioTotal += c.ratio
-                            }
-                            header = e
-                        }
-                    }
-                    var ms: [Any] = []
-                    for c in s.models {
-                        if let c = c as? QXStaticCell {
-                            if c.isDisplay {
-                                ms.append(c)
-                            }
-                        } else {
-                            if let c = c as? QXFlexSpace {
-                                _cacheFlexRatioTotal += c.ratio
-                            }
-                            ms.append(c)
-                        }
-                    }
-                    var footer: Any?
-                    if let e = s.footer {
-                        if let e = e as? QXStaticHeaderFooterView {
-                            if e.isDisplay {
-                                footer = e
-                            }
-                        } else {
-                            if let c = e as? QXFlexSpace {
-                                _cacheFlexRatioTotal += c.ratio
-                            }
-                            footer = e
-                        }
-                    }
-                    let s = QXTableViewSection(ms, header, footer)
-                    ss.append(s)
-                }
-            }
-            _cacheSections = ss
-            if _cacheFlexRatioTotal > 0 {
-                _cacheTotalFlexSpace = uiTableView.bounds.height - uiTableViewSize().h
-                if _cacheTotalFlexSpace <= 0 {
-                    _cacheTotalFlexSpace = 0
-                }
-            }
+          
+    open var models: [Any] {
+        set {
+            sections = [ QXTableViewSection(newValue) ]
+        }
+        get {
+            return sections.first?.models ?? []
         }
     }
+    open var sections: [QXTableViewSection] = [] {
+        didSet {
+            _updateModelsForShow()
+        }
+    }
+    
+    open var staticModels: [Any]? {
+        set {
+            if let ms = newValue {
+                staticSections = [ QXTableViewSection(ms) ]
+            } else {
+                staticSections = nil
+            }
+        }
+        get {
+            return staticSections?.first?.models
+        }
+    }
+    
+    /**
+     * 这个参数设置的模型总是会显示在sections模型的前面
+     */
+    open var staticSections: [QXTableViewSection]? {
+        didSet {
+            _updateModelsForShow()
+        }
+    }
+
+    /**
+     * 当这个参数为true，如果sections为空，noDataLoadStatusCell总是显示
+     * 当这个参数为false，只要 staticSctions中的某个cell或headerFooter遵循QXGlobalDataLoadStatusProtocol，则noDataLoadStatusCell不会显示
+     */
+    public var isNoDataLoadStatusCellAlwaysShowWhenNoData: Bool = false
+    /**
+     * 当这个参数为true，如果sections为空，QXMessageView以阻断交互的方式显示
+     * 当这个参数为false，如果sections为空，当界面上没有展示loadStatus状态的时候会以阻断交互的方式显示QXMessageView
+     */
+    public var isQXMessageViewAlwaysShowForLoadStatusWhenNoData: Bool = false
+    public var isQXMessageViewForLoadingWhenNoDataEnabled: Bool = true
+    public var isQXMessageViewForErrorWhenNoDataEnabled: Bool = true
+
+    open var noDataLoadStatusCell: QXTableViewPlaceHolderCell?
+    
+    private func _updateModelsForShow() {
+        _cacheFlexRatioTotal = 0
+        _cacheTotalFlexSpace = 0
+        var ss: [QXTableViewSection] = []
+        var arr: [QXTableViewSection] = []
+        if let staticSections = staticSections {
+            arr += staticSections
+        }
+        if sections.count > 0 {
+            arr += sections
+        } else if let c = noDataLoadStatusCell, isNoDataLoadStatusCellAlwaysShowWhenNoData {
+            arr += [QXTableViewSection([ c ], nil, nil)]
+        }
+        for s in arr {
+            if s.isDisplay {
+                var header: Any?
+                if let e = s.header {
+                    if let e = e as? QXStaticHeaderFooterView {
+                        if e.isDisplay {
+                            header = e
+                        }
+                    } else {
+                        if let c = e as? QXFlexSpace {
+                            _cacheFlexRatioTotal += c.ratio
+                        }
+                        header = e
+                    }
+                }
+                var ms: [Any] = []
+                for c in s.models {
+                    if let c = c as? QXStaticCell {
+                        if c.isDisplay {
+                            ms.append(c)
+                        }
+                    } else {
+                        if let c = c as? QXFlexSpace {
+                            _cacheFlexRatioTotal += c.ratio
+                        }
+                        ms.append(c)
+                    }
+                }
+                var footer: Any?
+                if let e = s.footer {
+                    if let e = e as? QXStaticHeaderFooterView {
+                        if e.isDisplay {
+                            footer = e
+                        }
+                    } else {
+                        if let c = e as? QXFlexSpace {
+                            _cacheFlexRatioTotal += c.ratio
+                        }
+                        footer = e
+                    }
+                }
+                let s = QXTableViewSection(ms, header, footer)
+                ss.append(s)
+            }
+        }
+        _cacheSections = ss
+        if _cacheFlexRatioTotal > 0 {
+            _cacheTotalFlexSpace = uiTableView.bounds.height - uiTableViewSize().h
+            if _cacheTotalFlexSpace <= 0 {
+                _cacheTotalFlexSpace = 0
+            }
+        }
+        uiTableView.reloadData()
+    }
+    
     fileprivate var _cacheSections: [QXTableViewSection] = []
     fileprivate var _cacheSectionTitles: [QXTableViewSection] = []
     fileprivate var _cacheFlexRatioTotal: CGFloat = 0
@@ -309,10 +369,6 @@ open class QXTableView: QXView {
         uiTableView.delegate = self
         uiTableView.dataSource = self
         setNeedsLayout()
-        for e in _uiTableViewAttendViews {
-            uiTableView.qxCheckOrAddSubview(e)
-            e.frame = uiTableView.bounds
-        }
         if let e = adapter {
             adapter = e
         }
@@ -372,6 +428,12 @@ open class QXTableView: QXView {
                 }
             }
         }
+        if let e = headView {
+            h += e.frame.height
+        }
+        if let e = footView {
+            h += e.frame.height
+        }
         return QXSize(uiTableView.frame.width, h)
     }
     
@@ -419,23 +481,27 @@ open class QXTableView: QXView {
         let ms = _cacheSections[indexPath.section].models
         let m = ms[indexPath.row]
         let ctx = QXTableViewCell.Context(tableView: self, indexPath: indexPath, givenWidth: uiTableView.contentSize.width - uiTableView.contentInset.left - uiTableView.contentInset.right, isFirstCellInSection: indexPath.row == 0, isLastCellInSection: indexPath.row == ms.count - 1, isSortMode: isSortMode)
+        var h: CGFloat?
         if let e = m as? QXStaticCell {
             if !e.isDisplay {
-                return 0
+                h = 0
             }
             if let e = e.fixHeight {
-                return e
+                h = e
             } else if let e = type(of: e).height(m, ctx) {
-                return e
+                h = e
             }
         } else if let e = adapter?.cellClass(m) {
             if let e = e.height(m, ctx) {
-                return e
+                h = e
             }
         } else if let e = m as? QXSpace {
-            return e.h
+            h = e.h
         } else if let e = m as? QXFlexSpace {
-            return _cacheTotalFlexSpace * e.ratio / _cacheFlexRatioTotal
+            h = _cacheTotalFlexSpace * e.ratio / _cacheFlexRatioTotal
+        }
+        if let h = h {
+            return CGFloat(Int(h))
         }
         return nil
     }
@@ -519,42 +585,48 @@ open class QXTableView: QXView {
     open func headerViewHeight(for section: Int) -> CGFloat? {
         let m = _cacheSections[section].header
         let ctx = QXTableViewHeaderFooterView.Context(tableView: self, section: section, givenWidth: uiTableView.contentSize.width - uiTableView.contentInset.left - uiTableView.contentInset.right, isFirstSection: section == 0, isLastSection: section == _cacheSections.count - 1)
+        var h: CGFloat?
         if let e = m as? QXStaticHeaderFooterView {
             if let e = e.fixHeight {
-                return e
+                h = e
             } else if let e = type(of: e).height(m, ctx) {
-                return e
+                h = e
             }
         } else if let e = adapter?.headerViewClass(m) {
             if let e = e.height(m, ctx) {
-                return e
+                h = e
             }
         } else if let e = m as? QXSpace {
-            return e.h
+            h = e.h
+        }
+        if let h = h {
+            return CGFloat(Int(h))
         }
         return sectionHeaderSpace
     }
     open func footerViewHeight(for section: Int) -> CGFloat? {
         let m = _cacheSections[section].footer
         let ctx = QXTableViewHeaderFooterView.Context(tableView: self, section: section, givenWidth: uiTableView.contentSize.width - uiTableView.contentInset.left - uiTableView.contentInset.right, isFirstSection: section == 0, isLastSection: section == _cacheSections.count - 1)
+        var h: CGFloat?
         if let e = m as? QXStaticHeaderFooterView {
             if let e = e.fixHeight {
-                return e
+                h = e
             } else if let e = type(of: e).height(m, ctx) {
-                return e
+                h = e
             }
         } else if let e = adapter?.footerViewClass(m) {
             if let e = e.height(m, ctx) {
-                return e
+                h = e
             }
         } else if let e = m as? QXSpace {
-            return e.h
+            h = e.h
+        }
+        if let h = h {
+            return CGFloat(Int(h))
         }
         return sectionFooterSpace
     }
     
-    fileprivate var _uiTableViewAttendViews: [UIView] = []
-
 }
 extension QXTableView: UITableViewDelegate, UITableViewDataSource {
         
@@ -684,7 +756,6 @@ extension QXTableView: UITableViewDelegate, UITableViewDataSource {
         return false
     }
     
-    
     open func scrollViewDidScroll(_ scrollView: UIScrollView) {
         scrollDelegate?.scrollViewDidScroll?(scrollView)
     }
@@ -811,9 +882,69 @@ extension QXTableView {
 }
 
 extension QXTableView: QXRefreshableViewProtocol {
-    public func qxAddSubviewToRefreshableView(_ view: UIView) {
-        uiTableView.addSubview(view)
-        _uiTableViewAttendViews.append(view)
+    
+    public func qxUpdateGlobalDataLoadStatus(_ loadStatus: QXLoadStatus, _ defaultLoadStatusView: QXView & QXLoadStatusViewProtocol, _ isReload: Bool) {
+        if let sv = defaultLoadStatusView.superview, let c = noDataLoadStatusCell {
+            if sv === c {
+            } else {
+                noDataLoadStatusCell = QXTableViewPlaceHolderCell(view: defaultLoadStatusView)
+                reloadData()
+            }
+        } else {
+            noDataLoadStatusCell = QXTableViewPlaceHolderCell(view: defaultLoadStatusView)
+        }
+        var isThereLoadStatusShow: Bool = false
+        if let ss = staticSections {
+            for e in ss {
+                var isThereModels: Bool = false
+                for e in sections {
+                    if e.header != nil {
+                        isThereModels = true
+                        break
+                    }
+                    if e.models.count > 0 {
+                        isThereModels = true
+                        break
+                    }
+                    if e.footer != nil {
+                        isThereModels = true
+                        break
+                    }
+                }
+                if let v = e.header as? QXStaticHeaderFooterView & QXGlobalDataLoadStatusProtocol {
+                    v.qxGlobalDataLoadStatusUpdate(loadStatus, isReload && !isThereModels)
+                    isThereLoadStatusShow = true
+                }
+                if let v = e.footer as? QXStaticHeaderFooterView & QXGlobalDataLoadStatusProtocol {
+                    v.qxGlobalDataLoadStatusUpdate(loadStatus, isReload && !isThereModels)
+                    isThereLoadStatusShow = true
+                }
+                for c in e.models {
+                    if let c = c as? QXStaticCell & QXGlobalDataLoadStatusProtocol {
+                        c.qxGlobalDataLoadStatusUpdate(loadStatus, isReload && !isThereModels)
+                        isThereLoadStatusShow = true
+                    }
+                }
+            }
+        }
+        if isNoDataLoadStatusCellAlwaysShowWhenNoData {
+            isThereLoadStatusShow = true
+        }
+        
+        if !isThereLoadStatusShow || isQXMessageViewAlwaysShowForLoadStatusWhenNoData {
+            switch loadStatus {
+            case .loading:
+                if isQXMessageViewForLoadingWhenNoDataEnabled { showLoading(msg: nil) }
+            case .succeed:
+                if isQXMessageViewForLoadingWhenNoDataEnabled { hideLoading() }
+            case .failed(let err):
+                if isQXMessageViewForLoadingWhenNoDataEnabled { hideLoading() }
+                if isQXMessageViewForErrorWhenNoDataEnabled { showFailure(msg: err?.message ?? "错误") }
+            case .empty(_):
+                if isQXMessageViewForLoadingWhenNoDataEnabled { hideLoading() }
+            }
+        }
+        reloadData()
     }
     public func qxRefreshableViewFrame() -> CGRect {
         return uiTableView.frame
@@ -834,13 +965,25 @@ extension QXTableView: QXRefreshableViewProtocol {
         reloadData()
     }
     public func qxUpdateModels(_ models: [Any]) {
-        if let e = models as? [QXTableViewSection] {
-            self.sections = e
+        self.sections = _modelsToSections(models)
+        reloadData()
+    }
+    public func qxUpdateStaticModels(_ models: [Any]?) {
+        if let e = models {
+            self.staticSections = _modelsToSections(e)
         } else {
-            let section = QXTableViewSection(models, nil, nil)
-            self.sections = [section]
+            self.staticSections = nil
         }
         reloadData()
+    }
+    
+    private func _modelsToSections(_ models: [Any]) -> [QXTableViewSection] {
+        if let arr = models as? [QXTableViewSection] {
+            return arr
+        } else {
+            let section = QXTableViewSection(models)
+            return [section]
+        }
     }
 }
 
@@ -903,7 +1046,7 @@ open class QXTableViewCell: UITableViewCell {
     open override var description: String {
         return "\(type(of: self))\(self.frame)"
     }
-    
+        
 }
 
 open class QXTableViewHeaderFooterView: UITableViewHeaderFooterView {
@@ -1065,6 +1208,30 @@ open class QXTableViewDebugHeaderFooterView: QXTableViewHeaderFooterView {
     }
 }
 
+open class QXTableViewPlaceHolderCell: QXStaticCell {
+    
+    open override func height(_ model: Any?) -> CGFloat? {
+        return view.natureSize.h
+    }
+    
+    public let view: QXView
+    public required init(view: QXView) {
+        self.view = view
+        super.init()
+        contentView.addSubview(view)
+        view.IN(contentView).LEFT.RIGHT.TOP.BOTTOM.MAKE()
+        backButton.isDisplay = false
+    }
+    public required init(_ reuseId: String) {
+        fatalError("init(_:) has not been implemented")
+    }
+    public required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    public required init() {
+        fatalError("init() has not been implemented")
+    }
+}
 
 
 

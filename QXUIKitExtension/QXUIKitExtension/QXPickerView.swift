@@ -66,7 +66,6 @@ open class QXPickersView: QXStackView {
             }
         }
     }
-
         
     public let pickerViews: [QXPickerView]
 
@@ -90,7 +89,7 @@ open class QXPickersView: QXStackView {
         self.isLazyMode = false
         self.isCleanShow = true
         super.init()
-        qxBackgroundColor = QXColor.dynamicBackgroundKeyboard
+        qxBackgroundColor = QXColor.clear
         viewMargin = 0
         alignmentX = .center
         alignmentY = .center

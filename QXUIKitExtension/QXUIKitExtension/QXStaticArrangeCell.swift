@@ -26,7 +26,7 @@ open class QXStaticArrangeCell: QXStaticCell {
         super.init()
         contentView.addSubview(arrangeView)
         arrangeView.IN(contentView).LEFT.TOP.RIGHT.BOTTOM.MAKE()
-        backButton.isDisplay = true
+        backButton.isDisplay = false
         fixHeight = nil
     }
     public required init?(coder aDecoder: NSCoder) {

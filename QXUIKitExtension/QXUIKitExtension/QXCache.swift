@@ -39,22 +39,22 @@ public class QXCache {
         try db.execute(sql)
     }
     
-    public func setModel<T: QXModelProtocol>(_ key: String, _ value: T?) throws {
+    public func setModel<T: QXModelProtocol>(_ key: String, _ value: T?, memory: Bool = false) throws {
         do {
             if let e = value {
                 let data = try JSONSerialization.data(withJSONObject: e.toDictionary(), options: JSONSerialization.WritingOptions(rawValue: 0))
-                try setData(key, data, memory: true)
+                try setData(key, data, memory: memory)
             } else {
-                try setData(key, nil, memory: true)
+                try setData(key, nil, memory: memory)
             }
         } catch {
             throw error
         }
     }
-    
-    public func getModel<T: QXModelProtocol>(_ key: String, _ type: T.Type) throws -> T? {
+
+    public func getModel<T: QXModelProtocol>(_ key: String, _ type: T.Type, memory: Bool = false) throws -> T? {
         do {
-            if let data = try getData(key, memory: true) {
+            if let data = try getData(key, memory: memory) {
                 if let dic = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? [String: Any] {
                     let e = T.init(dictionary: dic)
                     return e
@@ -69,6 +69,20 @@ public class QXCache {
         }
     }
     
+    public func setBool(_ key: String, _ value: Bool?) throws {
+        if let e = value {
+            try setInt(key, e ? 1 : 0)
+        } else {
+            try setInt(key, nil)
+        }
+    }
+    public func getBool(_ key: String) throws -> Bool? {
+        if let e = try getInt(key) {
+            return e != 0
+        }
+        return nil
+    }
+        
     public func setInt(_ key: String, _ value: Int?) throws {
         if let e = value {
             try db.execute("REPLACE INTO 'table_int' (key, value) VALUES ( '\(key)', '\(e)' );")

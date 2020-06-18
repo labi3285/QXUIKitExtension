@@ -209,9 +209,9 @@ open class QXViewController: UIViewController, UINavigationBarDelegate {
         { didSet { if _isNavigationBarInited { updateNavigationBar(false) } } }
     
     public private(set) weak var viewControllerBefore: QXViewController?
-        
-    public func push(_ vc: QXViewController, animated: Bool = true, file: StaticString = #file, line: UInt = #line) {
-        if let nav = navigationController {
+            
+    open func push(_ vc: QXViewController, animated: Bool = true, file: StaticString = #file, line: UInt = #line) {
+        if let nav = qxNavigationController {
             var next: UIViewController = self
             while let e = next.parent, (!(e is UINavigationController) && !(e is UITabBarController)) {
                 next = next.parent!
@@ -247,45 +247,45 @@ open class QXViewController: UIViewController, UINavigationBarDelegate {
             QXDebugFatalError("vc is not in UINavigationController", file: file, line: line)
         }
     }
-    public func pop(animated: Bool = true, file: StaticString = #file, line: UInt = #line) {
-        if let nav = navigationController {
+    open func pop(animated: Bool = true, file: StaticString = #file, line: UInt = #line) {
+        if let nav = qxNavigationController {
             nav.popViewController(animated: animated)
         } else {
             QXDebugFatalError("vc is not in UINavigationController", file: file, line: line)
         }
     }
-    public func popTo(_ vc: QXViewController, animated: Bool = true, file: StaticString = #file, line: UInt = #line) {
-        if let nav = navigationController {
+    open func popTo(_ vc: QXViewController, animated: Bool = true, file: StaticString = #file, line: UInt = #line) {
+        if let nav = qxNavigationController {
             nav.popToViewController(vc, animated: animated)
         } else {
             QXDebugFatalError("vc is not in UINavigationController", file: file, line: line)
         }
     }
-    public func popToRoot(animated: Bool = true, file: StaticString = #file, line: UInt = #line) {
-        if let nav = navigationController {
+    open func popToRoot(animated: Bool = true, file: StaticString = #file, line: UInt = #line) {
+        if let nav = qxNavigationController {
             nav.popToRootViewController(animated: animated)
         } else {
             QXDebugFatalError("vc is not in UINavigationController", file: file, line: line)
         }
     }
     
-    public func present(_ vc: QXNavigationController, animated: Bool = true) {
+    open func present(_ vc: QXNavigationController, animated: Bool = true) {
         super.present(vc, animated: animated)
     }
-    public func present(_ vc: UIViewController, animated: Bool = true) {
+    open func present(_ vc: UIViewController, animated: Bool = true) {
         super.present(vc, animated: animated)
     }
-    public func dismiss() {
+    open func dismiss() {
         super.dismiss(animated: true, completion: nil)
     }
-    public func dismiss(animated: Bool) {
+    open func dismiss(animated: Bool) {
         super.dismiss(animated: animated, completion: nil)
     }
-    public func dismiss(completion: @escaping (() -> Void)) {
+    open func dismiss(completion: @escaping (() -> Void)) {
         super.dismiss(animated: true, completion: completion)
     }
     
-    public func updateNavigationBar(_ animated: Bool) {
+    open func updateNavigationBar(_ animated: Bool) {
         if let vc = parent {
             if !vc.isKind(of: UINavigationController.self) && !vc.isKind(of: UITabBarController.self) {
                 return
@@ -409,6 +409,16 @@ open class QXViewController: UIViewController, UINavigationBarDelegate {
 }
 
 extension UIViewController {
+    
+    public var qxNavigationController: UINavigationController? {
+        var next: UIViewController? = self
+        var nav: UINavigationController? = next?.navigationController
+        while nav == nil && next != nil {
+            next = next?.parent
+            nav = next?.navigationController
+        }
+        return nav
+    }
     
     public var qxTopViewController: UIViewController? {
         if let vc = self as? UITabBarController {
