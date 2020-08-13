@@ -45,6 +45,19 @@ open class QXTextView: QXView, UITextViewDelegate {
         }
     }
     
+    public var alignmentX: QXAlignmentX = .left {
+        didSet {
+            switch alignmentX {
+            case .left:
+                uiTextView.textAlignment = .left
+            case .center:
+                uiTextView.textAlignment = .center
+            case .right:
+                uiTextView.textAlignment = .right
+            }
+        }
+    }
+    
     open var placeHolder: String = "" {
         didSet {
             if self.responds(to: Selector(("setToolbarPlaceholder:"))) {
@@ -108,7 +121,16 @@ open class QXTextView: QXView, UITextViewDelegate {
         super.layoutSubviews()
         uiTextView.qxRect = qxBounds.rectByReduce(padding)
         let wh = placeHolderLabel.natureContentSize()
-        placeHolderLabel.qxRect = QXRect(wh)
+        switch alignmentX {
+        case .left:
+            placeHolderLabel.qxRect = uiTextView.qxBounds.insideRect(.left(0), .top(0), .size(wh))
+        case .center:
+            let x = (uiTextView.qxRect.size.w - wh.w) / 2
+            placeHolderLabel.qxRect = uiTextView.qxBounds.insideRect(.left(x), .top(0), .size(wh))
+        case .right:
+            let x = uiTextView.qxRect.size.w - wh.w
+            placeHolderLabel.qxRect = uiTextView.qxBounds.insideRect(.left(x), .top(0), .size(wh))
+        }
     }
 
     public var hasSelectRange: Bool {
@@ -130,11 +152,13 @@ open class QXTextView: QXView, UITextViewDelegate {
     private var _lastText: String = ""
     public func textViewDidChange(_ textView: UITextView) {
         let newText = textView.text ?? ""
-        if !hasSelectRange, newText.count > _lastText.count {
-            if let filter = filter {
-                let _text = filter.filte(uiTextView.text ?? "")
-                if _text != text {
-                    text = _text
+        if !hasSelectRange {
+            if newText.count > _lastText.count {
+                if let filter = filter {
+                    let _text = filter.filte(uiTextView.text ?? "")
+                    if _text != text {
+                        text = _text
+                    }
                 }
             }
             respondTextChange?(text, {

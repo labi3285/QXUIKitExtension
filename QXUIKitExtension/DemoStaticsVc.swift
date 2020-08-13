@@ -9,24 +9,25 @@
 import UIKit
 
 extension QXStaticCardCell: QXGlobalDataLoadStatusProtocol {
-    
+
     public func qxGlobalDataLoadStatusUpdate(_ status: QXLoadStatus, _ isReload: Bool) {
-        showLoading(msg: "xxx")
-        switch status {
-        case .loading:
-            hideLoading()
-            showLoading(msg: nil)
-        case .failed(let err):
-            hideLoading()
-            showFailure(msg: err?.message ?? "错误")
-        case .empty(let msg):
-            hideLoading()
-            showFailure(msg: msg ?? "为空")
-        case .succeed:
-            hideLoading()
+        if isReload {
+            switch status {
+            case .loading:
+                hideLoading()
+                showLoading(msg: nil)
+            case .failed(let err):
+                hideLoading()
+                showFailure(msg: err?.message ?? "错误")
+            case .empty(let msg):
+                hideLoading()
+                showFailure(msg: msg ?? "为空")
+            case .succeed:
+                hideLoading()
+            }
         }
     }
-    
+
 }
 
 class DemoStaticsVc: QXTableViewController<Any> {
@@ -87,11 +88,16 @@ class DemoStaticsVc: QXTableViewController<Any> {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Statics"
-        tableView.isQXMessageViewAlwaysShowForLoadStatusWhenNoData = true
-        tableView.isQXMessageViewForLoadingWhenNoDataEnabled = true
-        tableView.staticSections = [ section ]
         
+//        tableView.isDefaultLoadStatusCellEnabled = true
+        
+//        contentView.isQXMessageViewAlwaysShowForLoadStatusWhenNoData = true
+//        contentView.isQXMessageViewForLoadingWhenNoDataEnabled = true
+        
+        contentView.staticModels = [ section ]
         contentView.canRefresh = true
+        
+        tableView.isDefaultLoadStatusCellEnabled = false
     }
     
     override func didSetup() {

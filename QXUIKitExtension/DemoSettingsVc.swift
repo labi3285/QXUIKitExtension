@@ -72,6 +72,7 @@ class DemoSettingsVc: QXTableViewController<Any> {
     }()
     final lazy var textViewCell: QXSettingTextViewCell = {
         let e = QXSettingTextViewCell()
+        e.textView.alignmentX = .left
         e.textView.placeHolder = "输入内容"
         return e
     }()

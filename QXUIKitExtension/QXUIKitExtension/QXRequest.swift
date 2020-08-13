@@ -88,6 +88,12 @@ open class QXRequest {
         let mineType: String
         let name: String
         let suffix: String
+        public init(data: Data, mineType: String, name: String, suffix: String) {
+            self.data = data
+            self.mineType = mineType
+            self.name = name
+            self.suffix = suffix
+        }
     }
         
     public enum Respond<T> {
@@ -101,7 +107,7 @@ open class QXRequest {
 
     public static let globalApiManager: Alamofire.SessionManager = {
         let cfg = URLSessionConfiguration.default
-        cfg.timeoutIntervalForRequest = 10
+        cfg.timeoutIntervalForRequest = 30
         cfg.urlCredentialStorage = nil
         let e = Alamofire.SessionManager(configuration: cfg)
         return e
@@ -223,13 +229,27 @@ open class QXRequest {
                 if let e = response.result.value {
                     done(.succeed(e))
                 } else {
+                    var errMsg: String?
+                    var errStatus: Int?
+                    if let data = response.data {
+                        if let dic = try? JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? [String: Any] {
+                            if let msg = dic["message"] as? String {
+                                errMsg = msg
+                                errStatus = dic["status"] as? Int
+                            }
+                        }
+                    }
                     var err: QXError
-                    if let e = response.error as? AFError {
-                        err = e.toQXError()
-                    } else if let e = response.error as NSError?  {
-                        err = QXError(e.code, "网络错误")
+                    if let e = errMsg {
+                        err = QXError(errStatus ?? -1, e)
                     } else {
-                        err = QXError.unknown
+                        if let e = response.error as? AFError {
+                            err = e.toQXError()
+                        } else if let e = response.error as NSError?  {
+                            err = QXError(e.code, "网络错误")
+                        } else {
+                            err = QXError.unknown
+                        }
                     }
                     err.info = response.data
                     done(.failed(err))

@@ -268,11 +268,13 @@ open class QXTextField: QXView, UITextFieldDelegate {
     private var _lastText: String = ""
     @objc func textChange() {
         let newText = uiTextField.text ?? ""
-        if !hasSelectRange, newText.count > _lastText.count {
-            if let filter = filter {
-                let _text = filter.filte(uiTextField.text ?? "")
-                if _text != text {
-                    text = _text
+        if !hasSelectRange {
+            if newText.count > _lastText.count {
+                if let filter = filter {
+                    let _text = filter.filte(uiTextField.text ?? "")
+                    if _text != text {
+                        text = _text
+                    }
                 }
             }
             respondTextChange?(text, {

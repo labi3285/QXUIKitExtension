@@ -247,13 +247,14 @@ open class QXRunLogonView<Model>: QXButton {
         if models.count == 0 {
             return
         } else if models.count == 2 {
+            _currentIndex = 0
             if let e = models.first {
                 uiLabel.qxRichTexts = modelToQXRichTextsParser(e)
             }
         } else {
-            if _currentIndex == models.count - 1 {
-                _currentIndex = -1
-                uiLabel.qxRichTexts = modelToQXRichTextsParser(models.last!)
+            if _currentIndex > models.count - 1 {
+                _currentIndex = 0
+                uiLabel.qxRichTexts = modelToQXRichTextsParser(models.first!)
             } else {
                 uiLabel.qxRichTexts = modelToQXRichTextsParser(models[_currentIndex])
             }

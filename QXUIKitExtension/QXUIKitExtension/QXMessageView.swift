@@ -21,12 +21,15 @@ extension UIViewController {
         }
     }
     open func showSuccess(msg: String, complete: (() -> Void)? = nil) {
+        hideLoading()
         QXMessageView.demoSuccess(msg: msg, superview: view, complete: complete)
     }
     open func showFailure(msg: String, complete: (() -> Void)? = nil) {
+        hideLoading()
         QXMessageView.demoFailure(msg: msg, superview: view, complete: complete)
     }
     open func showWarning(msg: String, complete: (() -> Void)? = nil) {
+        hideLoading()
         QXMessageView.demoWarning(msg: msg, superview: view, complete: complete)
     }
 }

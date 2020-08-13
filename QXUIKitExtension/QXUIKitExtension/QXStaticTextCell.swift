@@ -26,7 +26,6 @@ open class QXStaticTextCell: QXStaticCell {
         e.numberOfLines = 0
         e.font = QXFont(15, QXColor.dynamicText)
         e.padding = QXEdgeInsets(5, 15, 5, 15)
-        e.isCopyEnabled = true
         return e
     }()
     

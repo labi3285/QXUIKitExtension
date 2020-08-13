@@ -152,56 +152,21 @@ open class QXTableView: QXView {
             _updateModelsForShow()
         }
     }
-    
-    open var staticModels: [Any]? {
-        set {
-            if let ms = newValue {
-                staticSections = [ QXTableViewSection(ms) ]
-            } else {
-                staticSections = nil
-            }
-        }
-        get {
-            return staticSections?.first?.models
-        }
-    }
-    
-    /**
-     * 这个参数设置的模型总是会显示在sections模型的前面
-     */
-    open var staticSections: [QXTableViewSection]? {
-        didSet {
-            _updateModelsForShow()
-        }
-    }
 
-    /**
-     * 当这个参数为true，如果sections为空，noDataLoadStatusCell总是显示
-     * 当这个参数为false，只要 staticSctions中的某个cell或headerFooter遵循QXGlobalDataLoadStatusProtocol，则noDataLoadStatusCell不会显示
-     */
-    public var isNoDataLoadStatusCellAlwaysShowWhenNoData: Bool = false
-    /**
-     * 当这个参数为true，如果sections为空，QXMessageView以阻断交互的方式显示
-     * 当这个参数为false，如果sections为空，当界面上没有展示loadStatus状态的时候会以阻断交互的方式显示QXMessageView
-     */
-    public var isQXMessageViewAlwaysShowForLoadStatusWhenNoData: Bool = false
-    public var isQXMessageViewForLoadingWhenNoDataEnabled: Bool = true
-    public var isQXMessageViewForErrorWhenNoDataEnabled: Bool = true
-
-    open var noDataLoadStatusCell: QXTableViewPlaceHolderCell?
+    public var isDefaultLoadStatusCellEnabled: Bool = true
+    open var defaultLoadStatusCell: QXTableViewPlaceHolderCell?
     
     private func _updateModelsForShow() {
         _cacheFlexRatioTotal = 0
         _cacheTotalFlexSpace = 0
         var ss: [QXTableViewSection] = []
         var arr: [QXTableViewSection] = []
-        if let staticSections = staticSections {
-            arr += staticSections
-        }
+
         if sections.count > 0 {
             arr += sections
-        } else if let c = noDataLoadStatusCell, isNoDataLoadStatusCellAlwaysShowWhenNoData {
-            arr += [QXTableViewSection([ c ], nil, nil)]
+        }
+        if let c = defaultLoadStatusCell {
+            arr += [QXTableViewSection([c])]
         }
         for s in arr {
             if s.isDisplay {
@@ -883,68 +848,38 @@ extension QXTableView {
 
 extension QXTableView: QXRefreshableViewProtocol {
     
-    public func qxUpdateGlobalDataLoadStatus(_ loadStatus: QXLoadStatus, _ defaultLoadStatusView: QXView & QXLoadStatusViewProtocol, _ isReload: Bool) {
-        if let sv = defaultLoadStatusView.superview, let c = noDataLoadStatusCell {
-            if sv === c {
+    public func qxUpdateGlobalDataLoadStatus(_ loadStatus: QXLoadStatus, _ defaultLoadStatusView: QXView & QXLoadStatusViewProtocol, _ isReload: Bool, _ isLoadStatusViewNeeded: Bool) {
+        for e in sections {
+            if let v = e.header as? QXStaticHeaderFooterView & QXGlobalDataLoadStatusProtocol {
+                v.qxGlobalDataLoadStatusUpdate(loadStatus, isReload)
+            }
+            if let v = e.footer as? QXStaticHeaderFooterView & QXGlobalDataLoadStatusProtocol {
+                v.qxGlobalDataLoadStatusUpdate(loadStatus, isReload)
+            }
+            for c in e.models {
+                if let c = c as? QXStaticCell & QXGlobalDataLoadStatusProtocol {
+                    c.qxGlobalDataLoadStatusUpdate(loadStatus, isReload)
+                }
+            }
+        }
+
+        if isDefaultLoadStatusCellEnabled && isLoadStatusViewNeeded {
+            if let sv = defaultLoadStatusView.superview, let c = defaultLoadStatusCell {
+                if sv === c {
+                } else {
+                    defaultLoadStatusCell = QXTableViewPlaceHolderCell(view: defaultLoadStatusView)
+                    reloadData()
+                }
             } else {
-                noDataLoadStatusCell = QXTableViewPlaceHolderCell(view: defaultLoadStatusView)
+                defaultLoadStatusCell = QXTableViewPlaceHolderCell(view: defaultLoadStatusView)
                 reloadData()
             }
         } else {
-            noDataLoadStatusCell = QXTableViewPlaceHolderCell(view: defaultLoadStatusView)
-        }
-        var isThereLoadStatusShow: Bool = false
-        if let ss = staticSections {
-            for e in ss {
-                var isThereModels: Bool = false
-                for e in sections {
-                    if e.header != nil {
-                        isThereModels = true
-                        break
-                    }
-                    if e.models.count > 0 {
-                        isThereModels = true
-                        break
-                    }
-                    if e.footer != nil {
-                        isThereModels = true
-                        break
-                    }
-                }
-                if let v = e.header as? QXStaticHeaderFooterView & QXGlobalDataLoadStatusProtocol {
-                    v.qxGlobalDataLoadStatusUpdate(loadStatus, isReload && !isThereModels)
-                    isThereLoadStatusShow = true
-                }
-                if let v = e.footer as? QXStaticHeaderFooterView & QXGlobalDataLoadStatusProtocol {
-                    v.qxGlobalDataLoadStatusUpdate(loadStatus, isReload && !isThereModels)
-                    isThereLoadStatusShow = true
-                }
-                for c in e.models {
-                    if let c = c as? QXStaticCell & QXGlobalDataLoadStatusProtocol {
-                        c.qxGlobalDataLoadStatusUpdate(loadStatus, isReload && !isThereModels)
-                        isThereLoadStatusShow = true
-                    }
-                }
+            if defaultLoadStatusCell != nil {
+                defaultLoadStatusCell = nil
+                reloadData()
             }
         }
-        if isNoDataLoadStatusCellAlwaysShowWhenNoData {
-            isThereLoadStatusShow = true
-        }
-        
-        if !isThereLoadStatusShow || isQXMessageViewAlwaysShowForLoadStatusWhenNoData {
-            switch loadStatus {
-            case .loading:
-                if isQXMessageViewForLoadingWhenNoDataEnabled { showLoading(msg: nil) }
-            case .succeed:
-                if isQXMessageViewForLoadingWhenNoDataEnabled { hideLoading() }
-            case .failed(let err):
-                if isQXMessageViewForLoadingWhenNoDataEnabled { hideLoading() }
-                if isQXMessageViewForErrorWhenNoDataEnabled { showFailure(msg: err?.message ?? "错误") }
-            case .empty(_):
-                if isQXMessageViewForLoadingWhenNoDataEnabled { hideLoading() }
-            }
-        }
-        reloadData()
     }
     public func qxRefreshableViewFrame() -> CGRect {
         return uiTableView.frame
@@ -964,15 +899,11 @@ extension QXTableView: QXRefreshableViewProtocol {
     public func qxReloadData() {
         reloadData()
     }
-    public func qxUpdateModels(_ models: [Any]) {
-        self.sections = _modelsToSections(models)
-        reloadData()
-    }
-    public func qxUpdateStaticModels(_ models: [Any]?) {
-        if let e = models {
-            self.staticSections = _modelsToSections(e)
+    public func qxUpdateModels(_ models: [Any], _ staticModels: [Any]?) {
+        if let e = staticModels{
+            self.sections = _modelsToSections(e) +  _modelsToSections(models)
         } else {
-            self.staticSections = nil
+            self.sections = _modelsToSections(models)
         }
         reloadData()
     }

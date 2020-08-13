@@ -78,16 +78,11 @@ open class QXActivityIndicatorView: QXView {
 extension QXActivityIndicatorView: QXGlobalDataLoadStatusProtocol {
     
     public func qxGlobalDataLoadStatusUpdate(_ status: QXLoadStatus, _ isReload: Bool) {
-        if isReload {
-            switch status {
-            case .loading:
-                isDisplay = true
-                startAnimating()
-            default:
-                stopAnimating()
-                isDisplay = false
-            }
-        } else {
+        switch status {
+        case .loading:
+            isDisplay = true
+            startAnimating()
+        default:
             stopAnimating()
             isDisplay = false
         }

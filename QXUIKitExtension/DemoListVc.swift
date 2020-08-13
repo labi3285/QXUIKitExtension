@@ -53,13 +53,12 @@ class DemoListVc: QXTableViewController<Any> {
             String.self >> QXTableViewDebugCell.self,
         ])
              
-        tableView.isNoDataLoadStatusCellAlwaysShowWhenNoData = true
-        tableView.staticSections = [
+        contentView.staticModels = [
             QXTableViewSection([
                 self.headTipCell
             ])
         ]
-        
+
         navigationBarRightItem = QXBarButtonItem.titleItem("xxx", {
             self._isFailed = true
             self.contentView.reloadData()
@@ -73,14 +72,12 @@ class DemoListVc: QXTableViewController<Any> {
     
     override func didSetup() {
         super.didSetup()
-//        _isFailed = true
         contentView.filter.dictionary["123"] = 345
         contentView.reloadData()
     }
     
     private var _isFailed: Bool = false
     override func loadData(_ filter: QXFilter, _ done: @escaping (QXRequest.RespondPage<Any>) -> Void) {
-        
         print(filter.dictionary)
         DispatchQueue.main.qxAsyncAfter(1) {
             if self._isFailed {

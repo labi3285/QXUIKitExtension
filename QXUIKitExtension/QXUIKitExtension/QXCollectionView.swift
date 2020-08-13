@@ -644,7 +644,7 @@ extension QXCollectionView: UICollectionViewDelegate, UICollectionViewDataSource
 }
 
 extension QXCollectionView: QXRefreshableViewProtocol {
-    public func qxUpdateGlobalDataLoadStatus(_ loadStatus: QXLoadStatus, _ defaultLoadStatusView: QXView & QXLoadStatusViewProtocol, _ isReload: Bool) {
+    public func qxUpdateGlobalDataLoadStatus(_ loadStatus: QXLoadStatus, _ defaultLoadStatusView: QXView & QXLoadStatusViewProtocol, _ isReload: Bool, _ isLoadStatusViewNeeded: Bool) {
         if uiCollectionView.qxCheckOrAddSubview(defaultLoadStatusView) {
             _uiCollectionViewAttendViews.append(defaultLoadStatusView)
         }
@@ -667,15 +667,11 @@ extension QXCollectionView: QXRefreshableViewProtocol {
     public func qxReloadData() {
         reloadData()
     }
-    public func qxUpdateModels(_ models: [Any]) {
-        self.sections = _modelsToSections(models)
-        reloadData()
-    }
-    public func qxUpdateStaticModels(_ models: [Any]?) {
-        if let e = models {
-            self.staticSections = _modelsToSections(e)
+    public func qxUpdateModels(_ models: [Any], _ staticModels: [Any]?) {
+        if let e = staticModels{
+            self.sections = _modelsToSections(e) +  _modelsToSections(models)
         } else {
-            self.staticSections = nil
+            self.sections = _modelsToSections(models)
         }
         reloadData()
     }

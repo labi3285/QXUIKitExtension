@@ -74,17 +74,21 @@ open class QXModelsLoadStatusView<Model>: QXView {
     /// 自动设置models
     open var models: [Model] = [] {
         didSet {
-            contentView.qxUpdateModels(models)
+            contentView.qxUpdateModels(models, staticModels)
         }
     }
     
-    /// 自动设置models
+    /// static models
     open var staticModels: [Model]? = [] {
         didSet {
-            contentView.qxUpdateStaticModels(staticModels)
+            contentView.qxUpdateModels(models, staticModels)
         }
     }
     
+    public var isQXMessageForLoadingEnabledWhenThereIsModels: Bool = false
+    public var isQXMessageForErrorEnabledWhenThereIsModels: Bool = false
+    public var isQXMessageForEmptyEnabledWhenThereIsModels: Bool = false
+
     open func loadModels(_ loadType: QXModelsLoadType) {
         weak var ws = self
         _requestId += 1
@@ -113,7 +117,7 @@ open class QXModelsLoadStatusView<Model>: QXView {
         self.loadStatusView = loadStatusView
         super.init()
         self.addSubview(contentView)
-        contentView.qxUpdateGlobalDataLoadStatus(QXLoadStatus.succeed, loadStatusView, true)
+        //_ = contentView.qxUpdateGlobalDataLoadStatus(QXLoadStatus.succeed, loadStatusView)
         loadStatusView.qxLoadStatusViewRetryHandler { [weak self] in
             self?.reloadData()
         }
@@ -161,44 +165,67 @@ open class QXModelsLoadStatusView<Model>: QXView {
         })!
         return e
     }()
-
-    public private(set) var modelsLoadStatus: QXModelsLoadStatus = .reload(.succeed) {
+    
+    open var modelsLoadStatus: QXModelsLoadStatus = .reload(.succeed) {
         didSet {
+            let isThereModels = (models.count + (staticModels?.count ?? 0)) > 0
+            let isLoadStatusViewNeeded = models.count <= 0
             switch modelsLoadStatus {
             case .reload(status: let s):
                 refreshHeader.endRefreshing()
                 refreshFooter.endRefreshing()
                 refreshFooter.resetNoMoreData()
                 loadStatusView.qxLoadStatusViewUpdateStatus(s)
-                contentView.qxUpdateGlobalDataLoadStatus(s, loadStatusView, true)
+                contentView.qxUpdateGlobalDataLoadStatus(s, loadStatusView, true, isLoadStatusViewNeeded)
                 switch s {
                 case .loading:
                     contentView.qxSetRefreshHeader(nil)
                     contentView.qxSetRefreshFooter(nil)
-                case .empty(_), .failed(_):
+                    if isQXMessageForLoadingEnabledWhenThereIsModels && isThereModels  {
+                        showLoading(msg: nil)
+                    }
+                case .empty(let msg):
+                     contentView.qxSetRefreshHeader(canRefresh ? refreshHeader : nil)
+                     contentView.qxSetRefreshFooter(nil)
+                     if isQXMessageForEmptyEnabledWhenThereIsModels && isThereModels {
+                        showWarning(msg: msg ?? "暂无数据")
+                     }
+                case .failed(let err):
                     contentView.qxSetRefreshHeader(canRefresh ? refreshHeader : nil)
                     contentView.qxSetRefreshFooter(nil)
+                    if isQXMessageForErrorEnabledWhenThereIsModels && isThereModels {
+                        showFailure(msg: err?.message ?? "未知错误")
+                    }
                 case .succeed:
                     contentView.qxSetRefreshHeader(canRefresh ? refreshHeader : nil)
                     contentView.qxSetRefreshFooter(canPage ? refreshFooter : nil)
+                    hideLoading()
                 }
             case .page(let s):
                 if models.count == 0 {
                     switch s {
                     case .refreshing:
                         loadStatusView.qxLoadStatusViewUpdateStatus(.loading)
-                        contentView.qxUpdateGlobalDataLoadStatus(.loading, loadStatusView, true)
+                        contentView.qxUpdateGlobalDataLoadStatus(.succeed, loadStatusView, false, isLoadStatusViewNeeded)
+                        if isQXMessageForLoadingEnabledWhenThereIsModels && isThereModels  {
+                            showLoading(msg: nil)
+                        }
                         refreshHeader.beginRefreshing()
                         refreshFooter.resetNoMoreData()
                         contentView.qxSetRefreshFooter(nil)
                     case .refreshOk:
                         loadStatusView.qxLoadStatusViewUpdateStatus(.succeed)
-                        contentView.qxUpdateGlobalDataLoadStatus(.succeed, loadStatusView, true)
+                        contentView.qxUpdateGlobalDataLoadStatus(.succeed, loadStatusView, false, isLoadStatusViewNeeded)
+                        hideLoading()
+                        
                         refreshHeader.endRefreshing()
                         contentView.qxSetRefreshFooter(canPage ? refreshFooter : nil)
                     case .refreshError(let err):
                         loadStatusView.qxLoadStatusViewUpdateStatus(.failed(err))
-                        contentView.qxUpdateGlobalDataLoadStatus(.failed(err), loadStatusView, true)
+                        contentView.qxUpdateGlobalDataLoadStatus(.failed(err), loadStatusView, false, isLoadStatusViewNeeded)
+                        if isQXMessageForErrorEnabledWhenThereIsModels && isThereModels {
+                            showFailure(msg: err?.message ?? "未知错误")
+                        }
                         refreshHeader.endRefreshing()
                         contentView.qxSetRefreshFooter(nil)
                     default:
@@ -206,7 +233,8 @@ open class QXModelsLoadStatusView<Model>: QXView {
                     }
                 } else {
                     loadStatusView.qxLoadStatusViewUpdateStatus(.succeed)
-                    contentView.qxUpdateGlobalDataLoadStatus(.succeed, loadStatusView, false)
+                    contentView.qxUpdateGlobalDataLoadStatus(.succeed, loadStatusView, false, isLoadStatusViewNeeded)
+                    
                     contentView.qxSetRefreshFooter(canPage ? refreshFooter : nil)
                     switch s {
                     case .refreshing:

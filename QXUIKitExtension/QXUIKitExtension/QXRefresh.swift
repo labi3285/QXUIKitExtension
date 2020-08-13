@@ -336,17 +336,16 @@ extension UIScrollView {
 public protocol QXRefreshableViewProtocol {
     func qxResetOffset()
     func qxDisableAutoInserts()
-    func qxUpdateStaticModels(_ models: [Any]?)
-    func qxUpdateModels(_ models: [Any])
+    func qxUpdateModels(_ models: [Any], _ staticModels: [Any]?)
     func qxSetRefreshHeader(_ header: QXRefreshHeader?)
     func qxSetRefreshFooter(_ footer: QXRefreshFooter?)
-    func qxUpdateGlobalDataLoadStatus(_ loadStatus: QXLoadStatus, _ defaultLoadStatusView: QXView & QXLoadStatusViewProtocol, _ isReload: Bool)
+    func qxUpdateGlobalDataLoadStatus(_ loadStatus: QXLoadStatus, _ defaultLoadStatusView: QXView & QXLoadStatusViewProtocol, _ isReload: Bool, _ isLoadStatusViewNeeded: Bool)
     func qxRefreshableViewFrame() -> CGRect
     func qxReloadData()
 }
 
 extension UIScrollView: QXRefreshableViewProtocol {
-    public func qxUpdateGlobalDataLoadStatus(_ loadStatus: QXLoadStatus, _ defaultLoadStatusView: QXView & QXLoadStatusViewProtocol, _ isReload: Bool) {
+    public func qxUpdateGlobalDataLoadStatus(_ loadStatus: QXLoadStatus, _ defaultLoadStatusView: QXView & QXLoadStatusViewProtocol, _ isReload: Bool, _ isLoadStatusViewNeeded: Bool) {
         qxCheckOrAddSubview(defaultLoadStatusView)
     }
     public func qxRefreshableViewFrame() -> CGRect {
@@ -362,10 +361,7 @@ extension UIScrollView: QXRefreshableViewProtocol {
             // Fallback on earlier versions
         }
     }
-    public func qxUpdateModels(_ models: [Any]) {
-        
-    }
-    public func qxUpdateStaticModels(_ models: [Any]?) {
+    public func qxUpdateModels(_ models: [Any], _ staticModels: [Any]?) {
         
     }
     public func qxSetRefreshHeader(_ header: QXRefreshHeader?) {

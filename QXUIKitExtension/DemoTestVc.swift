@@ -9,32 +9,43 @@
 import UIKit
 import SQLite3
 
-class DemoTestVc: QXViewController {
+class DemoTestVc: QXTableViewController<Any> {
     
-    
-    lazy var tableView: QXTableView = {
-        let e = QXTableView()
-        e.fixWidth = 300
+    final lazy var cardCell: QXStaticCardCell = {
+        let e = QXStaticCardCell()
+        let a = QXLabel()
+        a.numberOfLines = 0
+        a.text = QXDebugText(200)
+        let b = QXLineView.breakLine
+        b.padding = QXEdgeInsets(5, -10, 5, -10)
+        let c = QXLabel()
+        c.numberOfLines = 0
+        c.text = QXDebugText(200)
+        e.cardView.views = [a, b, c]
         return e
     }()
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "测试"
         
-        view.addSubview(tableView)
-        tableView.IN(view).CENTER.MAKE()
+        contentView.canRefresh = true
+        contentView.canPage = true
         
-        tableView.sections = [
-            QXTableViewSection([
-                QXDebugText(200),
-                
-            ])
+        contentView.staticModels = [
+            cardCell
         ]
-        
+    }
     
-        
+    override func didSetup() {
+        super.didSetup()
+        contentView.reloadData()
     }
 
+    override func loadData(_ filter: QXFilter, _ done: @escaping (QXRequest.RespondPage<Any>) -> Void) {
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1) {
+            done(.failed(QXError.noData))
+        }
+    }
+    
 }

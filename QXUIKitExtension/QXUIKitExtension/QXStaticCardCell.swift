@@ -28,7 +28,7 @@ open class QXStaticCardCell: QXStaticCell {
     
     public final lazy var cardView: QXStackView = {
         let e = QXStackView()
-        e.qxBackgroundColor = QXColor.white
+        e.qxBackgroundColor = QXColor.dynamicBody
         e.isVertical = true
         e.padding = QXEdgeInsets(10, 10, 10, 10)
         e.qxBorder = QXBorder().setCornerRadius(5)

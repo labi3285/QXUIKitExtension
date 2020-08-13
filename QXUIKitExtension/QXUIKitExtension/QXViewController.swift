@@ -74,7 +74,7 @@ open class QXViewController: UIViewController, UINavigationBarDelegate {
     }
     open override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        if !isSetup { didSetup(); isSetup = true }
+        if !self.isSetup { self.didSetup(); self.isSetup = true }
     }
     
     override open func viewWillAppear(_ animated: Bool) {
