@@ -586,9 +586,9 @@ extension QXRichLabel {
     private func __getCtFrame(_ attributtedString: NSAttributedString, _ rect: CGRect) -> CTFrame {
         let ctRect = rect.inset(by: padding.uiEdgeInsets)
         return CTFramesetterCreateFrame(CTFramesetterCreateWithAttributedString(attributtedString),
-                                        CFRange(location: 0, length: attributtedString.string.count),
-                                        CGPath(rect: ctRect, transform: nil),
-                                        nil)
+        CFRange(location: 0, length: attributtedString.string.count),
+        CGPath(rect: ctRect, transform: nil),
+        nil)
     }
     private func __getCtLines(_ ctFrame: CTFrame) -> [CTLine] {
         let lines = CTFrameGetLines(ctFrame)
@@ -665,7 +665,7 @@ extension QXRichLabel {
         }
         if showLines == 1 {
             let size = attri.boundingRect(with: limitSize, options: .usesLineFragmentOrigin, context: nil).size
-            return CGSize(width: size.width, height: size.height - lineSpace)
+            return CGSize(width: size.width, height: size.height)
         } else {
             return attri.boundingRect(with: limitSize, options: .usesLineFragmentOrigin, context: nil).size
         }

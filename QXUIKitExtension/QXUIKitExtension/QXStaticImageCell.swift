@@ -12,10 +12,14 @@ import QXConsMaker
 open class QXStaticImageCell: QXStaticCell {
     
     open override func height(_ model: Any?) -> CGFloat? {
-        myImageView.fixWidth = context.givenWidth
-        return myImageView.intrinsicContentSize.height
+        if adjustsImageSizeToFitWidth {
+            myImageView.fixWidth = context.givenWidth
+        }
+        return myImageView.natureSize.h
     }
-        
+    
+    public var adjustsImageSizeToFitWidth: Bool = false
+    
     public final lazy var myImageView: QXImageView = {
         let e = QXImageView()
         e.padding = QXEdgeInsets(5, 15, 5, 15)

@@ -256,7 +256,6 @@ class ViewController: QXTableViewController<Any> {
         print(".123".components(separatedBy: "."))
         print("1.123".components(separatedBy: "."))
         print("123.".components(separatedBy: "."))
-
         
     }
 

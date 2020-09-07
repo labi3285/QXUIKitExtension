@@ -84,6 +84,15 @@ open class QXImage {
     public init(url: String?) {
         if let e = url {
             self.url = QXURL.url(e)
+        } else {
+            self.url = nil
+        }
+    }
+    public init(file: String?) {
+        if let e = file {
+            self._uiImage = UIImage(contentsOfFile: e)
+        } else {
+            self._uiImage = nil
         }
     }
     

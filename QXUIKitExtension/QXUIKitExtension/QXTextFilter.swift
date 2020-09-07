@@ -98,9 +98,9 @@ public enum QXTextFilter {
                 }
             }
             return cc
-        case .integer(min: let _min, max: let _max):
+        case .integer(min: _, max: let _max):
             var n = (text as NSString).integerValue
-            n = min(max(n, _min), _max)
+            n = min(Int(_max), n)
             return "\(n)"
         case .float(min: let _min, max: let _max, dec: let _dec):
             if text.hasSuffix(".") {
@@ -112,12 +112,15 @@ public enum QXTextFilter {
             } else if text.contains(".") {
                 let comps = text.components(separatedBy: ".")
                 let text = comps[0] + "." + comps[1].qxString(start: 0, end: max(_dec - 1, 0))
+                if comps[1].count < _dec {
+                    return text
+                }
                 var n = (text as NSString).floatValue
                 n = min(max(n, _min), _max)
                 return "\(n)"
             } else {
                 var n = (text as NSString).integerValue
-                n = min(Int(_max), max(Int(_min), n))
+                n = min(Int(_max), n)
                 return "\(n)"
             }
         case .double(min: let _min, max: let _max, dec: let _dec):
@@ -130,12 +133,15 @@ public enum QXTextFilter {
             } else if text.contains(".") {
                 let comps = text.components(separatedBy: ".")
                 let text = comps[0] + "." + comps[1].qxString(start: 0, end: max(_dec - 1, 0))
+                if comps[1].count < _dec {
+                    return text
+                }
                 var n = (text as NSString).doubleValue
                 n = min(max(n, _min), _max)
                 return "\(n)"
             } else {
                 var n = (text as NSString).integerValue
-                n = min(Int(_max), max(Int(_min), n))
+                n = min(Int(_max), n)
                 return "\(n)"
             }
         case .money(min: let _min, max: let _max, dec: let _dec):
@@ -148,13 +154,16 @@ public enum QXTextFilter {
             } else if text.contains(".") {
                 let comps = text.components(separatedBy: ".")
                 let text = comps[0] + "." + comps[1].qxString(start: 0, end: max(_dec - 1, 0))
+                if comps[1].count < _dec {
+                    return text
+                }
                 var n = (text as NSString).doubleValue
                 n = min(max(n, _min), _max)
                 n = Double(Int(n * 100)) / 100
                 return "\(n)"
             } else {
                 var n = (text as NSString).integerValue
-                n = min(Int(_max), max(Int(_min), n))
+                n = min(Int(_max), n)
                 return "\(n)"
             }
         case .phone:

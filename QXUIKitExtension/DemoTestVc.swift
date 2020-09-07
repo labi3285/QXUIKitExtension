@@ -11,41 +11,32 @@ import SQLite3
 
 class DemoTestVc: QXTableViewController<Any> {
     
-    final lazy var cardCell: QXStaticCardCell = {
-        let e = QXStaticCardCell()
-        let a = QXLabel()
-        a.numberOfLines = 0
-        a.text = QXDebugText(200)
-        let b = QXLineView.breakLine
-        b.padding = QXEdgeInsets(5, -10, 5, -10)
-        let c = QXLabel()
-        c.numberOfLines = 0
-        c.text = QXDebugText(200)
-        e.cardView.views = [a, b, c]
-        return e
-    }()
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "测试"
-        
-        contentView.canRefresh = true
-        contentView.canPage = true
-        
-        contentView.staticModels = [
-            cardCell
-        ]
     }
     
     override func didSetup() {
         super.didSetup()
-        contentView.reloadData()
+        
+        let g = DispatchGroup()
+        
+        for i in 0..<100 {
+            g.enter()
+            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now()) {
+                g.leave()
+            }
+        }
+        
+        g.notify(queue: DispatchQueue.main) {
+            print("ok")
+        }
+        
+        
+//        let name = "截屏2020-07-28下午11.15.37.jepg"
+//        let path = QXPath.cache /+ "upload" /+ name
+//        let dir = path.qxString(start: 0, end: path.count - 1)
+//        print(dir)        
     }
 
-    override func loadData(_ filter: QXFilter, _ done: @escaping (QXRequest.RespondPage<Any>) -> Void) {
-        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1) {
-            done(.failed(QXError.noData))
-        }
-    }
-    
 }

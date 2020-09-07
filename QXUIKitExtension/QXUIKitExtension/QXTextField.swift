@@ -266,7 +266,7 @@ open class QXTextField: QXView, UITextFieldDelegate {
     }
     
     private var _lastText: String = ""
-    @objc func textChange() {
+    @objc public func textChange() {
         let newText = uiTextField.text ?? ""
         if !hasSelectRange {
             if newText.count > _lastText.count {

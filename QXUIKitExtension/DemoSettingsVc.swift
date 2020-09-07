@@ -59,7 +59,7 @@ class DemoSettingsVc: QXTableViewController<Any> {
     final lazy var textFieldCell: QXSettingTextFieldCell = {
         let e = QXSettingTextFieldCell()
         e.textField.placeHolder = "输入内容"
-        e.textField.filter = QXTextFilter.double(min: 1.1111, max: 3.3333, dec: 3)
+        e.textField.filter = QXTextFilter.double(min: 111.1111, max: 333.3333, dec: 4)
         return e
     }()
     final lazy var titleTextFieldCell: QXSettingTitleTextFieldCell = {

@@ -13,7 +13,7 @@ open class QXSettingTextCell: QXSettingCell {
     
     open override func height(_ model: Any?) -> CGFloat? {
         label.fixWidth = context.givenWidth
-        return label.intrinsicContentSize.height
+        return label.natureSize.h
     }
 
     public final lazy var label: QXRichLabel = {

@@ -137,10 +137,12 @@ open class QXSlogonView<Model>: QXButton {
     private class ABView: UIView {
         lazy var a: UILabel = {
             let e = UILabel()
+            e.numberOfLines = 0
             return e
         }()
         lazy var b: UILabel = {
             let e = UILabel()
+            e.numberOfLines = 0
             return e
         }()
         required init() {

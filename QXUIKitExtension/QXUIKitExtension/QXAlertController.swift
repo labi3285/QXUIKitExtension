@@ -30,6 +30,12 @@ open class QXAction {
         self.todo = todo
     }
     
+    public init(_ title: String?, _ style: Style, _ todo: (() -> Void)?) {
+        self.title = title
+        self.style = style
+        self.todo = todo
+    }
+    
     public var respondUpdateEnabled: ((_ isEnabled: Bool) -> Void)?
 }
 

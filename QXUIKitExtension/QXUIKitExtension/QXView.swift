@@ -276,6 +276,17 @@ open class QXView: UIView, QXViewProtocol {
         }
     }
     
+    open var stretchResistance: CGFloat {
+        set {
+            stretchResistanceX = newValue
+            stretchResistanceY = newValue
+        }
+        get {
+            return QXDebugFatalError("请不要读取这个值，没有任何意义",
+                                     (stretchResistanceX + stretchResistanceY) / 2)
+        }
+    }
+    
     open var compressResistance: CGFloat {
         set {
             compressResistanceX = newValue

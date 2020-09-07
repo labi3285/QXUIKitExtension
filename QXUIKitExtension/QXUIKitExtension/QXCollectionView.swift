@@ -242,6 +242,7 @@ open class QXCollectionView: QXView {
         }
     }
     
+    /// 排序模式目前只支持固定大小，请指定fixCellSize
     public var isSortMode: Bool = false {
         didSet {
             if isSortMode {
@@ -253,6 +254,7 @@ open class QXCollectionView: QXView {
             }
         }
     }
+    public var fixCellSize: QXSize?
     
     public var alignmentX: QXAlignmentX = .left {
         didSet {
@@ -411,6 +413,9 @@ open class QXCollectionView: QXView {
         return cell
     }
     open func cellSize(for indexPath: IndexPath) -> QXSize {
+        if let e = fixCellSize {
+            return e
+        }
         let ms = _cacheSections[indexPath.section].models
         let m = ms[indexPath.item]
         if let e = adapter?.cellClass(m) {
@@ -587,7 +592,7 @@ extension QXCollectionView: UICollectionViewDelegate, UICollectionViewDataSource
         _cacheSections[sourceIndexPath.section].models.remove(at: sourceIndexPath.row)
         _cacheSections[destinationIndexPath.section].models.insert(e, at: destinationIndexPath.row)
         delegate?.collectionViewDidMove(from: sourceIndexPath, to: destinationIndexPath, in: _cacheSections)
-        collectionView.reloadData()
+//        collectionView.reloadData()
     }
     
     open func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {

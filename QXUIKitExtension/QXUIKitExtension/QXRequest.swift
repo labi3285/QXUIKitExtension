@@ -382,7 +382,7 @@ extension AFError {
             case .unacceptableContentType(_, _):
                 return QXError(-1, "字段不匹配")
             case .unacceptableStatusCode(let code):
-                return QXError(code, "其他错误")
+                return QXError(code, "其他错误\(code)")
             }
         }
     }
