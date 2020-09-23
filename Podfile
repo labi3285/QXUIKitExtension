@@ -13,7 +13,9 @@ target 'QXUIKitExtension' do
     pod 'YYWebImage', '~> 1.0.5'
     pod 'JQCollectionViewAlignLayout', '~> 0.1.5'
     pod 'HandyJSON', '~> 5.0.1'
+    pod 'JSONKit-iOS6Later', '~> 2.0.1'
 
     pod 'IQKeyboardManagerSwift', '~> 6.5.4'
+
 
 end

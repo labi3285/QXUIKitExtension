@@ -48,9 +48,9 @@ public enum QXColor {
             return QXColor.uiColor(UIColor(dynamicProvider: { (c) -> UIColor in
                 switch c.userInterfaceStyle {
                 case .dark:
-                    return UIColor(red: CGFloat(rgbb.r)/255, green: CGFloat(rgbb.g)/255, blue: CGFloat(rgbb.b)/255, alpha: a.alpha)
+                    return UIColor(red: CGFloat(rgbb.r)/255, green: CGFloat(rgbb.g)/255, blue: CGFloat(rgbb.b)/255, alpha: b.alpha)
                 default:
-                    return UIColor(red: CGFloat(rgba.r)/255, green: CGFloat(rgba.g)/255, blue: CGFloat(rgba.b)/255, alpha: b.alpha)
+                    return UIColor(red: CGFloat(rgba.r)/255, green: CGFloat(rgba.g)/255, blue: CGFloat(rgba.b)/255, alpha: a.alpha)
                 }
             }))
         } else {

@@ -8,6 +8,7 @@
 
 import UIKit
 import Alamofire
+import JSONKit_iOS6Later
 
 extension QXRequest {
     
@@ -225,18 +226,26 @@ open class QXRequest {
         QXRequest.globalApiManager
             .request(url, method: method, parameters: params, encoding: encoding, headers: headers)
             .validate()
-            .responseJSON { (response) in
+            .responseData { (response) in
                 if let e = response.result.value {
-                    done(.succeed(e))
+                    if e.count > 0, let any = (e as NSData).objectFromJSONData(withParseOptions: UInt(JKParseOptionLooseUnicode)) {
+                        done(.succeed(any))
+                    } else if let str = String.init(data: e, encoding: .utf8) {
+                        done(.succeed(str))
+                    } else {
+                        done(.succeed(e))
+                    }
                 } else {
                     var errMsg: String?
                     var errStatus: Int?
+                    var errInfo: [String: Any]?
                     if let data = response.data {
                         if let dic = try? JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? [String: Any] {
                             if let msg = dic["message"] as? String {
                                 errMsg = msg
                                 errStatus = dic["status"] as? Int
                             }
+                            errInfo = dic
                         }
                     }
                     var err: QXError
@@ -251,7 +260,7 @@ open class QXRequest {
                             err = QXError.unknown
                         }
                     }
-                    err.info = response.data
+                    err.info = errInfo ?? response.data
                     done(.failed(err))
                 }
         }

@@ -167,6 +167,7 @@ open class QXFont {
     }
     
     open var uiFont: UIFont {
+        let size = CGFloat(Int(self.size * 100)) / 100
         if let fontName = fontName {
             if let e = UIFont(name: fontName, size: size) {
                 return e

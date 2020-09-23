@@ -25,16 +25,16 @@ public struct QXEdgeInsets {
     }
     
     public init(_ top: CGFloat, _ right: CGFloat, _ bottom: CGFloat, _ left: CGFloat) {
-        self.top = top
-        self.left = left
-        self.bottom = bottom
-        self.right = right
+        self.top = CGFloat(Int(top * 1000)) / 1000
+        self.left = CGFloat(Int(left * 1000)) / 1000
+        self.bottom = CGFloat(Int(bottom * 1000)) / 1000
+        self.right = CGFloat(Int(right * 1000)) / 1000
     }
     public init(_ top: Double, _ right: Double, _ bottom: Double, _ left: Double) {
-        self.top = CGFloat(top)
-        self.right = CGFloat(right)
-        self.bottom = CGFloat(bottom)
-        self.left = CGFloat(left)
+        self.top = CGFloat(Int(top * 1000)) / 1000
+        self.left = CGFloat(Int(left * 1000)) / 1000
+        self.bottom = CGFloat(Int(bottom * 1000)) / 1000
+        self.right = CGFloat(Int(right * 1000)) / 1000
     }
     public init(_ top: Int, _ right: Int, _ bottom: Int, _ left: Int) {
         self.top = CGFloat(top)

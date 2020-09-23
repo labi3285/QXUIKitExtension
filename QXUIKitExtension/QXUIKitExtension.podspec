@@ -30,6 +30,7 @@ s.dependency 'MJRefresh', '~> 3.1.15.7'
 s.dependency 'JQCollectionViewAlignLayout' , '~> 0.1.5'
 s.dependency 'SAMKeychain', '~> 1.5.3'
 s.dependency 'HandyJSON' , '~> 5.0.3-beta'
+s.dependency 'JSONKit-iOS6Later' , '~> 2.0.1'
 
 end
 
