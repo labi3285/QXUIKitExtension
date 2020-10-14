@@ -168,8 +168,8 @@ open class QXTextView: QXView, UITextViewDelegate {
                 return true
             }())
             respondNeedsUpdate?()
+            _lastText = text
         }
-        _lastText = text
         placeHolderLabel.isHidden = !text.isEmpty
     }
 }

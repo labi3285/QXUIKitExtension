@@ -13,7 +13,9 @@ class DemoSlogonVc: QXViewController {
     lazy var slogonView: QXSlogonView<String> = {
         let e = QXSlogonView<String>()
         e.models = ["11111111", "222222222", "3333333333", "444444444"]
-        e.qxBackgroundColor = QXColor.yellow
+        e.modelToQXRichTextsParser = { str in
+            return [QXRichText.text(str, QXFont.init(16, QXColor.red))]
+        }
         e.textAlignmentX = .center
         e.respondModel = { str in
             print(str)

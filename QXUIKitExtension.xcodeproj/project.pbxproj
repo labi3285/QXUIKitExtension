@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		340D175E2521A78400E26829 /* PublicKey.pem in Resources */ = {isa = PBXBuildFile; fileRef = 340D175D2521A78400E26829 /* PublicKey.pem */; };
 		4A896D06035194710BB414B1 /* Pods_QXUIKitExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 950932CC5C82C8CED282FC01 /* Pods_QXUIKitExtension.framework */; };
 		75067EF223A2455600388DC0 /* DemoModelVc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75067EF123A2455600388DC0 /* DemoModelVc.swift */; };
 		750CE4402421B43C004E2793 /* QXTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 750CE43F2421B43C004E2793 /* QXTypes.swift */; };
@@ -159,6 +160,7 @@
 
 /* Begin PBXFileReference section */
 		178A006B875BAF6C183194DC /* Pods-QXUIKitExtension.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QXUIKitExtension.debug.xcconfig"; path = "Target Support Files/Pods-QXUIKitExtension/Pods-QXUIKitExtension.debug.xcconfig"; sourceTree = "<group>"; };
+		340D175D2521A78400E26829 /* PublicKey.pem */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = PublicKey.pem; sourceTree = "<group>"; };
 		75067EEE23A232F600388DC0 /* error-code.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = "error-code.html"; sourceTree = "<group>"; };
 		75067EEF23A2332800388DC0 /* test.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = test.gif; sourceTree = "<group>"; };
 		75067EF123A2455600388DC0 /* DemoModelVc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoModelVc.swift; sourceTree = "<group>"; };
@@ -372,6 +374,7 @@
 		756A50A322BDF9FD00E692DA /* QXUIKitExtension */ = {
 			isa = PBXGroup;
 			children = (
+				340D175D2521A78400E26829 /* PublicKey.pem */,
 				756A50B622BDFA1600E692DA /* QXUIKitExtension */,
 				756A50A422BDF9FD00E692DA /* AppDelegate.swift */,
 				756A50A622BDF9FD00E692DA /* ViewController.swift */,
@@ -597,6 +600,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				756A50AC22BDF9FE00E692DA /* Assets.xcassets in Resources */,
+				340D175E2521A78400E26829 /* PublicKey.pem in Resources */,
 				75D8522A236926F2000F4157 /* icon_big.png in Resources */,
 				75B0AF212398D47D00B0E817 /* test_dot@3x.png in Resources */,
 				7542FF3D23050EC60079CCD6 /* icon_mine_ask1@3x.png in Resources */,

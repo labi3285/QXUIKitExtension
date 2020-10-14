@@ -65,7 +65,9 @@ class DemoSettingsVc: QXTableViewController<Any> {
     final lazy var titleTextFieldCell: QXSettingTitleTextFieldCell = {
         let e = QXSettingTitleTextFieldCell()
         e.titleLabel.text = "输入框"
-        e.textField.filter = QXTextFilter.utf8(count: 4, regex: nil)
+        e.textField.filter = QXTextFilter.characters(limit: 5, regex: nil)
+
+//        e.textField.filter = QXTextFilter.utf8(count: 4, regex: nil)
 //        e.textField.filter = QXTextFilter.number(limit: 6)
         e.textField.placeHolder = "输入内容"
         return e
@@ -169,6 +171,8 @@ class DemoSettingsVc: QXTableViewController<Any> {
 
     final lazy var section: QXTableViewSection = {
         let e = QXTableViewSection([
+            self.textViewCell,
+
             self.xxxPickerCell,
             self.selectCell,
             self.cityPickerCell,
@@ -182,7 +186,6 @@ class DemoSettingsVc: QXTableViewController<Any> {
             QXFlexSpace(),
             self.textCell,
             self.textFieldCell,
-            self.textViewCell,
         ], self.headerView, self.footerView)
         return e
     }()

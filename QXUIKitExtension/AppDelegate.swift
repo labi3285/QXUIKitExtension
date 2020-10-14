@@ -15,8 +15,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-                        
+                                
 //        QXColor.isSupportDarkMode = false
+        
+ 
+        print(UIScrollView.DecelerationRate.normal.rawValue)
+        
+//        UIScrollView().decelerationRate = .fast
         
         IQKeyboardManager.shared.enable = true
         IQKeyboardManager.shared.enableAutoToolbar = true

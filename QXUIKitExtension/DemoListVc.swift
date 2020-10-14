@@ -84,7 +84,7 @@ class DemoListVc: QXTableViewController<Any> {
                 done(.failed(QXError("-1", "失败了")))
             } else {
                 self._isFailed = true
-                let ms = (0..<10).map { _ in QXDebugRandomText(999) }
+                let ms = (0..<100).map { _ in QXDebugRandomText(999) }
                 done(.succeed(ms, true))
             }
         }

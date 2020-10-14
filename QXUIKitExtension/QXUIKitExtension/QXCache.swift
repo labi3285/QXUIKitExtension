@@ -128,6 +128,9 @@ public class QXCache {
         _text_memories[key] = value
     }
     public func getText(_ key: String, memory: Bool = false) throws -> String? {
+        if let e = _text_memories[key] {
+            return e
+        }
         if let e = try db.query("SELECT * FROM 'table_text' WHERE key = '\(key)';").first {
             return e["value"] as? String
         }

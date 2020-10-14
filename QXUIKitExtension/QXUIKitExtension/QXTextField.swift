@@ -283,8 +283,8 @@ open class QXTextField: QXView, UITextFieldDelegate {
                 }
                 return true
             }())
+            _lastText = text
         }
-        _lastText = text
         clearButton?.isDisplay = text.count > 0
         layoutSubviews()
     }

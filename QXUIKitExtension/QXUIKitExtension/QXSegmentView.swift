@@ -271,7 +271,6 @@ open class QXSegmentsView<Model>: QXView {
                 case .bottom:
                     offsetY = segsY + segsGH - h
                 }
-                print(QXRect(offsetX, offsetY, wh.w, h))
                 e.updateRect(QXRect(offsetX, offsetY, wh.w, h))
                 offsetX += wh.w + segmentMargin
             }
