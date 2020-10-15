@@ -29,12 +29,15 @@ open class QXTextView: QXView, UITextViewDelegate {
     
     public var text: String {
         set {
-            _lastText = newValue
-            uiTextView.text = newValue
-            placeHolderLabel.isHidden = !newValue.isEmpty
+            let t = filter?.filte(newValue) ?? newValue
+            _lastText = t
+            _lastText = t
+            uiTextView.text = t
+            placeHolderLabel.isHidden = !t.isEmpty
         }
         get {
-            return uiTextView.text ?? ""
+            let t = uiTextView.text ?? ""
+            return filter?.deFilte(t) ?? t
         }
     }
 
@@ -78,6 +81,33 @@ open class QXTextView: QXView, UITextViewDelegate {
     public var filter: QXTextFilter? {
         didSet {
             uiTextView.qxUpdateFilter(filter)
+        }
+    }
+    
+    public var pickerView: QXPickersView? {
+        didSet {
+            if let e = pickerView {
+                uiTextView.inputView = QXKeyboardView(e)
+                e.respondItem = { [weak self] item in
+                    self?.pickedItems = item?.items()
+                    self?.pickedItem = item
+                }
+            }
+        }
+    }
+    public private(set) var pickedItem: QXPickerView.Item?
+    public var pickedTextParser: ([String]?) -> String?
+        = { strs in strs?.joined(separator: "-") }
+    public private(set) var pickedItems: [QXPickerView.Item]? {
+        didSet {
+            text = pickedTextParser(pickedItems?.map{ $0.text }) ?? ""
+            pickedItem = pickedItems?.last
+        }
+    }
+    public var bringInPickedItems: [QXPickerView.Item]? {
+        didSet {
+            pickedItems = bringInPickedItems
+            pickerView?.bringInPickedItems = bringInPickedItems
         }
     }
     

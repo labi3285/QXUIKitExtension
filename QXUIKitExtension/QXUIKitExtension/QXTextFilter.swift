@@ -227,6 +227,17 @@ public enum QXTextFilter {
         
     }
     
+    public func deFilte(_ text: String) -> String {
+        switch self {
+        case .phone:
+            return text.replacingOccurrences(of: " ", with: "")
+        case .backCard(length: _):
+            return text.replacingOccurrences(of: " ", with: "")
+        default:
+            return text
+        }
+    }
+    
     /// 正则过滤
     private func _filte(_ text: String, regex: String) -> String {
         do {

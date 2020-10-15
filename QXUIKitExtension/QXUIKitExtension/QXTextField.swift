@@ -24,12 +24,14 @@ open class QXTextField: QXView, UITextFieldDelegate {
 
     public var text: String {
         set {
-            _lastText = newValue
-            uiTextField.text = newValue
-            clearButton?.isDisplay = newValue.count > 0
+            let t = filter?.filte(newValue) ?? newValue
+            _lastText = t
+            uiTextField.text = t
+            clearButton?.isDisplay = t.count > 0
         }
         get {
-            return uiTextField.text ?? ""
+            let t = uiTextField.text ?? ""
+            return filter?.deFilte(t) ?? t
         }
     }
     

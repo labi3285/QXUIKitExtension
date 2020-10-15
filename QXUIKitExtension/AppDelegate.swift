@@ -18,6 +18,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                                 
 //        QXColor.isSupportDarkMode = false
         
+        QXTextField().pickedItem
+        
  
         print(UIScrollView.DecelerationRate.normal.rawValue)
         
