@@ -40,8 +40,8 @@ open class QXBannerView<Model>: QXView, UICollectionViewDelegate, UICollectionVi
         }
     }
     
-    public final lazy var flowLayout: UICollectionViewFlowLayout = {
-        let e = UICollectionViewFlowLayout()
+    public final lazy var flowLayout: FlowLayout = {
+        let e = FlowLayout()
         e.scrollDirection = .horizontal
         e.minimumInteritemSpacing = 0
         e.minimumLineSpacing = 0
@@ -164,6 +164,68 @@ open class QXBannerView<Model>: QXView, UICollectionViewDelegate, UICollectionVi
         _timer = e
     }
     
+    open class FlowLayout: UICollectionViewFlowLayout {
+        open override func prepare() {
+            super.prepare()
+            scrollDirection = .horizontal
+            minimumInteritemSpacing = 0
+            minimumLineSpacing = 0
+            sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        }
+//        open override func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
+//            guard let collectionView = collectionView else {
+//                return nil
+//            }
+//            var layoutAttributes: [UICollectionViewLayoutAttributes] = []
+//            let superLayoutAttributes = super.layoutAttributesForElements(in: rect)!
+//            let w: CGFloat = 300
+////            print(collectionView.contentOffset.x)
+//            let scaleX: CGFloat = 0.8
+//            let x = Int(collectionView.contentOffset.x / w)
+//
+//            superLayoutAttributes.forEach { (attributes) in
+//                let copyLayout = attributes.copy() as! UICollectionViewLayoutAttributes
+//                let offset = fmod(collectionView.contentOffset.x, w)
+//                let delta = w * (1 - scaleX)
+//                if copyLayout.frame.minX == CGFloat(x) * w {
+//                    copyLayout.frame = CGRect(x: copyLayout.frame.minX + delta * offset / w, y: copyLayout.frame.minY, width: copyLayout.frame.width * scaleX, height: copyLayout.frame.height)
+//                } else if copyLayout.frame.minX == CGFloat(x + 1) * w {
+//                    copyLayout.frame = CGRect(x: copyLayout.frame.minX - delta * (1 - offset / w), y: copyLayout.frame.minY, width: copyLayout.frame.width * scaleX, height: copyLayout.frame.height)
+//                } else if copyLayout.frame.minX == CGFloat(x - 1) * w {
+//                    copyLayout.frame = CGRect(x: copyLayout.frame.minX + delta * (1 - offset / w), y: copyLayout.frame.minY, width: copyLayout.frame.width * scaleX, height: copyLayout.frame.height)
+//                } else {
+//                    copyLayout.frame = CGRect(x: copyLayout.frame.minX, y: copyLayout.frame.minY, width: copyLayout.frame.width, height: copyLayout.frame.height)
+//                }
+//                layoutAttributes.append(copyLayout)
+//
+//
+////                let y = fmod(collectionView!.contentOffset.x, cellW)
+////                // 当前显示的cell正常移动
+////                if copyLayout.frame.minX == CGFloat(x) * cellW {
+////                    let scale = y / cellW
+////                    let offset = margin * scale
+////                    copyLayout.frame = CGRect(x: copyLayout.frame.minX + offset, y: copyLayout.frame.minY, width: copyLayout.frame.width, height: copyLayout.frame.height)
+////                // 右边第二个cell减速移动，生成一个1.5倍的左间隙漂移
+////                } else if copyLayout.frame.minX == CGFloat(x + 2) * cellW {
+////                    let scale = 2 - y / cellW
+////                    let offset = margin * (-1.5) * scale
+////                    copyLayout.frame = CGRect(x: copyLayout.frame.minX + offset, y: copyLayout.frame.minY, width: copyLayout.frame.width, height: copyLayout.frame.height)
+////                // 右边第一个cell的处理（其他的cell也走这）
+////                } else {
+////                    let scale = 1 - y / cellW
+////                    let offset = margin * (-1.5) * scale
+////                    copyLayout.frame = CGRect(x: copyLayout.frame.minX + offset, y: copyLayout.frame.minY, width: copyLayout.frame.width, height: copyLayout.frame.height)
+////                }
+//
+////                layoutAttributes.append(copyLayout)
+//            }
+//            return layoutAttributes
+//        }
+//        open override func shouldInvalidateLayout(forBoundsChange newBounds: CGRect) -> Bool {
+//            return true
+//        }
+    }
+    
 }
 
 open class QXBanner<Model> {
@@ -263,6 +325,7 @@ open class QXImageBanner<Model>: QXBanner<Model> {
     open var placeHolderImage: QXImage?
     open var cornerRadius: CGFloat?
     open var padding: QXEdgeInsets = QXEdgeInsets.zero
+    open var clipsToBounds: Bool = true
 }
 
 open class QXImageBannerCell<Model>: QXBannerCell<Model> {
@@ -274,6 +337,7 @@ open class QXImageBannerCell<Model>: QXBannerCell<Model> {
                 myImageView.placeHolderImage = e.placeHolderImage
                 myImageView.image = e.image
                 myImageView.padding = e.padding
+                myImageView.clipsToBounds = e.clipsToBounds
                 if let e = e.cornerRadius {
                     myImageView.uiImageView.layer.cornerRadius = e
                     myImageView.uiImageView.clipsToBounds = true

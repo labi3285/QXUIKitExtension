@@ -30,6 +30,7 @@ class DemoBannerVc: QXViewController {
         let c = QXViewBanner<String>(label)
         c.model = "banner btn"
         e.banners = [a, b, c]
+        
         return e
     }()
     
@@ -44,12 +45,25 @@ class DemoBannerVc: QXViewController {
         return e
     }()
     
+    lazy var bannerView1: QXBannerView<String> = {
+        let e = QXBannerView<String>()
+        let b = QXImageBanner<String>(QXImage("test_image"))
+        b.model = "banner image"
+        b.contentMode = .scaleToFill
+        e.banners = [b, b, b]
+        e.backColor = QXColor.yellow
+        return e
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.addSubview(bannerView)
-        view.addSubview(indicatorView)
-        bannerView.IN(view).CENTER.SIZE(300, 150).MAKE()
-        indicatorView.IN(view).TOP(100).CENTER.MAKE()
+//        view.addSubview(bannerView)
+//        view.addSubview(indicatorView)
+        view.addSubview(bannerView1)
+//        bannerView.IN(view).CENTER.TOP(70).SIZE(300, 150).MAKE()
+//        indicatorView.IN(view).TOP(50).CENTER.MAKE()
+        
+        bannerView1.IN(view).TOP(300).CENTER.SIZE(300, 150).MAKE()
     }
     
 }

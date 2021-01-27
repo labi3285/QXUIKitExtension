@@ -36,9 +36,11 @@ open class QXPageViewController: UIViewController, UIPageViewControllerDelegate,
     required public init(_ viewControllers: [UIViewController]) {
         self.viewControllers = viewControllers
         super.init(nibName: nil, bundle: nil)
-        let vc = viewControllers[0]
-        title = vc.title
-        uiPageViewController.setViewControllers([vc], direction: .forward, animated: false, completion: nil)
+        if viewControllers.count > 0 {
+            let vc = viewControllers[0]
+            title = vc.title
+            uiPageViewController.setViewControllers([vc], direction: .forward, animated: false, completion: nil)
+        }
     }
     required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")

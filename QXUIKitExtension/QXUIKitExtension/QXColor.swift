@@ -12,6 +12,20 @@ public enum QXColor {
     
     /// 是否支持夜间模式
     public static var isSupportDarkMode: Bool = true
+    
+    /// 是否是夜间模式
+    public static var isDarkMode: Bool {
+        if #available(iOS 13.0, *) {
+            switch UITraitCollection.current.userInterfaceStyle {
+            case .dark:
+                return isSupportDarkMode
+            default:
+                return false
+            }
+        } else {
+            return false
+        }
+    }
 
     /// rgb:(255, 255, 255, 255)
     case rgb(_ r: UInt8, _ g: UInt8, _ b: UInt8, _ a: UInt8)

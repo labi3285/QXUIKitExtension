@@ -226,21 +226,21 @@ open class QXButton: QXView {
             handlePrepareOrigins()
             _isOriginPrepared = true
         }
-        if let e = backView.imageHighlighted ?? _originBackImage {
+        if let e = backView.imageHighlighted ?? (isSelected ? backView.imageSelected : _originBackImage) ?? _originBackImage {
             backView._pureUpdateBackLayers(nil)
             backView._pureUpdateBackColor(nil)
             backView._pureUpdateImage(e)
-        } else if let e = backView.backLayersHighlighted ?? _originBackLayers {
+        } else if let e = backView.backLayersHighlighted ?? (isSelected ? backView.backLayersSelected : _originBackLayers) ?? _originBackLayers {
             backView._pureUpdateBackLayers(e)
             backView._pureUpdateBackColor(nil)
             backView._pureUpdateImage(nil)
         } else {
             backView._pureUpdateBackLayers(nil)
-            backView._pureUpdateBackColor(backView.backColorHighlighted ?? _originBackColor)
+            backView._pureUpdateBackColor(backView.backColorHighlighted ?? (isSelected ? backView.backColorSelected : _originBackColor) ?? _originBackColor)
             backView._pureUpdateImage(nil)
         }
-        backView._pureUpdateShadow(backView.shadowHighlighted ?? _originShadow)
-        backView._pureUpdateBorder(backView.borderHighlighted ?? _originBorder)
+        backView._pureUpdateShadow(backView.shadowHighlighted ?? (isSelected ? backView.shadowSelected : _originShadow) ?? _originShadow)
+        backView._pureUpdateBorder(backView.borderHighlighted ?? (isSelected ? backView.borderSelected : _originBorder) ?? _originBorder)
         backView.alpha = highlightAlpha ?? _originAlpha ?? 1
     }
     open func handleSelected() {
@@ -471,12 +471,12 @@ open class QXTitleButton: QXButton {
         if let e = richTitlesHighlighted {
             uiLabel.qxRichTexts = e
         } else if let e = titleHighlighted {
-            uiLabel.qxRichText = QXRichText.text(e, font)
+            uiLabel.qxRichText = QXRichText.text(e, fontHighlighted ?? (isSelected ? fontSelected : font) ?? font)
         } else {
-            if let e = richTitlesHighlighted ?? richTitles {
+            if let e = richTitlesHighlighted ?? (isSelected ? richTitlesSelected : richTitles) ?? richTitles {
                 uiLabel.qxRichTexts = e
             } else {
-                uiLabel.qxRichText = QXRichText.text(titleHighlighted ?? title, fontHighlighted ?? font)
+                uiLabel.qxRichText = QXRichText.text(titleHighlighted ?? (isSelected ? titleSelected : title) ?? title, fontHighlighted ?? (isSelected ? fontSelected : font) ?? font)
             }
         }
         super.handleHighlighted()
@@ -485,7 +485,7 @@ open class QXTitleButton: QXButton {
         if let e = richTitlesSelected {
             uiLabel.qxRichTexts = e
         } else if let e = titleSelected {
-            uiLabel.qxRichText = QXRichText.text(e, font)
+            uiLabel.qxRichText = QXRichText.text(e, fontSelected ?? font)
         } else {
             if let e = richTitlesSelected ?? richTitles {
                uiLabel.qxRichTexts = e
@@ -499,7 +499,7 @@ open class QXTitleButton: QXButton {
         if let e = richTitlesDisabled {
             uiLabel.qxRichTexts = e
         } else if let e = titleDisabled {
-            uiLabel.qxRichText = QXRichText.text(e, font)
+            uiLabel.qxRichText = QXRichText.text(e, fontDisabled ?? font)
         } else {
             if let e = richTitles {
                 uiLabel.qxRichTexts = e
@@ -581,7 +581,7 @@ open class QXImageButton: QXButton {
         super.handleSelected()
     }
     override open func handleDisabled(isSelected: Bool) {
-        imageView.image = imageSelected ?? image
+        imageView.image = imageDisabled ?? image
         super.handleDisabled(isSelected: isSelected)
     }
     

@@ -24,46 +24,52 @@ open class QXStackView: QXView {
     public convenience init(views: [QXViewProtocol]) {
         self.init()
         self.views = views
+        self.updateViews()
     }
     public convenience init(views: [QXViewProtocol], viewMargin: CGFloat) {
         self.init()
         self.viewMargin = viewMargin
         self.views = views
+        self.updateViews()
     }
     public convenience init(views: [QXViewProtocol], isVertical: Bool, viewMargin: CGFloat) {
         self.init()
         self.isVertical = isVertical
         self.viewMargin = viewMargin
         self.views = views
+        self.updateViews()
     }
     
     open var views: [QXViewProtocol] = [] {
         didSet {
-            for view in subviews {
-                 view.removeFromSuperview()
-             }
-             for e in views {
-                 if let e = e as? QXView {
-                     e.respondNeedsLayout = { [weak self] in
-                         self?.qxSetNeedsLayout()
-                     }
-                 }
-             }
-             var sortInfos: [(i: Int, compressResistance: CGFloat)] = []
-             for (i, v) in views.enumerated() {
-                 if isVertical {
-                     sortInfos.append((i, v.compressResistanceY))
-                 } else {
-                     sortInfos.append((i, v.compressResistanceX))
-                 }
-             }
-             sortInfos = sortInfos.reversed().sorted(by: { $0.compressResistance < $1.compressResistance })
-             self.compressOrder = sortInfos.map({ $0.i })
-             for view in views {
-                 view.addAsQXSubview(self)
-             }
-             qxSetNeedsLayout()
+            updateViews()
         }
+    }
+    open func updateViews() {
+        for view in subviews {
+             view.removeFromSuperview()
+         }
+         for e in views {
+             if let e = e as? QXView {
+                 e.respondNeedsLayout = { [weak self] in
+                     self?.qxSetNeedsLayout()
+                 }
+             }
+         }
+         var sortInfos: [(i: Int, compressResistance: CGFloat)] = []
+         for (i, v) in views.enumerated() {
+             if isVertical {
+                 sortInfos.append((i, v.compressResistanceY))
+             } else {
+                 sortInfos.append((i, v.compressResistanceX))
+             }
+         }
+         sortInfos = sortInfos.reversed().sorted(by: { $0.compressResistance < $1.compressResistance })
+         self.compressOrder = sortInfos.map({ $0.i })
+         for view in views {
+             view.addAsQXSubview(self)
+         }
+         qxSetNeedsLayout()
     }
     
     override open func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {

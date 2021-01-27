@@ -111,11 +111,15 @@ public enum QXTextFilter {
                 return "\(n)."
             } else if text.contains(".") {
                 let comps = text.components(separatedBy: ".")
-                let text = comps[0] + "." + comps[1].qxString(start: 0, end: max(_dec - 1, 0))
+                var t = ""
                 if comps[1].count < _dec {
-                    return text
+                    t = text
+                } else if _dec > 0 {
+                    t = comps[0] + "." + comps[1].qxString(start: 0, end: max(_dec - 1, 0))
+                } else {
+                    t = comps[0]
                 }
-                var n = (text as NSString).floatValue
+                var n = (t as NSString).floatValue
                 n = min(max(n, _min), _max)
                 return "\(n)"
             } else {
@@ -132,11 +136,15 @@ public enum QXTextFilter {
                 return "\(n)."
             } else if text.contains(".") {
                 let comps = text.components(separatedBy: ".")
-                let text = comps[0] + "." + comps[1].qxString(start: 0, end: max(_dec - 1, 0))
+                var t = ""
                 if comps[1].count < _dec {
-                    return text
+                    t = text
+                } else if _dec > 0 {
+                    t = comps[0] + "." + comps[1].qxString(start: 0, end: max(_dec - 1, 0))
+                } else {
+                    t = comps[0]
                 }
-                var n = (text as NSString).doubleValue
+                var n = (t as NSString).doubleValue
                 n = min(max(n, _min), _max)
                 return "\(n)"
             } else {

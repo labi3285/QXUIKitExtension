@@ -299,12 +299,12 @@ open class QXTableView: QXView {
         set {
             if newValue {
                 if uiTableView.style != .plain {
-                    uiTableView = UITableView(frame: CGRect.zero, style: .plain)
+                    uiTableView = uiTableViewClass.init(frame: CGRect.zero, style: .plain)
                     updateUITableView()
                 }
             } else {
                 if uiTableView.style == .plain {
-                    uiTableView = UITableView(frame: CGRect.zero, style: .grouped)
+                    uiTableView = uiTableViewClass.init(frame: CGRect.zero, style: .grouped)
                     updateUITableView()
                 }
             }
@@ -323,7 +323,9 @@ open class QXTableView: QXView {
         }
     }
 
-    public private(set) var uiTableView: UITableView = UITableView(frame: CGRect.zero, style: .grouped)
+    public private(set) var uiTableView: UITableView
+    
+    public let uiTableViewClass: UITableView.Type
     
     open func updateUITableView() {
         uiTableView.backgroundColor = UIColor.clear
@@ -353,6 +355,14 @@ open class QXTableView: QXView {
     }
         
     required override public init() {
+        self.uiTableViewClass = UITableView.self
+        self.uiTableView = UITableView(frame: CGRect.zero, style: .grouped)
+        super.init()
+        updateUITableView()
+    }
+    required public init(uiTableViewClass: UITableView.Type) {
+        self.uiTableViewClass = uiTableViewClass
+        self.uiTableView = uiTableViewClass.init(frame: CGRect.zero, style: .grouped)
         super.init()
         updateUITableView()
     }
@@ -753,9 +763,9 @@ extension QXTableView: UITableViewDelegate, UITableViewDataSource {
 
 extension QXTableView {
     
-    @discardableResult public func mapModels<T>(_ modelType: T.Type) -> [T] {
+    @discardableResult public func mapModels<T>(_ modelType: T.Type, isCacheModel: Bool = false) -> [T] {
         var ms: [T] = []
-        for (_, s) in sections.enumerated() {
+        for (_, s) in (isCacheModel ? _cacheSections : sections).enumerated() {
             for (_, r) in s.models.enumerated() {
                 if let m = r as? T {
                     ms.append(m)
@@ -770,9 +780,9 @@ extension QXTableView {
         return ms
     }
     
-    @discardableResult public func mapModels<T>(_ modelType: T.Type, _ todo: (T) -> Void) -> [T] {
+    @discardableResult public func mapModels<T>(_ modelType: T.Type, isCacheModel: Bool = false, _ todo: (T) -> Void) -> [T] {
         var ms: [T] = []
-        for (_, s) in sections.enumerated() {
+        for (_, s) in (isCacheModel ? _cacheSections : sections).enumerated() {
             for (_, r) in s.models.enumerated() {
                 if let m = r as? T {
                     todo(m)
@@ -790,9 +800,9 @@ extension QXTableView {
         return ms
     }
     
-    @discardableResult public func mapModels<T>(_ modelType: T.Type, _ todo: (T) -> T?) -> [T] {
+    @discardableResult public func mapModels<T>(_ modelType: T.Type, isCacheModel: Bool = false, _ todo: (T) -> T?) -> [T] {
         var ms: [T] = []
-        for (_, s) in sections.enumerated() {
+        for (_, s) in (isCacheModel ? _cacheSections : sections).enumerated() {
             for (_, r) in s.models.enumerated() {
                 if let m = r as? T {
                     if let m = todo(m) {
@@ -813,9 +823,9 @@ extension QXTableView {
         return ms
     }
     
-    @discardableResult public func reduceModels<T>(_ modelType: T.Type, _ todo: (T) -> T?) -> [T] {
+    @discardableResult public func reduceModels<T>(_ modelType: T.Type, isCacheModel: Bool = false, _ todo: (T) -> T?) -> [T] {
         var ms: [T] = []
-        for (_, s) in sections.enumerated() {
+        for (_, s) in (isCacheModel ? _cacheSections : sections).enumerated() {
             for (i, r) in s.models.enumerated() {
                 if let m = r as? T {
                     if let m = todo(m) {

@@ -27,7 +27,7 @@ public protocol QXCollectionViewDelegate: class {
     func collectionViewDidChangePage(_ page: Int)
 
     func collectionViewNeedsReloadData()
-    
+        
 }
 public extension QXCollectionViewDelegate {
     func collectionViewDidSetupCell(_ cell: QXCollectionViewCell, for model: Any, in section: QXCollectionViewSection) { }
@@ -41,7 +41,7 @@ public extension QXCollectionViewDelegate {
 
     func collectionViewDidMove(from: IndexPath, to: IndexPath, in sections: [QXCollectionViewSection]) { }
     
-    func collectionViewDidScroll(isDrag: Bool) { }
+    func collectionViewDidScroll() { }
     func collectionViewDidChangePage(_ page: Int) { }
 
     func collectionViewNeedsReloadData() { }
@@ -294,32 +294,9 @@ open class QXCollectionView: QXView {
         }
     }
     
-    final private lazy var flowLayout: JQCollectionViewAlignLayout = {
-        let e = JQCollectionViewAlignLayout()
-        e.minimumLineSpacing = 0
-        e.minimumInteritemSpacing = 0
-        e.sectionInset = UIEdgeInsets.zero
-        e.itemsDirection = .LTR
-        e.itemsHorizontalAlignment = .left
-        e.itemsVerticalAlignment = .top
-        return e
-    }()
-    final public lazy var uiCollectionView: UICollectionView = {
-        let e = UICollectionView(frame: CGRect.zero, collectionViewLayout: self.flowLayout)
-        e.backgroundColor = UIColor.clear
-        e.register(QXCollectionViewCell.self, forCellWithReuseIdentifier: "NULL")
-        e.register(QXCollectionViewHeaderFooterView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "NULL")
-        e.register(QXCollectionViewHeaderFooterView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: "NULL")
-        e.register(QXCollectionViewSpaceCell.self, forCellWithReuseIdentifier: "\(type(of: QXSpace(1)))")
-        e.register(QXCollectionViewSpaceHeadFooterView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "\(type(of: QXSpace(1)))")
-        e.register(QXCollectionViewSpaceHeadFooterView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: "\(type(of: QXSpace(1)))")
-        e.bounces = true
-        e.alwaysBounceVertical = true
-        e.delegate = self
-        e.dataSource = self
-        return e
-    }()
-    
+    public let uiCollectionViewClass: UICollectionView.Type
+    public let uiCollectionView: UICollectionView
+    public let flowLayout: JQCollectionViewAlignLayout
     public final lazy var sortLongGestureRecognizer: UILongPressGestureRecognizer = {
         let e = UILongPressGestureRecognizer(target: self, action: #selector(sortLongGesture(_:)))
         e.minimumPressDuration = 0.1
@@ -362,10 +339,57 @@ open class QXCollectionView: QXView {
         super.layoutSubviews()
         uiCollectionView.qxRect = qxBounds.rectByReduce(padding)
     }
-
-    required public override init() {
+    
+    required override public init() {
+        self.uiCollectionViewClass = UICollectionView.self
+        let flowLayout = JQCollectionViewAlignLayout()
+        flowLayout.minimumLineSpacing = 0
+        flowLayout.minimumInteritemSpacing = 0
+        flowLayout.sectionInset = UIEdgeInsets.zero
+        flowLayout.itemsDirection = .LTR
+        flowLayout.itemsHorizontalAlignment = .left
+        flowLayout.itemsVerticalAlignment = .top
+        self.flowLayout = flowLayout
+        self.uiCollectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: flowLayout)
         super.init()
-        addSubview(uiCollectionView)
+        self.addSubview(uiCollectionView)
+        self.updateUICollectionView()
+    }
+    required public init(uiCollectionViewClass: UICollectionView.Type) {
+        self.uiCollectionViewClass = uiCollectionViewClass
+        let flowLayout = JQCollectionViewAlignLayout()
+        flowLayout.minimumLineSpacing = 0
+        flowLayout.minimumInteritemSpacing = 0
+        flowLayout.sectionInset = UIEdgeInsets.zero
+        flowLayout.itemsDirection = .LTR
+        flowLayout.itemsHorizontalAlignment = .left
+        flowLayout.itemsVerticalAlignment = .top
+        self.flowLayout = flowLayout
+        self.uiCollectionView = uiCollectionViewClass.init(frame: CGRect.zero, collectionViewLayout: flowLayout)
+        super.init()
+        self.addSubview(uiCollectionView)
+        self.updateUICollectionView()
+    }
+    required public init(uiCollectionViewClass: UICollectionView.Type, flowLayout: JQCollectionViewAlignLayout) {
+        self.uiCollectionViewClass = uiCollectionViewClass
+        self.flowLayout = flowLayout
+        self.uiCollectionView = uiCollectionViewClass.init(frame: CGRect.zero, collectionViewLayout: flowLayout)
+        super.init()
+        self.addSubview(uiCollectionView)
+        self.updateUICollectionView()
+    }
+    open func updateUICollectionView() {
+        self.uiCollectionView.backgroundColor = UIColor.clear
+        self.uiCollectionView.register(QXCollectionViewCell.self, forCellWithReuseIdentifier: "NULL")
+        self.uiCollectionView.register(QXCollectionViewHeaderFooterView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "NULL")
+        self.uiCollectionView.register(QXCollectionViewHeaderFooterView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: "NULL")
+        self.uiCollectionView.register(QXCollectionViewSpaceCell.self, forCellWithReuseIdentifier: "\(type(of: QXSpace(1)))")
+        self.uiCollectionView.register(QXCollectionViewSpaceHeadFooterView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "\(type(of: QXSpace(1)))")
+        self.uiCollectionView.register(QXCollectionViewSpaceHeadFooterView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: "\(type(of: QXSpace(1)))")
+        self.uiCollectionView.bounces = true
+        self.uiCollectionView.alwaysBounceVertical = true
+        self.uiCollectionView.delegate = self
+        self.uiCollectionView.dataSource = self
     }
     public required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")

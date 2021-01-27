@@ -114,7 +114,8 @@ open class QXSegmentsView<Model>: QXView {
             for e in oldValue {
                 e.removeFromSuperview()
             }
-            for e in segmentViews {
+            for (i, e) in segmentViews.enumerated() {
+                e.isSelected = selectIndex == i
                 e.respondClick = { [weak self, weak e] in
                     guard let ws = self, let btn = e else {
                         return
@@ -276,7 +277,7 @@ open class QXSegmentsView<Model>: QXView {
             }
         }
         uiScrollView.frame = CGRect(x: 0, y: 0, width: scrollW, height: scrollH)
-        uiScrollView.contentSize = CGSize(width: max(scrollW, segsWH.w + padding.left + padding.right), height: segsGH)
+        uiScrollView.contentSize = CGSize(width: max(scrollW, segsWH.w + padding.left + padding.right), height: 1)
         _checkOrChangeIndex(animated: false)
     }
     

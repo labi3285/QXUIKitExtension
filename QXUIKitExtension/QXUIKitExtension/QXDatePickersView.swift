@@ -251,8 +251,8 @@ open class QXMonthDayPickersView: QXDatePickersView {
         respondItem = { [weak self] item in
             if let s = self {
                 if let arr = item?.items() {
-                    let date = QXDate(month: arr[1].data as? Int ?? 1,
-                                      day: arr[2].data as? Int ?? 1)
+                    let date = QXDate(month: arr[0].data as? Int ?? 1,
+                                      day: arr[1].data as? Int ?? 1)
                     s.respondDate?(date)
                 } else {
                     s.respondDate?(nil)

@@ -333,6 +333,30 @@ extension UIImage {
         return image
     }
     
+    public func qxClockwiseRotate() -> UIImage {
+        if let cgi = cgImage {
+            switch imageOrientation {
+            case .up:
+                return UIImage(cgImage: cgi, scale: 1, orientation: .right)
+            case .upMirrored:
+                return UIImage(cgImage: cgi, scale: 1, orientation: .rightMirrored)
+            case .right:
+                return UIImage(cgImage: cgi, scale: 1, orientation: .down)
+            case .rightMirrored:
+                return UIImage(cgImage: cgi, scale: 1, orientation: .downMirrored)
+            case .down:
+                return UIImage(cgImage: cgi, scale: 1, orientation: .left)
+            case .downMirrored:
+                return UIImage(cgImage: cgi, scale: 1, orientation: .leftMirrored)
+            case .left:
+                return UIImage(cgImage: cgi, scale: 1, orientation: .up)
+            case .leftMirrored:
+                return UIImage(cgImage: cgi, scale: 1, orientation: .upMirrored)
+            }
+        }
+        return self
+    }
+    
 }
 
 extension QXImage {
@@ -365,5 +389,5 @@ extension QXImage {
         let s1 = QXSize(s.width / UIScreen.main.scale, s.height / UIScreen.main.scale)
         return QXImage(image).setSize(s1)
     }
-    
+
 }

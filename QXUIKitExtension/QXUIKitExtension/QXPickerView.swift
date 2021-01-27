@@ -16,7 +16,7 @@ open class QXPickersView: QXStackView {
         didSet {
             if pickerViews.count == 1 {
                 var arr = items
-                if let f = items.first, let s = nonePlaceHolder {
+                if isCleanShow, let f = items.first, let s = nonePlaceHolder {
                     let e = QXPickerView.Item.placeHolder(s, f.font)
                     arr.insert(e, at: 0)
                 }

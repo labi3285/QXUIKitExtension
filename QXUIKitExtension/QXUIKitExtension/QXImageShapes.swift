@@ -212,5 +212,22 @@ extension QXImage {
         }
     }
     
+    public static func shapText(text: String, font: QXFont) -> QXImage {
+        let wh = NSAttributedString(string: text, attributes: [NSAttributedString.Key.font: font.uiFont]).qxSize.qxSize
+        return QXImage.image(size: wh) { (ctx, size, scale) in
+            let scaleFont: UIFont
+            if font.bold {
+                scaleFont = UIFont.boldSystemFont(ofSize: font.size * scale)
+            } else {
+                scaleFont = UIFont.systemFont(ofSize: font.size * scale)
+            }
+            let dic: [NSAttributedString.Key: Any] = [
+                NSAttributedString.Key.font: scaleFont,
+                NSAttributedString.Key.foregroundColor: font.color.uiColor
+            ]
+            NSAttributedString(string: text, attributes: dic).draw(at: CGPoint(x: 0, y: 0))
+        }
+    }
+    
 }
 
