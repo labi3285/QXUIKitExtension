@@ -362,4 +362,39 @@ extension QXView {
 }
 
 
+open class QXScrollView: QXView {
+    
+    public let view: QXView
+    public lazy var uiScrollView: UIScrollView = {
+        let e = UIScrollView()
+        e.bounces = true
+        e.alwaysBounceHorizontal = false
+        e.alwaysBounceVertical = false
+        e.showsHorizontalScrollIndicator = false
+        e.showsVerticalScrollIndicator = false
+        return e
+    }()
+    public required init(view: QXView) {
+        self.view = view
+        super.init()
+        addSubview(uiScrollView)
+        uiScrollView.addSubview(view)
+    }
+    public required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    open override func layoutSubviews() {
+        super.layoutSubviews()
+        view.qxRect = QXRect(view.natureSize)
+        uiScrollView.qxRect = qxBounds.rectByReduce(padding)
+        uiScrollView.contentSize = view.natureSize.cgSize
+    }
+    
+    open override func natureContentSize() -> QXSize {
+        return view.natureSize.sizeByAdd(padding)
+    }
+    
+}
+
 

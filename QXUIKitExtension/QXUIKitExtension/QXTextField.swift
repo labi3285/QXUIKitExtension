@@ -79,6 +79,7 @@ open class QXTextField: QXView, UITextFieldDelegate {
         didSet {
             text = pickedTextParser(pickedItems?.map{ $0.text }) ?? ""
             pickedItem = pickedItems?.last
+            respondTextChange?(text, QXEmpty(text))
         }
     }
     public var bringInPickedItems: [QXPickerView.Item]? {

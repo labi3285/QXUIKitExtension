@@ -20,16 +20,9 @@ open class QXImageView: QXView {
     }
     
     open var image: QXImage? {
-        set {
-            _image = newValue
-            uiImageView.qxImage = newValue
+        didSet {
+            uiImageView.qxImage = image
             placeHolderView.isHidden = placeHolderView.image == nil || uiImageView.image != nil
-        }
-        get {
-            if let e = uiImageView.image {
-                _image?.uiImage = e
-            }
-            return _image
         }
     }
 
@@ -43,12 +36,9 @@ open class QXImageView: QXView {
     }
     
     open var placeHolderImage: QXImage? {
-        set {
-            placeHolderView.qxImage = newValue
+        didSet {
+            placeHolderView.qxImage = placeHolderImage
             placeHolderView.isHidden = placeHolderView.image == nil || uiImageView.image != nil
-        }
-        get {
-            return placeHolderView.qxImage
         }
     }
     
@@ -130,8 +120,123 @@ open class QXImageView: QXView {
             }
         }
     }
-    private var _image: QXImage?
-    
 }
 
-
+open class QXDarkImageView: QXImageView {
+    
+    open override var image: QXImage? {
+        didSet {
+            if !QXColor.isDarkMode {
+                uiImageView.qxImage = image
+            }
+            placeHolderView.isHidden = placeHolderView.image == nil || uiImageView.image != nil
+        }
+    }
+    
+    open var imageDark: QXImage? {
+        didSet {
+            if QXColor.isDarkMode {
+                uiImageView.qxImage = imageDark
+            }
+            placeHolderView.isHidden = placeHolderView.image == nil || uiImageView.image != nil
+        }
+    }
+    
+    open override var placeHolderImage: QXImage? {
+        didSet {
+            if !QXColor.isDarkMode {
+                placeHolderView.qxImage = placeHolderImage
+            }
+            placeHolderView.isHidden = placeHolderView.image == nil || uiImageView.image != nil
+        }
+    }
+    
+    open var placeHolderImageDark: QXImage? {
+        didSet {
+            if QXColor.isDarkMode {
+                placeHolderView.qxImage = placeHolderImageDark
+            }
+            placeHolderView.isHidden = placeHolderView.image == nil || uiImageView.image != nil
+        }
+    }
+    
+    public override init() {
+        super.init()
+        isUserInteractionEnabled = false
+        NotificationCenter.default.addObserver(self, selector: #selector(applicationDidBecomeActive), name: UIApplication.didBecomeActiveNotification, object: nil)
+    }
+    public required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    @objc func applicationDidBecomeActive() {
+        if QXColor.isDarkMode {
+            let a = self.placeHolderImageDark
+            let b = self.imageDark
+            self.placeHolderImageDark = a
+            self.imageDark = b
+        } else {
+            let a = self.placeHolderImage
+            let b = self.image
+            self.placeHolderImage = a
+            self.image = b
+        }
+    }
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+    open override func natureContentSize() -> QXSize {
+        var w: CGFloat = 0
+        var h: CGFloat = 0
+        if QXColor.isDarkMode {
+            if let e = imageDark?.size, e.w > 0, e.h > 0 {
+                w = e.w
+                h = e.h
+                if let _w = fixWidth {
+                    w = _w
+                    h = w * e.h / e.w
+                }
+                if let _h = fixHeight {
+                    h = _h
+                    w = h * e.w / e.h
+                }
+            } else if let e = placeHolderImageDark?.size {
+                w = e.w
+                h = e.h
+                if let _w = fixWidth {
+                    w = _w
+                    h = w * e.h / e.w
+                }
+                if let _h = fixHeight {
+                    h = _h
+                    w = h * e.w / e.h
+                }
+            }
+        } else {
+            if let e = image?.size, e.w > 0, e.h > 0 {
+                w = e.w
+                h = e.h
+                if let _w = fixWidth {
+                    w = _w
+                    h = w * e.h / e.w
+                }
+                if let _h = fixHeight {
+                    h = _h
+                    w = h * e.w / e.h
+                }
+            } else if let e = placeHolderImage?.size {
+                w = e.w
+                h = e.h
+                if let _w = fixWidth {
+                    w = _w
+                    h = w * e.h / e.w
+                }
+                if let _h = fixHeight {
+                    h = _h
+                    w = h * e.w / e.h
+                }
+            }
+        }
+        return QXSize(w, h).sizeByAdd(padding)
+    }
+    
+}

@@ -423,6 +423,7 @@ open class QXCollectionView: QXView {
         cell.context = QXCollectionViewCell.Context(collectionView: self,
                                                     indexPath: indexPath,
                                                     givenWidth: uiCollectionView.bounds.width - flowLayout.sectionInset.left - flowLayout.sectionInset.right - uiCollectionView.contentInset.left - uiCollectionView.contentInset.right,
+                                                    givenHeight: uiCollectionView.bounds.height - flowLayout.sectionInset.top - flowLayout.sectionInset.bottom - uiCollectionView.contentInset.top - uiCollectionView.contentInset.bottom,
                                                     cellMinMargin: flowLayout.minimumInteritemSpacing,
                                                     isFirstCellInSection: indexPath.item == 0,
                                                     isLastCellInSection: indexPath.item == ms.count - 1)
@@ -446,6 +447,7 @@ open class QXCollectionView: QXView {
             let context = QXCollectionViewCell.Context(collectionView: self,
                                                        indexPath: indexPath,
                                                        givenWidth: uiCollectionView.bounds.width - flowLayout.sectionInset.left - flowLayout.sectionInset.right - uiCollectionView.contentInset.left - uiCollectionView.contentInset.right,
+                                                       givenHeight: uiCollectionView.bounds.height - flowLayout.sectionInset.top - flowLayout.sectionInset.bottom - uiCollectionView.contentInset.top - uiCollectionView.contentInset.bottom,
                                                        cellMinMargin: flowLayout.minimumInteritemSpacing,
                                                        isFirstCellInSection: indexPath.item == 0,
                                                        isLastCellInSection: indexPath.item == ms.count - 1)
@@ -727,6 +729,7 @@ open class QXCollectionViewCell: UICollectionViewCell {
         public private(set) weak var collectionView: QXCollectionView?
         public let indexPath: IndexPath
         public let givenWidth: CGFloat
+        public let givenHeight: CGFloat
         public let cellMinMargin: CGFloat
         public let isFirstCellInSection: Bool
         public let isLastCellInSection: Bool

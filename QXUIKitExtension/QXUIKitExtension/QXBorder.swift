@@ -22,6 +22,10 @@ open class QXBorder {
     @discardableResult
     public func setCornerRadius(_ e: CGFloat?) -> QXBorder { cornerRadius = e; return self }
     
+    open var cornerMask: CACornerMask?
+    @discardableResult
+    public func setCornerMask(_ e: CACornerMask?) -> QXBorder { cornerMask = e; return self }
+    
     public init() {
     }
     
@@ -38,13 +42,20 @@ extension CALayer {
     open var qxBorder: QXBorder? {
         set {
             if let e = newValue?.color?.uiColor.cgColor {
-                 borderColor = e
+                borderColor = e
             }
             if let e = newValue?.lineWidth {
                 borderWidth = e
             }
             if let e = newValue?.cornerRadius {
                 cornerRadius = e
+            }
+            if let e = newValue?.cornerMask {
+                if #available(iOS 11.0, *) {
+                    maskedCorners = e
+                } else {
+                    // Fallback on earlier versions
+                }
             }
         }
         get {

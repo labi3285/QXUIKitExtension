@@ -333,26 +333,52 @@ extension UIImage {
         return image
     }
     
-    public func qxClockwiseRotate() -> UIImage {
+    public func qxRotate(isClockwise: Bool = true) -> UIImage {
         if let cgi = cgImage {
-            switch imageOrientation {
-            case .up:
-                return UIImage(cgImage: cgi, scale: 1, orientation: .right)
-            case .upMirrored:
-                return UIImage(cgImage: cgi, scale: 1, orientation: .rightMirrored)
-            case .right:
-                return UIImage(cgImage: cgi, scale: 1, orientation: .down)
-            case .rightMirrored:
-                return UIImage(cgImage: cgi, scale: 1, orientation: .downMirrored)
-            case .down:
-                return UIImage(cgImage: cgi, scale: 1, orientation: .left)
-            case .downMirrored:
-                return UIImage(cgImage: cgi, scale: 1, orientation: .leftMirrored)
-            case .left:
-                return UIImage(cgImage: cgi, scale: 1, orientation: .up)
-            case .leftMirrored:
-                return UIImage(cgImage: cgi, scale: 1, orientation: .upMirrored)
+            if isClockwise {
+                switch imageOrientation {
+                case .up:
+                    return UIImage(cgImage: cgi, scale: 1, orientation: .right)
+                case .upMirrored:
+                    return UIImage(cgImage: cgi, scale: 1, orientation: .rightMirrored)
+                case .right:
+                    return UIImage(cgImage: cgi, scale: 1, orientation: .down)
+                case .rightMirrored:
+                    return UIImage(cgImage: cgi, scale: 1, orientation: .downMirrored)
+                case .down:
+                    return UIImage(cgImage: cgi, scale: 1, orientation: .left)
+                case .downMirrored:
+                    return UIImage(cgImage: cgi, scale: 1, orientation: .leftMirrored)
+                case .left:
+                    return UIImage(cgImage: cgi, scale: 1, orientation: .up)
+                case .leftMirrored:
+                    return UIImage(cgImage: cgi, scale: 1, orientation: .upMirrored)
+                @unknown default:
+                    return self
+                }
+            } else {
+                switch imageOrientation {
+                case .up:
+                    return UIImage(cgImage: cgi, scale: 1, orientation: .left)
+                case .upMirrored:
+                    return UIImage(cgImage: cgi, scale: 1, orientation: .leftMirrored)
+                case .right:
+                    return UIImage(cgImage: cgi, scale: 1, orientation: .up)
+                case .rightMirrored:
+                    return UIImage(cgImage: cgi, scale: 1, orientation: .upMirrored)
+                case .down:
+                    return UIImage(cgImage: cgi, scale: 1, orientation: .right)
+                case .downMirrored:
+                    return UIImage(cgImage: cgi, scale: 1, orientation: .rightMirrored)
+                case .left:
+                    return UIImage(cgImage: cgi, scale: 1, orientation: .down)
+                case .leftMirrored:
+                    return UIImage(cgImage: cgi, scale: 1, orientation: .downMirrored)
+                @unknown default:
+                    return self
+                }
             }
+
         }
         return self
     }
