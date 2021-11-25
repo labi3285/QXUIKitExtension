@@ -114,6 +114,7 @@ public enum QXTextFilter {
                 var t = ""
                 if comps[1].count < _dec {
                     t = text
+                    return t
                 } else if _dec > 0 {
                     t = comps[0] + "." + comps[1].qxString(start: 0, end: max(_dec - 1, 0))
                 } else {
@@ -139,6 +140,7 @@ public enum QXTextFilter {
                 var t = ""
                 if comps[1].count < _dec {
                     t = text
+                    return t
                 } else if _dec > 0 {
                     t = comps[0] + "." + comps[1].qxString(start: 0, end: max(_dec - 1, 0))
                 } else {

@@ -18,11 +18,7 @@ public struct QXProgress {
         self.total = total
     }
     
-    public init(_ current: UInt32, _ total: UInt32) {
-        self.current = CGFloat(current)
-        self.total = CGFloat(total)
-    }
-    public init(_ current: Int32, _ total: Int32) {
+    public init(_ current: Int, _ total: Int) {
         self.current = CGFloat(current)
         self.total = CGFloat(total)
     }

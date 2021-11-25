@@ -210,7 +210,9 @@ open class QXTableView: QXView {
                     }
                 }
                 let s = QXTableViewSection(ms, header, footer)
-                ss.append(s)
+                if ms.count > 0 {
+                    ss.append(s)
+                }
             }
         }
         _cacheSections = ss

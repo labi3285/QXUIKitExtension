@@ -371,7 +371,7 @@ extension QXDate {
         return QXDate(date)
     }
     
-    public func add(days: TimeInterval) -> QXDate {
+    public func add(days: Int) -> QXDate {
         return add(timeInterval: 3600 * 24 * TimeInterval(days))
     }
         

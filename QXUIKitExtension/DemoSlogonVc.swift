@@ -9,7 +9,7 @@
 import UIKit
 
 class DemoSlogonVc: QXViewController {
-    
+
     lazy var slogonView: QXSlogonView<String> = {
         let e = QXSlogonView<String>()
         e.models = ["11111111", "222222222", "3333333333", "444444444"]
@@ -44,7 +44,7 @@ class DemoSlogonVc: QXViewController {
         
         slogonView.IN(view).CENTER.TOP(100).WIDTH(200).MAKE()
         slogon1View.IN(view).CENTER.TOP(200).WIDTH(200).HEIGHT(30).MAKE()
-
+        
     }
     
 }

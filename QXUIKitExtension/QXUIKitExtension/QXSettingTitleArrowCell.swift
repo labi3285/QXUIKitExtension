@@ -15,6 +15,8 @@ open class QXSettingTitleArrowCell: QXSettingCell {
         didSet {
             super.isEnabled = isEnabled
             backButton.isDisplay = isEnabled
+            arrowView.alpha = isEnabled ? 1 : 0.3
+            subTitleLabel.alpha = isEnabled ? 1 : 0.3
         }
     }
     open override func height(_ model: Any?) -> CGFloat? {

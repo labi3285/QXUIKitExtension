@@ -153,7 +153,7 @@ open class QXLoadStatusView: QXView {
     open var errorTextFont: QXFont = QXFont(13, QXColor.dynamicPlaceHolder)
     
     open var loadingText: String? = nil
-    open var defaultEmptyText: String? = "暂无内容"
+    open var defaultEmptyText: String? = "暂无数据"
     open var defaultErrorText: String? = "请求失败"
     
     open var imageTextMargin: CGFloat = 10

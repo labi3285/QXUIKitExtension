@@ -168,7 +168,7 @@ open class QXDarkImageView: QXImageView {
     public required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    @objc func applicationDidBecomeActive() {
+    @objc open func applicationDidBecomeActive() {
         if QXColor.isDarkMode {
             let a = self.placeHolderImageDark
             let b = self.imageDark

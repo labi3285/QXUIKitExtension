@@ -13,7 +13,7 @@ open class QXSettingTextHeaderView: QXSettingSeparateHeaderView {
     
     open override func height(_ model: Any?) -> CGFloat? {
         label.fixWidth = context.givenWidth
-        return label.intrinsicContentSize.height
+        return label.natureSize.h
     }
     
     public final lazy var label: QXRichLabel = {
@@ -28,6 +28,7 @@ open class QXSettingTextHeaderView: QXSettingSeparateHeaderView {
         super.init()
         contentView.addSubview(label)
         label.IN(contentView).LEFT.RIGHT.TOP.BOTTOM.MAKE()
+        fixHeight = nil
     }
     
     public required init?(coder aDecoder: NSCoder) {

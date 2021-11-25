@@ -102,6 +102,7 @@
 		75887840238CEFEF00AA0EF6 /* test.html in Resources */ = {isa = PBXBuildFile; fileRef = 7588783F238CEFEF00AA0EF6 /* test.html */; };
 		758B220D237018CC00A03539 /* QXTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 758B220C237018CC00A03539 /* QXTransition.swift */; };
 		758B220F23703ABB00A03539 /* QXMaskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 758B220E23703ABB00A03539 /* QXMaskViewController.swift */; };
+		758C5644268BFE3200B51699 /* QXProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 758C5643268BFE3200B51699 /* QXProgressView.swift */; };
 		75929C8022D03518006577AD /* QXControlStateStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75929C7F22D03518006577AD /* QXControlStateStyle.swift */; };
 		75929C8422D075DE006577AD /* QXViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75929C8322D075DE006577AD /* QXViewController.swift */; };
 		75929C8622D0764C006577AD /* QXNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75929C8522D0764C006577AD /* QXNavigationController.swift */; };
@@ -258,6 +259,7 @@
 		7588783F238CEFEF00AA0EF6 /* test.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = test.html; sourceTree = "<group>"; };
 		758B220C237018CC00A03539 /* QXTransition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QXTransition.swift; sourceTree = "<group>"; };
 		758B220E23703ABB00A03539 /* QXMaskViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QXMaskViewController.swift; sourceTree = "<group>"; };
+		758C5643268BFE3200B51699 /* QXProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QXProgressView.swift; sourceTree = "<group>"; };
 		75929C7F22D03518006577AD /* QXControlStateStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QXControlStateStyle.swift; sourceTree = "<group>"; };
 		75929C8322D075DE006577AD /* QXViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QXViewController.swift; sourceTree = "<group>"; };
 		75929C8522D0764C006577AD /* QXNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QXNavigationController.swift; sourceTree = "<group>"; };
@@ -526,6 +528,7 @@
 				750CE43F2421B43C004E2793 /* QXTypes.swift */,
 				7578069322E164E7009DD0DA /* QXUIKitExtensionResources.swift */,
 				7578069122E1647C009DD0DA /* QXUIKitExtensionResources.bundle */,
+				758C5643268BFE3200B51699 /* QXProgressView.swift */,
 			);
 			path = QXUIKitExtension;
 			sourceTree = "<group>";
@@ -689,6 +692,7 @@
 				757806A922E2A4A6009DD0DA /* QXImageView.swift in Sources */,
 				756A50A722BDF9FD00E692DA /* ViewController.swift in Sources */,
 				757659C02366749700588C63 /* DemoStaticsVc.swift in Sources */,
+				758C5644268BFE3200B51699 /* QXProgressView.swift in Sources */,
 				7542FF43230555CB0079CCD6 /* QXStackView.swift in Sources */,
 				7553C80122CEE50A0058239B /* QXDebug.swift in Sources */,
 				75F7E13123D3EC370056B62A /* QXCollectionView.swift in Sources */,
