@@ -24,7 +24,7 @@ DEPENDENCIES:
   - MJRefresh (~> 3.1.15.7)
   - QXConsMaker (~> 0.0.8)
   - QXJSON (~> 0.1.1)
-  - QXMessageView (~> 0.0.5)
+  - QXMessageView (~> 0.0.6)
   - SAMKeychain (~> 1.5.3)
   - YYWebImage (~> 1.0.5)
 
@@ -57,6 +57,6 @@ SPEC CHECKSUMS:
   YYImage: 1e1b62a9997399593e4b9c4ecfbbabbf1d3f3b54
   YYWebImage: 5f7f36aee2ae293f016d418c7d6ba05c4863e928
 
-PODFILE CHECKSUM: c34e9a0316b7cbd49c4213c5806223fe8e814806
+PODFILE CHECKSUM: f1cd7932387cdb112f27a1e63230d2bcc3760f96
 
 COCOAPODS: 1.11.2

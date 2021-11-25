@@ -52,10 +52,10 @@ open class QXRequest {
     }
     
     public struct File {
-        let data: Data
-        let mineType: String
-        let name: String
-        let suffix: String
+        public let data: Data
+        public let mineType: String
+        public let name: String
+        public let suffix: String
         public init(data: Data, mineType: String, name: String, suffix: String) {
             self.data = data
             self.mineType = mineType
@@ -127,6 +127,8 @@ extension QXRequest {
 //// 以下为demo
 //
 //import Alamofire
+//import JSONKit_iOS6Later
+//import QXJSON
 //
 //extension QXRequest {
 //
