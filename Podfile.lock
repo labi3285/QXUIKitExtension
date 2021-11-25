@@ -1,5 +1,4 @@
 PODS:
-  - Alamofire (4.9.1)
   - HandyJSON (5.0.1)
   - IQKeyboardManagerSwift (6.5.5)
   - JQCollectionViewAlignLayout (0.1.5)
@@ -18,7 +17,6 @@ PODS:
     - YYImage
 
 DEPENDENCIES:
-  - Alamofire (= 4.9.1)
   - HandyJSON (~> 5.0.1)
   - IQKeyboardManagerSwift (~> 6.5.4)
   - JQCollectionViewAlignLayout (~> 0.1.5)
@@ -32,7 +30,6 @@ DEPENDENCIES:
 
 SPEC REPOS:
   trunk:
-    - Alamofire
     - HandyJSON
     - IQKeyboardManagerSwift
     - JQCollectionViewAlignLayout
@@ -47,7 +44,6 @@ SPEC REPOS:
     - YYWebImage
 
 SPEC CHECKSUMS:
-  Alamofire: 85e8a02c69d6020a0d734f6054870d7ecb75cf18
   HandyJSON: d45b8415c501e3affc59ca9762c1197ff0feb646
   IQKeyboardManagerSwift: 0fb93310284665245591f50f7a5e38de615960b7
   JQCollectionViewAlignLayout: d44142c09e6ba96cc874ac5014ff64accb8995ce
@@ -61,6 +57,6 @@ SPEC CHECKSUMS:
   YYImage: 1e1b62a9997399593e4b9c4ecfbbabbf1d3f3b54
   YYWebImage: 5f7f36aee2ae293f016d418c7d6ba05c4863e928
 
-PODFILE CHECKSUM: 6d93b15b6df25b679a226a8f67be5f956ccbe868
+PODFILE CHECKSUM: c34e9a0316b7cbd49c4213c5806223fe8e814806
 
-COCOAPODS: 1.9.3
+COCOAPODS: 1.11.2

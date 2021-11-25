@@ -3,11 +3,7 @@ Pod::Spec.new do |s|
 s.swift_versions = "5.0"
 
 s.name         = "QXUIKitExtension"
-<<<<<<< HEAD
 s.version      = "0.4.9"
-=======
-s.version      = "0.4.8"
->>>>>>> 40294565179b63b99eb56164128f0bb56a95a5e3
 s.summary      = "UIKit extensions in swift5."
 s.description  = <<-DESC
 UIKit extensions in swift. Just enjoy!
