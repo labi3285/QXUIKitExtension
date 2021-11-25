@@ -4,7 +4,7 @@ platform :ios, '8.0'
 
 target 'QXUIKitExtension' do
   	use_frameworks!
-    pod 'Alamofire', '4.9.1'
+    pod 'Alamofire', '5.4.4'
     pod 'QXJSON', '~> 0.1.1'
     pod 'QXMessageView', '~> 0.0.5'
     pod 'SAMKeychain', '~> 1.5.3'
