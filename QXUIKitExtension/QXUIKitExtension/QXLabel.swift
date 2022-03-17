@@ -49,10 +49,10 @@ open class QXLabel: QXView {
         }
     }
     
-    open var richText: QXRichText? {
+    open var RichTextItem: QXRichText? {
         set {
-            if let richText = newValue {
-                richTexts = [richText]
+            if let RichTextItem = newValue {
+                richTexts = [RichTextItem]
             } else {
                 richTexts = nil
             }

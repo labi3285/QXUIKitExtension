@@ -24,7 +24,7 @@
 		7542FF43230555CB0079CCD6 /* QXStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7542FF42230555CB0079CCD6 /* QXStackView.swift */; };
 		754C59F123D44F8E00D3E46D /* DemoCollectionVc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 754C59F023D44F8E00D3E46D /* DemoCollectionVc.swift */; };
 		754C59F323D44FB900D3E46D /* QXCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 754C59F223D44FB900D3E46D /* QXCollectionViewController.swift */; };
-		754C5B2723D698A400D3E46D /* QXBoarderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 754C5B2123D698A400D3E46D /* QXBoarderView.swift */; };
+		754C5B2723D698A400D3E46D /* QXBorderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 754C5B2123D698A400D3E46D /* QXBorderView.swift */; };
 		754C5B2823D698A400D3E46D /* QXAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 754C5B2223D698A400D3E46D /* QXAlertController.swift */; };
 		754C5B2923D698A400D3E46D /* QXSelect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 754C5B2323D698A400D3E46D /* QXSelect.swift */; };
 		754C5B2B23D698A400D3E46D /* QXCircleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 754C5B2523D698A400D3E46D /* QXCircleView.swift */; };
@@ -178,7 +178,7 @@
 		7542FF42230555CB0079CCD6 /* QXStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QXStackView.swift; sourceTree = "<group>"; };
 		754C59F023D44F8E00D3E46D /* DemoCollectionVc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoCollectionVc.swift; sourceTree = "<group>"; };
 		754C59F223D44FB900D3E46D /* QXCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QXCollectionViewController.swift; sourceTree = "<group>"; };
-		754C5B2123D698A400D3E46D /* QXBoarderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QXBoarderView.swift; sourceTree = "<group>"; };
+		754C5B2123D698A400D3E46D /* QXBorderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QXBorderView.swift; sourceTree = "<group>"; };
 		754C5B2223D698A400D3E46D /* QXAlertController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QXAlertController.swift; sourceTree = "<group>"; };
 		754C5B2323D698A400D3E46D /* QXSelect.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QXSelect.swift; sourceTree = "<group>"; };
 		754C5B2523D698A400D3E46D /* QXCircleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QXCircleView.swift; sourceTree = "<group>"; };
@@ -405,7 +405,7 @@
 			isa = PBXGroup;
 			children = (
 				754C5B2223D698A400D3E46D /* QXAlertController.swift */,
-				754C5B2123D698A400D3E46D /* QXBoarderView.swift */,
+				754C5B2123D698A400D3E46D /* QXBorderView.swift */,
 				754C5B2523D698A400D3E46D /* QXCircleView.swift */,
 				754C5B2323D698A400D3E46D /* QXSelect.swift */,
 				7553C78D22CC9C810058239B /* QXRect.Relation.swift */,
@@ -664,7 +664,7 @@
 				75D8522423682068000F4157 /* DemoArrangeViewVc.swift in Sources */,
 				756A50BA22BDFABF00E692DA /* QXImage.swift in Sources */,
 				75DCCBBE23A3846500215D8F /* QXKeyboardView.swift in Sources */,
-				754C5B2723D698A400D3E46D /* QXBoarderView.swift in Sources */,
+				754C5B2723D698A400D3E46D /* QXBorderView.swift in Sources */,
 				7578068F22E162F0009DD0DA /* QXLoadStatusView.swift in Sources */,
 				7578A87A23618D72006CFDD5 /* QXSettingTitleStackCell.swift in Sources */,
 				75929CB622D83024006577AD /* QXSize.swift in Sources */,
@@ -856,7 +856,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -911,7 +911,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -930,15 +930,15 @@
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = R3L4VQN3Q9;
 				INFOPLIST_FILE = QXUIKitExtension/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MACH_O_TYPE = mh_execute;
-				PRODUCT_BUNDLE_IDENTIFIER = com.lakala.haotk;
+				PRODUCT_BUNDLE_IDENTIFIER = com.lakala.ztk;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = haotuo_dev;
+				PROVISIONING_PROFILE_SPECIFIER = ztk_dev;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -950,10 +950,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 54RQS9P6XP;
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = QXUIKitExtension/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

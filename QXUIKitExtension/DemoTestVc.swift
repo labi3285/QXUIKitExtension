@@ -22,21 +22,21 @@ class DemoTestVc: QXTableViewController<Any> {
         return e
     }()
     
-    lazy var xx: QXRichLabel = {
-        let e = QXRichLabel()
-        e.maxWidth = 200
-        e.numberOfLines = 0
-        e.text = "呵呵呵：\n分类为你奉为你发呢为你奉为丰富温暖"
-        e.padding = QXEdgeInsets(10, 24, 10, 24)
-        e.qxDebugRandomColor()
+    lazy var imageView: QXImageView = {
+        let e = QXImageView()
+//        let url = URL(string: "https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fc-ssl.duitang.com%2Fuploads%2Fitem%2F202003%2F29%2F20200329043918_2FUvk.thumb.400_0.gif&refer=http%3A%2F%2Fc-ssl.duitang.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1650108971&t=5f83e8b4ea724051a802dfff5fa2df1a")
+//                
+//        e.uiImageView.yy_setImage(with: url, options: [])
+//        e.qxDebugRandomColor()
+        e.image = QXImage(url: "https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fc-ssl.duitang.com%2Fuploads%2Fitem%2F202003%2F29%2F20200329043918_2FUvk.thumb.400_0.gif&refer=http%3A%2F%2Fc-ssl.duitang.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1650108971&t=5f83e8b4ea724051a802dfff5fa2df1a")
         return e
     }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "测试"
-//        view.addSubview(xx)
-//        xx.IN(view).CENTER.MAKE()
+        view.addSubview(imageView)
+        imageView.IN(view).CENTER.SIZE(100, 100).MAKE()
         
         contentView.models = [
             textCell
@@ -45,6 +45,7 @@ class DemoTestVc: QXTableViewController<Any> {
     
     override func didSetup() {
         super.didSetup()
+        navigationBarBackgroundColor = QXColor.red
         
         
 //        let name = "截屏2020-07-28下午11.15.37.jepg"

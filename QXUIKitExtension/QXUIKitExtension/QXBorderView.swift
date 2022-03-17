@@ -1,5 +1,5 @@
 //
-//  QXBoarderView.swift
+//  QXBorderView.swift
 //  Project
 //
 //  Created by labi3285 on 2020/1/20.
@@ -8,17 +8,18 @@
 
 import UIKit
 
-open class QXBoarderView: QXView {
+open class QXBorderView: QXView {
     
-    open var boarderColor: QXColor = QXColor.black
-    open var boarderWidth: CGFloat = 1
+    open var borderColor: QXColor = QXColor.black
+    open var borderWidth: CGFloat = 1
     open var cornerRadius: CGFloat = 4 {
         didSet {
+            qxBorder
             layer.cornerRadius = cornerRadius
             clipsToBounds = true
         }
     }
-    open var boarderLineDash: [CGFloat]? = [3, 3]
+    open var borderLineDash: [CGFloat]? = [3, 3]
     
     public override init() {
         super.init()
@@ -33,11 +34,11 @@ open class QXBoarderView: QXView {
         guard let ctx = UIGraphicsGetCurrentContext() else {
             return
         }
-        let _rect = CGRect(x: boarderWidth / 2, y: boarderWidth / 2, width: rect.width - boarderWidth, height: rect.height - boarderWidth)
+        let _rect = CGRect(x: borderWidth / 2, y: borderWidth / 2, width: rect.width - borderWidth, height: rect.height - borderWidth)
         let path = UIBezierPath(roundedRect: _rect, byRoundingCorners: UIRectCorner.allCorners, cornerRadii: CGSize(width: cornerRadius, height: cornerRadius))
-        ctx.setLineWidth(boarderWidth)
-        ctx.setStrokeColor(boarderColor.uiColor.cgColor)
-        if let lineDash = boarderLineDash {
+        ctx.setLineWidth(borderWidth)
+        ctx.setStrokeColor(borderColor.uiColor.cgColor)
+        if let lineDash = borderLineDash {
             ctx.setLineDash(phase: 0, lengths: lineDash)
         }
         ctx.addPath(path.cgPath)
@@ -51,17 +52,17 @@ open class QXBoarderView: QXView {
     
 }
 
-open class QXBoarderButton: QXButton {
+open class QXBorderButton: QXButton {
     
-    open var boarderColor: QXColor = QXColor.black
-    open var boarderWidth: CGFloat = 1
+    open var borderColor: QXColor = QXColor.black
+    open var borderWidth: CGFloat = 1
     open var cornerRadius: CGFloat = 4 {
         didSet {
             layer.cornerRadius = cornerRadius
             clipsToBounds = true
         }
     }
-    open var boarderLineDash: [CGFloat]? = [3, 3]
+    open var borderLineDash: [CGFloat]? = [3, 3]
     
     public override init() {
         super.init()
@@ -76,11 +77,11 @@ open class QXBoarderButton: QXButton {
         guard let ctx = UIGraphicsGetCurrentContext() else {
             return
         }
-        let _rect = CGRect(x: boarderWidth / 2, y: boarderWidth / 2, width: rect.width - boarderWidth, height: rect.height - boarderWidth)
+        let _rect = CGRect(x: borderWidth / 2, y: borderWidth / 2, width: rect.width - borderWidth, height: rect.height - borderWidth)
         let path = UIBezierPath(roundedRect: _rect, byRoundingCorners: UIRectCorner.allCorners, cornerRadii: CGSize(width: cornerRadius, height: cornerRadius))
-        ctx.setLineWidth(boarderWidth)
-        ctx.setStrokeColor(boarderColor.uiColor.cgColor)
-        if let lineDash = boarderLineDash {
+        ctx.setLineWidth(borderWidth)
+        ctx.setStrokeColor(borderColor.uiColor.cgColor)
+        if let lineDash = borderLineDash {
             ctx.setLineDash(phase: 0, lengths: lineDash)
         }
         ctx.addPath(path.cgPath)

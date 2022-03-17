@@ -30,8 +30,8 @@ public class QXUIKitExtensionResources {
     
     private var _bundle: Bundle?
     
-    public func image(gifPath: String) -> QXImage {
-        return QXImage(gifPath: gifPath, in: bundle)
+    public func image(gif: String) -> QXImage {
+        return QXImage(gif: gif, in: bundle)
     }
     
     public func image(_ cacheNamed: String) -> QXImage {

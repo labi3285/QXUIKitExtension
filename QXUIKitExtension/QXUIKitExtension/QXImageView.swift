@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import QXYYWebImage
 
 open class QXImageView: QXView {
     
@@ -111,7 +112,7 @@ open class QXImageView: QXView {
         return QXSize(w, h).sizeByAdd(padding)
     }
     
-    public class ImageView: UIImageView {
+    public class ImageView: YYAnimatedImageView {
         var respondUpdateImage: ((_ image: UIImage?) ->())?
         override public var image: UIImage? {
             didSet {

@@ -184,10 +184,10 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "${BUILT_PRODUCTS_DIR}/QXConsMaker/QXConsMaker.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/QXJSON/QXJSON.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/QXMessageView/QXMessageView.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/QXYYCache/QXYYCache.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/QXYYImage/QXYYImage.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/QXYYWebImage/QXYYWebImage.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/SAMKeychain/SAMKeychain.framework"
-  install_framework "${BUILT_PRODUCTS_DIR}/YYCache/YYCache.framework"
-  install_framework "${BUILT_PRODUCTS_DIR}/YYImage/YYImage.framework"
-  install_framework "${BUILT_PRODUCTS_DIR}/YYWebImage/YYWebImage.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "${BUILT_PRODUCTS_DIR}/HandyJSON/HandyJSON.framework"
@@ -198,10 +198,10 @@ if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "${BUILT_PRODUCTS_DIR}/QXConsMaker/QXConsMaker.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/QXJSON/QXJSON.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/QXMessageView/QXMessageView.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/QXYYCache/QXYYCache.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/QXYYImage/QXYYImage.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/QXYYWebImage/QXYYWebImage.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/SAMKeychain/SAMKeychain.framework"
-  install_framework "${BUILT_PRODUCTS_DIR}/YYCache/YYCache.framework"
-  install_framework "${BUILT_PRODUCTS_DIR}/YYImage/YYImage.framework"
-  install_framework "${BUILT_PRODUCTS_DIR}/YYWebImage/YYWebImage.framework"
 fi
 if [ "${COCOAPODS_PARALLEL_CODE_SIGN}" == "true" ]; then
   wait

@@ -11,7 +11,7 @@ DESC
 s.homepage     = "https://github.com/labi3285/QXUIKitExtension"
 s.license      = "MIT"
 s.author       = { "labi3285" => "766043285@qq.com" }
-s.platform     = :ios, "8.0"
+s.platform     = :ios, "9.0"
 s.source       = { :git => "https://github.com/labi3285/QXUIKitExtension.git", :tag => "#{s.version}" }
 s.source_files = "QXUIKitExtension/QXUIKitExtension/*"
 
@@ -25,7 +25,7 @@ s.dependency 'QXJSON', '~> 0.1.1'
 s.dependency 'QXMessageView', '~> 0.0.6'
 s.dependency 'QXConsMaker', '~> 0.0.8'
 
-s.dependency 'YYWebImage' , '~> 1.0.5'
+s.dependency 'QXYYWebImage'
 s.dependency 'MJRefresh', '~> 3.1.15.7'
 s.dependency 'JQCollectionViewAlignLayout' , '~> 0.1.5'
 s.dependency 'SAMKeychain', '~> 1.5.3'

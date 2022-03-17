@@ -7,7 +7,7 @@ ${BUILT_PRODUCTS_DIR}/MJRefresh/MJRefresh.framework
 ${BUILT_PRODUCTS_DIR}/QXConsMaker/QXConsMaker.framework
 ${BUILT_PRODUCTS_DIR}/QXJSON/QXJSON.framework
 ${BUILT_PRODUCTS_DIR}/QXMessageView/QXMessageView.framework
+${BUILT_PRODUCTS_DIR}/QXYYCache/QXYYCache.framework
+${BUILT_PRODUCTS_DIR}/QXYYImage/QXYYImage.framework
+${BUILT_PRODUCTS_DIR}/QXYYWebImage/QXYYWebImage.framework
 ${BUILT_PRODUCTS_DIR}/SAMKeychain/SAMKeychain.framework
-${BUILT_PRODUCTS_DIR}/YYCache/YYCache.framework
-${BUILT_PRODUCTS_DIR}/YYImage/YYImage.framework
-${BUILT_PRODUCTS_DIR}/YYWebImage/YYWebImage.framework

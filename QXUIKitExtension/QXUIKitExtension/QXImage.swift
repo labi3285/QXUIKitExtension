@@ -8,8 +8,7 @@
 
 import UIKit
 import Photos
-//import Kingfisher
-import YYWebImage
+import QXYYWebImage
 
 open class QXImage {
         
@@ -27,7 +26,12 @@ open class QXImage {
     }
     @discardableResult
     public func setUIImage(_ e: UIImage?) -> QXImage { uiImage = e; return self }
-    
+    public func setUIImage(_ e: UIImage, isGif: Bool) -> QXImage {
+        uiImage = e
+        _isGif = isGif
+        return self
+    }
+
     public var thumbUrl: QXURL? {
         didSet {
             if url == nil {
@@ -52,6 +56,11 @@ open class QXImage {
     public var phAsset: PHAsset?
     @discardableResult
     public func setPHAsset(_ e: PHAsset?) -> QXImage { phAsset = e; return self }
+    public func setPHAsset(_ e: PHAsset, isGif: Bool) -> QXImage {
+        phAsset = e
+        _isGif = isGif
+        return self
+    }
 
 //    public var data: Data?
 //    @discardableResult
@@ -76,6 +85,32 @@ open class QXImage {
     public func setSize(_ e: QXSize?) -> QXImage { size = e; return self }
     @discardableResult
     public func setSize(_ w: CGFloat, _ h: CGFloat) -> QXImage { return setSize(QXSize(w, h)) }
+    
+    public var bytes: UInt? {
+        set {
+            _bytes = newValue
+        }
+        get {
+            if let e = _bytes {
+                return e
+            } else {
+                if let e = uiImage {
+                    if _isGif {
+                        if let e = e.qxMakeGifData()?.count {
+                            return UInt(e)
+                        }
+                    } else {
+                        if let e = e.jpegData(compressionQuality: 1)?.count {
+                            return UInt(e)
+                        }
+                    }
+                }
+            }
+            return nil
+        }
+    }
+    @discardableResult
+    public func setBytes(_ e: UInt?) -> QXImage { bytes = e; return self }
 
     public var renderingMode: UIImage.RenderingMode?
     @discardableResult
@@ -90,19 +125,47 @@ open class QXImage {
     }
     public init(file: String?) {
         if let e = file {
-            self._uiImage = UIImage(contentsOfFile: e)
+            let url = URL(fileURLWithPath: e)
+            if let data = try? Data(contentsOf: url) {
+                if e.hasSuffix(".gif") || e.hasSuffix(".GIF") {
+                    self._uiImage = UIImage.qxGifImageWithData(data, scale: 1)
+                    self._isGif = true
+                } else {
+                    self._uiImage = UIImage(data: data)
+                }
+            } else {
+                self._uiImage = nil
+            }
         } else {
             self._uiImage = nil
         }
     }
     
-    public init(gifPath: String, in bundle: Bundle) {
-        let url = bundle.url(forResource: gifPath, withExtension: nil)!
-        let data = try! Data(contentsOf: url)
-        self._uiImage = UIImage.qxGifImageWithData(data, scale: 1)
+    public var isGif: Bool {
+        return _isGif
     }
-    public convenience init(gifPath: String) {
-        self.init(gifPath: gifPath, in: Bundle.main)
+    
+    public init(gif: String, in bundle: Bundle) {
+        let url = bundle.url(forResource: gif, withExtension: nil)!
+        if let data = try? Data(contentsOf: url) {
+            self._uiImage = UIImage.qxGifImageWithData(data, scale: 1)
+        }
+        self._isGif = true
+    }
+    public init(gifFile: String) {
+        let url = URL(fileURLWithPath: gifFile)
+        if let data = try? Data(contentsOf: url) {
+            self._uiImage = UIImage.qxGifImageWithData(data, scale: 1)
+        }
+        self._isGif = true
+    }
+    public init(gifData: Data) {
+        self._uiImage = UIImage.qxGifImageWithData(gifData, scale: 1)
+        self._isGif = true
+    }
+    
+    public convenience init(gif: String) {
+        self.init(gif: gif, in: Bundle.main)
     }
     
     public init(iconPath: String, in bundle: Bundle) {
@@ -126,8 +189,19 @@ open class QXImage {
     public init(_ url: QXURL?) {
         self.url = url
     }
+    public init(_ url: URL?) {
+        if let url = url {
+            self.url = QXURL.nsURL(url)
+        } else {
+            self.url = nil
+        }
+    }
     public init(_ uiImage: UIImage?) {
         self._uiImage = uiImage
+    }
+    public init(_ uiImage: UIImage, isGif: Bool) {
+        self._uiImage = uiImage
+        self._isGif = isGif
     }
     
     public init(_ color: QXColor, size: QXSize) {
@@ -147,8 +221,10 @@ open class QXImage {
     }
         
     fileprivate var _uiImage: UIImage?
+    fileprivate var _isGif: Bool = false
     fileprivate var _size: QXSize?
-    
+    fileprivate var _bytes: UInt?
+
 }
 
 extension UIImageView {

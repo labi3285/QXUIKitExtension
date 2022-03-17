@@ -1,20 +1,20 @@
 PODS:
-  - HandyJSON (5.0.1)
-  - IQKeyboardManagerSwift (6.5.5)
+  - HandyJSON (5.0.2)
+  - IQKeyboardManagerSwift (6.5.9)
   - JQCollectionViewAlignLayout (0.1.5)
   - JSONKit-iOS6Later (2.0.1)
   - MJRefresh (3.1.15.7)
   - QXConsMaker (0.0.8)
   - QXJSON (0.1.1)
   - QXMessageView (0.0.6)
+  - QXYYCache (1.0.7)
+  - QXYYImage (1.0.8):
+    - QXYYImage/Core (= 1.0.8)
+  - QXYYImage/Core (1.0.8)
+  - QXYYWebImage (1.0.6):
+    - QXYYCache
+    - QXYYImage
   - SAMKeychain (1.5.3)
-  - YYCache (1.0.4)
-  - YYImage (1.0.4):
-    - YYImage/Core (= 1.0.4)
-  - YYImage/Core (1.0.4)
-  - YYWebImage (1.0.5):
-    - YYCache
-    - YYImage
 
 DEPENDENCIES:
   - HandyJSON (~> 5.0.1)
@@ -25,8 +25,8 @@ DEPENDENCIES:
   - QXConsMaker (~> 0.0.8)
   - QXJSON (~> 0.1.1)
   - QXMessageView (~> 0.0.6)
+  - QXYYWebImage (~> 1.0.5)
   - SAMKeychain (~> 1.5.3)
-  - YYWebImage (~> 1.0.5)
 
 SPEC REPOS:
   trunk:
@@ -38,25 +38,25 @@ SPEC REPOS:
     - QXConsMaker
     - QXJSON
     - QXMessageView
+    - QXYYCache
+    - QXYYImage
+    - QXYYWebImage
     - SAMKeychain
-    - YYCache
-    - YYImage
-    - YYWebImage
 
 SPEC CHECKSUMS:
-  HandyJSON: d45b8415c501e3affc59ca9762c1197ff0feb646
-  IQKeyboardManagerSwift: 0fb93310284665245591f50f7a5e38de615960b7
+  HandyJSON: 9e4e236f5d2dbefad5155a77417bbea438201c03
+  IQKeyboardManagerSwift: 6e839c575c4aa1078d58a596e41244e77abe918f
   JQCollectionViewAlignLayout: d44142c09e6ba96cc874ac5014ff64accb8995ce
   JSONKit-iOS6Later: bfc45aff4b3fc688e7e2e10ebd79fc71b989a615
   MJRefresh: 697f8ec75ebdbe9207767bb682cf0f51b0d8a41f
   QXConsMaker: 32352325ad79720d0fee07d584a879183f5a61ee
   QXJSON: 142a34d8510e11103603c9b3435fe177b0321bd5
   QXMessageView: 1a26098660e0b1e4f857e85fd5181d0689a30324
+  QXYYCache: 5823f89ab0be2a905e5f44840edcfa98597bf593
+  QXYYImage: 85ea824ca5a170c79ba1506ef21d3e8d1e38037b
+  QXYYWebImage: ff8a1e67fce7ddf6f574a1b6730eb81da16b2974
   SAMKeychain: 483e1c9f32984d50ca961e26818a534283b4cd5c
-  YYCache: 8105b6638f5e849296c71f331ff83891a4942952
-  YYImage: 1e1b62a9997399593e4b9c4ecfbbabbf1d3f3b54
-  YYWebImage: 5f7f36aee2ae293f016d418c7d6ba05c4863e928
 
-PODFILE CHECKSUM: f1cd7932387cdb112f27a1e63230d2bcc3760f96
+PODFILE CHECKSUM: 5de2af4bb0cbf5c13864a4d544366aa83795bdcd
 
 COCOAPODS: 1.11.2

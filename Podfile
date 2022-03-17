@@ -1,6 +1,6 @@
 #source 'https://github.com/CocoaPods/Specs.git'
 
-platform :ios, '8.0'
+platform :ios, '9.0'
 
 target 'QXUIKitExtension' do
   	use_frameworks!
@@ -9,7 +9,7 @@ target 'QXUIKitExtension' do
     pod 'SAMKeychain', '~> 1.5.3'
     pod 'MJRefresh', '~> 3.1.15.7'
     pod 'QXConsMaker', '~> 0.0.8'
-    pod 'YYWebImage', '~> 1.0.5'
+    pod 'QXYYWebImage', '~> 1.0.5'
     pod 'JQCollectionViewAlignLayout', '~> 0.1.5'
     pod 'HandyJSON', '~> 5.0.1'
     pod 'JSONKit-iOS6Later', '~> 2.0.1'

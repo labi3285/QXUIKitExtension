@@ -35,6 +35,10 @@ public struct QXSize {
         self.w = CGFloat(w)
         self.h = CGFloat(h)
     }
+    public init(_ w: UInt, _ h: UInt) {
+        self.w = CGFloat(w)
+        self.h = CGFloat(h)
+    }
     
     public mutating func apply(_ scale: CGFloat) {
         w = w * scale

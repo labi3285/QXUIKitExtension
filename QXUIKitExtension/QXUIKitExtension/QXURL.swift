@@ -13,7 +13,6 @@ public enum QXURL: CustomStringConvertible {
     case url(_ url: String)
     case file(_ path: String)
     
-    @available(OSX 10.11, iOS 9.0, *)
     case data(_ data: Data)
     
     case nsURL(_ url: URL)

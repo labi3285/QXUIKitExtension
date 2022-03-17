@@ -39,7 +39,7 @@ extension Error {
             return err
         } else {
             let err = self as NSError
-            return QXError("\(err.code)", err.domain, err.userInfo)
+            return QXError("\(err.code)", err.localizedDescription, err.userInfo)
         }
     }
 }

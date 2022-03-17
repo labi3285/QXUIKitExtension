@@ -11,7 +11,7 @@ import QXConsMaker
 
 open class QXViewController: UIViewController, UINavigationBarDelegate {
     
-    public var respondRefresh: (() -> Void)?
+    public var respondRefresh: ((_ object: Any?) -> Void)?
     
     //MARK:- Init
     public init() {
@@ -237,6 +237,21 @@ open class QXViewController: UIViewController, UINavigationBarDelegate {
             } else {
                 fromVc.navigationItem.backBarButtonItem = nil
             }
+            
+//            if #available(iOS 13.0, *) {
+//                let appearance = UINavigationBarAppearance()
+//                if let e = vc.navigationBarBackArrowImage.uiImage {
+//                    appearance.backIndicatorImage = e
+//                }
+//                if let e = vc.navigationBarBackArrowImage.uiImage {
+//                    appearance.backIndicatorTransitionMaskImage = e
+//                }
+//                navigationController?.navigationBar.standardAppearance = appearance
+//            } else {
+//                // Fallback on earlier versions
+//            }
+
+//
             navigationController?.navigationBar.backIndicatorImage = vc.navigationBarBackArrowImage.uiImage
             navigationController?.navigationBar.backIndicatorTransitionMaskImage = vc.navigationBarBackArrowImage.uiImage
             vc.hidesBottomBarWhenPushed = true

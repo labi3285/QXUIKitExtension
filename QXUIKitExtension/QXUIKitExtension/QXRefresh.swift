@@ -10,10 +10,10 @@ import UIKit
 import MJRefresh
 
 public protocol QXRefreshHeaderDateHandlerProtocol {
-    func qxRefreshDateToRichText(_ date: QXDate) -> QXRichText?
+    func qxRefreshDateToRichTextItem(_ date: QXDate) -> QXRichText?
 }
 public struct QXRefreshHeaderDateHandler: QXRefreshHeaderDateHandlerProtocol {
-    public func qxRefreshDateToRichText(_ date: QXDate) -> QXRichText? {
+    public func qxRefreshDateToRichTextItem(_ date: QXDate) -> QXRichText? {
         return QXRichText.text(date.string(.nature_chinese, "--"), QXFont(14, QXColor.dynamicText))
     }
 }
@@ -120,7 +120,7 @@ open class QXRefreshHeader: MJRefreshHeader {
         messageLabel.isDisplay = true
         dateLabel.isDisplay = true
         let date = QXDate(lastUpdatedTime ?? Date())
-        if let a = textDatePrefix, let b = dateHandler?.qxRefreshDateToRichText(date) {
+        if let a = textDatePrefix, let b = dateHandler?.qxRefreshDateToRichTextItem(date) {
             dateLabel.richTexts = a + b
         } else {
             dateLabel.richTexts = nil
@@ -139,7 +139,7 @@ open class QXRefreshHeader: MJRefreshHeader {
                 loadingView.startAnimating()
                 loadingView.isDisplay = true
                 arrowView.isDisplay = false
-                messageLabel.richText = textLoading
+                messageLabel.RichTextItem = textLoading
                 imageView.isDisplay = false
                 isCustomised = false
             }
@@ -160,7 +160,7 @@ open class QXRefreshHeader: MJRefreshHeader {
                     self.arrowView.transform = CGAffineTransform(rotationAngle: .pi)
                 }
                 arrowView.image = imageRefreshArrow
-                messageLabel.richText = textPulling
+                messageLabel.RichTextItem = textPulling
                 imageView.isDisplay = false
                 isCustomised = false
             }
@@ -181,7 +181,7 @@ open class QXRefreshHeader: MJRefreshHeader {
                     self.arrowView.transform = CGAffineTransform.identity
                 }
                 arrowView.image = imageRefreshArrow
-                messageLabel.richText = textNormal
+                messageLabel.RichTextItem = textNormal
                 imageView.isDisplay = false
                 isCustomised = false
             }
@@ -274,7 +274,7 @@ open class QXRefreshFooter: MJRefreshAutoFooter {
     open func update() {
         switch state {
         case .refreshing:
-            messageLabel.richText = textLoading
+            messageLabel.RichTextItem = textLoading
             messageLabel.isDisplay = imageLoading == nil && textLoading != nil
             imageView.image = imageLoading
             loadingView.startAnimating()
@@ -286,14 +286,14 @@ open class QXRefreshFooter: MJRefreshAutoFooter {
                 imageView.isDisplay = true
             }
         case .noMoreData:
-            messageLabel.richText = textNoMoreData
+            messageLabel.RichTextItem = textNoMoreData
             messageLabel.isDisplay = imageNoMoreData == nil && textNoMoreData != nil
             imageView.isDisplay = imageNoMoreData != nil
             imageView.image = imageNoMoreData
             loadingView.stopAnimating()
             loadingView.isDisplay = false
         default:
-            messageLabel.richText = textNormal
+            messageLabel.RichTextItem = textNormal
             messageLabel.isDisplay = imageNormal == nil && textNormal != nil
             imageView.isDisplay = imageNormal != nil
             imageView.image = imageNormal

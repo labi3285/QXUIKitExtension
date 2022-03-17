@@ -25,9 +25,21 @@ open class QXNavigationController: UINavigationController, UINavigationBarDelega
             tabBarItem.selectedImage = tabBarSelectIcon?.uiImage
         }
     }
-    
+
     public override init(rootViewController: UIViewController) {
         super.init(nibName: nil, bundle: nil)
+//        if #available(iOS 13.0, *) {
+//            let appearance = UINavigationBarAppearance()
+//            appearance.backgroundEffect = nil
+//            appearance.backgroundColor = UIColor.clear
+//            appearance.shadowColor = nil
+//            appearance.configureWithOpaqueBackground()
+//            UINavigationBar.appearance().standardAppearance = appearance
+//        } else {
+//            // Fallback on earlier versions
+//        }
+
+        
         self.viewControllers = [rootViewController]
 //        if let e = rootViewController as? QXViewController {
 //            if let bar = e.customNavigationBar {
@@ -266,6 +278,16 @@ extension UINavigationController {
             if let e = newValue?.uiColor {
                 navigationBar.backgroundColor = e
                 navigationBar.barTintColor = e
+                if #available(iOS 13.0, *) {
+                    let appearance = UINavigationBarAppearance()
+                    appearance.backgroundColor = newValue?.uiColor
+                    appearance.shadowColor = UIColor.clear
+                    navigationBar.scrollEdgeAppearance = appearance
+                    navigationBar.standardAppearance = appearance
+                    navigationBar.shadowImage = UIImage()
+                } else {
+                    // Fallback on earlier versions
+                }
             } else {
                 navigationBar.backgroundColor = nil
                 navigationBar.barTintColor = nil
