@@ -620,10 +620,18 @@ extension QXTableView: UITableViewDelegate, UITableViewDataSource {
         return cellHeight(for: indexPath) ?? QXTableViewAutoHeight
     }
     open func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        return headerView(for: section)
+        if let v = headerView(for: section) {
+            return v
+        }
+        /// 防止tableView自作主张添加space
+        return UIView()
     }
     open func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        return footerView(for: section)
+        if let v = footerView(for: section) {
+            return v
+        }
+        /// 防止tableView自作主张添加space
+        return UIView()
     }
          
     open func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {

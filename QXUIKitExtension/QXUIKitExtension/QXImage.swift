@@ -145,6 +145,16 @@ open class QXImage {
         return _isGif
     }
     
+    public init(_ data: Data, isGif: Bool = false) {
+        if isGif {
+            _uiImage = UIImage.qxGifImageWithData(data, scale: 1)
+            _isGif = true
+        } else {
+            _uiImage = UIImage(data: data)
+            _isGif = false
+        }
+    }
+    
     public init(gif: String, in bundle: Bundle) {
         let url = bundle.url(forResource: gif, withExtension: nil)!
         if let data = try? Data(contentsOf: url) {
