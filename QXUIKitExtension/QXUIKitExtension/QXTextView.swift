@@ -111,6 +111,10 @@ open class QXTextView: QXView, UITextViewDelegate {
         }
     }
     
+    @discardableResult open override func becomeFirstResponder() -> Bool {
+        return super.becomeFirstResponder()
+    }
+    
     public final lazy var uiTextView: UITextView = {
         let e = UITextView()
         e.backgroundColor = UIColor.clear

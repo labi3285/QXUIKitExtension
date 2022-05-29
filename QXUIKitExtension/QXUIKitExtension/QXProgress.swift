@@ -25,7 +25,7 @@ public struct QXProgress {
     
     public var progress: CGFloat {
         if total == 0 {
-            return QXDebugFatalError("error progress", 0)
+            return 1
         }
         return current / total
     }

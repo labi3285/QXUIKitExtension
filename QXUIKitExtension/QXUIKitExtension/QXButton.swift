@@ -701,6 +701,15 @@ open class QXIconButton: QXStackButton {
         self.stackView.isVertical = isVertical
     }
     
+    public required init(iconFirst: Bool) {
+        super.init()
+        self.stackView.viewMargin = 5
+        if iconFirst {
+            self.views = [iconView, titleLabel]
+        } else {
+            self.views = [titleLabel, iconView]
+        }
+    }
     public override init() {
         super.init()
         self.stackView.viewMargin = 5

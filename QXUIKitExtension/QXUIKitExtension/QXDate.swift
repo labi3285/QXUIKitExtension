@@ -59,8 +59,7 @@ extension QXDate {
         /// get date from formate string
         public func nsDate(_ dateString: String) -> Date? {
             assert(!self.rawValue.hasPrefix("nature"), "nature string can not transform into date")
-            _initFormatter(fmt: self)
-            return Formats._formatter.date(from: dateString)
+            return Formats._get_formatter(self).date(from: dateString)
         }
         /// get formate string from date
         public func string(_ nsDate: Date?, _ placeholder: String = "--") -> String {
@@ -71,8 +70,7 @@ extension QXDate {
                 let components = self.rawValue.components(separatedBy: " @")
                 return Formats._getNature(date, components)
             } else {
-                _initFormatter(fmt: self)
-                return Formats._formatter.string(from: date)
+                return Formats._get_formatter(self).string(from: date)
             }
         }
         
@@ -88,26 +86,25 @@ extension QXDate {
             return string(date?.nsDate, placeholder)
         }
         
-        /// init static formatter
-        private func _initFormatter(fmt: Formats) {
-            let formatter = Formats._formatter
-            let components = fmt.rawValue.components(separatedBy: " @")
-            if components.count >= 3 {
-                formatter.dateFormat = components[0]
-                formatter.amSymbol = components[1]
-                formatter.pmSymbol = components[2]
+        private static var _formatter_cache: [Formats: DateFormatter] = [:]
+        private static func _get_formatter(_ fmt: Formats) -> DateFormatter {
+            if let e = _formatter_cache[fmt] {
+                return e
             } else {
-                formatter.dateFormat = fmt.rawValue
+                let e = DateFormatter()
+                e.calendar = Calendar(identifier: .gregorian)
+                let components = fmt.rawValue.components(separatedBy: " @")
+                if components.count >= 3 {
+                    e.dateFormat = components[0]
+                    e.amSymbol = components[1]
+                    e.pmSymbol = components[2]
+                } else {
+                    e.dateFormat = fmt.rawValue
+                }
+                _formatter_cache[fmt] = e
+                return e
             }
         }
-        
-        /// static formatter for use
-        private static var _formatter: DateFormatter = {
-            let e = DateFormatter()
-            e.calendar = Calendar(identifier: .gregorian)
-            e.dateFormat = Formats.standard24.rawValue
-            return e
-        }()
         
         /// make nature date string
         static func _getNature(_ date: Date, _ components: [String]) -> String {
@@ -274,7 +271,7 @@ public struct QXDate: CustomStringConvertible {
             QXDate(year: year, month: month, day: day, hour: 23, minute: 59, second: 59)
         )
     }
-    public var endpointsOfWeak: (start: QXDate, end: QXDate) {
+    public var endpointsOfWeek: (start: QXDate, end: QXDate) {
         let now = QXDate(year: year, month: month, day: day, hour: 0, minute: 0, second: 0)
         let day = weekDay
         let a = 60 * 60 * 24 * (TimeInterval(day - 1))
@@ -288,8 +285,8 @@ public struct QXDate: CustomStringConvertible {
     }
     
     /// date formate string
-    public var segmentFormateString: String {
-        return "\(year) \(month) \(day) \(hour) \(minute) \(second)"
+    public var segmentFormateString: String {        
+        return "\(String(format: "%04d", year)) \(String(format: "%02d", month)) \(String(format: "%02d", day)) \(String(format: "%02d", hour)) \(String(format: "%02d", minute)) \(String(format: "%02d", second))"
     }
     
     /// CustomStringConvertible

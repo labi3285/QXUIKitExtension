@@ -14,7 +14,6 @@ open class QXBorderView: QXView {
     open var borderWidth: CGFloat = 1
     open var cornerRadius: CGFloat = 4 {
         didSet {
-            qxBorder
             layer.cornerRadius = cornerRadius
             clipsToBounds = true
         }

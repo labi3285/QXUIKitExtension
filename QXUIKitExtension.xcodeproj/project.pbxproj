@@ -99,6 +99,7 @@
 		757D6C3D236174B800BF1788 /* QXStaticFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 757D6C3C236174B800BF1788 /* QXStaticFooterView.swift */; };
 		757D6C3F2361757E00BF1788 /* QXStaticButtonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 757D6C3E2361757E00BF1788 /* QXStaticButtonCell.swift */; };
 		75887840238CEFEF00AA0EF6 /* test.html in Resources */ = {isa = PBXBuildFile; fileRef = 7588783F238CEFEF00AA0EF6 /* test.html */; };
+		758A589F281BB62900E769E6 /* QXBadgeLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 758A589E281BB62900E769E6 /* QXBadgeLabel.swift */; };
 		758B220D237018CC00A03539 /* QXTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 758B220C237018CC00A03539 /* QXTransition.swift */; };
 		758B220F23703ABB00A03539 /* QXMaskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 758B220E23703ABB00A03539 /* QXMaskViewController.swift */; };
 		758C5644268BFE3200B51699 /* QXProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 758C5643268BFE3200B51699 /* QXProgressView.swift */; };
@@ -255,6 +256,7 @@
 		757D6C3C236174B800BF1788 /* QXStaticFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QXStaticFooterView.swift; sourceTree = "<group>"; };
 		757D6C3E2361757E00BF1788 /* QXStaticButtonCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QXStaticButtonCell.swift; sourceTree = "<group>"; };
 		7588783F238CEFEF00AA0EF6 /* test.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = test.html; sourceTree = "<group>"; };
+		758A589E281BB62900E769E6 /* QXBadgeLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QXBadgeLabel.swift; sourceTree = "<group>"; };
 		758B220C237018CC00A03539 /* QXTransition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QXTransition.swift; sourceTree = "<group>"; };
 		758B220E23703ABB00A03539 /* QXMaskViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QXMaskViewController.swift; sourceTree = "<group>"; };
 		758C5643268BFE3200B51699 /* QXProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QXProgressView.swift; sourceTree = "<group>"; };
@@ -526,6 +528,7 @@
 				7578069322E164E7009DD0DA /* QXUIKitExtensionResources.swift */,
 				7578069122E1647C009DD0DA /* QXUIKitExtensionResources.bundle */,
 				758C5643268BFE3200B51699 /* QXProgressView.swift */,
+				758A589E281BB62900E769E6 /* QXBadgeLabel.swift */,
 			);
 			path = QXUIKitExtension;
 			sourceTree = "<group>";
@@ -704,6 +707,7 @@
 				75690F4D237E835D00C9BA43 /* QXPickerView.swift in Sources */,
 				75929C8C22D2CDE7006577AD /* QXTabBarController.swift in Sources */,
 				75E2FAF923BF7212000E9212 /* QXSqlite.swift in Sources */,
+				758A589F281BB62900E769E6 /* QXBadgeLabel.swift in Sources */,
 				756A50BC22BDFCB800E692DA /* String_ext.swift in Sources */,
 				751558A622E7F70E00EFF37A /* QXRequest.swift in Sources */,
 				75729FA0236133CC0007D1B1 /* QXStaticTextCell.swift in Sources */,

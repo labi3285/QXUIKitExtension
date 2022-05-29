@@ -87,6 +87,11 @@ public enum QXColor {
         return QXColor.uiColor(uiColor.qxOpposite)
     }
     
+    /// 不透明颜色
+    public var opaqueColor: QXColor {
+        return QXColor.uiColor(uiColor.qxOpaqueColor)
+    }
+    
     /// 色环偏移
     public func hsb(_ offsetDegree: Int16) -> QXColor {
         return QXColor.uiColor(uiColor.qxHSB(offsetDegree))
@@ -285,6 +290,16 @@ extension UIColor {
         var a: CGFloat = 0
         getRed(&r, green: &g, blue: &b, alpha: &a)
         return (UInt8(r * 255), UInt8(g * 255), UInt8(b * 255), UInt8(a * 255))
+    }
+    
+    /// 不透明
+    public var qxOpaqueColor: UIColor {
+        let rgba = qxRGB
+        let r = CGFloat(rgba.r) / 255.0
+        let g = CGFloat(rgba.g) / 255.0
+        let b = CGFloat(rgba.b) / 255.0
+        let a = CGFloat(rgba.a) / 255.0
+        return UIColor(red: 1 - a + r * a, green: 1 - a + g * a, blue: 1 - a + b * a, alpha: 1)
     }
     
     public var qxHSB: (h: UInt16, s: UInt16, b: UInt16, a: UInt16) {

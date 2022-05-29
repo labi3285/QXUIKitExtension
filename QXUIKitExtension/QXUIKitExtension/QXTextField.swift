@@ -131,6 +131,10 @@ open class QXTextField: QXView, UITextFieldDelegate {
     
     public var buttonMargin: CGFloat = 0
     
+    @discardableResult open override func becomeFirstResponder() -> Bool {
+        return self.uiTextField.becomeFirstResponder()
+    }
+    
     public final lazy var uiTextField: UITextField = {
         let e = UITextField()
         e.clearButtonMode = .never
