@@ -118,8 +118,8 @@ extension QXDevice {
         return e
     }
     
-    public static let schemaPhone = "telprompt://"
-    public static let schemaEmail = "mailto://"
+    public static let schemaPhone = "telprompt:"
+    public static let schemaEmail = "mailto:"
     
     public static func openUrl(_ url: String, _ onVc: UIViewController?) {
         func _openUrl(_ url: String, _ onVc: UIViewController?) {

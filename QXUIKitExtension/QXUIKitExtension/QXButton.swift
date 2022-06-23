@@ -21,7 +21,14 @@ open class QXButton: QXView {
     open var respondTouchEnded: (() -> Void)?
     open var respondTouchCancelled: (() -> Void)?
     
+    /// 点击触发
     open var respondClick: (() -> Void)?
+    
+    /// 长按触发
+    open var respondLongPress: (() -> Void)?
+    /// 判断长按的时长
+    public var longPressTime: CFAbsoluteTime = 0.4
+
     /// 触发点击的容忍距离
     open var clickMoveTolerance: CGFloat = 20
     /// 点击的高光效果持续时间，默认0.3秒, nil 表示不会延时
@@ -289,23 +296,33 @@ open class QXButton: QXView {
     }
     
     override open func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        _touchBeginTime = CFAbsoluteTimeGetCurrent()
         respondTouchDown?()
         isHighlighted = true
         update()
-        _touchBeganPoint = touches.first?.location(in: self)
+        _touchBeginPoint = touches.first?.location(in: self)
     }
     override open func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         respondTouchMoved?()
     }
     override open func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         respondTouchEnded?()
-        if let t = touches.first, let p = _touchBeganPoint {
+        if let t = touches.first, let p = _touchBeginPoint {
             let p1 = t.location(in: self)
             if bounds.contains(p1) {
                 var isClickTriggered: Bool = false
                 if sqrt(pow(p.x - p1.x, 2) + pow(p.y - p1.y, 2)) < clickMoveTolerance {
                     isClickTriggered = true
-                    respondClick?()
+                    let t1 = CFAbsoluteTimeGetCurrent()
+                    if t1 - _touchBeginTime > longPressTime {
+                        if let l = respondLongPress {
+                            l()
+                        } else {
+                            respondClick?()
+                        }
+                    } else {
+                        respondClick?()
+                    }
                 }
                 if isClickTriggered {
                     if let e = clickHighlightDelaySecs {
@@ -336,8 +353,11 @@ open class QXButton: QXView {
         isHighlighted = false
         respondTouchCancelled?()
         update()
+        
     }
-    private var _touchBeganPoint: CGPoint?
+        
+    private var _touchBeginTime: CFAbsoluteTime!
+    private var _touchBeginPoint: CGPoint?
     private var _isOriginPrepared: Bool = false
     
     private var _originBackLayers: [QXLayer]?
@@ -577,11 +597,15 @@ open class QXImageButton: QXButton {
         super.handleHighlighted()
     }
     override open func handleSelected() {
-        imageView.image = imageSelected ?? image
+        if let e = imageSelected {
+            imageView.image = e
+        }
         super.handleSelected()
     }
     override open func handleDisabled(isSelected: Bool) {
-        imageView.image = imageDisabled ?? image
+        if let e = imageDisabled {
+            imageView.image = e
+        }
         super.handleDisabled(isSelected: isSelected)
     }
     

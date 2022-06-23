@@ -834,7 +834,7 @@ open class QXCollectionViewDebugCell: QXCollectionViewCell {
     }
     override open func contextDidSetup() {
         super.contextDidSetup()
-        label.maxWidth = context.givenWidth
+        label.maxWidth = (context?.givenWidth ?? 0)
     }
 
     override open var model: Any? {
@@ -904,7 +904,7 @@ open class QXCollectionViewDebugHeaderFooterView: QXCollectionViewHeaderFooterVi
 
     override open func contextDidSetup() {
         super.contextDidSetup()
-        label.fixWidth = context.givenWidth
+        label.fixWidth = (context?.givenWidth ?? 0)
     }
     
     open override class func height(_ model: Any?, _ context: QXCollectionViewHeaderFooterView.Context) -> CGFloat {

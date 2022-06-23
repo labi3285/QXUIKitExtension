@@ -43,18 +43,29 @@ extension CALayer {
         set {
             if let e = newValue?.color?.uiColor.cgColor {
                 borderColor = e
+            } else {
+                borderColor = UIColor.black.cgColor
             }
             if let e = newValue?.lineWidth {
                 borderWidth = e
+            } else {
+                borderWidth = 0
             }
             if let e = newValue?.cornerRadius {
                 cornerRadius = e
+            } else {
+                cornerRadius = 0
             }
-            if let e = newValue?.cornerMask {
-                if #available(iOS 11.0, *) {
+            if #available(iOS 11.0, *) {
+                if let e = newValue?.cornerMask {
                     maskedCorners = e
                 } else {
-                    // Fallback on earlier versions
+                    maskedCorners = [
+                        CACornerMask.layerMinXMinYCorner,
+                        CACornerMask.layerMaxXMinYCorner,
+                        CACornerMask.layerMinXMaxYCorner,
+                        CACornerMask.layerMaxXMaxYCorner,
+                    ]
                 }
             }
         }
@@ -68,6 +79,9 @@ extension CALayer {
             }
             if cornerRadius != 0 {
                 e.cornerRadius = cornerRadius
+            }
+            if #available(iOS 11.0, *) {
+                e.cornerMask = maskedCorners
             }
             return e
         }

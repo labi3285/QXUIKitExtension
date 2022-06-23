@@ -39,7 +39,11 @@ extension Error {
             return err
         } else {
             let err = self as NSError
-            return QXError("\(err.code)", err.localizedDescription, err.userInfo)
+            if err.code == 516 {
+                return QXError("\(err.code)", "名称重复", err.userInfo)                
+            } else {
+                return QXError("\(err.code)", err.localizedDescription, err.userInfo)
+            }
         }
     }
 }

@@ -86,6 +86,9 @@ open class QXImage {
     @discardableResult
     public func setSize(_ w: CGFloat, _ h: CGFloat) -> QXImage { return setSize(QXSize(w, h)) }
     
+    @discardableResult
+    public func setCached(_ e: Bool) -> QXImage { _isCached = e; return self }
+
     public var bytes: UInt? {
         set {
             _bytes = newValue
@@ -232,6 +235,7 @@ open class QXImage {
         
     fileprivate var _uiImage: UIImage?
     fileprivate var _isGif: Bool = false
+    fileprivate var _isCached: Bool = true
     fileprivate var _size: QXSize?
     fileprivate var _bytes: UInt?
 
@@ -241,10 +245,13 @@ extension UIImageView {
     
     public var qxImage: QXImage? {
         set {
+            if let e = newValue?._isCached {
+                self.qxIsCached = e
+            }
             self.qxSetImage(newValue, placeHolder: nil)
         }
         get {
-            return QXImage(image)
+            return QXImage(image).setCached(qxIsCached)
         }
     }
     
@@ -274,9 +281,15 @@ extension UIImageView {
                 }
             } else {
                 weak var ws = self
+                let options: YYWebImageOptions
+                if qxIsCached {
+                    options = [.ignorePlaceHolder, .avoidSetImage]
+                } else {
+                    options = [.ignorePlaceHolder, .avoidSetImage, .ignoreDiskCache, .refreshImageCache]
+                }
                 if qxIsThumbnail {
                     if let e = newValue.thumbUrl?.nsURL ?? newValue.url?.nsURL  {
-                        yy_setImage(with: e, placeholder: nil, options: [.showNetworkActivity, .ignorePlaceHolder, .avoidSetImage]) { (image, url, from, stage, err) in
+                        yy_setImage(with: e, placeholder: nil, options: options) { (image, url, from, stage, err) in
                             if let e = image {
                                 if let r = newValue.renderingMode {
                                     ws?.image = e.withRenderingMode(r)
@@ -292,7 +305,7 @@ extension UIImageView {
                     }
                 } else {
                     if let e = newValue.url?.nsURL ?? newValue.thumbUrl?.nsURL  {
-                        yy_setImage(with: e, placeholder: nil, options: [.showNetworkActivity, .ignorePlaceHolder, .avoidSetImage]) { (image, url, from, stage, err) in
+                        yy_setImage(with: e, placeholder: nil, options: options) { (image, url, from, stage, err) in
                            if let e = image {
                                if let r = newValue.renderingMode {
                                    ws?.image = e.withRenderingMode(r)
@@ -326,6 +339,21 @@ extension UIImageView {
         }
     }
     private static var kUIImageViewQXIsThumbnailAssociateKey: Bool?
+    
+    
+    /// 是否缓存图片
+    public var qxIsCached: Bool {
+        set {
+            objc_setAssociatedObject(self, &UIImageView.kUIImageViewQXIsCachedAssociateKey, newValue, objc_AssociationPolicy.OBJC_ASSOCIATION_ASSIGN)
+        }
+        get {
+            if let e = objc_getAssociatedObject(self, &UIImageView.kUIImageViewQXIsCachedAssociateKey) as? Bool {
+                return e
+            }
+            return true
+        }
+    }
+    private static var kUIImageViewQXIsCachedAssociateKey: Bool?
     
 }
 

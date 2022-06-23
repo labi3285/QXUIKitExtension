@@ -82,6 +82,11 @@ public enum QXColor {
         return uiColor.qxHEX
     }
     
+    public func alpha(_ a: CGFloat) -> QXColor {
+        let rgb = uiColor.qxRGB
+        return QXColor.rgb(rgb.r, rgb.g, rgb.b, UInt8(CGFloat(rgb.a) * a))
+    }
+    
     /// 颜色反转
     public var opposite: QXColor {
         return QXColor.uiColor(uiColor.qxOpposite)
@@ -357,7 +362,7 @@ extension UIColor {
     public var qxBlackOrWhite: UIColor {
         let rgba = qxRGB
         let a = CGFloat(rgba.r) * 0.299 + CGFloat(rgba.g) * 0.587 + CGFloat(rgba.b) * 0.114
-        if a < 200/255 {
+        if a < 200 {
             return UIColor(red: 0, green: 0, blue: 0, alpha: CGFloat(255 - rgba.a) / 255)
         } else {
             return UIColor(red: 1, green: 1, blue: 1, alpha: CGFloat(255 - rgba.a) / 255)

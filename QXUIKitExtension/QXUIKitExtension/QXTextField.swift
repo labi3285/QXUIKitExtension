@@ -113,6 +113,7 @@ open class QXTextField: QXView, UITextFieldDelegate {
                     self.text = ""
                     self.clearButton?.isDisplay = false
                     self.layoutSubviews()
+                    self.respondTextChange?("", true)
                 }
             }
         }

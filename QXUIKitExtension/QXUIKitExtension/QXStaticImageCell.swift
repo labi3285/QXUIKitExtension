@@ -13,7 +13,7 @@ open class QXStaticImageCell: QXStaticCell {
     
     open override func height(_ model: Any?) -> CGFloat? {
         if adjustsImageSizeToFitWidth {
-            myImageView.fixWidth = context.givenWidth
+            myImageView.fixWidth = (context?.givenWidth ?? 0)
         }
         return myImageView.natureSize.h
     }

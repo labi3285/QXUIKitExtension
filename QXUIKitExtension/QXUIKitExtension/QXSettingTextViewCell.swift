@@ -25,7 +25,7 @@ open class QXSettingTextViewCell: QXSettingCell {
         if let e = fixHeight {
             return e
         }
-        textView.fixWidth = context.givenWidth - textView.padding.left - textView.padding.right
+        textView.fixWidth = ((context?.givenWidth ?? 0)) - textView.padding.left - textView.padding.right
         var h = textView.intrinsicContentSize.height
         h = max(minHeight, h)
         if let e = maxHeight {
@@ -41,7 +41,7 @@ open class QXSettingTextViewCell: QXSettingCell {
         e.placeHolderFont = QXFont(16, QXColor.dynamicPlaceHolder)
         //e.uiTextView.isScrollEnabled = false
         e.respondNeedsUpdate = { [weak self] in
-            self?.context.tableView?.update()
+            self?.context?.tableView?.update()
         }
         return e
     }()

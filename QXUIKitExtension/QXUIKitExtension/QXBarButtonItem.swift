@@ -18,14 +18,16 @@ open class QXBarButtonItem: UIBarButtonItem {
     
     public static func titleItem(_ title: String, _ handler: @escaping () -> Void) -> QXBarButtonItem {
         let e = QXBarButtonItem(title: title, style: .plain, target: nil, action: #selector(itemClick))
-        e.target = e
+        weak var we = e
+        e.target = we
         e.respondClick = handler
         return e
     }
     
     public static func iconItem(_ icon: String, _ handler: @escaping () -> Void) -> QXBarButtonItem {
         let e = QXBarButtonItem(image: UIImage(named: icon), style: .plain, target: nil, action: #selector(itemClick))
-        e.target = e
+        weak var we = e
+        e.target = we
         e.respondClick = handler
         return e
     }

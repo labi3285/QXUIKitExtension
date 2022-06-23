@@ -16,6 +16,7 @@ open class QXRequest {
         case get
         case post
         case put
+        case option
     }
     public enum ParameterEncoding {
         case json
@@ -72,7 +73,54 @@ open class QXRequest {
         case succeed(_ models: [T], _ isThereMore: Bool)
         case failed(_ err: QXError)
     }
+        
+}
+
+extension QXRequest: CustomStringConvertible {
     
+    public var description: String {
+        var headers: [String: String] = [:]
+        var params: [String: Any] = [:]
+        if let e = self.headers {
+            for (k, v) in e {
+                headers[k] = v
+            }
+        }
+        if let e = self.appendHeaders {
+            for (k, v) in e {
+                headers[k] = v
+            }
+        }
+        if let e = self.appendParams {
+            for (k, v) in e {
+                params[k] = v
+            }
+        }
+        if let e = self.params {
+            for (k, v) in e {
+                params[k] = v
+            }
+        }
+        var t = ""
+        switch method {
+        case .get:
+            t += "get:"
+        case .post:
+            t += "post:"
+        case .put:
+            t += "put:"
+        case .option:
+            t += "option:"
+        }
+        t += url
+        if let data = try? JSONSerialization.data(withJSONObject: headers, options: .init(rawValue: 0)), let json = String.init(data: data, encoding: .utf8) {
+            t += "\nheaders:" + json
+        }
+        if let data = try? JSONSerialization.data(withJSONObject: params, options: .init(rawValue: 0)), let json = String.init(data: data, encoding: .utf8) {
+            t += "\nparams:" + json
+        }
+        return t
+    }
 }
 
 extension QXRequest {

@@ -11,7 +11,7 @@ import UIKit
 open class QXStaticStackCell: QXStaticCell {
     
     open override func height(_ model: Any?) -> CGFloat? {
-        stackView.fixWidth = context.givenWidth
+        stackView.fixWidth = (context?.givenWidth ?? 0)
         return stackView.natureSize.h
     }
     

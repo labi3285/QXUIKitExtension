@@ -117,6 +117,37 @@ public class QXSQLite {
 
 extension QXSQLite {
     
+    public func count(table: String, _ SUB_SQL: String) throws -> Int {
+        let SQL = "SELECT COUNT(*) AS 'COUNT' FROM '\(table)' \(SUB_SQL);"
+        if let dic = try query(SQL).first {
+            if let e = dic["COUNT"] as? Int {
+                return e
+            }
+        }
+        return 0
+    }
+    
+    public func checkColumn(table: String, column: String) throws -> Bool {
+        let SUB_SQL = "WHERE name='\(table)' and sql like '%\(column)%'"
+        return try count(table: "sqlite_master", SUB_SQL) > 0
+    }
+    
+    public func addColum(table: String, column: String) throws {
+        try execute("ALTER TABLE '\(table)' ADD COLUMN '\(column)' text;")
+    }
+    
+    @discardableResult public func checkOrAddColumn(table: String, column: String) throws -> Bool {
+        if !(try checkColumn(table: table, column: column)) {
+            try addColum(table: table, column: column)
+            return true
+        }
+        return false
+    }
+    
+}
+
+extension QXSQLite {
+    
     fileprivate func _qxError(_ code: Int32) -> (error: QXError?, isThereNewRow: Bool?) {
         let err: QXError?
         var isThereNewRow: Bool? = nil

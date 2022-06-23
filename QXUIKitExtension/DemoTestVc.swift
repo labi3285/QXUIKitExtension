@@ -35,6 +35,20 @@ class DemoTestVc: QXTableViewController<Any> {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "测试"
+        navigationBarBackgroundColor = QXColor.red
+        navigationBarBackArrowImage = QXImage("icon_option1")
+        navigationBarBackTitle = "tt"
+        
+        if #available(iOS 13.0, *) {
+            if #available(iOS 14.0, *) {
+                navigationItem.backBarButtonItem = UIBarButtonItem.init(systemItem: .close)
+            } else {
+                // Fallback on earlier versions
+            }
+        } else {
+            // Fallback on earlier versions
+        }
+        
         view.addSubview(imageView)
         imageView.IN(view).CENTER.SIZE(100, 100).MAKE()
         
@@ -45,7 +59,6 @@ class DemoTestVc: QXTableViewController<Any> {
     
     override func didSetup() {
         super.didSetup()
-        navigationBarBackgroundColor = QXColor.red
         
         
 //        let name = "截屏2020-07-28下午11.15.37.jepg"

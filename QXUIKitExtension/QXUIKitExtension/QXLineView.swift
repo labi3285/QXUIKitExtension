@@ -28,15 +28,11 @@ open class QXLineView: QXView {
             return lineLayer.lineWidth
         }
     }
-    public var lineColor: QXColor {
-        set {
-            lineLayer.strokeColor = newValue.uiColor.cgColor
-        }
-        get {
-            if let e = lineLayer.strokeColor {
-                return QXColor.cgColor(e)
+    public var lineColor: QXColor? {
+        didSet {
+            if let e = lineColor?.uiColor.cgColor {
+                lineLayer.strokeColor = e
             }
-            return QXColor.cgColor(UIColor.black.cgColor)
         }
     }
     public var lineCap: CGLineCap {
@@ -94,9 +90,19 @@ open class QXLineView: QXView {
     public override init() {
         super.init()
         layer.addSublayer(lineLayer)
+        NotificationCenter.default.addObserver(self, selector: #selector(didBecomeActiveNotification), name: UIApplication.didBecomeActiveNotification, object: nil)
     }
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
     public required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    @objc func didBecomeActiveNotification() {
+        let e = self.lineColor
+        self.lineColor = e
     }
     
     open override func natureContentSize() -> QXSize {

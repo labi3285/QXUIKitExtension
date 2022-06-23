@@ -10,8 +10,8 @@ import UIKit
 import QXMessageView
 
 extension UIViewController {
-    open func showLoading(msg: String?) {
-        _ = QXMessageView.demoLoading(msg: msg, superview: view)
+    @discardableResult open func showLoading(msg: String?) -> QXMessageView {
+        return QXMessageView.demoLoading(msg: msg, superview: view)
     }
     open func hideLoading() {
         for view in view.subviews {

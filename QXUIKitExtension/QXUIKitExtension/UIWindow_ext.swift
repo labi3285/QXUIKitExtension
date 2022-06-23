@@ -21,8 +21,16 @@ open class QXWindow: UIWindow {
         super.init(frame: UIScreen.main.bounds)
         self.qxBackgroundColor = QXColor.dynamicWhite
     }
-    public init(keyWindow rootViewController: UIViewController) {
+    public init(rootViewController: UIViewController) {
         super.init(frame: UIScreen.main.bounds)
+        self.rootViewController = rootViewController
+        self.qxBackgroundColor = QXColor.dynamicWhite
+        self.makeKeyAndVisible()
+    }
+    
+    @available(iOS 13.0, *)
+    public init(windowScene: UIWindowScene, rootViewController: UIViewController) {
+        super.init(windowScene: windowScene)
         self.rootViewController = rootViewController
         self.qxBackgroundColor = QXColor.dynamicWhite
         self.makeKeyAndVisible()

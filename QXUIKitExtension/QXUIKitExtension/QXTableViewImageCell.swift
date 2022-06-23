@@ -27,7 +27,7 @@ open class QXTableViewImageCell: QXTableViewCell {
     
     override open func contextDidSetup() {
         super.contextDidSetup()
-        myImageView.fixWidth = context.givenWidth
+        myImageView.fixWidth = (context?.givenWidth ?? 0)
     }
         
     override open var model: Any? {
@@ -46,7 +46,7 @@ open class QXTableViewImageCell: QXTableViewCell {
     public final lazy var myImageView: QXImageView = {
         let e = QXImageView()
         e.respondUpdateImage = { [weak self] in
-            self?.context.tableView?.setNeedsUpdate()
+            self?.context?.tableView?.setNeedsUpdate()
         }
         return e
     }()

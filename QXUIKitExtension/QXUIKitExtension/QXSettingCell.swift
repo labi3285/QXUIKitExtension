@@ -12,7 +12,7 @@ open class QXSettingCell: QXStaticCell {
     
     override open func contextDidSetup() {
         super.contextDidSetup()
-        breakLine.isHidden = context.isLastCellInSection || isBreakLineHidden
+        breakLine.isHidden = (context?.isLastCellInSection ?? false) || isBreakLineHidden
     }
         
     public var isBreakLineHidden: Bool = false

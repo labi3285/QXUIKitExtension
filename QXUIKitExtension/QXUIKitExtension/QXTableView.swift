@@ -952,7 +952,7 @@ open class QXTableViewCell: UITableViewCell {
         public let isLastCellInSection: Bool
         public let isSortMode: Bool
     }
-    public var context: Context!
+    public var context: Context?
 
     open class func height(_ model: Any?, _ context: Context) -> CGFloat? { return nil }
     
@@ -1057,7 +1057,7 @@ open class QXTableViewBreakLineCell: QXTableViewCell {
         
     override open func contextDidSetup() {
         super.contextDidSetup()
-        breakLine.isHidden = context.isLastCellInSection
+        breakLine.isHidden = context?.isLastCellInSection ?? true
     }
 
     public final lazy var breakLine: QXLineView = {
@@ -1088,7 +1088,7 @@ open class QXTableViewDebugCell: QXTableViewBreakLineCell {
     
     override open func contextDidSetup() {
         super.contextDidSetup()
-        label.fixWidth = context.givenWidth
+        label.fixWidth = (context?.givenWidth ?? 0)
     }
     
     override open var model: Any? {
@@ -1134,7 +1134,7 @@ open class QXTableViewSpaceCell: QXTableViewCell {
 open class QXTableViewDebugHeaderFooterView: QXTableViewHeaderFooterView {
     override open func contextDidSetup() {
         super.contextDidSetup()
-        label.fixWidth = context.givenWidth
+        label.fixWidth = (context?.givenWidth ?? 0)
     }
     override open var model: Any? {
         didSet {

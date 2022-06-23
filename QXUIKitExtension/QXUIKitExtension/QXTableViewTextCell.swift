@@ -50,7 +50,7 @@ open class QXTableViewTextCell: QXTableViewCell {
     
     override open func contextDidSetup() {
         super.contextDidSetup()
-        label.fixWidth = context.givenWidth
+        label.fixWidth = (context?.givenWidth ?? 0)
     }
         
     override open var model: Any? {

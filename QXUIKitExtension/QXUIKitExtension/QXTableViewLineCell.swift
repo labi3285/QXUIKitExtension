@@ -23,7 +23,7 @@ open class QXTableViewLineCell: QXTableViewCell {
     
     override open func contextDidSetup() {
         super.contextDidSetup()
-        lineView.fixWidth = context.givenWidth
+        lineView.fixWidth = (context?.givenWidth ?? 0)
     }
         
     override open var model: Any? {
